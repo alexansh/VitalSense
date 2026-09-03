@@ -3,8 +3,11 @@ package com.vitalsense.app.feature.asha
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,8 +29,23 @@ fun AshaHomeScreen(
     onSelectProxyPatient: (Patient) -> Unit,
     onRegisterPatientClick: () -> Unit = {},
     onSendNoticeClick: () -> Unit = {},
+    onOpenPatientChat: (Patient) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    var selectedRiskFilter by remember { mutableStateOf<SeverityLevel?>(null) }
+    var selectedVillageFilter by remember { mutableStateOf("All") }
+
+    val villageOptions = remember(patients) {
+        listOf("All") + patients.map { it.villageName }.distinct()
+    }
+
+    val filteredPatients = remember(patients, selectedRiskFilter, selectedVillageFilter) {
+        patients.filter { patient ->
+            (selectedRiskFilter == null || patient.currentRiskLevel == selectedRiskFilter) &&
+            (selectedVillageFilter == "All" || patient.villageName == selectedVillageFilter)
+        }
+    }
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -52,7 +70,7 @@ fun AshaHomeScreen(
             }
         }
 
-        // 2. ASHA Unique ID Card (PRD §3.2)
+        // 2. ASHA Unique ID Card
         item {
             VitalSenseCard(
                 backgroundColor = LavenderSecondary.copy(alpha = 0.4f),
@@ -121,7 +139,48 @@ fun AshaHomeScreen(
             }
         }
 
-        // 4. Section Header: Active Caseload & Proxy Access
+        // 4. Caseload Filter Controls (PRD §4.2)
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = "Caseload Filters",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = TextPrimaryNearBlack
+                )
+
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    item {
+                        FilterChip(
+                            selected = selectedRiskFilter == null,
+                            onClick = { selectedRiskFilter = null },
+                            label = { Text("All Risks") },
+                            shape = PillShape
+                        )
+                    }
+                    items(SeverityLevel.values()) { level ->
+                        FilterChip(
+                            selected = selectedRiskFilter == level,
+                            onClick = { selectedRiskFilter = level },
+                            label = { Text(level.displayName) },
+                            shape = PillShape
+                        )
+                    }
+                }
+
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(villageOptions) { village ->
+                        FilterChip(
+                            selected = selectedVillageFilter == village,
+                            onClick = { selectedVillageFilter = village },
+                            label = { Text(village) },
+                            shape = PillShape
+                        )
+                    }
+                }
+            }
+        }
+
+        // 5. Section Header: Active Caseload & Proxy Access
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -129,7 +188,7 @@ fun AshaHomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "My Patient Caseload (${patients.size})",
+                    text = "Patient Caseload (${filteredPatients.size} of ${patients.size})",
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
@@ -144,11 +203,9 @@ fun AshaHomeScreen(
             }
         }
 
-        // 5. Patient Caseload Cards with Proxy Trigger
-        items(patients) { patient ->
-            VitalSenseCard(
-                elevation = 2.dp
-            ) {
+        // 6. Patient Caseload Cards with Proxy & Chat Triggers
+        items(filteredPatients) { patient ->
+            VitalSenseCard(elevation = 2.dp) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -173,7 +230,7 @@ fun AshaHomeScreen(
                     }
 
                     Text(
-                        text = "Recent: ${patient.lastCondition}",
+                        text = "Recent Condition: ${patient.lastCondition}",
                         style = MaterialTheme.typography.bodySmall.copy(
                             fontWeight = FontWeight.Medium
                         ),
@@ -185,11 +242,15 @@ fun AshaHomeScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = "Next: ${patient.nextAppointmentDate ?: "None"}",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = TextSecondaryMuted
-                        )
+                        TextButton(onClick = { onOpenPatientChat(patient) }) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(Icons.Default.Chat, contentDescription = null, modifier = Modifier.size(16.dp), tint = TextPrimaryNearBlack)
+                                Text("Chat Thread", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold), color = TextPrimaryNearBlack)
+                            }
+                        }
 
                         Button(
                             onClick = { onSelectProxyPatient(patient) },
@@ -212,7 +273,7 @@ fun AshaHomeScreen(
             }
         }
 
-        // 6. Recent Broadcast Notices / Alerts
+        // 7. Recent Broadcast Notices
         if (notices.isNotEmpty()) {
             item {
                 Text(
@@ -243,7 +304,7 @@ fun AshaHomeScreen(
                             color = TextPrimaryNearBlack
                         )
                         Text(
-                            text = "From: ${notice.senderName}",
+                            text = "From: ${notice.senderName} (${notice.targetVillage})",
                             style = MaterialTheme.typography.labelSmall,
                             color = TextSecondaryMuted
                         )

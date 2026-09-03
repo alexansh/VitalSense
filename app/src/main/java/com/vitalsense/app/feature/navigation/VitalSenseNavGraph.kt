@@ -12,16 +12,30 @@ import com.vitalsense.app.core.data.model.*
 import com.vitalsense.app.core.data.repository.VitalSenseRepository
 import com.vitalsense.app.core.state.AppStateHolder
 import com.vitalsense.app.core.ui.components.TopRoleSwitcherBar
-import com.vitalsense.app.feature.admin.AdminHomeScreen
-import com.vitalsense.app.feature.admin.AdminViewModel
-import com.vitalsense.app.feature.asha.AshaHomeScreen
+import com.vitalsense.app.feature.admin.*
+import com.vitalsense.app.feature.asha.*
 import com.vitalsense.app.feature.auth.LoginScreen
-import com.vitalsense.app.feature.doctor.CaseDetailScreen
-import com.vitalsense.app.feature.doctor.DoctorHomeScreen
-import com.vitalsense.app.feature.doctor.DoctorViewModel
-import com.vitalsense.app.feature.patient.PatientHomeScreen
-import com.vitalsense.app.feature.patient.PatientViewModel
+import com.vitalsense.app.feature.doctor.*
+import com.vitalsense.app.feature.patient.*
+import com.vitalsense.app.feature.patient.mentalhealth.MentalWellnessScreen
 import kotlinx.coroutines.launch
+
+private enum class PatientSubScreen {
+    HOME, HEALTH_CARD, CONDITION_ENTRY, PRESCRIPTIONS, APPOINTMENTS, DOCTOR_MAP, SCHEMES, MENTAL_WELLNESS, OCR, MANUAL, DEPARTMENTS
+}
+
+private enum class AshaSubScreen {
+    HOME, REGISTRATION, CHAT, BROADCAST
+}
+
+private enum class DoctorSubScreen {
+    HOME, CASE_DETAIL, PENDING_CASES, PRESCRIPTION_CREATOR, DISPENSARY_STOCK, APPOINTMENTS,
+    INCOMING_REFERRALS, REFERRAL_HISTORY, CREATE_REFERRAL, SERVICE_REPORT, PATIENT_HISTORY
+}
+
+private enum class AdminSubScreen {
+    HOME, VILLAGE_LIST, OUTBREAK_GRID, BROADCAST, ACCOUNTS, DEPARTMENTS
+}
 
 @Composable
 fun VitalSenseNavGraph(
@@ -42,7 +56,20 @@ fun VitalSenseNavGraph(
     val activeProxyPatient by appStateHolder.activeProxyPatient.collectAsStateWithLifecycle()
     val isOffline by appStateHolder.isOffline.collectAsStateWithLifecycle()
 
-    // Doctor specific scoped streams (§2 & §3)
+    // Sub-screen navigation states
+    var patientSubScreen by remember { mutableStateOf(PatientSubScreen.HOME) }
+    var selectedConditionCategory by remember { mutableStateOf(ConditionCategory.GENERAL_MEDICINE) }
+
+    var ashaSubScreen by remember { mutableStateOf(AshaSubScreen.HOME) }
+    var selectedChatPatient by remember { mutableStateOf<Patient?>(null) }
+
+    var doctorSubScreen by remember { mutableStateOf(DoctorSubScreen.HOME) }
+    var adminSubScreen by remember { mutableStateOf(AdminSubScreen.HOME) }
+    
+    var selectedReferral by remember { mutableStateOf<Referral?>(null) }
+    var selectedHistoryPatientId by remember { mutableStateOf<String?>(null) }
+
+    // Scoped data streams
     val doctorCases by doctorViewModel.scopedCases.collectAsStateWithLifecycle()
     val doctorAppointments by doctorViewModel.appointments.collectAsStateWithLifecycle()
     val doctorDispensaryStock by doctorViewModel.dispensaryStock.collectAsStateWithLifecycle()
@@ -50,12 +77,14 @@ fun VitalSenseNavGraph(
     val patientPrescriptions by doctorViewModel.patientPrescriptions.collectAsStateWithLifecycle()
     val patientProfile by doctorViewModel.patientProfile.collectAsStateWithLifecycle()
 
-    // Data streams from repository for general components
     val villages by repository.getVillages().collectAsStateWithLifecycle(initialValue = emptyList())
     val patients by repository.getPatients().collectAsStateWithLifecycle(initialValue = emptyList())
     val notices by repository.getNotices().collectAsStateWithLifecycle(initialValue = emptyList())
+    val prescriptions by repository.getPrescriptionsForPatient(activePatient.id).collectAsStateWithLifecycle(initialValue = emptyList())
+    val appointments by repository.getAppointmentsForPatient(activePatient.id).collectAsStateWithLifecycle(initialValue = emptyList())
+    val doctors by repository.getDoctors().collectAsStateWithLifecycle(initialValue = emptyList())
+    val schemes by repository.getGovernmentSchemes().collectAsStateWithLifecycle(initialValue = emptyList())
 
-    // The effective patient (either direct or proxy managed by ASHA)
     val effectivePatient = activeProxyPatient ?: activePatient
 
     val activeUserName = when (currentRole) {
@@ -70,18 +99,44 @@ fun VitalSenseNavGraph(
         label = "AuthTransition"
     ) { loggedIn ->
         if (!loggedIn) {
+            val authViewModel: com.vitalsense.app.feature.auth.AuthViewModel = hiltViewModel()
+
             LoginScreen(
                 onPatientLogin = { selectedPatient ->
-                    appStateHolder.loginAsPatient(selectedPatient)
+                    authViewModel.signInAnonymously(UserRole.PATIENT, selectedPatient.id) { success ->
+                        if (success) {
+                            coroutineScope.launch {
+                                appStateHolder.loginAsPatient(selectedPatient)
+                            }
+                        }
+                    }
                 },
                 onAshaLogin = { selectedAsha ->
-                    appStateHolder.loginAsAsha(selectedAsha)
+                    authViewModel.signInAnonymously(UserRole.ASHA, selectedAsha.id) { success ->
+                        if (success) {
+                            coroutineScope.launch {
+                                appStateHolder.loginAsAsha(selectedAsha)
+                            }
+                        }
+                    }
                 },
                 onDoctorLogin = { selectedDoctor ->
-                    appStateHolder.loginAsDoctor(selectedDoctor)
+                    authViewModel.signInAnonymously(UserRole.DOCTOR, selectedDoctor.id) { success ->
+                        if (success) {
+                            coroutineScope.launch {
+                                appStateHolder.loginAsDoctor(selectedDoctor)
+                            }
+                        }
+                    }
                 },
                 onAdminLogin = {
-                    appStateHolder.loginAsAdmin()
+                    authViewModel.signInAnonymously(UserRole.ADMIN, "admin") { success ->
+                        if (success) {
+                            coroutineScope.launch {
+                                appStateHolder.loginAsAdmin()
+                            }
+                        }
+                    }
                 },
                 modifier = modifier
             )
@@ -116,90 +171,213 @@ fun VitalSenseNavGraph(
                 ) {
                     when (currentRole) {
                         UserRole.PATIENT -> {
-                            var showMentalWellness by remember { mutableStateOf(false) }
+                            when (patientSubScreen) {
+                                PatientSubScreen.HOME -> {
+                                    if (activeProxyPatient != null) {
+                                        BackHandler {
+                                            appStateHolder.clearProxy()
+                                            appStateHolder.switchRole(UserRole.ASHA)
+                                        }
+                                    } else {
+                                        BackHandler { appStateHolder.logout() }
+                                    }
 
-                            if (showMentalWellness) {
-                                // Intercept system back button to return to Patient Home
-                                BackHandler {
-                                    showMentalWellness = false
+                                    PatientHomeScreen(
+                                        patient = effectivePatient,
+                                        onCategoryClick = { category ->
+                                            if (category == ConditionCategory.MENTAL_HEALTH) {
+                                                patientSubScreen = PatientSubScreen.MENTAL_WELLNESS
+                                            } else {
+                                                selectedConditionCategory = category
+                                                patientSubScreen = PatientSubScreen.CONDITION_ENTRY
+                                            }
+                                        },
+                                        onViewHealthCard = { patientSubScreen = PatientSubScreen.HEALTH_CARD },
+                                        onViewPrescriptions = { patientSubScreen = PatientSubScreen.PRESCRIPTIONS },
+                                        onViewAppointments = { patientSubScreen = PatientSubScreen.APPOINTMENTS },
+                                        onViewDoctorMap = { patientSubScreen = PatientSubScreen.DOCTOR_MAP },
+                                        onViewSchemes = { patientSubScreen = PatientSubScreen.SCHEMES },
+                                        onViewOcr = { patientSubScreen = PatientSubScreen.OCR },
+                                        onViewManual = { patientSubScreen = PatientSubScreen.MANUAL },
+                                        onTriggerSos = {
+                                            coroutineScope.launch {
+                                                repository.triggerEmergencySos(effectivePatient, null, null)
+                                            }
+                                        }
+                                    )
                                 }
 
-                                com.vitalsense.app.feature.patient.mentalhealth.MentalWellnessScreen(
-                                    patient = effectivePatient,
-                                    onLogMood = { notes, severity ->
-                                        patientViewModel.logMentalWellness(
-                                            patient = effectivePatient,
-                                            moodNotes = notes,
-                                            severityLevel = severity,
-                                            isProxy = activeProxyPatient != null
-                                        )
-                                    },
-                                    onBack = { showMentalWellness = false }
-                                )
-                            } else {
-                                // If at Patient root and in Proxy mode, back button returns to ASHA Caseload
-                                if (activeProxyPatient != null) {
-                                    BackHandler {
-                                        appStateHolder.clearProxy()
-                                        appStateHolder.switchRole(UserRole.ASHA)
-                                    }
-                                } else {
-                                    // If at Patient root, back button returns to Login Screen
-                                    BackHandler {
-                                        appStateHolder.logout()
-                                    }
+                                PatientSubScreen.HEALTH_CARD -> {
+                                    HealthCardViewerScreen(
+                                        patient = effectivePatient,
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
                                 }
 
-                                PatientHomeScreen(
-                                    patient = effectivePatient,
-                                    onCategoryClick = { category ->
-                                        if (category == ConditionCategory.MENTAL_HEALTH) {
-                                            showMentalWellness = true
-                                        }
-                                    },
-                                    onViewHealthCard = {
-                                        // Hook for Person 2 to navigate to full Health Card screen
-                                    },
-                                    onTriggerSos = {
-                                        coroutineScope.launch {
-                                            repository.triggerEmergencySos(effectivePatient, null, null)
-                                        }
-                                    }
-                                )
+                                PatientSubScreen.CONDITION_ENTRY -> {
+                                    ConditionEntryScreen(
+                                        patientId = effectivePatient.id,
+                                        patientName = effectivePatient.name,
+                                        villageId = effectivePatient.villageId,
+                                        villageName = effectivePatient.villageName,
+                                        initialCategory = selectedConditionCategory,
+                                        onLogCondition = { record ->
+                                            coroutineScope.launch { repository.logCondition(record) }
+                                        },
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.PRESCRIPTIONS -> {
+                                    PrescriptionsListScreen(
+                                        prescriptions = prescriptions,
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.APPOINTMENTS -> {
+                                    AppointmentsScreen(
+                                        appointments = appointments,
+                                        patient = effectivePatient,
+                                        onProposeAppointment = { appt ->
+                                            coroutineScope.launch { repository.scheduleAppointment(appt) }
+                                        },
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.DOCTOR_MAP -> {
+                                    DoctorMapListScreen(
+                                        doctors = doctors,
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.SCHEMES -> {
+                                    SchemesBrowserScreen(
+                                        schemes = schemes,
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.MENTAL_WELLNESS -> {
+                                    MentalWellnessScreen(
+                                        patient = effectivePatient,
+                                        onLogMood = { notes, severity ->
+                                            patientViewModel.logMentalWellness(
+                                                patient = effectivePatient,
+                                                moodNotes = notes,
+                                                severityLevel = severity,
+                                                isProxy = activeProxyPatient != null
+                                            )
+                                        },
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.OCR -> {
+                                    PrescriptionOcrScreen(
+                                        onSavePrescriptionText = { text ->
+                                            coroutineScope.launch {
+                                                repository.logCondition(
+                                                    ConditionRecord(
+                                                        id = java.util.UUID.randomUUID().toString(),
+                                                        patientId = effectivePatient.id,
+                                                        patientName = effectivePatient.name,
+                                                        villageId = effectivePatient.villageId,
+                                                        villageName = effectivePatient.villageName,
+                                                        category = ConditionCategory.GENERAL_MEDICINE,
+                                                        severity = SeverityLevel.LOW,
+                                                        requestedDoctorType = DoctorSpecialty.GENERAL_PHYSICIAN,
+                                                        notes = "Scanned Rx OCR: $text",
+                                                        timestamp = System.currentTimeMillis()
+                                                    )
+                                                )
+                                            }
+                                        },
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.MANUAL -> {
+                                    FullManualScreen(
+                                        onBack = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
+
+                                PatientSubScreen.DEPARTMENTS -> {
+                                    val activeDepts by doctorViewModel.departments.collectAsStateWithLifecycle()
+                                    DepartmentPickerScreen(
+                                        departments = activeDepts,
+                                        onDepartmentSelected = { dept ->
+                                            // Optional: Launch intent or create appointment for that dept
+                                            patientSubScreen = PatientSubScreen.HOME
+                                        },
+                                        onBackClick = { patientSubScreen = PatientSubScreen.HOME }
+                                    )
+                                }
                             }
                         }
 
                         UserRole.ASHA -> {
-                            // If at ASHA root, back button returns to Login Screen
-                            BackHandler {
-                                appStateHolder.logout()
-                            }
+                            when (ashaSubScreen) {
+                                AshaSubScreen.HOME -> {
+                                    BackHandler { appStateHolder.logout() }
 
-                            AshaHomeScreen(
-                                asha = activeAsha,
-                                patients = patients.filter { it.ashaWorkerId == activeAsha.id },
-                                notices = notices,
-                                onSelectProxyPatient = { selectedPatient ->
-                                    // Activate Proxy Mode: switch to Patient dashboard on behalf of this patient!
-                                    appStateHolder.setProxyPatient(selectedPatient)
-                                    appStateHolder.switchRole(UserRole.PATIENT)
-                                },
-                                onRegisterPatientClick = {
-                                    // Hook for Person 3 to open patient registration
-                                },
-                                onSendNoticeClick = {
-                                    // Hook for Person 3 to broadcast notice
+                                    AshaHomeScreen(
+                                        asha = activeAsha,
+                                        patients = patients.filter { it.ashaWorkerId == activeAsha.id || it.villageName in activeAsha.assignedVillages },
+                                        notices = notices,
+                                        onSelectProxyPatient = { selectedPatient ->
+                                            appStateHolder.setProxyPatient(selectedPatient)
+                                            appStateHolder.switchRole(UserRole.PATIENT)
+                                        },
+                                        onRegisterPatientClick = { ashaSubScreen = AshaSubScreen.REGISTRATION },
+                                        onSendNoticeClick = { ashaSubScreen = AshaSubScreen.BROADCAST },
+                                        onOpenPatientChat = { target ->
+                                            selectedChatPatient = target
+                                            ashaSubScreen = AshaSubScreen.CHAT
+                                        }
+                                    )
                                 }
-                            )
+
+                                AshaSubScreen.REGISTRATION -> {
+                                    PatientRegistrationScreen(
+                                        ashaId = activeAsha.id,
+                                        ashaName = activeAsha.name,
+                                        onSavePatient = { newPatient ->
+                                            coroutineScope.launch { repository.savePatient(newPatient) }
+                                        },
+                                        onBack = { ashaSubScreen = AshaSubScreen.HOME }
+                                    )
+                                }
+
+                                AshaSubScreen.CHAT -> {
+                                    val target = selectedChatPatient ?: patients.firstOrNull() ?: effectivePatient
+                                    AshaPatientChatScreen(
+                                        patient = target,
+                                        ashaName = activeAsha.name,
+                                        onBack = { ashaSubScreen = AshaSubScreen.HOME }
+                                    )
+                                }
+
+                                AshaSubScreen.BROADCAST -> {
+                                    BroadcastNoticesScreen(
+                                        ashaId = activeAsha.id,
+                                        ashaName = activeAsha.name,
+                                        onSendNotice = { notice ->
+                                            coroutineScope.launch { repository.sendNotice(notice) }
+                                        },
+                                        onBack = { ashaSubScreen = AshaSubScreen.HOME }
+                                    )
+                                }
+                            }
                         }
 
                         UserRole.DOCTOR -> {
                             val activeCase = selectedDoctorCase
                             if (activeCase != null) {
-                                // Intercept system back button to return to Doctor Home Case Queue
-                                BackHandler {
-                                    doctorViewModel.clearSelectedCase()
-                                }
+                                BackHandler { doctorViewModel.clearSelectedCase() }
 
                                 CaseDetailScreen(
                                     record = activeCase,
@@ -232,64 +410,204 @@ fun VitalSenseNavGraph(
                                             timeSlot = timeSlot
                                         )
                                     },
-                                    onReferCase = { targetSpecialty, referralNotes ->
-                                        doctorViewModel.referCase(
-                                            caseId = activeCase.id,
-                                            targetSpecialty = targetSpecialty,
-                                            referralNotes = referralNotes
-                                        )
+                                    onReferCase = {
+                                        doctorSubScreen = DoctorSubScreen.CREATE_REFERRAL
                                     }
                                 )
                             } else {
-                                // If at Doctor root, back button returns to Login Screen
-                                BackHandler {
-                                    appStateHolder.logout()
-                                }
+                                when (doctorSubScreen) {
+                                    DoctorSubScreen.HOME -> {
+                                        BackHandler { appStateHolder.logout() }
 
-                                DoctorHomeScreen(
-                                    doctor = activeDoctor,
-                                    cases = doctorCases,
-                                    appointments = doctorAppointments,
-                                    dispensaryStock = doctorDispensaryStock,
-                                    patients = patients,
-                                    onSelectCase = { record ->
-                                        doctorViewModel.selectCase(record)
-                                    },
-                                    onAcceptAppointment = { apptId ->
-                                        doctorViewModel.acceptAppointment(apptId)
-                                    },
-                                    onDeclineAppointment = { apptId ->
-                                        doctorViewModel.declineAppointment(apptId)
-                                    },
-                                    onProposeAppointment = { patId, patName, date, slot ->
-                                        doctorViewModel.proposeAppointment(
-                                            patientId = patId,
-                                            patientName = patName,
-                                            dateFormatted = date,
-                                            timeSlot = slot
+                                        DoctorHomeScreen(
+                                            doctor = activeDoctor,
+                                            cases = doctorCases,
+                                            appointments = doctorAppointments,
+                                            dispensaryStock = doctorDispensaryStock,
+                                            patients = patients,
+                                            onSelectCase = { record ->
+                                                doctorViewModel.selectCase(record)
+                                            },
+                                            onAcceptAppointment = { apptId ->
+                                                doctorViewModel.acceptAppointment(apptId)
+                                            },
+                                            onDeclineAppointment = { apptId ->
+                                                doctorViewModel.declineAppointment(apptId)
+                                            },
+                                            onProposeAppointment = { patId, patName, date, slot ->
+                                                doctorViewModel.proposeAppointment(
+                                                    patientId = patId,
+                                                    patientName = patName,
+                                                    dateFormatted = date,
+                                                    timeSlot = slot
+                                                )
+                                            },
+                                            onViewIncomingReferrals = { doctorSubScreen = DoctorSubScreen.INCOMING_REFERRALS },
+                                            onViewSentReferrals = { doctorSubScreen = DoctorSubScreen.REFERRAL_HISTORY }
                                         )
                                     }
-                                )
+
+                                    DoctorSubScreen.PENDING_CASES -> {
+                                        PendingCasesScreen(
+                                            cases = doctorCases,
+                                            onSelectCase = { record -> doctorViewModel.selectCase(record) },
+                                            onBack = { doctorSubScreen = DoctorSubScreen.HOME }
+                                        )
+                                    }
+
+                                    DoctorSubScreen.PRESCRIPTION_CREATOR -> {
+                                        PrescriptionCreatorScreen(
+                                            patientId = effectivePatient.id,
+                                            patientName = effectivePatient.name,
+                                            doctor = activeDoctor,
+                                            onIssuePrescription = { medicines, instructions ->
+                                                doctorViewModel.issuePrescription(
+                                                    caseId = "case-01",
+                                                    patientId = effectivePatient.id,
+                                                    patientName = effectivePatient.name,
+                                                    medicines = medicines,
+                                                    instructions = instructions
+                                                )
+                                            },
+                                            onBack = { doctorSubScreen = DoctorSubScreen.HOME }
+                                        )
+                                    }
+
+                                    DoctorSubScreen.DISPENSARY_STOCK -> {
+                                        com.vitalsense.app.feature.doctor.DispensaryStockScreen(
+                                            stockList = doctorDispensaryStock,
+                                            onBack = { doctorSubScreen = DoctorSubScreen.HOME }
+                                        )
+                                    }
+
+                                    DoctorSubScreen.APPOINTMENTS -> {
+                                        AppointmentConfirmationScreen(
+                                            appointments = doctorAppointments,
+                                            onAcceptAppointment = { doctorViewModel.acceptAppointment(it.id) },
+                                            onDeclineAppointment = { doctorViewModel.declineAppointment(it.id) },
+                                            onBack = { doctorSubScreen = DoctorSubScreen.HOME }
+                                        )
+                                    }
+
+                                    DoctorSubScreen.INCOMING_REFERRALS -> {
+                                        IncomingReferralsScreen(
+                                            viewModel = doctorViewModel,
+                                            onBackClick = { doctorSubScreen = DoctorSubScreen.HOME },
+                                            onAcceptReferral = { referral ->
+                                                selectedHistoryPatientId = referral.patientId
+                                                doctorSubScreen = DoctorSubScreen.PATIENT_HISTORY
+                                            }
+                                        )
+                                    }
+
+                                    DoctorSubScreen.REFERRAL_HISTORY -> {
+                                        ReferralHistoryScreen(
+                                            viewModel = doctorViewModel,
+                                            onBackClick = { doctorSubScreen = DoctorSubScreen.HOME },
+                                            onViewReport = { referral ->
+                                                // Normally view read-only report, but here we can just skip or reuse service report
+                                            }
+                                        )
+                                    }
+
+                                    DoctorSubScreen.CREATE_REFERRAL -> {
+                                        ReferralCreatorScreen(
+                                            viewModel = doctorViewModel,
+                                            patientId = effectivePatient.id,
+                                            patientName = effectivePatient.name,
+                                            caseId = "case-new",
+                                            onBackClick = { doctorSubScreen = DoctorSubScreen.HOME },
+                                            onReferralCreated = { doctorSubScreen = DoctorSubScreen.REFERRAL_HISTORY }
+                                        )
+                                    }
+
+                                    DoctorSubScreen.SERVICE_REPORT -> {
+                                        selectedReferral?.let { ref ->
+                                            ServiceReportScreen(
+                                                viewModel = doctorViewModel,
+                                                referral = ref,
+                                                onBackClick = { doctorSubScreen = DoctorSubScreen.INCOMING_REFERRALS },
+                                                onSubmitComplete = { doctorSubScreen = DoctorSubScreen.HOME }
+                                            )
+                                        }
+                                    }
+
+                                    DoctorSubScreen.PATIENT_HISTORY -> {
+                                        selectedHistoryPatientId?.let { patId ->
+                                            PatientHistoryScreen(
+                                                viewModel = doctorViewModel,
+                                                patientId = patId,
+                                                onBackClick = { doctorSubScreen = DoctorSubScreen.INCOMING_REFERRALS }
+                                            )
+                                        }
+                                    }
+
+                                    DoctorSubScreen.CASE_DETAIL -> {
+                                        doctorSubScreen = DoctorSubScreen.HOME
+                                    }
+                                }
                             }
                         }
 
                         UserRole.ADMIN -> {
-                            // If at Admin root, back button returns to Login Screen
-                            BackHandler {
-                                appStateHolder.logout()
-                            }
+                            when (adminSubScreen) {
+                                AdminSubScreen.HOME -> {
+                                    BackHandler { appStateHolder.logout() }
 
-                            AdminHomeScreen(
-                                villages = villages,
-                                notices = notices,
-                                onSendBroadcast = { title, message, village ->
-                                    adminViewModel.sendBroadcast(
-                                        title = title,
-                                        message = message,
-                                        targetVillage = village
+                                    AdminHomeScreen(
+                                        villages = villages,
+                                        notices = notices,
+                                        onSendBroadcast = { title, message, village ->
+                                            adminViewModel.sendBroadcast(
+                                                title = title,
+                                                message = message,
+                                                targetVillage = village
+                                            )
+                                        },
+                                        onViewVillages = { adminSubScreen = AdminSubScreen.VILLAGE_LIST },
+                                        onViewOutbreakGrid = { adminSubScreen = AdminSubScreen.OUTBREAK_GRID },
+                                        onViewBroadcast = { adminSubScreen = AdminSubScreen.BROADCAST },
+                                        onViewAccounts = { adminSubScreen = AdminSubScreen.ACCOUNTS }
                                     )
                                 }
-                            )
+
+                                AdminSubScreen.VILLAGE_LIST -> {
+                                    VillageListScreen(
+                                        villages = villages,
+                                        onAddVillage = { v -> coroutineScope.launch { repository.addVillage(v) } },
+                                        onBack = { adminSubScreen = AdminSubScreen.HOME }
+                                    )
+                                }
+
+                                AdminSubScreen.OUTBREAK_GRID -> {
+                                    VillageOutbreakGridScreen(
+                                        villages = villages,
+                                        onBack = { adminSubScreen = AdminSubScreen.HOME }
+                                    )
+                                }
+
+                                AdminSubScreen.BROADCAST -> {
+                                    AdminBroadcastScreen(
+                                        onSendBroadcast = { notice ->
+                                            coroutineScope.launch { repository.sendNotice(notice) }
+                                        },
+                                        onBack = { adminSubScreen = AdminSubScreen.HOME }
+                                    )
+                                }
+
+                                AdminSubScreen.ACCOUNTS -> {
+                                    ReviewAccountsScreen(
+                                        onBack = { adminSubScreen = AdminSubScreen.HOME }
+                                    )
+                                }
+
+                                AdminSubScreen.DEPARTMENTS -> {
+                                    AdminDepartmentScreen(
+                                        viewModel = adminViewModel,
+                                        onBackClick = { adminSubScreen = AdminSubScreen.HOME }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -297,3 +615,4 @@ fun VitalSenseNavGraph(
         }
     }
 }
+

@@ -1,15 +1,9 @@
 package com.vitalsense.app.feature.patient
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,6 +22,12 @@ fun PatientHomeScreen(
     patient: Patient,
     onCategoryClick: (ConditionCategory) -> Unit = {},
     onViewHealthCard: () -> Unit = {},
+    onViewPrescriptions: () -> Unit = {},
+    onViewAppointments: () -> Unit = {},
+    onViewDoctorMap: () -> Unit = {},
+    onViewSchemes: () -> Unit = {},
+    onViewOcr: () -> Unit = {},
+    onViewManual: () -> Unit = {},
     onTriggerSos: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -67,7 +67,7 @@ fun PatientHomeScreen(
             }
         }
 
-        // 2. Inline Dismissible Page Guide (PRD §4.9)
+        // 2. Inline Dismissible Page Guide
         item {
             InlineHelpBanner(
                 title = "Your Rural Health Portal",
@@ -75,7 +75,7 @@ fun PatientHomeScreen(
             )
         }
 
-        // 3. Hero Card: Health Card & Daily Status (Design Docs §4.1)
+        // 3. Hero Card: Offline Health Card
         item {
             VitalSenseCard(
                 backgroundColor = LimePrimary.copy(alpha = 0.85f),
@@ -148,7 +148,7 @@ fun PatientHomeScreen(
             }
         }
 
-        // 4. Section Title: "How can I help you today?"
+        // 4. Section Title
         item {
             Text(
                 text = "How can I help you today?",
@@ -203,7 +203,7 @@ fun PatientHomeScreen(
                                             color = TextPrimaryNearBlack
                                         )
                                         Text(
-                                            text = "Tap to open",
+                                            text = "Tap to report",
                                             style = MaterialTheme.typography.labelSmall,
                                             color = TextSecondaryMuted
                                         )
@@ -218,20 +218,61 @@ fun PatientHomeScreen(
                 }
             }
         }
-        
+
+        // 6. Interactive Patient Services Navigation
         item {
-            Text("Other Services", style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, fontSize = 18.sp), color = TextPrimaryNearBlack)
+            Text(
+                text = "Healthcare Services",
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                ),
+                color = TextPrimaryNearBlack
+            )
+        }
+
+        item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                VitalSenseButton("My Prescriptions", onClick = { }, modifier = Modifier.fillMaxWidth())
-                VitalSenseButton("My Appointments", onClick = { }, modifier = Modifier.fillMaxWidth())
-                VitalSenseButton("Find Doctors (Map)", onClick = { }, modifier = Modifier.fillMaxWidth())
-                VitalSenseButton("Government Schemes", onClick = { }, modifier = Modifier.fillMaxWidth())
-                VitalSenseButton("Upload Prescription (OCR)", onClick = { }, modifier = Modifier.fillMaxWidth())
-                VitalSenseButton("Help / Manual", onClick = { }, modifier = Modifier.fillMaxWidth())
+                VitalSenseButton(
+                    text = "💊 My Prescriptions",
+                    onClick = onViewPrescriptions,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.SECONDARY
+                )
+                VitalSenseButton(
+                    text = "📅 My Appointments",
+                    onClick = onViewAppointments,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.SECONDARY
+                )
+                VitalSenseButton(
+                    text = "🏥 Find Doctors & Hospitals",
+                    onClick = onViewDoctorMap,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.SECONDARY
+                )
+                VitalSenseButton(
+                    text = "🏛️ Government Schemes",
+                    onClick = onViewSchemes,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.SECONDARY
+                )
+                VitalSenseButton(
+                    text = "📷 Upload Prescription (OCR)",
+                    onClick = onViewOcr,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.SECONDARY
+                )
+                VitalSenseButton(
+                    text = "ℹ️ User Manual / Help",
+                    onClick = onViewManual,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.SECONDARY
+                )
             }
         }
 
-        // 6. Persistent Emergency SOS Banner (Coral / High Visibility)
+        // 7. Persistent Emergency SOS Banner
         item {
             Spacer(modifier = Modifier.height(4.dp))
             VitalSenseCard(
@@ -248,85 +289,78 @@ fun PatientHomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .background(SurfaceWhite),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "🚨", fontSize = 20.sp)
-                        }
+                        Text(text = "🚨", fontSize = 28.sp)
                         Column {
                             Text(
                                 text = "EMERGENCY SOS",
-                                style = MaterialTheme.typography.titleLarge.copy(
+                                style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.Bold,
-                                    color = SurfaceWhite
-                                )
+                                    fontSize = 16.sp
+                                ),
+                                color = SurfaceWhite
                             )
                             Text(
-                                text = "Alert ASHA & Family (Works via SMS)",
-                                style = MaterialTheme.typography.bodySmall.copy(
-                                    color = SurfaceWhite.copy(alpha = 0.9f)
-                                )
+                                text = "Alert ASHA Helper ${patient.ashaWorkerName}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = SurfaceWhite.copy(alpha = 0.9f)
                             )
                         }
                     }
-                    Text(
-                        text = "TRIGGER",
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = SurfaceWhite
+                    Surface(
+                        shape = PillShape,
+                        color = SurfaceWhite
+                    ) {
+                        Text(
+                            text = "PRESS NOW",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = CoralAlert
+                            ),
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
                         )
-                    )
+                    }
                 }
             }
         }
     }
 
-    // SOS Confirmation Bottom Sheet / Dialog
     if (showSosConfirmation) {
         AlertDialog(
             onDismissRequest = { showSosConfirmation = false },
             title = {
                 Text(
                     text = "🚨 Confirm Emergency SOS",
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = CoralAlert
                 )
             },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = "This will immediately send an Emergency SOS alert with your location to:",
+                        text = "Are you sure you want to trigger an immediate medical emergency alert to ASHA helper ${patient.ashaWorkerName}?",
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = "• ASHA Helper: ${patient.ashaWorkerName}\n• Emergency Contact: ${patient.emergencyContact}",
-                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
-                    )
-                    Text(
-                        text = "📡 Falls back to cellular SMS if mobile internet is unavailable.",
+                        text = "(Simulated SMS result message will be dispatched per §4.1 rules)",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFF2E7D32)
+                        color = TextSecondaryMuted
                     )
                 }
             },
             confirmButton = {
-                Button(
+                VitalSenseButton(
+                    text = "SEND EMERGENCY SOS",
                     onClick = {
+                        onTriggerSos()
                         showSosConfirmation = false
                         sosSentSuccess = true
-                        onTriggerSos()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = CoralAlert)
-                ) {
-                    Text("Send SOS Now", color = SurfaceWhite, fontWeight = FontWeight.Bold)
-                }
+                    style = ButtonStyle.DANGER
+                )
             },
             dismissButton = {
                 TextButton(onClick = { showSosConfirmation = false }) {
-                    Text("Cancel", color = TextPrimaryNearBlack)
+                    Text("Cancel", color = TextSecondaryMuted)
                 }
             }
         )
@@ -335,22 +369,19 @@ fun PatientHomeScreen(
     if (sosSentSuccess) {
         AlertDialog(
             onDismissRequest = { sosSentSuccess = false },
-            title = {
-                Text("✅ SOS Alert Broadcasted", fontWeight = FontWeight.Bold)
-            },
+            title = { Text("🚨 SOS Dispatched!") },
             text = {
-                Text(
-                    "Emergency alert with your GPS coordinates has been transmitted to ${patient.ashaWorkerName}. Keep your phone nearby.",
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("Simulated SMS Result: [SMS DISPATCHED to ASHA ${patient.ashaWorkerName} (${patient.emergencyContact})] - Emergency alert logged to Room database.")
+                    Text("ASHA helper and nearest sub-district medical center have been notified.", style = MaterialTheme.typography.bodySmall)
+                }
             },
             confirmButton = {
-                Button(
+                VitalSenseButton(
+                    text = "OK",
                     onClick = { sosSentSuccess = false },
-                    colors = ButtonDefaults.buttonColors(containerColor = DarkCharcoal)
-                ) {
-                    Text("Understood", color = LimePrimary)
-                }
+                    style = ButtonStyle.PRIMARY
+                )
             }
         )
     }

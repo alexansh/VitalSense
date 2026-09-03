@@ -34,7 +34,7 @@ fun CaseDetailScreen(
     onSubmitResponse: (responseText: String, privateNotes: String?) -> Unit,
     onIssuePrescription: (medicines: List<PrescribedMedicine>, instructions: String) -> Unit,
     onProposeAppointment: (date: String, timeSlot: String) -> Unit,
-    onReferCase: (targetSpecialty: DoctorSpecialty, referralNotes: String) -> Unit,
+    onReferCase: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var responseText by remember(record) { mutableStateOf(record.doctorResponse ?: "") }
@@ -44,7 +44,6 @@ fun CaseDetailScreen(
     var showHealthCardDialog by remember { mutableStateOf(false) }
     var showPrescriptionDialog by remember { mutableStateOf(false) }
     var showAppointmentDialog by remember { mutableStateOf(false) }
-    var showReferDialog by remember { mutableStateOf(false) }
 
     val isMentalHealthCase = record.category == ConditionCategory.MENTAL_HEALTH ||
             record.requestedDoctorType == DoctorSpecialty.PSYCHOLOGIST
@@ -262,7 +261,7 @@ fun CaseDetailScreen(
                 }
 
                 Button(
-                    onClick = { showReferDialog = true },
+                    onClick = onReferCase,
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(containerColor = BlushPinkTertiary, contentColor = TextPrimaryNearBlack),
                     modifier = Modifier.weight(1f)
@@ -439,15 +438,6 @@ fun CaseDetailScreen(
             patientNameFallback = record.patientName,
             onDismiss = { showAppointmentDialog = false },
             onPropose = onProposeAppointment
-        )
-    }
-
-    if (showReferDialog) {
-        ReferCaseDialog(
-            patientName = record.patientName,
-            currentSpecialty = currentDoctor.specialty,
-            onDismiss = { showReferDialog = false },
-            onRefer = onReferCase
         )
     }
 }

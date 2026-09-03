@@ -39,6 +39,20 @@ class AdminViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
+    val allDepartments = repository.getDepartments()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    fun toggleDepartmentStatus(department: com.vitalsense.app.core.data.model.Department) {
+        viewModelScope.launch {
+            repository.saveDepartment(department.copy(isActive = !department.isActive))
+            _uiEvent.emit("Department ${department.name} is now ${if (!department.isActive) "Active" else "Inactive"}")
+        }
+    }
+
     private val _uiEvent = kotlinx.coroutines.flow.MutableSharedFlow<String>()
     val uiEvent = _uiEvent.asSharedFlow()
 

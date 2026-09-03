@@ -23,8 +23,15 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var repository: VitalSenseRepository
 
+    @Inject
+    lateinit var syncManager: com.vitalsense.app.core.sync.SyncManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Start background offline sync
+        syncManager.startPeriodicSync()
+        
         setContent {
             VitalSenseTheme {
                 Surface(

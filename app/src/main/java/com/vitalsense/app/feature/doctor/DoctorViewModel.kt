@@ -36,6 +36,10 @@ class DoctorViewModel @Inject constructor(
     val dispensaryStock: StateFlow<List<DispensaryItem>> = repository.getDispensaryStock()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    // Active departments for referral dropdowns
+    val departments: StateFlow<List<Department>> = repository.getActiveDepartments()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     // Selected case for Case Detail View (§6.4)
     private val _selectedCase = MutableStateFlow<ConditionRecord?>(null)
     val selectedCase: StateFlow<ConditionRecord?> = _selectedCase.asStateFlow()
@@ -59,6 +63,8 @@ class DoctorViewModel @Inject constructor(
     fun clearSelectedCase() {
         _selectedCase.value = null
     }
+
+    fun getPatientFullHistory(patientId: String) = repository.getPatientFullHistory(patientId)
 
     /**
      * Submit free-text medical response attached to the case (§2.2, §4.2, §4.4)
@@ -94,33 +100,101 @@ class DoctorViewModel @Inject constructor(
         }
     }
 
+    // Scoped incoming referrals for this doctor/department
+    val pendingReferrals: StateFlow<List<Referral>> = activeDoctor.flatMapLatest { doctor ->
+        repository.getPendingReferralsForDoctor(doctor.id, doctor.departmentId)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    // Outgoing referrals sent by this doctor
+    val sentReferrals: StateFlow<List<Referral>> = activeDoctor.flatMapLatest { doctor ->
+        repository.getSentReferralsByDoctor(doctor.id)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     /**
-     * Re-route / refer case to another specialist (§4.3)
+     * Re-route / refer case to another specialist (§4.3) - Updated to new Referral System
      */
     fun referCase(
         caseId: String,
-        targetSpecialty: DoctorSpecialty,
-        referralNotes: String
+        patientId: String,
+        patientName: String,
+        targetDepartmentId: String,
+        targetDepartmentName: String,
+        referralType: ReferralType,
+        urgency: ReferralUrgency,
+        reason: String,
+        clinicalNotes: String,
+        targetDoctorId: String? = null,
+        targetDoctorName: String? = null
     ) {
         val doctor = activeDoctor.value
         viewModelScope.launch {
-            repository.referCaseToSpecialist(
+            val newReferral = Referral(
+                id = "ref_${System.currentTimeMillis()}",
                 caseId = caseId,
-                referringDoctor = doctor,
-                targetSpecialty = targetSpecialty,
-                referralNotes = referralNotes
+                patientId = patientId,
+                patientName = patientName,
+                fromDoctorId = doctor.id,
+                fromDoctorName = doctor.name,
+                fromDepartmentId = doctor.departmentId,
+                fromDepartmentName = doctor.departmentName,
+                toDepartmentId = targetDepartmentId,
+                toDepartmentName = targetDepartmentName,
+                toDoctorId = targetDoctorId,
+                toDoctorName = targetDoctorName,
+                referralType = referralType,
+                urgency = urgency,
+                reason = reason,
+                clinicalNotes = clinicalNotes
             )
-            _selectedCase.update { current ->
-                if (current?.id == caseId) {
-                    current.copy(
-                        status = CaseStatus.REFERRED,
-                        requestedDoctorType = targetSpecialty,
-                        referredByDoctorId = doctor.id,
-                        referredByDoctorName = doctor.name,
-                        referralNotes = referralNotes
-                    )
-                } else current
+            repository.createReferral(newReferral)
+
+            // Auto-update case status if it's a clinical transfer
+            if (referralType == ReferralType.CLINICAL || referralType == ReferralType.EMERGENCY) {
+                repository.referCaseToSpecialist(
+                    caseId = caseId,
+                    referringDoctor = doctor,
+                    targetSpecialty = DoctorSpecialty.GENERAL_PHYSICIAN, // Will be phased out as departments take over
+                    referralNotes = reason
+                )
+                _selectedCase.update { current ->
+                    if (current?.id == caseId) {
+                        current.copy(
+                            status = CaseStatus.REFERRED,
+                            referredByDoctorId = doctor.id,
+                            referredByDoctorName = doctor.name,
+                            referralNotes = reason
+                        )
+                    } else current
+                }
             }
+        }
+    }
+
+    /**
+     * Accept incoming referral
+     */
+    fun acceptReferral(referralId: String) {
+        val doctor = activeDoctor.value
+        viewModelScope.launch {
+            repository.acceptReferral(referralId, doctor.id, doctor.name)
+        }
+    }
+
+    /**
+     * Submit diagnostic/service report for a service referral
+     */
+    fun submitServiceReport(referralId: String, reportText: String, attachmentPath: String? = null) {
+        viewModelScope.launch {
+            repository.submitServiceReport(referralId, reportText, attachmentPath)
+        }
+    }
+
+    /**
+     * Mark clinical referral as completed/discharged
+     */
+    fun completeReferral(referralId: String) {
+        viewModelScope.launch {
+            repository.completeReferral(referralId)
         }
     }
 

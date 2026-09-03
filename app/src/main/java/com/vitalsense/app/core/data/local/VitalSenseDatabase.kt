@@ -9,6 +9,8 @@ import com.vitalsense.app.core.data.local.dao.VitalSenseDao
 import com.vitalsense.app.core.data.local.entity.*
 import com.vitalsense.app.core.data.local.typeconverters.Converters
 
+import net.sqlcipher.database.SupportFactory
+
 @Database(
     entities = [
         VillageEntity::class,
@@ -20,9 +22,11 @@ import com.vitalsense.app.core.data.local.typeconverters.Converters
         AppointmentEntity::class,
         BroadcastNoticeEntity::class,
         DispensaryEntity::class,
-        GovernmentSchemeEntity::class
+        GovernmentSchemeEntity::class,
+        DepartmentEntity::class,
+        ReferralEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -36,11 +40,15 @@ abstract class VitalSenseDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): VitalSenseDatabase {
             return INSTANCE ?: synchronized(this) {
+                val passphrase = "dummy_passphrase".toByteArray() // TODO: Fetch securely from Android Keystore
+                val factory = SupportFactory(passphrase)
+                
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     VitalSenseDatabase::class.java,
                     "vitalsense_database"
                 )
+                    .openHelperFactory(factory)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

@@ -42,9 +42,21 @@ fun LoginScreen(
     var doctorPasswordInput by remember { mutableStateOf("") }
     var adminPasscodeInput by remember { mutableStateOf("") }
 
-    val samplePatients = remember { SeedDataProvider.initialPatients }
-    val sampleAshas = remember { SeedDataProvider.initialAshaWorkers }
-    val sampleDoctors = remember { SeedDataProvider.initialDoctors }
+    val samplePatients = remember { 
+        listOf(
+            Patient("demo_patient_1", "Ramesh Kumar", 45, "Male", "9811100000", "vil_1", "Rampur", "asha_1", "Sita Devi", SeverityLevel.MODERATE, ConditionCategory.com.vitalsense.app.core.data.model.ConditionCategory.GENERAL_FEVER, null, null, "9811122222", null)
+        ) 
+    }
+    val sampleAshas = remember { 
+        listOf(
+            AshaWorker("demo_asha_1", "Sita Devi", "ASHA-7701", listOf("Rampur", "Shantipur"), 45, "9988776655")
+        ) 
+    }
+    val sampleDoctors = remember { 
+        listOf(
+            Doctor("demo_doc_1", "Dr. Rajesh Sharma", DoctorSpecialty.GENERAL_PHYSICIAN, "9876543210", "dr.rajesh@vitalsense.org")
+        ) 
+    }
 
     LazyColumn(
         modifier = modifier
@@ -521,3 +533,4 @@ private fun RoleCard(
         }
     }
 }
+

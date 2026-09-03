@@ -48,6 +48,9 @@ interface VitalSenseDao {
     @Query("SELECT * FROM doctors WHERE id = :id")
     fun getDoctorById(id: String): Flow<DoctorEntity?>
 
+    @Query("SELECT * FROM doctors WHERE departmentId = :deptId")
+    fun getDoctorsByDepartment(deptId: String): Flow<List<DoctorEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDoctors(doctors: List<DoctorEntity>)
 
@@ -109,6 +112,22 @@ interface VitalSenseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNotices(notices: List<BroadcastNoticeEntity>)
 
+    // --- Sync Worker Queries ---
+    @Query("SELECT * FROM patients WHERE syncState = 'PENDING'")
+    suspend fun getPendingPatients(): List<PatientEntity>
+
+    @Query("SELECT * FROM condition_records WHERE syncState = 'PENDING'")
+    suspend fun getPendingConditionRecords(): List<ConditionRecordEntity>
+
+    @Query("SELECT * FROM prescriptions WHERE syncState = 'PENDING'")
+    suspend fun getPendingPrescriptions(): List<PrescriptionEntity>
+
+    @Query("SELECT * FROM appointments WHERE syncState = 'PENDING'")
+    suspend fun getPendingAppointments(): List<AppointmentEntity>
+
+    @Query("SELECT * FROM broadcast_notices WHERE syncState = 'PENDING'")
+    suspend fun getPendingNotices(): List<BroadcastNoticeEntity>
+
     // --- Dispensary Stock ---
     @Query("SELECT * FROM dispensary_stock ORDER BY medicineName ASC")
     fun getAllDispensaryItems(): Flow<List<DispensaryEntity>>
@@ -122,4 +141,51 @@ interface VitalSenseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSchemes(schemes: List<GovernmentSchemeEntity>)
+
+    // --- Departments ---
+    @Query("SELECT * FROM departments WHERE isActive = 1 ORDER BY type ASC, name ASC")
+    fun getActiveDepartments(): Flow<List<DepartmentEntity>>
+
+    @Query("SELECT * FROM departments ORDER BY type ASC, name ASC")
+    fun getAllDepartments(): Flow<List<DepartmentEntity>>
+
+    @Query("SELECT * FROM departments WHERE id = :id")
+    fun getDepartmentById(id: String): Flow<DepartmentEntity?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDepartments(departments: List<DepartmentEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDepartment(department: DepartmentEntity)
+
+    // --- Referrals ---
+    @Query("SELECT * FROM referrals ORDER BY createdAt DESC")
+    fun getAllReferrals(): Flow<List<ReferralEntity>>
+
+    @Query("SELECT * FROM referrals WHERE patientId = :patientId ORDER BY createdAt DESC")
+    fun getReferralsForPatient(patientId: String): Flow<List<ReferralEntity>>
+
+    @Query("SELECT * FROM referrals WHERE caseId = :caseId ORDER BY referralChainIndex ASC")
+    fun getReferralChainForCase(caseId: String): Flow<List<ReferralEntity>>
+
+    @Query("SELECT * FROM referrals WHERE toDepartmentId = :deptId AND status IN ('PENDING', 'ACCEPTED', 'IN_PROGRESS') ORDER BY CASE urgency WHEN 'EMERGENCY' THEN 0 WHEN 'URGENT' THEN 1 WHEN 'PRIORITY' THEN 2 ELSE 3 END, createdAt ASC")
+    fun getIncomingReferralsForDepartment(deptId: String): Flow<List<ReferralEntity>>
+
+    @Query("SELECT * FROM referrals WHERE (toDoctorId = :doctorId OR (toDepartmentId = :deptId AND toDoctorId IS NULL)) AND status = 'PENDING' ORDER BY CASE urgency WHEN 'EMERGENCY' THEN 0 WHEN 'URGENT' THEN 1 WHEN 'PRIORITY' THEN 2 ELSE 3 END, createdAt ASC")
+    fun getPendingReferralsForDoctor(doctorId: String, deptId: String): Flow<List<ReferralEntity>>
+
+    @Query("SELECT * FROM referrals WHERE fromDoctorId = :doctorId ORDER BY createdAt DESC")
+    fun getSentReferralsByDoctor(doctorId: String): Flow<List<ReferralEntity>>
+
+    @Query("SELECT * FROM referrals WHERE id = :id")
+    fun getReferralById(id: String): Flow<ReferralEntity?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertReferral(referral: ReferralEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertReferrals(referrals: List<ReferralEntity>)
+
+    @Query("SELECT * FROM referrals WHERE syncState = 'PENDING'")
+    suspend fun getPendingReferrals(): List<ReferralEntity>
 }

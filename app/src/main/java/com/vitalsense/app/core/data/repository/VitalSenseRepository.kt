@@ -57,6 +57,29 @@ interface VitalSenseRepository {
     // --- Government Schemes ---
     fun getGovernmentSchemes(): Flow<List<GovernmentScheme>>
 
+    // --- Departments ---
+    fun getDepartments(): Flow<List<Department>>
+    fun getActiveDepartments(): Flow<List<Department>>
+    fun getDepartmentById(id: String): Flow<Department?>
+    fun getDoctorsByDepartment(departmentId: String): Flow<List<Doctor>>
+    suspend fun saveDepartment(department: Department)
+
+    // --- Referrals ---
+    fun getReferrals(): Flow<List<Referral>>
+    fun getReferralsForPatient(patientId: String): Flow<List<Referral>>
+    fun getReferralChainForCase(caseId: String): Flow<List<Referral>>
+    fun getIncomingReferralsForDepartment(departmentId: String): Flow<List<Referral>>
+    fun getPendingReferralsForDoctor(doctorId: String, departmentId: String): Flow<List<Referral>>
+    fun getSentReferralsByDoctor(doctorId: String): Flow<List<Referral>>
+    suspend fun createReferral(referral: Referral)
+    suspend fun acceptReferral(referralId: String, doctorId: String, doctorName: String)
+    suspend fun submitServiceReport(referralId: String, reportText: String, attachmentPath: String?)
+    suspend fun completeReferral(referralId: String)
+    suspend fun cancelReferral(referralId: String)
+
+    // --- Patient History ---
+    fun getPatientFullHistory(patientId: String): Flow<PatientHistory>
+
     // --- Emergency SOS ---
     suspend fun triggerEmergencySos(patient: Patient, locationLat: Double?, locationLng: Double?): Boolean
 }

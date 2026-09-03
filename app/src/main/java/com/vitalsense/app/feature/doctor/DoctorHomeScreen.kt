@@ -30,6 +30,8 @@ fun DoctorHomeScreen(
     onAcceptAppointment: (String) -> Unit = {},
     onDeclineAppointment: (String) -> Unit = {},
     onProposeAppointment: (patientId: String, patientName: String, date: String, timeSlot: String) -> Unit = { _, _, _, _ -> },
+    onViewIncomingReferrals: () -> Unit = {},
+    onViewSentReferrals: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var showScheduleDialog by remember { mutableStateOf(false) }
@@ -109,6 +111,27 @@ fun DoctorHomeScreen(
                         Text(text = "Appointments", style = MaterialTheme.typography.labelSmall)
                     }
                 }
+            }
+        }
+
+        // 2.5 Quick Referral Actions
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                VitalSenseButton(
+                    text = "📥 Incoming Referrals",
+                    onClick = onViewIncomingReferrals,
+                    modifier = Modifier.weight(1f),
+                    style = ButtonStyle.DARK
+                )
+                VitalSenseButton(
+                    text = "📤 Sent Referrals",
+                    onClick = onViewSentReferrals,
+                    modifier = Modifier.weight(1f),
+                    style = ButtonStyle.SECONDARY
+                )
             }
         }
 

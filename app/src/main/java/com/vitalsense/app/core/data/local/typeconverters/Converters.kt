@@ -39,6 +39,36 @@ class Converters {
     fun toCaseStatus(value: String): CaseStatus = runCatching { CaseStatus.valueOf(value) }.getOrDefault(CaseStatus.PENDING_REVIEW)
 
     @TypeConverter
+    fun fromSyncState(value: SyncState): String = value.name
+
+    @TypeConverter
+    fun toSyncState(value: String): SyncState = runCatching { SyncState.valueOf(value) }.getOrDefault(SyncState.SYNCED)
+
+    @TypeConverter
+    fun fromDepartmentType(value: DepartmentType): String = value.name
+
+    @TypeConverter
+    fun toDepartmentType(value: String): DepartmentType = runCatching { DepartmentType.valueOf(value) }.getOrDefault(DepartmentType.CLINICAL)
+
+    @TypeConverter
+    fun fromReferralType(value: ReferralType): String = value.name
+
+    @TypeConverter
+    fun toReferralType(value: String): ReferralType = runCatching { ReferralType.valueOf(value) }.getOrDefault(ReferralType.CLINICAL)
+
+    @TypeConverter
+    fun fromReferralUrgency(value: ReferralUrgency): String = value.name
+
+    @TypeConverter
+    fun toReferralUrgency(value: String): ReferralUrgency = runCatching { ReferralUrgency.valueOf(value) }.getOrDefault(ReferralUrgency.ROUTINE)
+
+    @TypeConverter
+    fun fromReferralStatus(value: ReferralStatus): String = value.name
+
+    @TypeConverter
+    fun toReferralStatus(value: String): ReferralStatus = runCatching { ReferralStatus.valueOf(value) }.getOrDefault(ReferralStatus.PENDING)
+
+    @TypeConverter
     fun fromStringList(value: List<String>): String = gson.toJson(value)
 
     @TypeConverter

@@ -48,7 +48,9 @@ data class Doctor(
     val hospitalName: String,
     val distanceKm: Double,
     val phone: String,
-    val availableDays: String
+    val availableDays: String,
+    val departmentId: String = "dept_general_medicine",
+    val departmentName: String = "General Medicine"
 )
 
 data class ConditionRecord(
@@ -73,7 +75,8 @@ data class ConditionRecord(
     val referredByDoctorId: String? = null,
     val referredByDoctorName: String? = null,
     val referralNotes: String? = null,
-    val isPendingSync: Boolean = false
+    val syncState: SyncState = SyncState.SYNCED,
+    val serverVersion: Long = 0L
 )
 
 data class PrescribedMedicine(
@@ -96,7 +99,9 @@ data class Prescription(
     val dateFormatted: String,
     val medicines: List<PrescribedMedicine>,
     val instructions: String,
-    val isOcrExtracted: Boolean = false
+    val isOcrExtracted: Boolean = false,
+    val syncState: SyncState = SyncState.SYNCED,
+    val serverVersion: Long = 0L
 )
 
 data class Appointment(
@@ -110,7 +115,9 @@ data class Appointment(
     val timeSlot: String,
     val status: String, // "Confirmed", "Pending", "Declined", "Completed"
     val proposedBy: UserRole,
-    val outcomeNotes: String? = null
+    val outcomeNotes: String? = null,
+    val syncState: SyncState = SyncState.SYNCED,
+    val serverVersion: Long = 0L
 )
 
 data class BroadcastNotice(
@@ -122,7 +129,9 @@ data class BroadcastNotice(
     val title: String,
     val message: String,
     val timestamp: Long,
-    val isUrgent: Boolean = false
+    val isUrgent: Boolean = false,
+    val syncState: SyncState = SyncState.SYNCED,
+    val serverVersion: Long = 0L
 )
 
 data class DispensaryItem(
@@ -145,4 +154,75 @@ data class GovernmentScheme(
     val benefitsSummary: String,
     val eligibility: String,
     val applicationUrl: String = ""
+)
+
+/**
+ * Hospital department — database-driven, admin-configurable.
+ */
+data class Department(
+    val id: String,
+    val name: String,
+    val code: String,
+    val emoji: String,
+    val type: DepartmentType,
+    val colorHex: Long,
+    val headDoctorId: String? = null,
+    val headDoctorName: String? = null,
+    val isActive: Boolean = true,
+    val availableDoctorCount: Int = 0,
+    val pendingReferralCount: Int = 0,
+    val description: String = "",
+    val operatingHours: String = "24x7",
+    val location: String = "",
+    val syncState: SyncState = SyncState.SYNCED,
+    val serverVersion: Long = 0L
+)
+
+/**
+ * Inter-department referral with full chain tracking.
+ */
+data class Referral(
+    val id: String,
+    val caseId: String,
+    val patientId: String,
+    val patientName: String,
+    val fromDoctorId: String,
+    val fromDoctorName: String,
+    val fromDepartmentId: String,
+    val fromDepartmentName: String,
+    val toDepartmentId: String,
+    val toDepartmentName: String,
+    val toDoctorId: String? = null,
+    val toDoctorName: String? = null,
+    val referralType: ReferralType,
+    val urgency: ReferralUrgency,
+    val reason: String,
+    val clinicalNotes: String = "",
+    val clinicalHistory: String = "",
+    val status: ReferralStatus = ReferralStatus.PENDING,
+    val acceptedByDoctorId: String? = null,
+    val acceptedByDoctorName: String? = null,
+    val acceptedAt: Long? = null,
+    val serviceReportText: String? = null,
+    val serviceReportAttachmentPath: String? = null,
+    val serviceReportAttachmentUrl: String? = null,
+    val serviceReportTimestamp: Long? = null,
+    val parentReferralId: String? = null,
+    val referralChainIndex: Int = 0,
+    val createdAt: Long = System.currentTimeMillis(),
+    val updatedAt: Long = System.currentTimeMillis(),
+    val completedAt: Long? = null,
+    val syncState: SyncState = SyncState.SYNCED,
+    val serverVersion: Long = 0L
+)
+
+/**
+ * Bundled patient history for auto-sharing when a doctor accepts a referral.
+ */
+data class PatientHistory(
+    val patient: Patient,
+    val conditions: List<ConditionRecord> = emptyList(),
+    val prescriptions: List<Prescription> = emptyList(),
+    val appointments: List<Appointment> = emptyList(),
+    val referrals: List<Referral> = emptyList()
 )

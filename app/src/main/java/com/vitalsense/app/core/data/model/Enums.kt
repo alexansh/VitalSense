@@ -52,6 +52,55 @@ enum class CaseStatus(val displayName: String, val colorHex: Long) {
     IN_PROGRESS("In Progress", 0xFFA3AEFE),       // Lavender
     RESPONDED("Responded", 0xFFC8F5D4),           // Mint Green
     REFERRED("Referred to Specialist", 0xFFFFB8F0),// Blush Pink
-    CLOSED("Closed", 0xFFE0E0E0)                  // Grey
 }
 
+/**
+ * Offline-first synchronization state.
+ */
+enum class SyncState {
+    PENDING,
+    SYNCED,
+    CONFLICT,
+    FAILED
+}
+
+/**
+ * Department types in a hospital — clinical departments treat patients,
+ * service departments provide diagnostic reports back to the referring doctor.
+ */
+enum class DepartmentType(val displayName: String) {
+    CLINICAL("Clinical"),
+    SERVICE("Diagnostic / Service")
+}
+
+/**
+ * Referral types following real hospital inter-department referral patterns.
+ */
+enum class ReferralType(val displayName: String, val emoji: String) {
+    CLINICAL("Clinical Referral", "🔄"),
+    CO_MANAGEMENT("Co-Management", "🤝"),
+    SERVICE("Diagnostic / Service Request", "🧪"),
+    EMERGENCY("Emergency Transfer", "🚨")
+}
+
+/**
+ * Urgency levels for referrals — maps to real hospital triage timelines.
+ */
+enum class ReferralUrgency(val displayName: String, val colorHex: Long) {
+    ROUTINE("Routine", 0xFFC8F5D4),
+    PRIORITY("Priority", 0xFFFFD166),
+    URGENT("Urgent", 0xFFFF9F43),
+    EMERGENCY("Emergency", 0xFFFF6B6B)
+}
+
+/**
+ * Lifecycle status of a referral.
+ */
+enum class ReferralStatus(val displayName: String, val colorHex: Long) {
+    PENDING("Pending Acceptance", 0xFFFFD166),
+    ACCEPTED("Accepted", 0xFFA3AEFE),
+    IN_PROGRESS("In Progress", 0xFF90CAF9),
+    REPORT_SUBMITTED("Report Submitted", 0xFFC8F5D4),
+    COMPLETED("Completed", 0xFF81C784),
+    CANCELLED("Cancelled", 0xFFB0BEC5)
+}

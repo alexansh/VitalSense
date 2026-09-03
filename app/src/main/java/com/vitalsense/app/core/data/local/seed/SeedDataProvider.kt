@@ -1,426 +1,157 @@
 package com.vitalsense.app.core.data.local.seed
 
-import com.google.gson.Gson
-import com.vitalsense.app.core.data.local.entity.*
+import com.vitalsense.app.core.data.local.entity.DepartmentEntity
+import com.vitalsense.app.core.data.local.entity.DispensaryEntity
+import com.vitalsense.app.core.data.local.entity.GovernmentSchemeEntity
+import com.vitalsense.app.core.data.local.entity.ReferralEntity
 import com.vitalsense.app.core.data.model.*
 
 object SeedDataProvider {
-    private val gson = Gson()
 
-    val initialVillages = listOf(
-        Village(
-            id = "v_sundarpura",
-            name = "Sundarpura",
-            district = "Rampur",
-            state = "Uttar Pradesh",
-            population = 1450,
-            latitude = 26.8467,
-            longitude = 80.9462,
-            activeCases = 14,
-            highRiskCount = 3
-        ),
-        Village(
-            id = "v_kalyanpur",
-            name = "Kalyanpur",
-            district = "Rampur",
-            state = "Uttar Pradesh",
-            population = 2100,
-            latitude = 26.8821,
-            longitude = 80.9812,
-            activeCases = 22,
-            highRiskCount = 6
-        ),
-        Village(
-            id = "v_bhimnagar",
-            name = "Bhimnagar",
-            district = "Rampur",
-            state = "Uttar Pradesh",
-            population = 980,
-            latitude = 26.8150,
-            longitude = 80.9120,
-            activeCases = 8,
-            highRiskCount = 1
-        )
+    // ──────────────────────────────────────────────
+    // DEPARTMENTS — full hospital set, database-driven
+    // ──────────────────────────────────────────────
+    val initialDepartments = listOf(
+        // Clinical Departments
+        Department("dept_general_medicine", "General Medicine", "GEN_MED", "🩺", DepartmentType.CLINICAL, 0xFFE8EB7D, description = "Primary care, fever, infections, chronic disease management", operatingHours = "24x7", location = "OPD Block A, Ground Floor"),
+        Department("dept_general_surgery", "General Surgery", "GEN_SURG", "🔪", DepartmentType.CLINICAL, 0xFFFF9F43, description = "Surgical interventions, wound care, minor and major operations", operatingHours = "Mon-Sat 9AM-5PM", location = "Surgical Block B, Floor 1"),
+        Department("dept_pediatrics", "Pediatrics", "PEDIA", "👶", DepartmentType.CLINICAL, 0xFFC8F5D4, description = "Child health, vaccinations, neonatal care", operatingHours = "24x7", location = "OPD Block A, Floor 1"),
+        Department("dept_obgyn", "OB-GYN & Maternal Care", "OBGYN", "🤱", DepartmentType.CLINICAL, 0xFFFFB8F0, description = "Pregnancy, delivery, women's reproductive health", operatingHours = "24x7", location = "Maternity Wing, Floor 2"),
+        Department("dept_orthopedics", "Orthopedics", "ORTHO", "🦴", DepartmentType.CLINICAL, 0xFFD4E5FF, description = "Bones, joints, fractures, musculoskeletal problems", operatingHours = "Mon-Sat 9AM-5PM", location = "Surgical Block B, Floor 2"),
+        Department("dept_cardiology", "Cardiology", "CARDIO", "❤️", DepartmentType.CLINICAL, 0xFFFF6B6B, description = "Heart disease, chest pain, ECG, blood pressure", operatingHours = "Mon-Sat 9AM-5PM", location = "OPD Block A, Floor 2"),
+        Department("dept_neurology", "Neurology & Neurosurgery", "NEURO", "🧠", DepartmentType.CLINICAL, 0xFFA3AEFE, description = "Brain, spinal cord, nerves, seizures, stroke", operatingHours = "Mon-Sat 9AM-5PM", location = "Specialty Block C, Floor 1"),
+        Department("dept_psychiatry", "Psychiatry & Mental Health", "PSYCH", "🧘", DepartmentType.CLINICAL, 0xFFE1D9F9, description = "Mental wellness, depression, anxiety, counseling", operatingHours = "Mon-Sat 10AM-4PM", location = "OPD Block A, Floor 3"),
+        Department("dept_ent", "ENT (Ear, Nose, Throat)", "ENT", "👂", DepartmentType.CLINICAL, 0xFFFFD166, description = "Ear infections, hearing, sinus, throat problems", operatingHours = "Mon-Sat 9AM-5PM", location = "OPD Block A, Floor 2"),
+        Department("dept_ophthalmology", "Ophthalmology (Eye)", "OPHTH", "👁️", DepartmentType.CLINICAL, 0xFF90CAF9, description = "Eye care, vision problems, cataract, glaucoma", operatingHours = "Mon-Sat 9AM-4PM", location = "Eye Centre, Ground Floor"),
+        Department("dept_dermatology", "Dermatology (Skin)", "DERM", "🧴", DepartmentType.CLINICAL, 0xFFFFCCBC, description = "Skin diseases, allergies, rashes, fungal infections", operatingHours = "Mon-Sat 9AM-4PM", location = "OPD Block A, Floor 3"),
+        Department("dept_pulmonology", "Pulmonology (Chest/Lungs)", "PULMO", "🫁", DepartmentType.CLINICAL, 0xFFB2DFDB, description = "Asthma, TB, breathing problems, chest X-Ray review", operatingHours = "Mon-Sat 9AM-5PM", location = "Specialty Block C, Floor 2"),
+        Department("dept_nephrology", "Nephrology (Kidney)", "NEPHRO", "🫘", DepartmentType.CLINICAL, 0xFFCE93D8, description = "Kidney disease, dialysis, urinary tract problems", operatingHours = "Mon-Sat 9AM-4PM", location = "Specialty Block C, Floor 2"),
+        Department("dept_gastroenterology", "Gastroenterology (GI)", "GASTRO", "🍽️", DepartmentType.CLINICAL, 0xFFFFE082, description = "Stomach, liver, intestinal problems, digestion", operatingHours = "Mon-Sat 9AM-5PM", location = "OPD Block A, Floor 2"),
+        Department("dept_endocrinology", "Endocrinology (Diabetes/Thyroid)", "ENDO", "💉", DepartmentType.CLINICAL, 0xFFEF9A9A, description = "Diabetes, thyroid, hormonal disorders", operatingHours = "Mon-Sat 9AM-4PM", location = "OPD Block A, Floor 3"),
+        Department("dept_oncology", "Oncology (Cancer)", "ONCO", "🎗️", DepartmentType.CLINICAL, 0xFFB39DDB, description = "Cancer screening, diagnosis, treatment referrals", operatingHours = "Mon-Fri 9AM-5PM", location = "Specialty Block C, Floor 3"),
+        Department("dept_emergency", "Emergency Medicine", "EMERG", "🚨", DepartmentType.CLINICAL, 0xFFFF6B6B, description = "Accidents, trauma, acute emergencies, critical care", operatingHours = "24x7", location = "Emergency Block, Ground Floor"),
+        Department("dept_dental", "Dental", "DENTAL", "🦷", DepartmentType.CLINICAL, 0xFF80DEEA, description = "Tooth care, dental surgery, oral health", operatingHours = "Mon-Sat 9AM-4PM", location = "Dental Wing, Ground Floor"),
+
+        // Service / Diagnostic Departments
+        Department("dept_radiology", "Radiology & Imaging", "RADIO", "📡", DepartmentType.SERVICE, 0xFFB0BEC5, description = "X-Ray, ultrasound, CT scan, MRI imaging", operatingHours = "24x7 (Emergency), Mon-Sat 8AM-6PM (Routine)", location = "Imaging Centre, Ground Floor"),
+        Department("dept_pathology", "Pathology & Lab", "PATH", "🧪", DepartmentType.SERVICE, 0xFFFFCC80, description = "Blood tests, urine tests, biopsy, lab reports", operatingHours = "24x7 (Emergency), Mon-Sat 7AM-5PM (Routine)", location = "Lab Block, Ground Floor"),
+        Department("dept_microbiology", "Microbiology", "MICRO", "🦠", DepartmentType.SERVICE, 0xFFA5D6A7, description = "Infection testing, culture sensitivity, TB testing", operatingHours = "Mon-Sat 8AM-4PM", location = "Lab Block, Floor 1"),
+        Department("dept_blood_bank", "Blood Bank", "BLOOD", "🩸", DepartmentType.SERVICE, 0xFFEF9A9A, description = "Blood storage, cross-matching, transfusion services", operatingHours = "24x7", location = "Blood Bank Building"),
+        Department("dept_pharmacy", "Pharmacy / Dispensary", "PHARMA", "💊", DepartmentType.SERVICE, 0xFF80CBC4, description = "Medicine dispensing, drug information, stock management", operatingHours = "24x7", location = "Pharmacy Counter, Ground Floor"),
+        Department("dept_dietetics", "Dietetics & Nutrition", "DIET", "🥗", DepartmentType.SERVICE, 0xFFDCE775, description = "Diet plans, nutrition counseling, malnutrition management", operatingHours = "Mon-Sat 9AM-4PM", location = "OPD Block A, Floor 1"),
+        Department("dept_physiotherapy", "Physiotherapy & Rehab", "PHYSIO", "🏋️", DepartmentType.SERVICE, 0xFFC5E1A5, description = "Physical rehabilitation, mobility exercises, post-surgery recovery", operatingHours = "Mon-Sat 8AM-4PM", location = "Rehab Centre, Ground Floor")
     )
 
-    val initialAshaWorkers = listOf(
-        AshaWorker(
-            id = "asha_priya",
-            name = "Priya Devi",
-            ashaUniqueId = "ASHA-7701",
-            phone = "+91 98765 43210",
-            assignedVillages = listOf("Sundarpura", "Bhimnagar"),
-            activePatientCount = 18,
-            alertCount = 3
-        ),
-        AshaWorker(
-            id = "asha_sunita",
-            name = "Sunita Sharma",
-            ashaUniqueId = "ASHA-8842",
-            phone = "+91 98765 12345",
-            assignedVillages = listOf("Kalyanpur"),
-            activePatientCount = 24,
-            alertCount = 5
-        )
-    )
-
-    val initialDoctors = listOf(
-        Doctor(
-            id = "doc_rajesh",
-            name = "Dr. Rajesh Varma",
-            specialty = DoctorSpecialty.GENERAL_PHYSICIAN,
-            qualification = "MBBS, MD (Medicine)",
-            hospitalName = "Rampur Civil Hospital",
-            distanceKm = 4.2,
-            phone = "+91 94150 11223",
-            availableDays = "Mon - Sat (9:00 AM - 4:00 PM)"
-        ),
-        Doctor(
-            id = "doc_ananya",
-            name = "Dr. Ananya Sen",
-            specialty = DoctorSpecialty.PSYCHOLOGIST,
-            qualification = "Ph.D. Clinical Psychology",
-            hospitalName = "District Community Wellness Center",
-            distanceKm = 6.5,
-            phone = "+91 94150 99887",
-            availableDays = "Mon - Fri (10:00 AM - 3:00 PM)"
-        )
-    )
-
-    val initialPatients = listOf(
-        Patient(
-            id = "pat_ramesh",
-            name = "Ramesh Kumar",
-            age = 42,
-            gender = "Male",
-            phone = "+91 98111 22334",
-            villageId = "v_sundarpura",
-            villageName = "Sundarpura",
-            ashaWorkerId = "asha_priya",
-            ashaWorkerName = "Priya Devi",
-            currentRiskLevel = SeverityLevel.SEVERE,
-            lastCondition = "Severe Chest Congestion & High Spiking Fever (103°F)",
-            lastVisitDate = "2026-08-10",
-            nextAppointmentDate = "2026-08-18 (10:30 AM)",
-            emergencyContact = "+91 98111 99999 (Brother - Suresh)"
-        ),
-        Patient(
-            id = "pat_anita",
-            name = "Anita Sharma",
-            age = 28,
-            gender = "Female",
-            phone = "+91 98222 33445",
-            villageId = "v_sundarpura",
-            villageName = "Sundarpura",
-            ashaWorkerId = "asha_priya",
-            ashaWorkerName = "Priya Devi",
-            currentRiskLevel = SeverityLevel.MODERATE,
-            lastCondition = "2nd Trimester Routine Prenatal Care & Mild Anemia",
-            lastVisitDate = "2026-08-05",
-            nextAppointmentDate = "2026-08-20 (11:00 AM)",
-            emergencyContact = "+91 98222 88888 (Husband - Manoj)"
-        ),
-        Patient(
-            id = "pat_vikram",
-            name = "Vikram Singh",
-            age = 65,
-            gender = "Male",
-            phone = "+91 98333 44556",
-            villageId = "v_kalyanpur",
-            villageName = "Kalyanpur",
-            ashaWorkerId = "asha_sunita",
-            ashaWorkerName = "Sunita Sharma",
-            currentRiskLevel = SeverityLevel.HIGH,
-            lastCondition = "Hypertension (160/95) & Chronic Dizziness with Fatigue",
-            lastVisitDate = "2026-08-12",
-            nextAppointmentDate = "2026-08-16 (02:00 PM)",
-            emergencyContact = "+91 98333 77777 (Son - Rahul)"
-        ),
-        Patient(
-            id = "pat_meena",
-            name = "Meena Patel",
-            age = 19,
-            gender = "Female",
-            phone = "+91 98444 55667",
-            villageId = "v_bhimnagar",
-            villageName = "Bhimnagar",
-            ashaWorkerId = "asha_priya",
-            ashaWorkerName = "Priya Devi",
-            currentRiskLevel = SeverityLevel.LOW,
-            lastCondition = "Dietary Guidance & Iron Supplements Check",
-            lastVisitDate = "2026-07-28",
-            nextAppointmentDate = null,
-            emergencyContact = "+91 98444 66666 (Mother - Shakuntala)"
-        ),
-        Patient(
-            id = "pat_suresh",
-            name = "Suresh Yadav",
-            age = 35,
-            gender = "Male",
-            phone = "+91 98555 66778",
-            villageId = "v_kalyanpur",
-            villageName = "Kalyanpur",
-            ashaWorkerId = "asha_sunita",
-            ashaWorkerName = "Sunita Sharma",
-            currentRiskLevel = SeverityLevel.MODERATE,
-            lastCondition = "Chronic Agricultural Stress & Severe Sleep Disruption",
-            lastVisitDate = "2026-08-08",
-            nextAppointmentDate = "2026-08-17 (03:30 PM)",
-            emergencyContact = "+91 98555 55555 (Wife - Geeta)"
-        )
-    )
-
-    val initialConditionRecords = listOf(
-        ConditionRecord(
-            id = "cond_1",
-            patientId = "pat_ramesh",
+    // ──────────────────────────────────────────────
+    // SAMPLE REFERRALS — for demo/testing
+    // ──────────────────────────────────────────────
+    val initialReferrals = listOf(
+        Referral(
+            id = "ref_sample_1",
+            caseId = "case_demo_1",
+            patientId = "demo_patient_1",
             patientName = "Ramesh Kumar",
-            villageId = "v_sundarpura",
-            villageName = "Sundarpura",
-            category = ConditionCategory.GENERAL_MEDICINE,
-            severity = SeverityLevel.SEVERE,
-            requestedDoctorType = DoctorSpecialty.GENERAL_PHYSICIAN,
-            notes = "Patient experiencing severe coughing with yellowish phlegm, 103°F fever for 3 days, and shortness of breath.",
-            timestamp = System.currentTimeMillis() - 86400000L * 2,
-            ashaProxyLogged = false
+            fromDoctorId = "demo_doc_1",
+            fromDoctorName = "Dr. Rajesh Sharma",
+            fromDepartmentId = "dept_general_medicine",
+            fromDepartmentName = "General Medicine",
+            toDepartmentId = "dept_cardiology",
+            toDepartmentName = "Cardiology",
+            referralType = ReferralType.CLINICAL,
+            urgency = ReferralUrgency.URGENT,
+            reason = "Suspected arrhythmia — ECG shows irregular pattern, needs specialist evaluation",
+            clinicalNotes = "Patient presents with palpitations for 3 days. BP 150/95. ECG shows irregular rhythm. Needs cardiology opinion.",
+            clinicalHistory = "45M, HTN on Amlodipine 5mg. Previous visit for general fever 2 weeks ago.",
+            status = ReferralStatus.PENDING,
+            createdAt = System.currentTimeMillis() - 3600000L
         ),
-        ConditionRecord(
-            id = "cond_2",
-            patientId = "pat_anita",
-            patientName = "Anita Sharma",
-            villageId = "v_sundarpura",
-            villageName = "Sundarpura",
-            category = ConditionCategory.MATERNAL_HEALTH,
-            severity = SeverityLevel.MODERATE,
-            requestedDoctorType = DoctorSpecialty.GYNECOLOGIST,
-            notes = "Week 22 pregnancy checkup. Mild fatigue and leg cramps reported. Hb level 10.2.",
-            timestamp = System.currentTimeMillis() - 86400000L * 4,
-            ashaProxyLogged = true
-        ),
-        ConditionRecord(
-            id = "cond_3",
-            patientId = "pat_vikram",
-            patientName = "Vikram Singh",
-            villageId = "v_kalyanpur",
-            villageName = "Kalyanpur",
-            category = ConditionCategory.GENERAL_MEDICINE,
-            severity = SeverityLevel.HIGH,
-            requestedDoctorType = DoctorSpecialty.GENERAL_PHYSICIAN,
-            notes = "Blood pressure spiked to 160/95. Persistent morning headache and blurry vision on standing.",
-            timestamp = System.currentTimeMillis() - 86400000L * 1,
-            ashaProxyLogged = true
-        ),
-        ConditionRecord(
-            id = "cond_4",
-            patientId = "pat_suresh",
-            patientName = "Suresh Yadav",
-            villageId = "v_kalyanpur",
-            villageName = "Kalyanpur",
-            category = ConditionCategory.MENTAL_HEALTH,
-            severity = SeverityLevel.MODERATE,
-            requestedDoctorType = DoctorSpecialty.PSYCHOLOGIST,
-            notes = "Crop failure stress resulting in insomnia, anxiety attacks, and loss of appetite.",
-            timestamp = System.currentTimeMillis() - 86400000L * 3,
-            ashaProxyLogged = false
-        )
-    )
-
-    val initialPrescriptions = listOf(
-        Prescription(
-            id = "rx_1",
-            patientId = "pat_ramesh",
+        Referral(
+            id = "ref_sample_2",
+            caseId = "case_demo_1",
+            patientId = "demo_patient_1",
             patientName = "Ramesh Kumar",
-            doctorId = "doc_rajesh",
-            doctorName = "Dr. Rajesh Varma",
-            doctorSpecialty = "General Physician",
-            timestamp = System.currentTimeMillis() - 86400000L,
-            dateFormatted = "13 Aug 2026",
-            medicines = listOf(
-                PrescribedMedicine("Amoxicillin 500mg", "1 capsule", "3 times daily after meals", "5 days", 15),
-                PrescribedMedicine("Paracetamol 650mg", "1 tablet", "SOS (if fever > 100°F)", "3 days", 6),
-                PrescribedMedicine("Ambroxol Cough Syrup", "10 ml", "Twice daily after food", "5 days", 1)
-            ),
-            instructions = "Drink lukewarm water, avoid heavy physical labor, and review at PHC if breathing difficulty worsens.",
-            isOcrExtracted = false
-        ),
-        Prescription(
-            id = "rx_2",
-            patientId = "pat_anita",
-            patientName = "Anita Sharma",
-            doctorId = "doc_rajesh",
-            doctorName = "Dr. Rajesh Varma",
-            doctorSpecialty = "General Physician",
-            timestamp = System.currentTimeMillis() - 86400000L * 5,
-            dateFormatted = "09 Aug 2026",
-            medicines = listOf(
-                PrescribedMedicine("Iron Folic Acid (IFA) Tablets", "1 tablet", "Once daily after lunch", "30 days", 30),
-                PrescribedMedicine("Calcium 500mg + Vit D3", "1 tablet", "Once daily after dinner", "30 days", 30)
-            ),
-            instructions = "Do not take Iron and Calcium tablets together. Maintain high green leafy vegetable diet.",
-            isOcrExtracted = true
+            fromDoctorId = "demo_doc_1",
+            fromDoctorName = "Dr. Rajesh Sharma",
+            fromDepartmentId = "dept_general_medicine",
+            fromDepartmentName = "General Medicine",
+            toDepartmentId = "dept_radiology",
+            toDepartmentName = "Radiology & Imaging",
+            referralType = ReferralType.SERVICE,
+            urgency = ReferralUrgency.PRIORITY,
+            reason = "Request PA chest X-Ray to rule out cardiomegaly",
+            clinicalNotes = "Please do PA view chest X-Ray. Patient has suspected cardiac issue with palpitations.",
+            clinicalHistory = "45M, HTN. Presenting with palpitations.",
+            status = ReferralStatus.COMPLETED,
+            serviceReportText = "PA chest X-Ray: Heart size within normal limits. Lung fields clear. No cardiomegaly. Costophrenic angles clear.",
+            serviceReportTimestamp = System.currentTimeMillis() - 1800000L,
+            createdAt = System.currentTimeMillis() - 7200000L,
+            completedAt = System.currentTimeMillis() - 1800000L
         )
     )
 
-    val initialAppointments = listOf(
-        Appointment(
-            id = "apt_1",
-            patientId = "pat_ramesh",
-            patientName = "Ramesh Kumar",
-            doctorId = "doc_rajesh",
-            doctorName = "Dr. Rajesh Varma",
-            doctorSpecialty = "General Physician",
-            dateFormatted = "18 Aug 2026",
-            timeSlot = "10:30 AM",
-            status = "Confirmed",
-            proposedBy = UserRole.DOCTOR
-        ),
-        Appointment(
-            id = "apt_2",
-            patientId = "pat_vikram",
-            patientName = "Vikram Singh",
-            doctorId = "doc_rajesh",
-            doctorName = "Dr. Rajesh Varma",
-            doctorSpecialty = "General Physician",
-            dateFormatted = "16 Aug 2026",
-            timeSlot = "02:00 PM",
-            status = "Confirmed",
-            proposedBy = UserRole.PATIENT
-        ),
-        Appointment(
-            id = "apt_3",
-            patientId = "pat_suresh",
-            patientName = "Suresh Yadav",
-            doctorId = "doc_ananya",
-            doctorName = "Dr. Ananya Sen",
-            doctorSpecialty = "Psychologist & Mental Health",
-            dateFormatted = "17 Aug 2026",
-            timeSlot = "03:30 PM",
-            status = "Pending Confirmation",
-            proposedBy = UserRole.PATIENT
-        )
-    )
-
+    // ──────────────────────────────────────────────
+    // DISPENSARY STOCK (unchanged)
+    // ──────────────────────────────────────────────
     val initialDispensaryItems = listOf(
         DispensaryItem("disp_1", "Paracetamol 650mg", "Analgesic / Antipyretic", 450, "tablets", 100),
         DispensaryItem("disp_2", "Amoxicillin 500mg", "Antibiotic", 180, "capsules", 50),
         DispensaryItem("disp_3", "Oral Rehydration Salts (ORS)", "Hydration", 320, "packets", 80),
         DispensaryItem("disp_4", "Iron & Folic Acid (IFA)", "Maternal / Anemia", 500, "tablets", 150),
         DispensaryItem("disp_5", "Cetirizine 10mg", "Antihistamine", 220, "tablets", 60),
-        DispensaryItem("disp_6", "Amlodipine 5mg", "Hypertension", 35, "tablets", 50), // Low stock
+        DispensaryItem("disp_6", "Amlodipine 5mg", "Hypertension", 35, "tablets", 50),
         DispensaryItem("disp_7", "Metformin 500mg", "Diabetes", 240, "tablets", 70),
-        DispensaryItem("disp_8", "Ambroxol Syrup (100ml)", "Respiratory", 12, "bottles", 20) // Low stock
+        DispensaryItem("disp_8", "Ambroxol Syrup (100ml)", "Respiratory", 12, "bottles", 20)
     )
 
-    val initialNotices = listOf(
-        BroadcastNotice(
-            id = "not_1",
-            senderRole = UserRole.ADMIN,
-            senderName = "District Chief Medical Officer",
-            targetRole = "ALL",
-            targetVillage = "Sundarpura",
-            title = "⚠️ Seasonal Viral & Fever Outbreak Advisory",
-            message = "High incidence of respiratory fever detected in Sundarpura. All ASHA workers are requested to conduct door-to-door temperature monitoring and distribute ORS packets.",
-            timestamp = System.currentTimeMillis() - 3600000L * 4,
-            isUrgent = true
-        ),
-        BroadcastNotice(
-            id = "not_2",
-            senderRole = UserRole.ASHA,
-            senderName = "Priya Devi (ASHA-7701)",
-            targetRole = "PATIENT",
-            targetVillage = "Sundarpura",
-            title = "👶 Weekly Village Maternal Immunization Camp",
-            message = "Immunization and nutrition checkup camp this Friday at Sundarpura Primary School from 9:00 AM to 1:00 PM. Please bring your Health Card.",
-            timestamp = System.currentTimeMillis() - 3600000L * 18,
-            isUrgent = false
-        )
-    )
-
+    // ──────────────────────────────────────────────
+    // GOVERNMENT SCHEMES (unchanged)
+    // ──────────────────────────────────────────────
     val initialSchemes = listOf(
-        GovernmentScheme(
-            id = "sch_1",
-            title = "Ayushman Bharat — PM-JAY",
-            category = "Universal Health Coverage",
-            targetBeneficiary = "All Rural Families / BPL Card Holders",
-            benefitsSummary = "Cashless health cover up to ₹5 Lakh per family per year for secondary and tertiary hospitalization care.",
-            eligibility = "Identified via SECC 2011 database or verified ration card holder."
-        ),
-        GovernmentScheme(
-            id = "sch_2",
-            title = "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
-            category = "Maternal & Child Health",
-            targetBeneficiary = "Pregnant Women & Lactating Mothers",
-            benefitsSummary = "Direct cash incentive of ₹5,000 in three installments upon early pregnancy registration and institutional delivery.",
-            eligibility = "First live birth, registered at Anganwadi/PHC center."
-        ),
-        GovernmentScheme(
-            id = "sch_3",
-            title = "Rashtriya Kishor Swasthya Karyakram (RKSK)",
-            category = "Adolescent & Mental Health",
-            targetBeneficiary = "Adolescents (Age 10–19)",
-            benefitsSummary = "Free peer counseling, nutrition advice, IFA supplements, and mental wellness support at Adolescent Friendly Health Clinics (AFHC).",
-            eligibility = "All rural adolescents residing in the district."
-        ),
-        GovernmentScheme(
-            id = "sch_4",
-            title = "National TB Elimination Programme (Nikshay Poshan)",
-            category = "Communicable Diseases",
-            targetBeneficiary = "Notified TB Patients",
-            benefitsSummary = "Financial incentive of ₹500/month directly into bank account for nutritional support throughout treatment.",
-            eligibility = "All active TB patients registered on the Nikshay portal."
-        )
+        GovernmentScheme(id = "sch_1", title = "Ayushman Bharat — PM-JAY", category = "Universal Health Coverage", targetBeneficiary = "All Rural Families / BPL Card Holders", benefitsSummary = "Cashless health cover up to ₹5 Lakh per family per year for secondary and tertiary hospitalization care.", eligibility = "Identified via SECC 2011 database or verified ration card holder."),
+        GovernmentScheme(id = "sch_2", title = "Pradhan Mantri Matru Vandana Yojana (PMMVY)", category = "Maternal & Child Health", targetBeneficiary = "Pregnant Women & Lactating Mothers", benefitsSummary = "Direct cash incentive of ₹5,000 in three installments upon early pregnancy registration and institutional delivery.", eligibility = "First live birth, registered at Anganwadi/PHC center."),
+        GovernmentScheme(id = "sch_3", title = "Rashtriya Kishor Swasthya Karyakram (RKSK)", category = "Adolescent & Mental Health", targetBeneficiary = "Adolescents (Age 10–19)", benefitsSummary = "Free peer counseling, nutrition advice, IFA supplements, and mental wellness support at Adolescent Friendly Health Clinics (AFHC).", eligibility = "All rural adolescents residing in the district."),
+        GovernmentScheme(id = "sch_4", title = "National TB Elimination Programme (Nikshay Poshan)", category = "Communicable Diseases", targetBeneficiary = "Notified TB Patients", benefitsSummary = "Financial incentive of ₹500/month directly into bank account for nutritional support throughout treatment.", eligibility = "All active TB patients registered on the Nikshay portal.")
     )
 
-    // Entity conversions for Room seeding
-    fun getVillageEntities(): List<VillageEntity> = initialVillages.map {
-        VillageEntity(it.id, it.name, it.district, it.state, it.population, it.latitude, it.longitude, it.activeCases, it.highRiskCount)
-    }
-
-    fun getAshaEntities(): List<AshaWorkerEntity> = initialAshaWorkers.map {
-        AshaWorkerEntity(it.id, it.name, it.ashaUniqueId, it.phone, gson.toJson(it.assignedVillages), it.activePatientCount, it.alertCount)
-    }
-
-    fun getDoctorEntities(): List<DoctorEntity> = initialDoctors.map {
-        DoctorEntity(it.id, it.name, it.specialty, it.qualification, it.hospitalName, it.distanceKm, it.phone, it.availableDays)
-    }
-
-    fun getPatientEntities(): List<PatientEntity> = initialPatients.map {
-        PatientEntity(it.id, it.name, it.age, it.gender, it.phone, it.villageId, it.villageName, it.ashaWorkerId, it.ashaWorkerName, it.currentRiskLevel, it.lastCondition, it.lastVisitDate, it.nextAppointmentDate, it.emergencyContact, it.profilePhotoUrl)
-    }
-
-    fun getConditionEntities(): List<ConditionRecordEntity> = initialConditionRecords.map {
-        ConditionRecordEntity(
-            it.id, it.patientId, it.patientName, it.villageId, it.villageName,
-            it.category, it.severity, it.requestedDoctorType, it.notes, it.timestamp,
-            it.ashaProxyLogged, it.status, it.assignedDoctorId, it.assignedDoctorName,
-            it.doctorResponse, it.doctorResponseTimestamp, it.doctorResponseDoctorName,
-            it.privateDoctorNotes, it.referredByDoctorId, it.referredByDoctorName,
-            it.referralNotes, it.isPendingSync
+    // ──────────────────────────────────────────────
+    // Entity conversion helpers
+    // ──────────────────────────────────────────────
+    fun getDepartmentEntities(): List<DepartmentEntity> = initialDepartments.map {
+        DepartmentEntity(
+            id = it.id, name = it.name, code = it.code, emoji = it.emoji,
+            type = it.type, colorHex = it.colorHex,
+            headDoctorId = it.headDoctorId, headDoctorName = it.headDoctorName,
+            isActive = it.isActive, availableDoctorCount = it.availableDoctorCount,
+            pendingReferralCount = it.pendingReferralCount, description = it.description,
+            operatingHours = it.operatingHours, location = it.location
         )
     }
 
-    fun getPrescriptionEntities(): List<PrescriptionEntity> = initialPrescriptions.map {
-        PrescriptionEntity(
-            it.id, it.caseId, it.patientId, it.patientName, it.doctorId, it.doctorName,
-            it.doctorSpecialty, it.timestamp, it.dateFormatted, gson.toJson(it.medicines),
-            it.instructions, it.isOcrExtracted
-        )
-    }
-
-    fun getAppointmentEntities(): List<AppointmentEntity> = initialAppointments.map {
-        AppointmentEntity(
-            it.id, it.patientId, it.patientName, it.doctorId, it.doctorName,
-            it.doctorSpecialty, it.dateFormatted, it.timeSlot, it.status, it.proposedBy,
-            it.outcomeNotes
+    fun getReferralEntities(): List<ReferralEntity> = initialReferrals.map {
+        ReferralEntity(
+            id = it.id, caseId = it.caseId, patientId = it.patientId,
+            patientName = it.patientName, fromDoctorId = it.fromDoctorId,
+            fromDoctorName = it.fromDoctorName, fromDepartmentId = it.fromDepartmentId,
+            fromDepartmentName = it.fromDepartmentName, toDepartmentId = it.toDepartmentId,
+            toDepartmentName = it.toDepartmentName, toDoctorId = it.toDoctorId,
+            toDoctorName = it.toDoctorName, referralType = it.referralType,
+            urgency = it.urgency, reason = it.reason, clinicalNotes = it.clinicalNotes,
+            clinicalHistory = it.clinicalHistory, status = it.status,
+            acceptedByDoctorId = it.acceptedByDoctorId,
+            acceptedByDoctorName = it.acceptedByDoctorName,
+            acceptedAt = it.acceptedAt, serviceReportText = it.serviceReportText,
+            serviceReportAttachmentPath = it.serviceReportAttachmentPath,
+            serviceReportAttachmentUrl = it.serviceReportAttachmentUrl,
+            serviceReportTimestamp = it.serviceReportTimestamp,
+            parentReferralId = it.parentReferralId,
+            referralChainIndex = it.referralChainIndex,
+            createdAt = it.createdAt, updatedAt = it.updatedAt,
+            completedAt = it.completedAt
         )
     }
 
     fun getDispensaryEntities(): List<DispensaryEntity> = initialDispensaryItems.map {
         DispensaryEntity(it.id, it.medicineName, it.category, it.availableQuantity, it.unit, it.reorderThreshold)
-    }
-
-    fun getNoticeEntities(): List<BroadcastNoticeEntity> = initialNotices.map {
-        BroadcastNoticeEntity(it.id, it.senderRole, it.senderName, it.targetRole, it.targetVillage, it.title, it.message, it.timestamp, it.isUrgent)
     }
 
     fun getSchemeEntities(): List<GovernmentSchemeEntity> = initialSchemes.map {

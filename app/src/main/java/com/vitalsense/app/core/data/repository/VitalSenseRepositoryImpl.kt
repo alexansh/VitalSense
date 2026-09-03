@@ -24,31 +24,36 @@ class VitalSenseRepositoryImpl @Inject constructor(
     private val scope = CoroutineScope(Dispatchers.IO)
 
     // In-memory reactive state caches for instant UI response (zero lag on stage)
-    private val _villages = MutableStateFlow(SeedDataProvider.initialVillages)
-    private val _patients = MutableStateFlow(SeedDataProvider.initialPatients)
-    private val _ashaWorkers = MutableStateFlow(SeedDataProvider.initialAshaWorkers)
-    private val _doctors = MutableStateFlow(SeedDataProvider.initialDoctors)
-    private val _conditions = MutableStateFlow(SeedDataProvider.initialConditionRecords)
-    private val _prescriptions = MutableStateFlow(SeedDataProvider.initialPrescriptions)
-    private val _appointments = MutableStateFlow(SeedDataProvider.initialAppointments)
-    private val _notices = MutableStateFlow(SeedDataProvider.initialNotices)
+    private val _villages = MutableStateFlow<List<Village>>(emptyList())
+    private val _patients = MutableStateFlow<List<Patient>>(emptyList())
+    private val _ashaWorkers = MutableStateFlow<List<AshaWorker>>(emptyList())
+    private val _doctors = MutableStateFlow<List<Doctor>>(emptyList())
+    private val _conditions = MutableStateFlow<List<ConditionRecord>>(emptyList())
+    private val _prescriptions = MutableStateFlow<List<Prescription>>(emptyList())
+    private val _appointments = MutableStateFlow<List<Appointment>>(emptyList())
+    private val _notices = MutableStateFlow<List<BroadcastNotice>>(emptyList())
     private val _dispensary = MutableStateFlow(SeedDataProvider.initialDispensaryItems)
     private val _schemes = MutableStateFlow(SeedDataProvider.initialSchemes)
+
+    private val _departments = MutableStateFlow(SeedDataProvider.initialDepartments)
+    private val _referrals = MutableStateFlow(SeedDataProvider.initialReferrals)
 
     init {
         // 1. Pre-seed local Room database on first launch
         scope.launch {
             try {
-                dao.insertVillages(SeedDataProvider.getVillageEntities())
-                dao.insertAshaWorkers(SeedDataProvider.getAshaEntities())
-                dao.insertDoctors(SeedDataProvider.getDoctorEntities())
-                dao.insertPatients(SeedDataProvider.getPatientEntities())
-                dao.insertConditionRecords(SeedDataProvider.getConditionEntities())
-                dao.insertPrescriptions(SeedDataProvider.getPrescriptionEntities())
-                dao.insertAppointments(SeedDataProvider.getAppointmentEntities())
+                // dao.insertVillages(SeedDataProvider.getVillageEntities())
+                // dao.insertAshaWorkers(SeedDataProvider.getAshaEntities())
+                // dao.insertDoctors(SeedDataProvider.getDoctorEntities())
+                // dao.insertPatients(SeedDataProvider.getPatientEntities())
+                // dao.insertConditionRecords(SeedDataProvider.getConditionEntities())
+                // dao.insertPrescriptions(SeedDataProvider.getPrescriptionEntities())
+                // dao.insertAppointments(SeedDataProvider.getAppointmentEntities())
                 dao.insertDispensaryItems(SeedDataProvider.getDispensaryEntities())
-                dao.insertNotices(SeedDataProvider.getNoticeEntities())
+                // dao.insertNotices(SeedDataProvider.getNoticeEntities())
                 dao.insertSchemes(SeedDataProvider.getSchemeEntities())
+                dao.insertDepartments(SeedDataProvider.getDepartmentEntities())
+                dao.insertReferrals(SeedDataProvider.getReferralEntities())
             } catch (e: Exception) {
                 // Fallback to in-memory state
             }
@@ -72,6 +77,30 @@ class VitalSenseRepositoryImpl @Inject constructor(
                 firestoreDataSource.getBroadcastNoticesStream().collect { remoteNotices ->
                     if (remoteNotices.isNotEmpty()) {
                         _notices.update { remoteNotices }
+                    }
+                }
+            } catch (e: Exception) {
+                // Offline fallback
+            }
+        }
+
+        scope.launch {
+            try {
+                firestoreDataSource.getDepartmentsStream().collect { remoteDeps ->
+                    if (remoteDeps.isNotEmpty()) {
+                        _departments.update { remoteDeps }
+                    }
+                }
+            } catch (e: Exception) {
+                // Offline fallback
+            }
+        }
+
+        scope.launch {
+            try {
+                firestoreDataSource.getReferralsStream().collect { remoteRefs ->
+                    if (remoteRefs.isNotEmpty()) {
+                        _referrals.update { remoteRefs }
                     }
                 }
             } catch (e: Exception) {
@@ -214,7 +243,7 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     record.assignedDoctorName, record.doctorResponse, record.doctorResponseTimestamp,
                     record.doctorResponseDoctorName, record.privateDoctorNotes,
                     record.referredByDoctorId, record.referredByDoctorName,
-                    record.referralNotes, isPendingSync = true
+                    record.referralNotes, syncState = SyncState.PENDING
                 )
             )
 
@@ -229,7 +258,7 @@ class VitalSenseRepositoryImpl @Inject constructor(
                         record.assignedDoctorName, record.doctorResponse, record.doctorResponseTimestamp,
                         record.doctorResponseDoctorName, record.privateDoctorNotes,
                         record.referredByDoctorId, record.referredByDoctorName,
-                        record.referralNotes, isPendingSync = false
+                        record.referralNotes, syncState = SyncState.SYNCED
                     )
                 )
             } catch (e: Exception) {
@@ -278,7 +307,7 @@ class VitalSenseRepositoryImpl @Inject constructor(
                         record.assignedDoctorName, record.doctorResponse, record.doctorResponseTimestamp,
                         record.doctorResponseDoctorName, record.privateDoctorNotes,
                         record.referredByDoctorId, record.referredByDoctorName,
-                        record.referralNotes, isPendingSync = false
+                        record.referralNotes, syncState = SyncState.SYNCED
                     )
                 )
                 try {
@@ -327,7 +356,7 @@ class VitalSenseRepositoryImpl @Inject constructor(
                         record.assignedDoctorName, record.doctorResponse, record.doctorResponseTimestamp,
                         record.doctorResponseDoctorName, record.privateDoctorNotes,
                         record.referredByDoctorId, record.referredByDoctorName,
-                        record.referralNotes, isPendingSync = false
+                        record.referralNotes, syncState = SyncState.SYNCED
                     )
                 )
                 try {
@@ -491,6 +520,332 @@ class VitalSenseRepositoryImpl @Inject constructor(
 
     // --- Government Schemes ---
     override fun getGovernmentSchemes(): Flow<List<GovernmentScheme>> = _schemes.asStateFlow()
+
+    // --- Departments ---
+    override fun getDepartments(): Flow<List<Department>> = _departments.asStateFlow()
+
+    override fun getActiveDepartments(): Flow<List<Department>> = _departments.map { list ->
+        list.filter { it.isActive }.sortedWith(compareBy({ it.type }, { it.name }))
+    }
+
+    override fun getDepartmentById(id: String): Flow<Department?> = _departments.map { list ->
+        list.find { it.id == id }
+    }
+
+    override fun getDoctorsByDepartment(departmentId: String): Flow<List<Doctor>> = _doctors.map { list ->
+        list.filter { it.departmentId == departmentId }
+    }
+
+    override suspend fun saveDepartment(department: Department) {
+        _departments.update { list ->
+            val index = list.indexOfFirst { it.id == department.id }
+            if (index >= 0) {
+                list.toMutableList().apply { set(index, department) }
+            } else {
+                list + department
+            }
+        }
+        scope.launch {
+            dao.insertDepartment(
+                DepartmentEntity(
+                    id = department.id, name = department.name, code = department.code, emoji = department.emoji,
+                    type = department.type, colorHex = department.colorHex, headDoctorId = department.headDoctorId,
+                    headDoctorName = department.headDoctorName, isActive = department.isActive,
+                    availableDoctorCount = department.availableDoctorCount, pendingReferralCount = department.pendingReferralCount,
+                    description = department.description, operatingHours = department.operatingHours, location = department.location
+                )
+            )
+            try {
+                firestoreDataSource.uploadDepartment(department)
+            } catch (e: Exception) {
+                // Offline fallback
+            }
+        }
+    }
+
+    // --- Referrals ---
+    override fun getReferrals(): Flow<List<Referral>> = _referrals.asStateFlow()
+
+    override fun getReferralsForPatient(patientId: String): Flow<List<Referral>> = _referrals.map { list ->
+        list.filter { it.patientId == patientId }.sortedByDescending { it.createdAt }
+    }
+
+    override fun getReferralChainForCase(caseId: String): Flow<List<Referral>> = _referrals.map { list ->
+        list.filter { it.caseId == caseId }.sortedBy { it.referralChainIndex }
+    }
+
+    override fun getIncomingReferralsForDepartment(departmentId: String): Flow<List<Referral>> = _referrals.map { list ->
+        list.filter {
+            it.toDepartmentId == departmentId &&
+            it.status in listOf(ReferralStatus.PENDING, ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS)
+        }.sortedWith(
+            compareBy<Referral> { ref ->
+                when (ref.urgency) {
+                    ReferralUrgency.EMERGENCY -> 0
+                    ReferralUrgency.URGENT -> 1
+                    ReferralUrgency.PRIORITY -> 2
+                    ReferralUrgency.ROUTINE -> 3
+                }
+            }.thenBy { it.createdAt }
+        )
+    }
+
+    override fun getPendingReferralsForDoctor(doctorId: String, departmentId: String): Flow<List<Referral>> = _referrals.map { list ->
+        list.filter {
+            (it.toDoctorId == doctorId || (it.toDepartmentId == departmentId && it.toDoctorId.isNullOrEmpty())) &&
+            it.status == ReferralStatus.PENDING
+        }.sortedWith(
+            compareBy<Referral> { ref ->
+                when (ref.urgency) {
+                    ReferralUrgency.EMERGENCY -> 0
+                    ReferralUrgency.URGENT -> 1
+                    ReferralUrgency.PRIORITY -> 2
+                    ReferralUrgency.ROUTINE -> 3
+                }
+            }.thenBy { it.createdAt }
+        )
+    }
+
+    override fun getSentReferralsByDoctor(doctorId: String): Flow<List<Referral>> = _referrals.map { list ->
+        list.filter { it.fromDoctorId == doctorId }.sortedByDescending { it.createdAt }
+    }
+
+    override suspend fun createReferral(referral: Referral) {
+        _referrals.update { listOf(referral) + it }
+
+        scope.launch {
+            dao.insertReferral(
+                ReferralEntity(
+                    id = referral.id, caseId = referral.caseId, patientId = referral.patientId,
+                    patientName = referral.patientName, fromDoctorId = referral.fromDoctorId,
+                    fromDoctorName = referral.fromDoctorName, fromDepartmentId = referral.fromDepartmentId,
+                    fromDepartmentName = referral.fromDepartmentName, toDepartmentId = referral.toDepartmentId,
+                    toDepartmentName = referral.toDepartmentName, toDoctorId = referral.toDoctorId,
+                    toDoctorName = referral.toDoctorName, referralType = referral.referralType,
+                    urgency = referral.urgency, reason = referral.reason, clinicalNotes = referral.clinicalNotes,
+                    clinicalHistory = referral.clinicalHistory, status = referral.status,
+                    acceptedByDoctorId = referral.acceptedByDoctorId, acceptedByDoctorName = referral.acceptedByDoctorName,
+                    acceptedAt = referral.acceptedAt, serviceReportText = referral.serviceReportText,
+                    serviceReportAttachmentPath = referral.serviceReportAttachmentPath,
+                    serviceReportAttachmentUrl = referral.serviceReportAttachmentUrl,
+                    serviceReportTimestamp = referral.serviceReportTimestamp,
+                    parentReferralId = referral.parentReferralId, referralChainIndex = referral.referralChainIndex,
+                    createdAt = referral.createdAt, updatedAt = referral.updatedAt, completedAt = referral.completedAt
+                )
+            )
+            try {
+                firestoreDataSource.uploadReferral(referral)
+            } catch (e: Exception) {
+                // Offline fallback
+            }
+        }
+    }
+
+    override suspend fun acceptReferral(referralId: String, doctorId: String, doctorName: String) {
+        var updatedRef: Referral? = null
+        val now = System.currentTimeMillis()
+        
+        _referrals.update { list ->
+            list.map { ref ->
+                if (ref.id == referralId) {
+                    val updated = ref.copy(
+                        status = ReferralStatus.ACCEPTED,
+                        acceptedByDoctorId = doctorId,
+                        acceptedByDoctorName = doctorName,
+                        acceptedAt = now,
+                        updatedAt = now
+                    )
+                    updatedRef = updated
+                    updated
+                } else ref
+            }
+        }
+        
+        updatedRef?.let { ref ->
+            scope.launch {
+                dao.insertReferral(
+                    ReferralEntity(
+                        id = ref.id, caseId = ref.caseId, patientId = ref.patientId,
+                        patientName = ref.patientName, fromDoctorId = ref.fromDoctorId,
+                        fromDoctorName = ref.fromDoctorName, fromDepartmentId = ref.fromDepartmentId,
+                        fromDepartmentName = ref.fromDepartmentName, toDepartmentId = ref.toDepartmentId,
+                        toDepartmentName = ref.toDepartmentName, toDoctorId = ref.toDoctorId,
+                        toDoctorName = ref.toDoctorName, referralType = ref.referralType,
+                        urgency = ref.urgency, reason = ref.reason, clinicalNotes = ref.clinicalNotes,
+                        clinicalHistory = ref.clinicalHistory, status = ref.status,
+                        acceptedByDoctorId = ref.acceptedByDoctorId, acceptedByDoctorName = ref.acceptedByDoctorName,
+                        acceptedAt = ref.acceptedAt, serviceReportText = ref.serviceReportText,
+                        serviceReportAttachmentPath = ref.serviceReportAttachmentPath,
+                        serviceReportAttachmentUrl = ref.serviceReportAttachmentUrl,
+                        serviceReportTimestamp = ref.serviceReportTimestamp,
+                        parentReferralId = ref.parentReferralId, referralChainIndex = ref.referralChainIndex,
+                        createdAt = ref.createdAt, updatedAt = ref.updatedAt, completedAt = ref.completedAt
+                    )
+                )
+                try {
+                    firestoreDataSource.uploadReferral(ref)
+                } catch (e: Exception) {
+                    // Offline fallback
+                }
+            }
+        }
+    }
+
+    override suspend fun submitServiceReport(referralId: String, reportText: String, attachmentPath: String?) {
+        var updatedRef: Referral? = null
+        val now = System.currentTimeMillis()
+        
+        _referrals.update { list ->
+            list.map { ref ->
+                if (ref.id == referralId) {
+                    val updated = ref.copy(
+                        status = ReferralStatus.REPORT_SUBMITTED,
+                        serviceReportText = reportText,
+                        serviceReportAttachmentPath = attachmentPath,
+                        serviceReportTimestamp = now,
+                        updatedAt = now
+                    )
+                    updatedRef = updated
+                    updated
+                } else ref
+            }
+        }
+        
+        updatedRef?.let { ref ->
+            scope.launch {
+                dao.insertReferral(
+                    ReferralEntity(
+                        id = ref.id, caseId = ref.caseId, patientId = ref.patientId,
+                        patientName = ref.patientName, fromDoctorId = ref.fromDoctorId,
+                        fromDoctorName = ref.fromDoctorName, fromDepartmentId = ref.fromDepartmentId,
+                        fromDepartmentName = ref.fromDepartmentName, toDepartmentId = ref.toDepartmentId,
+                        toDepartmentName = ref.toDepartmentName, toDoctorId = ref.toDoctorId,
+                        toDoctorName = ref.toDoctorName, referralType = ref.referralType,
+                        urgency = ref.urgency, reason = ref.reason, clinicalNotes = ref.clinicalNotes,
+                        clinicalHistory = ref.clinicalHistory, status = ref.status,
+                        acceptedByDoctorId = ref.acceptedByDoctorId, acceptedByDoctorName = ref.acceptedByDoctorName,
+                        acceptedAt = ref.acceptedAt, serviceReportText = ref.serviceReportText,
+                        serviceReportAttachmentPath = ref.serviceReportAttachmentPath,
+                        serviceReportAttachmentUrl = ref.serviceReportAttachmentUrl,
+                        serviceReportTimestamp = ref.serviceReportTimestamp,
+                        parentReferralId = ref.parentReferralId, referralChainIndex = ref.referralChainIndex,
+                        createdAt = ref.createdAt, updatedAt = ref.updatedAt, completedAt = ref.completedAt
+                    )
+                )
+                try {
+                    firestoreDataSource.uploadReferral(ref)
+                } catch (e: Exception) {
+                    // Offline fallback
+                }
+            }
+        }
+    }
+
+    override suspend fun completeReferral(referralId: String) {
+        var updatedRef: Referral? = null
+        val now = System.currentTimeMillis()
+        
+        _referrals.update { list ->
+            list.map { ref ->
+                if (ref.id == referralId) {
+                    val updated = ref.copy(
+                        status = ReferralStatus.COMPLETED,
+                        completedAt = now,
+                        updatedAt = now
+                    )
+                    updatedRef = updated
+                    updated
+                } else ref
+            }
+        }
+        
+        updatedRef?.let { ref ->
+            scope.launch {
+                dao.insertReferral(
+                    ReferralEntity(
+                        id = ref.id, caseId = ref.caseId, patientId = ref.patientId,
+                        patientName = ref.patientName, fromDoctorId = ref.fromDoctorId,
+                        fromDoctorName = ref.fromDoctorName, fromDepartmentId = ref.fromDepartmentId,
+                        fromDepartmentName = ref.fromDepartmentName, toDepartmentId = ref.toDepartmentId,
+                        toDepartmentName = ref.toDepartmentName, toDoctorId = ref.toDoctorId,
+                        toDoctorName = ref.toDoctorName, referralType = ref.referralType,
+                        urgency = ref.urgency, reason = ref.reason, clinicalNotes = ref.clinicalNotes,
+                        clinicalHistory = ref.clinicalHistory, status = ref.status,
+                        acceptedByDoctorId = ref.acceptedByDoctorId, acceptedByDoctorName = ref.acceptedByDoctorName,
+                        acceptedAt = ref.acceptedAt, serviceReportText = ref.serviceReportText,
+                        serviceReportAttachmentPath = ref.serviceReportAttachmentPath,
+                        serviceReportAttachmentUrl = ref.serviceReportAttachmentUrl,
+                        serviceReportTimestamp = ref.serviceReportTimestamp,
+                        parentReferralId = ref.parentReferralId, referralChainIndex = ref.referralChainIndex,
+                        createdAt = ref.createdAt, updatedAt = ref.updatedAt, completedAt = ref.completedAt
+                    )
+                )
+                try {
+                    firestoreDataSource.uploadReferral(ref)
+                } catch (e: Exception) {
+                    // Offline fallback
+                }
+            }
+        }
+    }
+
+    override suspend fun cancelReferral(referralId: String) {
+        var updatedRef: Referral? = null
+        val now = System.currentTimeMillis()
+        
+        _referrals.update { list ->
+            list.map { ref ->
+                if (ref.id == referralId) {
+                    val updated = ref.copy(
+                        status = ReferralStatus.CANCELLED,
+                        updatedAt = now
+                    )
+                    updatedRef = updated
+                    updated
+                } else ref
+            }
+        }
+        
+        updatedRef?.let { ref ->
+            scope.launch {
+                dao.insertReferral(
+                    ReferralEntity(
+                        id = ref.id, caseId = ref.caseId, patientId = ref.patientId,
+                        patientName = ref.patientName, fromDoctorId = ref.fromDoctorId,
+                        fromDoctorName = ref.fromDoctorName, fromDepartmentId = ref.fromDepartmentId,
+                        fromDepartmentName = ref.fromDepartmentName, toDepartmentId = ref.toDepartmentId,
+                        toDepartmentName = ref.toDepartmentName, toDoctorId = ref.toDoctorId,
+                        toDoctorName = ref.toDoctorName, referralType = ref.referralType,
+                        urgency = ref.urgency, reason = ref.reason, clinicalNotes = ref.clinicalNotes,
+                        clinicalHistory = ref.clinicalHistory, status = ref.status,
+                        acceptedByDoctorId = ref.acceptedByDoctorId, acceptedByDoctorName = ref.acceptedByDoctorName,
+                        acceptedAt = ref.acceptedAt, serviceReportText = ref.serviceReportText,
+                        serviceReportAttachmentPath = ref.serviceReportAttachmentPath,
+                        serviceReportAttachmentUrl = ref.serviceReportAttachmentUrl,
+                        serviceReportTimestamp = ref.serviceReportTimestamp,
+                        parentReferralId = ref.parentReferralId, referralChainIndex = ref.referralChainIndex,
+                        createdAt = ref.createdAt, updatedAt = ref.updatedAt, completedAt = ref.completedAt
+                    )
+                )
+                try {
+                    firestoreDataSource.uploadReferral(ref)
+                } catch (e: Exception) {
+                    // Offline fallback
+                }
+            }
+        }
+    }
+
+    // --- Patient History ---
+    override fun getPatientFullHistory(patientId: String): Flow<PatientHistory> = combine(
+        getPatientById(patientId).filterNotNull(),
+        getConditionRecordsForPatient(patientId),
+        getPrescriptionsForPatient(patientId),
+        getAppointmentsForPatient(patientId),
+        getReferralsForPatient(patientId)
+    ) { patient, conditions, prescriptions, appointments, referrals ->
+        PatientHistory(patient, conditions, prescriptions, appointments, referrals)
+    }
 
     // --- Emergency SOS ---
     override suspend fun triggerEmergencySos(

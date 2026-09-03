@@ -23,6 +23,8 @@ class PatientViewModel @Inject constructor(
     private val _uiEvent = kotlinx.coroutines.flow.MutableSharedFlow<String>()
     val uiEvent = _uiEvent.asSharedFlow()
 
+    fun getPatientFullHistory(patientId: String) = repository.getPatientFullHistory(patientId)
+
     fun logMentalWellness(
         patient: Patient,
         moodNotes: String,
@@ -43,7 +45,7 @@ class PatientViewModel @Inject constructor(
                     notes = moodNotes,
                     timestamp = System.currentTimeMillis(),
                     ashaProxyLogged = isProxy,
-                    isPendingSync = true
+                    syncState = com.vitalsense.app.core.data.model.SyncState.PENDING
                 )
                 repository.logCondition(record)
                 _uiEvent.emit("Mental wellness check-in saved successfully")

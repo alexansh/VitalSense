@@ -67,7 +67,8 @@ class FirestoreDataSource @Inject constructor(
                 "referredByDoctorId" to (record.referredByDoctorId ?: ""),
                 "referredByDoctorName" to (record.referredByDoctorName ?: ""),
                 "referralNotes" to (record.referralNotes ?: ""),
-                "isPendingSync" to false
+                "syncState" to "SYNCED",
+                "serverVersion" to 0L
             )
             conditionsCollection.document(record.id).set(data).await()
             Log.d(TAG, "✅ Successfully uploaded condition_record: ${record.id} (${record.patientName})")
@@ -180,6 +181,78 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
+    suspend fun uploadDepartment(department: Department) {
+        try {
+            val data = hashMapOf(
+                "id" to department.id,
+                "name" to department.name,
+                "code" to department.code,
+                "emoji" to department.emoji,
+                "type" to department.type.name,
+                "colorHex" to department.colorHex,
+                "headDoctorId" to (department.headDoctorId ?: ""),
+                "headDoctorName" to (department.headDoctorName ?: ""),
+                "isActive" to department.isActive,
+                "availableDoctorCount" to department.availableDoctorCount,
+                "pendingReferralCount" to department.pendingReferralCount,
+                "description" to department.description,
+                "operatingHours" to department.operatingHours,
+                "location" to department.location,
+                "syncState" to "SYNCED",
+                "serverVersion" to 0L
+            )
+            firestore.collection("departments").document(department.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded department: ${department.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload department: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadReferral(referral: Referral) {
+        try {
+            val data = hashMapOf(
+                "id" to referral.id,
+                "caseId" to referral.caseId,
+                "patientId" to referral.patientId,
+                "patientName" to referral.patientName,
+                "fromDoctorId" to referral.fromDoctorId,
+                "fromDoctorName" to referral.fromDoctorName,
+                "fromDepartmentId" to referral.fromDepartmentId,
+                "fromDepartmentName" to referral.fromDepartmentName,
+                "toDepartmentId" to referral.toDepartmentId,
+                "toDepartmentName" to referral.toDepartmentName,
+                "toDoctorId" to (referral.toDoctorId ?: ""),
+                "toDoctorName" to (referral.toDoctorName ?: ""),
+                "referralType" to referral.referralType.name,
+                "urgency" to referral.urgency.name,
+                "reason" to referral.reason,
+                "clinicalNotes" to referral.clinicalNotes,
+                "clinicalHistory" to referral.clinicalHistory,
+                "status" to referral.status.name,
+                "acceptedByDoctorId" to (referral.acceptedByDoctorId ?: ""),
+                "acceptedByDoctorName" to (referral.acceptedByDoctorName ?: ""),
+                "acceptedAt" to (referral.acceptedAt ?: 0L),
+                "serviceReportText" to (referral.serviceReportText ?: ""),
+                "serviceReportAttachmentPath" to (referral.serviceReportAttachmentPath ?: ""),
+                "serviceReportAttachmentUrl" to (referral.serviceReportAttachmentUrl ?: ""),
+                "serviceReportTimestamp" to (referral.serviceReportTimestamp ?: 0L),
+                "parentReferralId" to (referral.parentReferralId ?: ""),
+                "referralChainIndex" to referral.referralChainIndex,
+                "createdAt" to referral.createdAt,
+                "updatedAt" to referral.updatedAt,
+                "completedAt" to (referral.completedAt ?: 0L),
+                "syncState" to "SYNCED",
+                "serverVersion" to 0L
+            )
+            firestore.collection("referrals").document(referral.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded referral: ${referral.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload referral: ${e.message}", e)
+            throw e
+        }
+    }
+
     // --- REAL-TIME LISTENERS (Reads) ---
 
     fun getConditionRecordsStream(): Flow<List<ConditionRecord>> = callbackFlow {
@@ -216,7 +289,8 @@ class FirestoreDataSource @Inject constructor(
                             referredByDoctorId = doc.getString("referredByDoctorId")?.takeIf { it.isNotBlank() },
                             referredByDoctorName = doc.getString("referredByDoctorName")?.takeIf { it.isNotBlank() },
                             referralNotes = doc.getString("referralNotes")?.takeIf { it.isNotBlank() },
-                            isPendingSync = false
+                            syncState = com.vitalsense.app.core.data.model.SyncState.SYNCED,
+                            serverVersion = 0L
                         )
                     } catch (e: Exception) {
                         null
@@ -248,6 +322,98 @@ class FirestoreDataSource @Inject constructor(
                             message = doc.getString("message") ?: "",
                             timestamp = doc.getLong("timestamp") ?: System.currentTimeMillis(),
                             isUrgent = doc.getBoolean("isUrgent") ?: false
+                        )
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+                trySend(list)
+            }
+        }
+        awaitClose { listener.remove() }
+    }
+
+    fun getDepartmentsStream(): Flow<List<Department>> = callbackFlow {
+        val listener = firestore.collection("departments").addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                Log.w(TAG, "Departments stream error: ${error.message}")
+                close(error)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val list = snapshot.documents.mapNotNull { doc ->
+                    try {
+                        Department(
+                            id = doc.getString("id") ?: doc.id,
+                            name = doc.getString("name") ?: "",
+                            code = doc.getString("code") ?: "",
+                            emoji = doc.getString("emoji") ?: "",
+                            type = runCatching { DepartmentType.valueOf(doc.getString("type") ?: "CLINICAL") }.getOrDefault(DepartmentType.CLINICAL),
+                            colorHex = doc.getLong("colorHex") ?: 0xFFE8EB7D,
+                            headDoctorId = doc.getString("headDoctorId")?.takeIf { it.isNotBlank() },
+                            headDoctorName = doc.getString("headDoctorName")?.takeIf { it.isNotBlank() },
+                            isActive = doc.getBoolean("isActive") ?: true,
+                            availableDoctorCount = doc.getLong("availableDoctorCount")?.toInt() ?: 0,
+                            pendingReferralCount = doc.getLong("pendingReferralCount")?.toInt() ?: 0,
+                            description = doc.getString("description") ?: "",
+                            operatingHours = doc.getString("operatingHours") ?: "24x7",
+                            location = doc.getString("location") ?: "",
+                            syncState = SyncState.SYNCED,
+                            serverVersion = doc.getLong("serverVersion") ?: 0L
+                        )
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+                trySend(list)
+            }
+        }
+        awaitClose { listener.remove() }
+    }
+
+    fun getReferralsStream(): Flow<List<Referral>> = callbackFlow {
+        val listener = firestore.collection("referrals").addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                Log.w(TAG, "Referrals stream error: ${error.message}")
+                close(error)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val list = snapshot.documents.mapNotNull { doc ->
+                    try {
+                        Referral(
+                            id = doc.getString("id") ?: doc.id,
+                            caseId = doc.getString("caseId") ?: "",
+                            patientId = doc.getString("patientId") ?: "",
+                            patientName = doc.getString("patientName") ?: "",
+                            fromDoctorId = doc.getString("fromDoctorId") ?: "",
+                            fromDoctorName = doc.getString("fromDoctorName") ?: "",
+                            fromDepartmentId = doc.getString("fromDepartmentId") ?: "",
+                            fromDepartmentName = doc.getString("fromDepartmentName") ?: "",
+                            toDepartmentId = doc.getString("toDepartmentId") ?: "",
+                            toDepartmentName = doc.getString("toDepartmentName") ?: "",
+                            toDoctorId = doc.getString("toDoctorId")?.takeIf { it.isNotBlank() },
+                            toDoctorName = doc.getString("toDoctorName")?.takeIf { it.isNotBlank() },
+                            referralType = runCatching { ReferralType.valueOf(doc.getString("referralType") ?: "CLINICAL") }.getOrDefault(ReferralType.CLINICAL),
+                            urgency = runCatching { ReferralUrgency.valueOf(doc.getString("urgency") ?: "ROUTINE") }.getOrDefault(ReferralUrgency.ROUTINE),
+                            reason = doc.getString("reason") ?: "",
+                            clinicalNotes = doc.getString("clinicalNotes") ?: "",
+                            clinicalHistory = doc.getString("clinicalHistory") ?: "",
+                            status = runCatching { ReferralStatus.valueOf(doc.getString("status") ?: "PENDING") }.getOrDefault(ReferralStatus.PENDING),
+                            acceptedByDoctorId = doc.getString("acceptedByDoctorId")?.takeIf { it.isNotBlank() },
+                            acceptedByDoctorName = doc.getString("acceptedByDoctorName")?.takeIf { it.isNotBlank() },
+                            acceptedAt = doc.getLong("acceptedAt")?.takeIf { it > 0 },
+                            serviceReportText = doc.getString("serviceReportText")?.takeIf { it.isNotBlank() },
+                            serviceReportAttachmentPath = doc.getString("serviceReportAttachmentPath")?.takeIf { it.isNotBlank() },
+                            serviceReportAttachmentUrl = doc.getString("serviceReportAttachmentUrl")?.takeIf { it.isNotBlank() },
+                            serviceReportTimestamp = doc.getLong("serviceReportTimestamp")?.takeIf { it > 0 },
+                            parentReferralId = doc.getString("parentReferralId")?.takeIf { it.isNotBlank() },
+                            referralChainIndex = doc.getLong("referralChainIndex")?.toInt() ?: 0,
+                            createdAt = doc.getLong("createdAt") ?: System.currentTimeMillis(),
+                            updatedAt = doc.getLong("updatedAt") ?: System.currentTimeMillis(),
+                            completedAt = doc.getLong("completedAt")?.takeIf { it > 0 },
+                            syncState = SyncState.SYNCED,
+                            serverVersion = doc.getLong("serverVersion") ?: 0L
                         )
                     } catch (e: Exception) {
                         null
