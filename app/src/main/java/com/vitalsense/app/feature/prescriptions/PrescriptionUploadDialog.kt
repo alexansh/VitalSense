@@ -182,7 +182,7 @@ fun PrescriptionUploadDialog(
                                         text = title,
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                            color = if (isSelected) VS_PrimaryContainer else VS_OnBackground
+                                            color = if (isSelected) VS_OnPrimaryContainer else VS_OnBackground
                                         )
                                     )
                                 }

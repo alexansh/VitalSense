@@ -158,4 +158,114 @@ class PrescriptionOcrHelperTest {
         val medicines = PrescriptionOcrHelper.parseMedicinesFromText(gibberish)
         assertTrue(medicines.isEmpty())
     }
+
+    @Test
+    fun testNoFalsePositivesOnClinicalHeadersAndAdvice() {
+        // Real-world prescription text with headers, visiting hours, symptoms, advice, and diagnosis
+        // Previously, "hours"/"visitors" triggered "ORS", "if a" triggered "IFA", "cough" triggered "Cough Syrup"
+        val nonPrescriptionText = """
+            Government Community Health Center
+            Doctor: Dr. Ramesh Sharma MBBS MD
+            Registration No: 48291
+            Clinic hours: 9:00 AM - 1:00 PM
+            Notice: Visiting hours for all visitors are 4:00 PM - 6:00 PM
+            If a fever occurs, consult the nearest primary health center
+            Patient: Ramesh Kumar, Age: 42, Gender: Male
+            Symptoms: Patient has severe cough and fever for 2 days
+            Diagnosis: Acute viral upper respiratory infection
+            Vitals: BP 120/80, Pulse 76, SpO2 98%, Temp 99.2 F
+            Advice: Drink plenty of warm water, avoid oily and spicy food
+            Instructions: Take complete bed rest and sleep well
+            Follow up after 5 days with CBC blood report
+        """.trimIndent()
+
+        val medicines = PrescriptionOcrHelper.parseMedicinesFromText(nonPrescriptionText)
+        // Must be empty: no phantom medicines like ORS, IFA, Cough Syrup, etc.
+        assertTrue("Expected 0 medicines but found: ${medicines.map { it.name }}", medicines.isEmpty())
+    }
+
+    @Test
+    fun testStrictWordBoundaryForAcronyms() {
+        // "hours", "visitors", "words" must NEVER match "ORS"
+        assertNull(PrescriptionOcrHelper.extractMedicineFromLine("Clinic hours 9am to 2pm"))
+        assertNull(PrescriptionOcrHelper.extractMedicineFromLine("Important notice for all visitors"))
+        assertNull(PrescriptionOcrHelper.extractMedicineFromLine("Please verify if words are recognized"))
+
+        // "if a" must NEVER match "IFA"
+        assertNull(PrescriptionOcrHelper.extractMedicineFromLine("If a patient feels pain, call doctor"))
+        assertNull(PrescriptionOcrHelper.extractMedicineFromLine("Contact clinic ifany emergency occurs"))
+
+        // Genuine ORS and IFA with word boundaries MUST match
+        assertEquals("ORS", PrescriptionOcrHelper.extractMedicineFromLine("ORS 1 sachet in 1 liter water daily"))
+        assertEquals("IFA", PrescriptionOcrHelper.extractMedicineFromLine("Tab IFA 100mg 1-0-0"))
+        assertEquals("PCM", PrescriptionOcrHelper.extractMedicineFromLine("Tab PCM 500mg 1-0-1 (BD)"))
+    }
+
+    @Test
+    fun testDigitalPrescriptionCleanParsing() {
+        // Digital screen prescription with mixed generics, brands, and clear dosage/frequency
+        val digitalScreenText = """
+            Ramesh Health Clinic
+            Dr. Priya Nair MBBS
+            Date: 04/09/2026
+            
+            Rx:
+            1. Tab Azithromycin 500mg 1-0-0 OD for 3 days
+            2. Tab Levocetirizine 5mg 0-0-1 HS x 5 days
+            3. Tab Pantoprazole 40mg 1-0-0 OD AC 7 days
+            4. Syp Ambroxol 10ml TDS 5 days
+            
+            Advice: Drink boiled water. Avoid cold drinks.
+            Review in 5 days.
+        """.trimIndent()
+
+        val medicines = PrescriptionOcrHelper.parseMedicinesFromText(digitalScreenText)
+
+        assertEquals(4, medicines.size)
+        assertEquals("Azithromycin", medicines[0].name)
+        assertEquals("500 mg", medicines[0].dosage)
+        assertTrue(medicines[0].frequency.contains("Once daily (morning)", ignoreCase = true))
+
+        assertEquals("Levocetirizine", medicines[1].name)
+        assertEquals("5 mg", medicines[1].dosage)
+        assertTrue(medicines[1].frequency.contains("bedtime", ignoreCase = true))
+
+        assertEquals("Pantoprazole", medicines[2].name)
+        assertEquals("40 mg", medicines[2].dosage)
+        assertTrue(medicines[2].frequency.contains("Before Food", ignoreCase = true))
+
+        assertEquals("Ambroxol", medicines[3].name)
+        assertEquals("10 ml", medicines[3].dosage)
+        assertTrue(medicines[3].frequency.contains("3 times daily", ignoreCase = true))
+    }
+
+    @Test
+    fun testStructuredPrefixExtractionForUnlistedMedicines() {
+        // A doctor writes an unlisted specialty medication with clear "Tab <Name> <Dosage> <Frequency>" syntax
+        val line = "Tab Gabapentin 300mg 0-0-1 at night"
+        val med = PrescriptionOcrHelper.extractMedicineFromLine(line)
+        assertEquals("Gabapentin", med)
+    }
+
+    @Test
+    fun testCleanOcrTextSolitaryNoiseRemoval() {
+        val rawNoise = """
+            ~
+            Dr. Anita Roy
+            |
+            ^
+            Tab Paracetamol 500mg 1 - 0 - 1
+            `
+            #
+        """.trimIndent()
+
+        val cleaned = PrescriptionOcrHelper.cleanOcrText(rawNoise)
+        assertFalse(cleaned.contains("~"))
+        assertFalse(cleaned.contains("^"))
+        assertFalse(cleaned.contains("`"))
+        assertFalse(cleaned.contains("#"))
+        assertTrue(cleaned.contains("1-0-1"))
+        assertTrue(cleaned.contains("Paracetamol"))
+    }
 }
+

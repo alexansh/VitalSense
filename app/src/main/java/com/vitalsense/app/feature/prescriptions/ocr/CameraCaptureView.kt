@@ -124,7 +124,8 @@ fun CameraCaptureView(
                         }
 
                     val capture = ImageCapture.Builder()
-                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
+                        .setTargetRotation(previewView.display?.rotation ?: android.view.Surface.ROTATION_0)
                         .build()
                         .also {
                             imageCapture = it

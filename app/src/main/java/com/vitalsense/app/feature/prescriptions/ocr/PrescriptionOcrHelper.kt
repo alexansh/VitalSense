@@ -6,8 +6,10 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Rect
+import android.media.ExifInterface
 import android.net.Uri
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
@@ -23,27 +25,63 @@ object PrescriptionOcrHelper {
     }
 
     /**
-     * Standard Indian Pharmacopeia (NLEM / Jan Aushadhi / OPD) medicines list
+     * Standard Indian Pharmacopeia (NLEM / Jan Aushadhi / OPD / Primary Care) medicines list.
+     * Categorized for comprehensive generic and common brand recognition.
      */
     val commonMedicines = listOf(
-        // Analgesics & Antipyretics
-        "Paracetamol", "PCM", "Crocin", "Dolo", "Dolo 650", "Calpol", "Combiflam", "Ibuprofen", "Meftal-Spas", "Diclofenac",
+        // Analgesics, Antipyretics & NSAIDs
+        "Paracetamol", "PCM", "Crocin", "Dolo", "Dolo 650", "Calpol", "Combiflam",
+        "Ibuprofen", "Meftal-Spas", "Diclofenac", "Aceclofenac", "Zerodol", "Zerodol-SP", "Voveran", "Tramadol",
+
         // Antibiotics & Antimicrobials
-        "Amoxicillin", "Amox", "Augmentin", "Azithromycin", "Azithral", "Ciprofloxacin", "Ofloxacin", "Metronidazole", "Cefixime",
-        // Antihistamines & Cold/Allergy
+        "Amoxicillin", "Amox", "Augmentin", "Azithromycin", "Azithral", "Ciprofloxacin", "Ofloxacin",
+        "Metronidazole", "Cefixime", "Taxim-O", "Ceftriaxone", "Doxycycline", "Levofloxacin", "Clavam", "Moxikind",
+
+        // Antihistamines, Cold, Cough & Respiratory
         "Cetirizine", "Levocetirizine", "Cpm", "Allegra", "Montelukast", "Sinarest", "Cheston Cold",
-        // Gastrointestinal & Antacids
-        "Pantoprazole", "Pantocid", "Pan-D", "Omeprazole", "Omee", "Ranitidine", "Domperidone", "Ondansetron", "Digene", "Gelusil", "Razo-D",
-        // Chronic, Cardiovascular & Diabetes
-        "Metformin", "Glycomet", "Amlodipine", "Telmisartan", "Telma", "Losartan", "Atorvastatin", "Glimepiride",
-        // Public Health, Maternal & Supplements
-        "ORS", "Zinc", "Iron Folic Acid", "IFA", "Albendazole", "Vitamin C", "Calcium", "Shelcal", "Multivitamin", "B-Complex", "Becosules", "Cough Syrup"
+        "Ambroxol", "Ascoril", "Asthalin", "Salbutamol", "Budecort", "Deriphyllin", "Cough Syrup",
+
+        // Gastrointestinal, Antacids & Antiemetics
+        "Pantoprazole", "Pantocid", "Pan-D", "Omeprazole", "Omee", "Ranitidine", "Aciloc", "Rantac",
+        "Rabeprazole", "Domperidone", "Ondansetron", "Emeset", "Digene", "Gelusil", "Razo-D", "Sucralfate",
+
+        // Chronic, Cardiovascular, Hypertension & Diabetes
+        "Metformin", "Glycomet", "Amlodipine", "Telmisartan", "Telma", "Losartan", "Atorvastatin",
+        "Glimepiride", "Teneligliptin", "Cilacar", "Nebicard", "Thyronorm", "Eltroxin",
+
+        // Public Health, Maternal, Oral Rehydration & Supplements
+        "ORS", "Zinc", "Iron Folic Acid", "IFA", "Albendazole", "Vitamin C", "Limcee",
+        "Calcium", "Shelcal", "Multivitamin", "B-Complex", "Becosules", "Zincovit", "Neurobion", "Electral"
     )
 
-    private val STOP_WORDS = setOf(
+    /**
+     * Terms commonly found on prescription headers, clinical notes, advice, and examination sections
+     * that must NEVER be falsely converted into medicine names.
+     */
+    private val NON_MEDICINE_TERMS = setOf(
+        // General / English stop words
         "and", "the", "for", "with", "from", "take", "daily", "after", "before",
         "meals", "water", "food", "well", "rest", "days", "notes", "have", "dose",
-        "tablet", "capsule", "syrup", "slip", "dr", "clinic", "hospital", "patient"
+        "tablet", "capsule", "syrup", "slip", "dr", "clinic", "hospital", "patient",
+        "name", "date", "time", "year", "years", "male", "female", "age", "gender",
+        "phone", "mobile", "address", "sign", "signature", "reg", "registration",
+        "opd", "ipd", "dept", "department", "unit", "consultant", "attending",
+        "room", "bed", "ward", "card", "center", "health", "care", "rural", "primary",
+
+        // Clinical findings, vitals & symptoms
+        "symptoms", "complaint", "complaints", "diagnosis", "history", "examination",
+        "investigation", "investigations", "test", "tests", "report", "reports",
+        "findings", "impression", "vitals", "pulse", "temp", "temperature", "bp",
+        "spo2", "weight", "height", "fever", "cough", "cold", "pain", "headache",
+        "vomiting", "nausea", "diarrhea", "swelling", "rash", "bleeding", "wound",
+        "sugar", "glucose", "blood", "urine", "stool", "cbc", "xray", "ecg", "ultrasound",
+
+        // Advice, instructions & non-medical words prone to false positive matches
+        "advice", "advise", "instructions", "instructions:", "direction", "directions",
+        "avoid", "oily", "spicy", "drink", "boiled", "warm", "milk", "diet", "sleep",
+        "exercise", "walk", "follow", "followup", "review", "visit", "next",
+        "hours", "visitors", "doors", "words", "errors", "sensors", "motors", "factors",
+        "general", "government", "medical", "officer", "asha", "anm", "phc", "chc"
     )
 
     /**
@@ -85,21 +123,99 @@ object PrescriptionOcrHelper {
     }
 
     /**
-     * Fuzzy matches a token or word against the standard medicine list using Levenshtein distance
+     * Reads image EXIF orientation from file and returns clockwise rotation in degrees.
+     */
+    fun getExifRotation(filePath: String): Int {
+        return try {
+            val exif = ExifInterface(filePath)
+            when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+                ExifInterface.ORIENTATION_ROTATE_90 -> 90
+                ExifInterface.ORIENTATION_ROTATE_180 -> 180
+                ExifInterface.ORIENTATION_ROTATE_270 -> 270
+                else -> 0
+            }
+        } catch (e: Exception) {
+            0
+        }
+    }
+
+    /**
+     * Rotates a Bitmap by [degrees] clockwise if non-zero.
+     */
+    fun rotateBitmap(source: Bitmap, degrees: Int): Bitmap {
+        if (degrees % 360 == 0) return source
+        val matrix = Matrix().apply { postRotate(degrees.toFloat()) }
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+    }
+
+    /**
+     * Checks if a line contains prescription context indicators:
+     * - Dosage (500mg, 10ml, 1 tab)
+     * - Frequency (1-0-1, TDS, BD, OD, HS, SOS, daily, etc.)
+     * - Form prefix (Tab, Cap, Syp, Inj, Rx, 1., 2.)
+     */
+    fun hasPrescriptionContext(line: String): Boolean {
+        val hasDosage = Regex("""\b\d+\s*(mg|ml|mcg|gm|g|tab|cap)\b""", RegexOption.IGNORE_CASE).containsMatchIn(line) ||
+                Regex("""\b(650|500|250|100|50|40|20|10|5)\b""").containsMatchIn(line)
+        val hasFrequency = Regex("""\b(1-1-1|1-0-1|0-0-1|1-0-0|0-1-0|1-1-1-1|tds|bd|bid|od|hs|qid|sos|prn|daily|times|days?)\b""", RegexOption.IGNORE_CASE).containsMatchIn(line)
+        val hasPrefix = Regex("""\b(rx|tab|tablet|cap|capsule|syp|syrup|inj|injection|drops|ointment)\b""", RegexOption.IGNORE_CASE).containsMatchIn(line) ||
+                Regex("""^\s*(?:\d+[\.\)]|[-•*])\s*""").containsMatchIn(line)
+
+        return hasDosage || hasFrequency || hasPrefix
+    }
+
+    /**
+     * Identifies non-prescription header or advice lines to skip false medicine matches.
+     */
+    fun isHeaderOrAdviceLine(line: String): Boolean {
+        val trimmed = line.trim()
+        val lower = trimmed.lowercase()
+
+        // Common header / metadata prefixes
+        val nonPrescriptionPrefixes = listOf(
+            "patient:", "pt:", "name:", "age:", "gender:", "sex:", "date:", "time:",
+            "doctor:", "dr.", "dr:", "clinic:", "hospital:", "address:", "reg:", "reg no:",
+            "symptoms:", "complaints:", "c/o:", "diagnosis:", "dx:", "provisional diagnosis:",
+            "vitals:", "bp:", "pulse:", "temp:", "spo2:", "investigation:", "tests:",
+            "advice:", "instructions:", "note:", "notes:", "review:", "follow up:", "follow-up:"
+        )
+
+        for (prefix in nonPrescriptionPrefixes) {
+            if (lower.startsWith(prefix)) {
+                // If line explicitly starts with Diagnosis/Symptoms/Advice without prescription indicators, skip
+                if (!hasPrescriptionContext(line)) return true
+            }
+        }
+
+        // Lines that are purely advice
+        if (lower.startsWith("drink ") || lower.startsWith("avoid ") || lower.startsWith("bed rest") ||
+            lower.startsWith("rest well") || lower.startsWith("hydrate ") || lower.startsWith("diet:")) {
+            return true
+        }
+
+        return false
+    }
+
+    /**
+     * Fuzzy matches a token or word against the standard medicine list using Levenshtein distance.
+     * Guaranteed safe against hallucinating stop words, symptoms, or non-medicine terms.
      */
     fun fuzzyMatchMedicine(rawWord: String): String? {
-        val cleanWord = rawWord.trim().trim(',', '.', ':', ';', '(', ')', '[', ']', '-', '+')
-        if (cleanWord.length < 3 || cleanWord.lowercase() in STOP_WORDS) return null
+        val cleanWord = rawWord.trim().trim(',', '.', ':', ';', '(', ')', '[', ']', '-', '+', '/', '\\', '"', '\'')
+        val lowerClean = cleanWord.lowercase()
+
+        if (cleanWord.length < 3 || lowerClean in NON_MEDICINE_TERMS) return null
 
         // 1. Direct case-insensitive match
         commonMedicines.firstOrNull { it.equals(cleanWord, ignoreCase = true) }?.let { return it }
 
-        // 2. Normalized OCR substitution match (e.g. 'Paracetam0l' -> 'Paracetamol', 'D0lo' -> 'Dolo')
+        // 2. Normalized OCR substitution match (e.g. 'Paracetam0l' -> 'Paracetamol', 'D0lo' -> 'Dolo', 'Combif1am' -> 'Combiflam')
         val normalized = normalizeOcrText(cleanWord)
         commonMedicines.firstOrNull { it.equals(normalized, ignoreCase = true) }?.let { return it }
 
         val normLen = normalized.length
-        // For words <= 4 characters, only allow exact or normalized match
+        // For short words (<= 4 characters), strictly forbid fuzzy edit-distance matching
+        // to prevent false positives like "words" -> ORS or "door" -> Dolo
         if (normLen <= 4) return null
 
         // 3. Levenshtein edit distance thresholding for words > 4 chars
@@ -114,10 +230,17 @@ object PrescriptionOcrHelper {
             val distance = calculateLevenshteinDistance(normalized, candidate)
             val maxLen = maxOf(normLen, candLen)
 
-            // Dynamic threshold: 1 for <= 7 chars, 2 for > 7 chars
+            // Dynamic strict threshold:
+            // <= 7 chars: max 1 edit (similarity >= 80%)
+            // > 7 chars: max 2 edits (similarity >= 75%)
             val allowedDistance = if (maxLen <= 7) 1 else 2
 
-            if (distance <= allowedDistance && distance < minDistance) {
+            // Require first letter match (or common OCR confusion O/0, I/1/l) to avoid spurious matches
+            val firstCharMatches = normalized.first().equals(candidate.first(), ignoreCase = true) ||
+                    (normalized.first() in "0ol" && candidate.first() in "Oo") ||
+                    (normalized.first() in "1il" && candidate.first() in "IiLl")
+
+            if (distance <= allowedDistance && distance < minDistance && firstCharMatches) {
                 minDistance = distance
                 bestMatch = medicine
             }
@@ -127,98 +250,95 @@ object PrescriptionOcrHelper {
     }
 
     /**
-     * Pre-processes an image Bitmap for optimal OCR text extraction:
-     * 1. Downscales if oversized (>2000px) to prevent OOM and speed up inference
-     * 2. Converts to high-contrast grayscale (saturation = 0)
-     * 3. Stretches contrast curve to push paper grain to white and ink to crisp black
+     * Extracts a verified medicine name from a prescription line with strict word boundary checks
+     * and non-medicine term filtering.
      */
-    fun enhanceBitmapForOcr(original: Bitmap): Bitmap {
-        val width = original.width
-        val height = original.height
-        val maxDimension = 2000f
+    fun extractMedicineFromLine(line: String): String? {
+        val trimmed = line.trim()
+        if (trimmed.isBlank() || isHeaderOrAdviceLine(trimmed)) return null
 
-        val scaleFactor = if (maxOf(width, height) > maxDimension) {
-            maxDimension / maxOf(width, height)
-        } else {
-            1.0f
-        }
-
-        val targetW = (width * scaleFactor).toInt().coerceAtLeast(1)
-        val targetH = (height * scaleFactor).toInt().coerceAtLeast(1)
-
-        val enhanced = Bitmap.createBitmap(targetW, targetH, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(enhanced)
-
-        // 1. Grayscale saturation reduction
-        val grayscaleMatrix = ColorMatrix().apply { setSaturation(0f) }
-
-        // 2. High Contrast stretch: scale = 1.6f, brightness offset = -30f
-        val contrast = 1.6f
-        val brightnessOffset = -30f
-        val contrastMatrix = ColorMatrix(
-            floatArrayOf(
-                contrast, 0f, 0f, 0f, brightnessOffset,
-                0f, contrast, 0f, 0f, brightnessOffset,
-                0f, 0f, contrast, 0f, brightnessOffset,
-                0f, 0f, 0f, 1f, 0f
-            )
-        )
-
-        grayscaleMatrix.postConcat(contrastMatrix)
-
-        val paint = Paint().apply {
-            colorFilter = ColorMatrixColorFilter(grayscaleMatrix)
-            isFilterBitmap = true
-        }
-
-        val srcRect = Rect(0, 0, width, height)
-        val dstRect = Rect(0, 0, targetW, targetH)
-        canvas.drawBitmap(original, srcRect, dstRect, paint)
-
-        return enhanced
-    }
-
-    /**
-     * Binarizes a grayscale bitmap using adaptive thresholding for high-contrast ink isolation
-     */
-    fun binarizeBitmap(grayscaleBitmap: Bitmap, threshold: Int = 135): Bitmap {
-        val width = grayscaleBitmap.width
-        val height = grayscaleBitmap.height
-        val binarized = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val pixels = IntArray(width * height)
-        grayscaleBitmap.getPixels(pixels, 0, width, 0, 0, width, height)
-
-        for (i in pixels.indices) {
-            val pixel = pixels[i]
-            val red = (pixel shr 16) and 0xFF
-            val green = (pixel shr 8) and 0xFF
-            val blue = pixel and 0xFF
-            val luminance = (0.299 * red + 0.587 * green + 0.114 * blue).toInt()
-
-            pixels[i] = if (luminance < threshold) {
-                0xFF000000.toInt() // crisp dark ink
-            } else {
-                0xFFFFFFFF.toInt() // pure white paper
+        // 1. Check multi-word medicines first (e.g., "Iron Folic Acid", "Dolo 650", "Cheston Cold", "Cough Syrup")
+        val multiWordMedicines = commonMedicines.filter { it.contains(" ") }
+        for (med in multiWordMedicines) {
+            val pattern = Regex("""\b${Regex.escape(med)}\b""", RegexOption.IGNORE_CASE)
+            if (pattern.containsMatchIn(trimmed)) {
+                return med
             }
         }
-        binarized.setPixels(pixels, 0, width, 0, 0, width, height)
-        return binarized
+
+        // 2. Check short acronym medicines with STRICT isolated word boundary (ORS, IFA, PCM, CPM, etc.)
+        val shortAcronyms = listOf("ORS", "IFA", "PCM", "CPM", "AMOX", "ZINC")
+        for (acronym in shortAcronyms) {
+            val acronymPattern = Regex("""\b${acronym}\b""", RegexOption.IGNORE_CASE)
+            if (acronymPattern.containsMatchIn(trimmed)) {
+                return commonMedicines.first { it.equals(acronym, ignoreCase = true) }
+            }
+        }
+
+        // 3. Check single-word medicines with exact word boundaries
+        val singleWordMedicines = commonMedicines.filter { !it.contains(" ") && it !in shortAcronyms }
+        for (med in singleWordMedicines) {
+            val pattern = Regex("""\b${Regex.escape(med)}\b""", RegexOption.IGNORE_CASE)
+            if (pattern.containsMatchIn(trimmed)) {
+                return med
+            }
+        }
+
+        // 4. Token-by-token normalized OCR & fuzzy matching (only on lines with medical context or prefix)
+        val tokens = trimmed.split(Regex("""[\s,;\(\)\[\]\+\*]+"""))
+        for (token in tokens) {
+            val clean = token.trim('-', '.', '/', ':')
+            if (clean.length < 3 || clean.lowercase() in NON_MEDICINE_TERMS) continue
+
+            val matched = fuzzyMatchMedicine(clean)
+            if (matched != null) {
+                return matched
+            }
+        }
+
+        // 5. Structure-based extraction fallback:
+        // If line has explicit medical prefix like "Tab <Name> 500mg" or "Cap <Name> 1-0-1",
+        // capture the actual prescribed medicine even if unlisted in commonMedicines.
+        val structuredPrefixRegex = Regex("""\b(?:Tab|Tablet|Cap|Capsule|Syp|Syrup|Inj|Injection)\s+([A-Za-z0-9\-]+)\b""", RegexOption.IGNORE_CASE)
+        val prefixMatch = structuredPrefixRegex.find(trimmed)
+        if (prefixMatch != null) {
+            val extractedName = prefixMatch.groupValues[1].trim()
+            if (extractedName.length >= 3 && extractedName.lowercase() !in NON_MEDICINE_TERMS) {
+                // Return formatted extracted name
+                return extractedName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+            }
+        }
+
+        return null
     }
 
     /**
-     * Performs on-device text recognition on a captured photo file with automatic bitmap enhancement
+     * Performs on-device text recognition on a captured photo file with EXIF orientation correction
+     * and noise filtering to prevent hallucinated characters.
      */
     suspend fun recognizeTextFromFile(context: Context, file: File): String {
         return try {
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-            if (bitmap != null) {
-                val enhanced = enhanceBitmapForOcr(bitmap)
-                recognizeTextFromBitmap(enhanced)
+            // ML Kit InputImage.fromFilePath automatically inspects ExifInterface
+            // and applies the correct rotation angle to the image buffer
+            val uri = Uri.fromFile(file)
+            val image = InputImage.fromFilePath(context, uri)
+            val visionText = textRecognizer.process(image).await()
+            val text = visionText.text.trim()
+
+            if (text.isNotBlank()) {
+                cleanOcrText(text)
             } else {
-                val uri = Uri.fromFile(file)
-                val image = InputImage.fromFilePath(context, uri)
-                val visionText = textRecognizer.process(image).await()
-                visionText.text.trim()
+                // Secondary fallback: manual EXIF rotation and bitmap processing
+                val exifDegrees = getExifRotation(file.absolutePath)
+                val rawBitmap = BitmapFactory.decodeFile(file.absolutePath)
+                if (rawBitmap != null) {
+                    val oriented = rotateBitmap(rawBitmap, exifDegrees)
+                    val fallbackImage = InputImage.fromBitmap(oriented, 0)
+                    val fallbackVision = textRecognizer.process(fallbackImage).await()
+                    cleanOcrText(fallbackVision.text.trim())
+                } else {
+                    ""
+                }
             }
         } catch (e: Exception) {
             "OCR Processing Error: ${e.localizedMessage ?: e.message}"
@@ -226,16 +346,43 @@ object PrescriptionOcrHelper {
     }
 
     /**
-     * Performs on-device text recognition using ML Kit from an in-memory Bitmap
+     * Performs on-device text recognition using ML Kit from an in-memory Bitmap.
+     * Ensures any orientation rotation is respected.
      */
     suspend fun recognizeTextFromBitmap(bitmap: Bitmap, rotationDegrees: Int = 0): String {
         return try {
-            val image = InputImage.fromBitmap(bitmap, rotationDegrees)
+            val oriented = if (rotationDegrees != 0) rotateBitmap(bitmap, rotationDegrees) else bitmap
+            val image = InputImage.fromBitmap(oriented, 0)
             val visionText = textRecognizer.process(image).await()
-            visionText.text.trim()
+            cleanOcrText(visionText.text.trim())
         } catch (e: Exception) {
             "OCR Processing Error: ${e.localizedMessage ?: e.message}"
         }
+    }
+
+    /**
+     * Filters out solitary OCR punctuation noise, screen moiré artifacts, and cleans up text formatting.
+     */
+    fun cleanOcrText(rawText: String): String {
+        val lines = rawText.split("\n")
+        val cleanedLines = mutableListOf<String>()
+
+        for (line in lines) {
+            val trimmed = line.trim()
+            // Skip solitary noise lines (e.g. "~", "^", "|", "`", single punctuation marks)
+            if (trimmed.length <= 1 && !trimmed.all { it.isLetterOrDigit() }) continue
+            if (trimmed.all { it in "-_=~`|/\\.,;:^\"'*#" }) continue
+
+            // Normalize OCR spacing around hyphens in frequencies (e.g. "1 - 0 - 1" -> "1-0-1")
+            val normalizedFrequency = trimmed
+                .replace(Regex("""(\d)\s*-\s*(\d)\s*-\s*(\d)"""), "$1-$2-$3")
+                .replace(Regex("""\b[lI]\s*-\s*0\s*-\s*[lI]\b"""), "1-0-1")
+                .replace(Regex("""\b[lI]\s*-\s*[lI]\s*-\s*[lI]\b"""), "1-1-1")
+
+            cleanedLines.add(normalizedFrequency)
+        }
+
+        return cleanedLines.joinToString("\n")
     }
 
     /**
@@ -246,28 +393,27 @@ object PrescriptionOcrHelper {
 
         val baseFrequency = when {
             // 1-1-1 or TDS
-            lower.contains("1-1-1") || lower.contains("1 - 1 - 1") ||
+            lower.contains("1-1-1") ||
             Regex("""\b(tds|tid|thrice|3 times)\b""", RegexOption.IGNORE_CASE).containsMatchIn(line) ->
                 "3 times daily (morning, afternoon & night)"
 
             // 1-0-1 or BD
-            lower.contains("1-0-1") || lower.contains("1 - 0 - 1") ||
+            lower.contains("1-0-1") ||
             Regex("""\b(bd|bid|twice|2 times)\b""", RegexOption.IGNORE_CASE).containsMatchIn(line) ->
                 "Twice daily (morning & night after food)"
 
             // 0-0-1 or HS (bedtime)
-            lower.contains("0-0-1") || lower.contains("0 - 0 - 1") ||
+            lower.contains("0-0-1") ||
             Regex("""\b(hs|h\.s\.|bedtime|night)\b""", RegexOption.IGNORE_CASE).containsMatchIn(line) ->
                 "Once daily at bedtime (night)"
 
             // 1-0-0 or OD (once daily morning)
-            lower.contains("1-0-0") || lower.contains("1 - 0 - 0") ||
+            lower.contains("1-0-0") ||
             Regex("""\b(od|o\.d\.|once daily|morning)\b""", RegexOption.IGNORE_CASE).containsMatchIn(line) ->
                 "Once daily (morning)"
 
             // 0-1-0 (afternoon)
-            lower.contains("0-1-0") || lower.contains("0 - 1 - 0") ||
-            lower.contains("afternoon") ->
+            lower.contains("0-1-0") || lower.contains("afternoon") ->
                 "Once daily (afternoon)"
 
             // 1-1-1-1 or QID
@@ -359,7 +505,7 @@ object PrescriptionOcrHelper {
     }
 
     /**
-     * Parses raw OCR text into structured PrescribedMedicine objects with fuzzy matching & shorthand decoding
+     * Parses raw OCR text into structured PrescribedMedicine objects with strict hallucination guards.
      */
     fun parseMedicinesFromText(rawText: String): List<PrescribedMedicine> {
         val medicines = mutableListOf<PrescribedMedicine>()
@@ -367,24 +513,9 @@ object PrescriptionOcrHelper {
 
         for (line in lines) {
             val trimmed = line.trim()
-            if (trimmed.isBlank()) continue
+            if (trimmed.isBlank() || isHeaderOrAdviceLine(trimmed)) continue
 
-            // 1. Check direct substring match
-            var matchedMed = commonMedicines.firstOrNull {
-                trimmed.contains(it, ignoreCase = true)
-            }
-
-            // 2. If no direct substring match, check word tokens via fuzzy matching
-            if (matchedMed == null) {
-                val words = trimmed.split(" ", "\t", ",", "-", "/")
-                for (word in words) {
-                    val fuzzy = fuzzyMatchMedicine(word)
-                    if (fuzzy != null) {
-                        matchedMed = fuzzy
-                        break
-                    }
-                }
-            }
+            val matchedMed = extractMedicineFromLine(trimmed)
 
             if (matchedMed != null) {
                 val frequency = extractFrequency(trimmed)
@@ -409,3 +540,4 @@ object PrescriptionOcrHelper {
         return medicines
     }
 }
+
