@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -290,16 +291,18 @@ fun SpecialistReferralsScreen(
                             if (ref.attachedRecordIds.isNotEmpty()) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    modifier = Modifier.fillMaxWidth().horizontalScroll(androidx.compose.foundation.rememberScrollState())
                                 ) {
                                     Text("📎 Attached Records:", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
                                     ref.attachedRecordIds.forEach { recId ->
                                         Surface(shape = PillShape, color = GlumeSurfaceElevated) {
                                             Text(
-                                                text = recId,
-                                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
-                                                color = GlumeTextSecondary,
-                                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                                text = "📄 ${recId.take(6)}...",
+                                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                                                color = GlumeTextPrimary,
+                                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                                maxLines = 1
                                             )
                                         }
                                     }
