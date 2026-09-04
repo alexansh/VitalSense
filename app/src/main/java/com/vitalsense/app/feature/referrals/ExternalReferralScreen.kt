@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.referrals
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
@@ -63,7 +65,7 @@ fun ExternalReferralScreen(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
                         Text("←", color = VS_OnBackground, fontWeight = FontWeight.Bold)
-                        Text("Hospital Desk", style = MaterialTheme.typography.labelMedium, color = VS_OnBackground)
+                        Text(stringResource(R.string.hospitalDeskLabel), style = MaterialTheme.typography.labelMedium, color = VS_OnBackground)
                     }
                 }
 
@@ -73,7 +75,7 @@ fun ExternalReferralScreen(
                     border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
-                        text = "Hospital Network · External Referrals",
+                        text = stringResource(R.string.hospitalNetworkExternal),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
@@ -96,12 +98,12 @@ fun ExternalReferralScreen(
                     ) {
                         Column {
                             Text(
-                                text = "🏛️ Super-Specialty External Referrals",
+                                text = stringResource(R.string.superSpecialtyReferrals),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Empanelled Apex Hospitals & Cashless Requisition Desk",
+                                text = stringResource(R.string.empanelledHospitalsDesk),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_OnSurfaceVariant
                             )
@@ -117,7 +119,7 @@ fun ExternalReferralScreen(
                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                             modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                         ) {
-                            Text("+ Issue Voucher", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.issueVoucherBtn), style = MaterialTheme.typography.labelSmall)
                         }
                     }
 
@@ -128,12 +130,12 @@ fun ExternalReferralScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Active Referral Passes", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.activeReferralPasses), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text("${referrals.size} Active", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
                         Column {
-                            Text("Tie-up Network", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
-                            Text("AIIMS, Central Rly, KGMU", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_PrimaryContainer)
+                            Text(stringResource(R.string.tieUpNetwork), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.networkHospitalsSample), style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_PrimaryContainer)
                         }
                     }
                 }
@@ -180,7 +182,7 @@ fun ExternalReferralScreen(
                                 color = VS_SuccessContainer
                             ) {
                                 Text(
-                                    text = "✓ CASHLESS APPROVED",
+                                    text = stringResource(R.string.cashlessApprovedBadge),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 10.sp),
                                     color = VS_Success,
                                     modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
@@ -215,7 +217,7 @@ fun ExternalReferralScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column {
-                            Text("Beneficiary Patient", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.beneficiaryPatient), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(ref.patientName, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
 
@@ -225,7 +227,7 @@ fun ExternalReferralScreen(
                                 color = VS_ErrorContainer
                             ) {
                                 Text(
-                                    text = "🚑 Ambulance Requisitioned",
+                                    text = stringResource(R.string.ambulanceRequisitioned),
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                                     color = VS_Error,
                                     modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
@@ -250,7 +252,7 @@ fun ExternalReferralScreen(
             onDismissRequest = { showIssueDialog = false },
             title = {
                 Text(
-                    text = "Issue Super-Specialty Referral Voucher",
+                    text = stringResource(R.string.issueSuperSpecialtyVoucher),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -293,7 +295,7 @@ fun ExternalReferralScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Requisition Emergency Transport / Ambulance",
+                            text = stringResource(R.string.requisitionEmergencyAmbulance),
                             style = MaterialTheme.typography.labelSmall,
                             color = VS_OnBackground
                         )
@@ -334,12 +336,12 @@ fun ExternalReferralScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     enabled = patientName.isNotBlank()
                 ) {
-                    Text("Issue & Sign Voucher", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.issueSignVoucherBtn), style = MaterialTheme.typography.labelSmall)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showIssueDialog = false }) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             },
             containerColor = VS_Surface,

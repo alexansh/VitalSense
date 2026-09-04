@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -167,7 +169,7 @@ fun QueueEntryListItem(
                             colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
                         ) {
-                            Text("Start Consult", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                            Text(stringResource(R.string.startConsultBtn), fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
                         }
                     }
 
@@ -195,7 +197,7 @@ fun QueueEntryListItem(
                             border = BorderStroke(1.dp, VS_Outline),
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
-                            Text("Skip", fontSize = 11.sp, color = VS_OnBackground)
+                            Text(stringResource(R.string.skipPatient), fontSize = 11.sp, color = VS_OnBackground)
                         }
                     }
 
@@ -207,7 +209,7 @@ fun QueueEntryListItem(
                             border = BorderStroke(1.dp, VS_Error.copy(alpha = 0.4f)),
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
-                            Text("No-Show", fontSize = 11.sp, color = VS_Error)
+                            Text(stringResource(R.string.noShowBtn), fontSize = 11.sp, color = VS_Error)
                         }
                     }
                 }

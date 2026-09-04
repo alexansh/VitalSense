@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient.mentalhealth
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,11 +44,11 @@ fun MentalWellnessScreen(
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TextButton(onClick = onBack) {
-                    Text("← Back", color = VS_OnBackground, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.backArrowBtn), color = VS_OnBackground, fontWeight = FontWeight.Bold)
                 }
             }
             Text(
-                text = "Mental Wellness",
+                text = stringResource(R.string.mentalHealthReferral),
                 style = MaterialTheme.typography.displayMedium.copy(fontSize = 24.sp),
                 color = VS_OnBackground
             )
@@ -62,7 +64,7 @@ fun MentalWellnessScreen(
             VitalSenseCard(backgroundColor = VS_PrimaryContainer.copy(alpha = 0.3f)) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
-                        text = "How are you feeling today?",
+                        text = stringResource(R.string.howAreYouFeelingToday),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                     )
 
@@ -86,7 +88,7 @@ fun MentalWellnessScreen(
 
                     if (selectedMood != null && !moodLogged) {
                         VitalSenseButton(
-                            text = "Save Check-in",
+                            text = stringResource(R.string.saveCheckIn),
                             onClick = {
                                 val severity = when (selectedMood) {
                                     "Good" -> SeverityLevel.LOW
@@ -103,7 +105,7 @@ fun MentalWellnessScreen(
 
                     if (moodLogged) {
                         Text(
-                            text = "✅ Check-in saved. A doctor or ASHA worker will check on you if needed.",
+                            text = stringResource(R.string.checkInSavedNotice),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFF2E7D32)
                         )
@@ -121,11 +123,11 @@ fun MentalWellnessScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
-                        text = "🌬️ Guided Breathing",
+                        text = stringResource(R.string.guidedBreathingTitle),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                     )
                     Text(
-                        text = "Breathe in for 4 seconds, hold for 4, exhale for 4.",
+                        text = stringResource(R.string.breathe4SecondsMsg),
                         style = MaterialTheme.typography.bodySmall,
                         color = VS_OnSurfaceVariant
                     )
@@ -137,7 +139,7 @@ fun MentalWellnessScreen(
                             .background(VS_PrimaryContainer),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("Tap to Start", color = VS_Surface, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.tapToStart), color = VS_Surface, fontWeight = FontWeight.Bold)
                     }
                 }
             }

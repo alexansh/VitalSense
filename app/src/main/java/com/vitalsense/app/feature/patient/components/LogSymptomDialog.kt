@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
@@ -126,7 +128,7 @@ fun LogSymptomDialog(
                         }
                         Column {
                             Text(
-                                text = "Log Health Symptoms",
+                                text = stringResource(R.string.logHealthSymptomsTitle),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
@@ -147,7 +149,7 @@ fun LogSymptomDialog(
 
                 // 1. Category Switcher Tabs
                 Text(
-                    text = "CATEGORY",
+                    text = stringResource(R.string.categoryCaps),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -190,7 +192,7 @@ fun LogSymptomDialog(
 
                 // 2. Quick Symptoms Flow Row
                 Text(
-                    text = "SELECT COMMON SYMPTOMS",
+                    text = stringResource(R.string.selectCommonSymptoms),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -232,7 +234,7 @@ fun LogSymptomDialog(
 
                 // 3. Severity Level
                 Text(
-                    text = "SEVERITY LEVEL",
+                    text = stringResource(R.string.severityLevelCaps),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -346,7 +348,7 @@ fun LogSymptomDialog(
                         .height(44.dp)
                 ) {
                     Text(
-                        text = "🚀 Submit to PHC Doctor Triage",
+                        text = stringResource(R.string.submitToDoctorTriage),
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
                 }

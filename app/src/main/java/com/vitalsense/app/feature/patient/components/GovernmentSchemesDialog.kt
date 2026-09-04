@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -61,12 +63,12 @@ fun GovernmentSchemesDialog(
                         }
                         Column {
                             Text(
-                                text = "Government Health Schemes",
+                                text = stringResource(R.string.governmentHealthSchemes),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Rural Welfare & Subsidy Programs",
+                                text = stringResource(R.string.ruralWelfarePrograms),
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                                 color = VS_OnSurfaceVariant
                             )
@@ -114,7 +116,7 @@ fun GovernmentSchemesDialog(
                                         color = VS_SuccessContainer
                                     ) {
                                         Text(
-                                            text = "ELIGIBLE",
+                                            text = stringResource(R.string.eligibleBadge),
                                             style = MaterialTheme.typography.labelSmall.copy(
                                                 color = VS_Success,
                                                 fontWeight = FontWeight.Bold,
@@ -161,7 +163,7 @@ fun GovernmentSchemesDialog(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Close Schemes View", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.closeSchemesView), color = Color.White, fontWeight = FontWeight.Bold)
                 }
             }
         }

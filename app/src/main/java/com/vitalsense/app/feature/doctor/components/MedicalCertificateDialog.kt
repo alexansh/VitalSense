@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -52,12 +54,12 @@ fun MedicalCertificateDialog(
             ) {
                 Column {
                     Text(
-                        text = "Issue Medical Certificate",
+                        text = stringResource(R.string.issueMedicalCertificateTitle),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
                     Text(
-                        text = "Certified Clinical Leave & Fitness",
+                        text = stringResource(R.string.certifiedClinicalLeaveFitness),
                         style = MaterialTheme.typography.labelSmall,
                         color = VS_PrimaryContainer
                     )
@@ -74,7 +76,7 @@ fun MedicalCertificateDialog(
             ) {
                 item {
                     Text(
-                        text = "Certificate Type:",
+                        text = stringResource(R.string.certificateTypeLabel),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnSurfaceVariant
                     )
@@ -183,7 +185,7 @@ fun MedicalCertificateDialog(
                                 modifier = Modifier.size(20.dp)
                             )
                             Text(
-                                text = "Certificate will be cryptographically stamped with digital verification seal.",
+                                text = stringResource(R.string.certificateSealedStampNotice),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = VS_OnSuccessContainer
                             )
@@ -194,7 +196,7 @@ fun MedicalCertificateDialog(
         },
         confirmButton = {
             VitalSenseButton(
-                text = "Digitally Sign & Issue",
+                text = stringResource(R.string.digitallySignIssue),
                 onClick = {
                     val dateFormatted = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
                     val certNum = "MC-2026-${(1000..9999).random()}"
@@ -221,7 +223,7 @@ fun MedicalCertificateDialog(
         },
         dismissButton = {
             VitalSenseButton(
-                text = "Cancel",
+                text = stringResource(R.string.cancel),
                 onClick = onDismiss,
                 style = ButtonStyle.SECONDARY
             )

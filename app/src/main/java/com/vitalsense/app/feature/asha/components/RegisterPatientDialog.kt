@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.asha.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -73,7 +75,7 @@ fun RegisterPatientDialog(
                         }
                         Column {
                             Text(
-                                text = "Register New Villager",
+                                text = stringResource(R.string.registerNewVillagerTitle),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
@@ -123,7 +125,7 @@ fun RegisterPatientDialog(
 
                     Column(modifier = Modifier.weight(1.2f)) {
                         Text(
-                            text = "GENDER",
+                            text = stringResource(R.string.genderLabel),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp
@@ -185,7 +187,7 @@ fun RegisterPatientDialog(
 
                 // Village Selector
                 Text(
-                    text = "ASSIGNED VILLAGE",
+                    text = stringResource(R.string.assignedVillageLabel),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -226,7 +228,7 @@ fun RegisterPatientDialog(
 
                 // Risk Level
                 Text(
-                    text = "INITIAL RISK LEVEL",
+                    text = stringResource(R.string.initialRiskLevelLabel),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -309,7 +311,7 @@ fun RegisterPatientDialog(
                         .height(44.dp)
                 ) {
                     Text(
-                        text = "✓ Register Villager into Caseload",
+                        text = stringResource(R.string.registerVillagerCaseload),
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
                 }

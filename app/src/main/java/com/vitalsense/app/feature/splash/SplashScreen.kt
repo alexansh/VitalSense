@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.splash
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -179,7 +181,7 @@ fun SplashScreen(
                 modifier = Modifier.scale(alpha)
             ) {
                 Text(
-                    text = "VitalSense",
+                    text = stringResource(R.string.app_name),
                     style = MaterialTheme.typography.displayLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 32.sp,
@@ -188,7 +190,7 @@ fun SplashScreen(
                     color = VS_OnBackground
                 )
                 Text(
-                    text = "SEHAT SETU · सेहत सेतु",
+                    text = stringResource(R.string.sehatSetuSplashTitle),
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 1.5.sp,
@@ -197,7 +199,7 @@ fun SplashScreen(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Bridging Rural Healthcare · Zero-Internet Ready",
+                    text = stringResource(R.string.bridgingRuralHealthZeroNet),
                     style = MaterialTheme.typography.bodySmall,
                     color = VS_OnSurfaceVariant
                 )
@@ -225,7 +227,7 @@ fun SplashScreen(
                 ) {
                     Text("🔒", fontSize = 11.sp)
                     Text(
-                        text = "Encrypted Offline SQLite · ABHA Ready",
+                        text = stringResource(R.string.encryptedOfflineAbha),
                         style = MaterialTheme.typography.labelSmall.copy(
                             color = VS_OnSurfaceVariant,
                             fontWeight = FontWeight.SemiBold

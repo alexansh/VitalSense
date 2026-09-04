@@ -139,7 +139,7 @@ fun AdminHomeScreen(
                                         color = VS_OnBackground
                                     )
                                     Text(
-                                        text = "Doctors have flagged low dispensary medicines",
+                                        text = stringResource(R.string.doctorsFlaggedLowMeds),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -147,7 +147,7 @@ fun AdminHomeScreen(
                             }
                             Surface(shape = PillShape, color = VS_Warning) {
                                 Text(
-                                    text = "RESTOCK",
+                                    text = stringResource(R.string.restockAction),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = Color.White
@@ -205,7 +205,7 @@ fun AdminHomeScreen(
                                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                         ) {
                                             Text(
-                                                text = "📦 Restock Now",
+                                                text = stringResource(R.string.restockNowBtn),
                                                 fontSize = 12.sp,
                                                 fontWeight = FontWeight.Bold,
                                                 color = Color.White
@@ -223,7 +223,7 @@ fun AdminHomeScreen(
                                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                         ) {
                                             Text(
-                                                text = "✕ Dismiss Reminder",
+                                                text = stringResource(R.string.dismissReminder),
                                                 fontSize = 12.sp,
                                                 fontWeight = FontWeight.Bold,
                                                 color = VS_OnSurfaceVariant
@@ -337,7 +337,7 @@ fun AdminHomeScreen(
                                 if (isSelected) {
                                     Surface(shape = PillShape, color = VS_Primary) {
                                         Text(
-                                            text = "PINNED ON MAP 📍",
+                                            text = stringResource(R.string.pinnedOnMap),
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = Color.White),
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                         )
@@ -380,13 +380,13 @@ fun AdminHomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.sm)
             ) {
                 VitalSenseButton(
-                    text = "Manage Dispensary",
+                    text = stringResource(R.string.manageDispensary),
                     onClick = onNavigateToDispensary,
                     style = ButtonStyle.SECONDARY,
                     modifier = Modifier.weight(1f)
                 )
                 VitalSenseButton(
-                    text = "Disease Trends",
+                    text = stringResource(R.string.diseaseTrendsTitle),
                     onClick = onNavigateToDiseaseTrends,
                     style = ButtonStyle.SECONDARY,
                     modifier = Modifier.weight(1f)
@@ -400,7 +400,7 @@ fun AdminHomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.sm)
             ) {
                 VitalSenseButton(
-                    text = "Diagnostics & Labs",
+                    text = stringResource(R.string.diagnosticsLabs),
                     onClick = onNavigateToDiagnostics,
                     style = ButtonStyle.SECONDARY,
                     modifier = Modifier.weight(1f)
@@ -412,12 +412,12 @@ fun AdminHomeScreen(
         item {
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                 Text(
-                    text = "Hospital Operations & Care Desk",
+                    text = stringResource(R.string.hospitalOpsCareDesk),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
                 Text(
-                    text = "Real-time in-patient wards, surgical suites, tertiary referrals, and critical biomedical assets.",
+                    text = stringResource(R.string.hospitalOpsCareDesc),
                     style = MaterialTheme.typography.bodySmall,
                     color = VS_OnSurfaceVariant
                 )
@@ -434,8 +434,8 @@ fun AdminHomeScreen(
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("🛏️", fontSize = 22.sp)
-                            Text("IPD Wards & Beds", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
-                            Text("Occupancy & Admission", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.ipdWardsBeds), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text(stringResource(R.string.occupancyAdmission), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
 
@@ -447,8 +447,8 @@ fun AdminHomeScreen(
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("🔪", fontSize = 22.sp)
-                            Text("OT Surgery Desk", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
-                            Text("PAC & Surgeon Roster", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.otSurgeryDesk), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text(stringResource(R.string.pacSurgeonRoster), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -465,8 +465,8 @@ fun AdminHomeScreen(
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("🏛️", fontSize = 22.sp)
-                            Text("External Referrals", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
-                            Text("AIIMS & Cashless Desk", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.externalReferralsDesk), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text(stringResource(R.string.aiimsCashlessDesk), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
 
@@ -478,8 +478,8 @@ fun AdminHomeScreen(
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("⚡", fontSize = 22.sp)
-                            Text("Bio-Medical Registry", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
-                            Text("Oxygen & Equipment", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.bioMedicalRegistry), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text(stringResource(R.string.oxygenEquipment), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -520,12 +520,12 @@ fun AdminHomeScreen(
                         }
                         Column {
                             Text(
-                                text = "Live Clinic Queue Oversight",
+                                text = stringResource(R.string.liveClinicQueueOversight),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Monitor doctor queues, wait times and clinic load",
+                                text = stringResource(R.string.monitorDoctorQueues),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_OnSurfaceVariant
                             )
@@ -538,7 +538,7 @@ fun AdminHomeScreen(
                         colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
                     ) {
-                        Text("Monitor", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        Text(stringResource(R.string.monitorBtn), fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
                     }
                 }
             }
@@ -578,12 +578,12 @@ fun AdminHomeScreen(
                         }
                         Column {
                             Text(
-                                text = "Facility Quality Metrics",
+                                text = stringResource(R.string.facilityQualityMetrics),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Monitor PHC/CHC infrastructure and feedback",
+                                text = stringResource(R.string.monitorPhcInfrastructure),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_OnSurfaceVariant
                             )
@@ -596,7 +596,7 @@ fun AdminHomeScreen(
                         colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
                     ) {
-                        Text("View", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        Text(stringResource(R.string.viewBtn), fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
                     }
                 }
             }
@@ -606,7 +606,7 @@ fun AdminHomeScreen(
         // 5. Broadcast Action Button (Single Full-Width Purple CTA)
         item {
             VitalSenseButton(
-                text = "📢 Broadcast District-Wide Health Directive",
+                text = stringResource(R.string.broadcastDistrictDirective),
                 onClick = {
                     selectedVillageName = "All Villages"
                     showBroadcastDialog = true
@@ -640,7 +640,7 @@ fun AdminHomeScreen(
                             )
                             Surface(shape = PillShape, color = VS_SuccessContainer) {
                                 Text(
-                                    text = "DISPATCHED",
+                                    text = stringResource(R.string.dispatchedStatus),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = VS_OnSuccessContainer
@@ -674,7 +674,7 @@ fun AdminHomeScreen(
                                 shape = PillShape
                             ) {
                                 Text(
-                                    text = "✕ Dismiss",
+                                    text = stringResource(R.string.dismissBtn),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = VS_Primary
                                 )
@@ -694,7 +694,7 @@ fun AdminHomeScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Dispensary Low Stock Alerts",
+                        text = stringResource(R.string.dispensaryLowStockAlerts),
                         style = MaterialTheme.typography.headlineMedium,
                         color = VS_OnBackground
                     )
@@ -735,7 +735,7 @@ fun AdminHomeScreen(
                                 )
                                 Surface(shape = PillShape, color = VS_ErrorContainer) {
                                     Text(
-                                        text = "LOW",
+                                        text = stringResource(R.string.lowStockTag),
                                         style = MaterialTheme.typography.labelSmall.copy(color = VS_Error, fontWeight = FontWeight.Bold),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
@@ -746,7 +746,7 @@ fun AdminHomeScreen(
                 }
             } else {
                 item {
-                    Text("All stock is above reorder thresholds.", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.allStockAboveThresholds), color = VS_OnSurfaceVariant)
                 }
             }
         }
@@ -776,7 +776,7 @@ fun AdminHomeScreen(
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                 ) {
-                    Text("Broadcast Now", color = VS_OnBackground, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.broadcastNowBtn), color = VS_OnBackground, style = MaterialTheme.typography.labelLarge)
                 }
             },
             dismissButton = {
@@ -810,7 +810,7 @@ fun AdminHomeScreen(
                 )
 
                 Text(
-                    text = "Target Village / Audience",
+                    text = stringResource(R.string.targetVillageAudience),
                     style = MaterialTheme.typography.labelSmall,
                     color = VS_OnSurfaceVariant
                 )

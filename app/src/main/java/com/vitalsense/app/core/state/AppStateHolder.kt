@@ -100,6 +100,7 @@ class AppStateHolder @Inject constructor(
         prefs?.edit()?.putString("selected_language", language.code)?.apply()
         _currentLanguage.value = language
         try {
+            java.util.Locale.setDefault(java.util.Locale(language.code))
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language.code))
         } catch (_: Exception) {}
     }

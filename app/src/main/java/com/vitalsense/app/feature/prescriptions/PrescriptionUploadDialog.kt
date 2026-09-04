@@ -148,7 +148,7 @@ fun PrescriptionUploadDialog(
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Digitize paper prescription via camera OCR or manual entry",
+                                text = stringResource(R.string.digitizePaperPrescription),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_OnSurfaceVariant
                             )
@@ -271,7 +271,7 @@ fun PrescriptionUploadDialog(
                         )
 
                         Text(
-                            text = "Add Prescribed Medicines",
+                            text = stringResource(R.string.addPrescribedMedicines),
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -337,7 +337,7 @@ fun PrescriptionUploadDialog(
                                     modifier = Modifier.align(Alignment.End),
                                     enabled = currentMedName.isNotBlank()
                                 ) {
-                                    Text("+ Add Medicine", color = Color.White, style = MaterialTheme.typography.labelSmall)
+                                    Text(stringResource(R.string.addMedicineBtn), color = Color.White, style = MaterialTheme.typography.labelSmall)
                                 }
                             }
                         }
@@ -384,7 +384,7 @@ fun PrescriptionUploadDialog(
                         )
 
                         VitalSenseButton(
-                            text = "Save Prescription Record",
+                            text = stringResource(R.string.savePrescriptionRecord),
                             onClick = {
                                 val newRx = Prescription(
                                     id = "rx_${System.currentTimeMillis()}",

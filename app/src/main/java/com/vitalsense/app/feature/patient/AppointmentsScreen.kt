@@ -296,7 +296,7 @@ fun AppointmentsScreen(
                                                 shape = RoundedCornerShape(8.dp),
                                                 modifier = Modifier.height(38.dp)
                                             ) {
-                                                Text("Reschedule", fontWeight = FontWeight.Bold, color = VS_Primary)
+                                                Text(stringResource(R.string.rescheduleAction), fontWeight = FontWeight.Bold, color = VS_Primary)
                                             }
                                         }
                                     }
@@ -308,7 +308,7 @@ fun AppointmentsScreen(
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             Text(
-                                                text = "Doctor didn't join · Rebook slot?",
+                                                text = stringResource(R.string.doctorDidntJoinRebook),
                                                 style = MaterialTheme.typography.bodySmall.copy(
                                                     color = VS_Error,
                                                     fontWeight = FontWeight.Bold
@@ -320,7 +320,7 @@ fun AppointmentsScreen(
                                                 colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                                 modifier = Modifier.height(38.dp)
                                             ) {
-                                                Text("Rebook Call", color = Color.White, fontWeight = FontWeight.Bold)
+                                                Text(stringResource(R.string.rebookCallBtn), color = Color.White, fontWeight = FontWeight.Bold)
                                             }
                                         }
                                     }
@@ -347,7 +347,7 @@ fun AppointmentsScreen(
                 ) {
                     Text("⏳", fontSize = 24.sp)
                     Text(
-                        text = "Waiting for Doctor to Join…",
+                        text = stringResource(R.string.waitingForDoctorToJoin),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -367,14 +367,14 @@ fun AppointmentsScreen(
                     ) {
                         Column(modifier = Modifier.padding(12.dp)) {
                             Text(
-                                text = "STATUS: Next in Queue",
+                                text = stringResource(R.string.statusNextInQueue),
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = VS_PrimaryContainer
                                 )
                             )
                             Text(
-                                text = "The doctor is wrapping up their previous patient note and will join momentarily. Please do not close the app.",
+                                text = stringResource(R.string.doctorWrappingUpMsg),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_OnBackground
                             )
@@ -397,7 +397,7 @@ fun AppointmentsScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Enter Consultation Room →", color = VS_Background, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.enterConsultationRoom), color = VS_Background, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -407,7 +407,7 @@ fun AppointmentsScreen(
                         TeleCallingManager.endCall("Patient cancelled waiting")
                     }
                 ) {
-                    Text("Cancel / Leave", color = VS_Error)
+                    Text(stringResource(R.string.cancelLeaveBtn), color = VS_Error)
                 }
             }
         )
@@ -448,7 +448,7 @@ fun AppointmentsScreen(
             },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text("Select consultation mode based on your internet connection:")
+                    Text(stringResource(R.string.selectConsultationModeNetwork))
 
                     // Video Call Option
                     Surface(
@@ -469,8 +469,8 @@ fun AppointmentsScreen(
                         ) {
                             Text("📹", fontSize = 24.sp)
                             Column {
-                                Text("Video Call (HD)", fontWeight = FontWeight.Bold, color = VS_OnBackground)
-                                Text("Requires 4G / Wi-Fi signal", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                                Text(stringResource(R.string.videoCallHd), fontWeight = FontWeight.Bold, color = VS_OnBackground)
+                                Text(stringResource(R.string.requires4gWifi), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             }
                         }
                     }
@@ -494,8 +494,8 @@ fun AppointmentsScreen(
                         ) {
                             Text("🎙️", fontSize = 24.sp)
                             Column {
-                                Text("Voice Call (Low Bandwidth)", fontWeight = FontWeight.Bold, color = VS_OnBackground)
-                                Text("Recommended for 2G / weak village signal", style = MaterialTheme.typography.labelSmall, color = VS_Success)
+                                Text(stringResource(R.string.voiceCallLowBandwidth), fontWeight = FontWeight.Bold, color = VS_OnBackground)
+                                Text(stringResource(R.string.recommended2gSignal), style = MaterialTheme.typography.labelSmall, color = VS_Success)
                             }
                         }
                     }
@@ -526,12 +526,12 @@ fun AppointmentsScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Confirm Booking ✓", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.confirmBookingCheck), color = Color.White, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showBookCallDialog = false }) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             }
         )

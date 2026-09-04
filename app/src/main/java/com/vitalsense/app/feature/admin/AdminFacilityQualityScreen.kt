@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.admin
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -45,10 +47,10 @@ fun AdminFacilityQualityScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Facility Quality Metrics") },
+                title = { Text(stringResource(R.string.facilityQualityMetrics)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Text("Back") // Or an icon
+                        Text(stringResource(R.string.backAction)) // Or an icon
                     }
                 }
             )
@@ -62,7 +64,7 @@ fun AdminFacilityQualityScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                Text("Overall Health System Quality", style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.overallHealthSystemQuality), style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(8.dp))
             }
             

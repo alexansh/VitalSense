@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.asha.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -78,12 +80,12 @@ fun LogDailyRoundDialog(
                         }
                         Column {
                             Text(
-                                text = "Log Village Round Visit",
+                                text = stringResource(R.string.logVillageRoundVisitTitle),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Door-to-Door Health Record",
+                                text = stringResource(R.string.doorToDoorHealthRecord),
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                                 color = VS_OnSurfaceVariant
                             )
@@ -142,7 +144,7 @@ fun LogDailyRoundDialog(
 
                 // Checkup items checklist
                 Text(
-                    text = "SERVICES PROVIDED DURING VISIT",
+                    text = stringResource(R.string.servicesProvidedVisit),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -158,12 +160,12 @@ fun LogDailyRoundDialog(
                         FilterChip(
                             selected = isPregnancyChecked,
                             onClick = { isPregnancyChecked = !isPregnancyChecked },
-                            label = { Text("🤰 Maternal / ANC", fontSize = 11.sp) }
+                            label = { Text(stringResource(R.string.maternalAncService), fontSize = 11.sp) }
                         )
                         FilterChip(
                             selected = isChildHealthChecked,
                             onClick = { isChildHealthChecked = !isChildHealthChecked },
-                            label = { Text("👶 Child Health", fontSize = 11.sp) }
+                            label = { Text(stringResource(R.string.childHealthService), fontSize = 11.sp) }
                         )
                     }
                     Row(
@@ -173,12 +175,12 @@ fun LogDailyRoundDialog(
                         FilterChip(
                             selected = isImmunizationChecked,
                             onClick = { isImmunizationChecked = !isImmunizationChecked },
-                            label = { Text("💉 Immunization", fontSize = 11.sp) }
+                            label = { Text(stringResource(R.string.immunizationService), fontSize = 11.sp) }
                         )
                         FilterChip(
                             selected = isMedicineGiven,
                             onClick = { isMedicineGiven = !isMedicineGiven },
-                            label = { Text("💊 Medicine / IFA", fontSize = 11.sp) }
+                            label = { Text(stringResource(R.string.medicineIfaService), fontSize = 11.sp) }
                         )
                     }
                 }
@@ -233,7 +235,7 @@ fun LogDailyRoundDialog(
                         .height(44.dp)
                 ) {
                     Text(
-                        text = "✓ Save Village Round Visit",
+                        text = stringResource(R.string.saveVillageRoundVisit),
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
                 }

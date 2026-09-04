@@ -84,7 +84,7 @@ fun BioMedicalScreen(
                     border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
-                        text = "Hospital Care · BME",
+                        text = stringResource(R.string.hospitalCareBme),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
@@ -142,12 +142,12 @@ fun BioMedicalScreen(
                             Text("$operationalCount Units", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_Success)
                         }
                         Column {
-                            Text("Maintenance / Due", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.maintenanceDue), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text("$attentionCount Units", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = if (attentionCount > 0) VS_Error else VS_Success)
                         }
                         Column {
-                            Text("BME Engineering", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
-                            Text("24x7 On-Call", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_PrimaryContainer)
+                            Text(stringResource(R.string.bmeEngineering), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.twentyFourSevenOnCall), style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_PrimaryContainer)
                         }
                     }
                 }
@@ -253,11 +253,11 @@ fun BioMedicalScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Last Serviced", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.lastServiced), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(equip.lastServiceDate, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                         }
                         Column {
-                            Text("Next Due Date", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.nextDueDate), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(equip.nextServiceDue, style = MaterialTheme.typography.bodySmall, color = if (isCalibrationDue) VS_Warning else VS_OnBackground)
                         }
                     }
@@ -280,7 +280,7 @@ fun BioMedicalScreen(
                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = 2.dp),
                             modifier = Modifier.defaultMinSize(minHeight = 30.dp)
                         ) {
-                            Text("Update Status", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text(stringResource(R.string.updateStatusBtn), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                         }
                     }
                 }
@@ -305,7 +305,7 @@ fun BioMedicalScreen(
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                     Text(equip.name, style = MaterialTheme.typography.bodyMedium, color = VS_OnBackground)
 
-                    Text("Select Operational Status:", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.selectOperationalStatus), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
 
                     listOf("OPERATIONAL", "CALIBRATION_DUE", "UNDER_MAINTENANCE").forEach { opt ->
                         Surface(
@@ -334,12 +334,12 @@ fun BioMedicalScreen(
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                 ) {
-                    Text("Save Status", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.saveStatusBtn), style = MaterialTheme.typography.labelSmall)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { selectedEquipmentForMaint = null }) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             },
             containerColor = VS_Surface,

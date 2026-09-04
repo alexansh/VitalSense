@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -27,7 +29,7 @@ fun HealthCardViewerScreen(patient: Patient) {
         verticalArrangement = Arrangement.spacedBy(Spacing.md)
     ) {
         Text(
-            text = "Offline Health Card",
+            text = stringResource(R.string.offlineHealthCard),
             style = MaterialTheme.typography.displayMedium,
             color = VS_OnBackground
         )
@@ -64,15 +66,15 @@ fun HealthCardViewerScreen(patient: Patient) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column {
-                        Text("Blood Group", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
-                        Text("O+ Positive", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text(stringResource(R.string.bloodGroupLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.oPositiveSample), style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                     }
                     Column {
-                        Text("Allergies", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
-                        Text("None Reported", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text(stringResource(R.string.allergiesLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.noneReported), style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                     }
                     Column {
-                        Text("Emergency", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.emergencyLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         Text(patient.emergencyContact, style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_Error)
                     }
                 }
@@ -91,7 +93,7 @@ fun HealthCardViewerScreen(patient: Patient) {
                         Text(text = "🔲", fontSize = 28.sp)
                         Column {
                             Text(
-                                text = "Permanent Offline QR Identity",
+                                text = stringResource(R.string.permanentOfflineQrIdentity),
                                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )

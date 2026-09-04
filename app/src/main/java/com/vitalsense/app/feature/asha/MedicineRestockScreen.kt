@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.asha
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -31,7 +33,7 @@ fun MedicineRestockScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Medicine Restock Tracker") },
+                title = { Text(stringResource(R.string.medicineRestockTracker)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -56,7 +58,7 @@ fun MedicineRestockScreen(
         ) {
             item {
                 Text(
-                    text = "ASHA Field Kit Stock & Indent",
+                    text = stringResource(R.string.ashaFieldKitStock),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -91,7 +93,7 @@ fun MedicineRestockScreen(
             if (medicines.isEmpty()) {
                 item {
                     Text(
-                        text = "No medicines found in kit.",
+                        text = stringResource(R.string.noMedicinesInKit),
                         color = VS_OnSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -172,7 +174,7 @@ fun MedicineRestockScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
-                                        text = "Kit refill needed from PHC dispensary",
+                                        text = stringResource(R.string.kitRefillNeededPhc),
                                         style = MaterialTheme.typography.bodySmall.copy(color = VS_Error, fontSize = 11.sp)
                                     )
                                     Button(
@@ -189,7 +191,7 @@ fun MedicineRestockScreen(
                                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                                         modifier = Modifier.height(32.dp)
                                     ) {
-                                        Text("Request Refill (+50)", style = MaterialTheme.typography.labelSmall, color = Color.White)
+                                        Text(stringResource(R.string.requestRefill50), style = MaterialTheme.typography.labelSmall, color = Color.White)
                                     }
                                 }
                             }

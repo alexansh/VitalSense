@@ -166,7 +166,7 @@ fun DoctorQueueScreen(
                             // Big Now Serving Token Badge
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
-                                    text = "NOW SERVING TOKEN",
+                                    text = stringResource(R.string.nowServingTokenCaps),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         letterSpacing = 1.sp,
                                         fontWeight = FontWeight.Bold
@@ -242,7 +242,7 @@ fun DoctorQueueScreen(
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
-                                        text = "Walk-In",
+                                        text = stringResource(R.string.walkInLabel),
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
                                         color = VS_Primary
@@ -278,7 +278,7 @@ fun DoctorQueueScreen(
                                         Text("🩺", fontSize = 20.sp)
                                         Column {
                                             Text(
-                                                text = "Active Consultation",
+                                                text = stringResource(R.string.activeConsultationLabel),
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                                 color = VS_Success
                                             )
@@ -320,7 +320,7 @@ fun DoctorQueueScreen(
                                     Icon(imageVector = Icons.Outlined.Check, contentDescription = null, tint = Color.White)
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
-                                        "Complete Consultation",
+                                        stringResource(R.string.completeConsultation),
                                         fontWeight = FontWeight.Bold,
                                         color = Color.White
                                     )
@@ -343,7 +343,7 @@ fun DoctorQueueScreen(
                             color = VS_OnBackground
                         )
                         Text(
-                            text = "Ordered by Check-In",
+                            text = stringResource(R.string.orderedByCheckIn),
                             style = MaterialTheme.typography.labelSmall,
                             color = VS_OnSurfaceVariant
                         )
@@ -370,12 +370,12 @@ fun DoctorQueueScreen(
                                 ) {
                                     Text("🎉", fontSize = 32.sp)
                                     Text(
-                                        text = "Queue is all caught up!",
+                                        text = stringResource(R.string.queueAllCaughtUp),
                                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                                         color = VS_OnBackground
                                     )
                                     Text(
-                                        text = "No patients are currently waiting.",
+                                        text = stringResource(R.string.noPatientsWaitingNow),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -448,7 +448,7 @@ private fun WalkInPatientPickerDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "Select Walk-In Patient",
+                text = stringResource(R.string.selectWalkInPatient),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground
             )
@@ -498,7 +498,7 @@ private fun WalkInPatientPickerDialog(
                                         color = VS_OnSurfaceVariant
                                     )
                                 }
-                                Text("Select →", fontSize = 12.sp, color = VS_Primary, fontWeight = FontWeight.Bold)
+                                Text(stringResource(R.string.selectArrowBtn), fontSize = 12.sp, color = VS_Primary, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -508,7 +508,7 @@ private fun WalkInPatientPickerDialog(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = VS_OnSurfaceVariant)
+                Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
             }
         },
         shape = RoundedCornerShape(18.dp),

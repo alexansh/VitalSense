@@ -133,7 +133,7 @@ fun LoginScreen(
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = "VitalSense",
+                                text = stringResource(R.string.app_name),
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold),
                                 color = VS_OnBackground
                             )
@@ -142,7 +142,7 @@ fun LoginScreen(
                                 color = VS_Primary.copy(alpha = 0.12f)
                             ) {
                                 Text(
-                                    text = "सेहतसेतु",
+                                    text = stringResource(R.string.sehatSetuBrand),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = VS_Primary
@@ -364,7 +364,7 @@ fun LoginScreen(
                                 ) {
                                     Text("📞", fontSize = 11.sp)
                                     Text(
-                                        text = "108 Ambulance",
+                                        text = stringResource(R.string.ambulance108),
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                         color = VS_Error
                                     )
@@ -683,7 +683,7 @@ private fun RoleTitleCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Enter →",
+                    text = stringResource(R.string.loginEnterBtn),
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     color = accentColor
                 )
@@ -748,7 +748,7 @@ private fun PhysicalCredentialBadge(
         ) {
             // Header: Official Seal Label
             Text(
-                text = "SMART HEALTH ID",
+                text = stringResource(R.string.smartHealthId),
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 8.5.sp,
@@ -845,7 +845,7 @@ private fun PhysicalCredentialBadge(
                     }
                 }
                 Text(
-                    text = "SECURE VERIFIED",
+                    text = stringResource(R.string.secureVerifiedBadge),
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 7.5.sp, fontWeight = FontWeight.Bold),
                     color = VS_OnSuccessContainer
                 )
@@ -928,7 +928,7 @@ private fun PatientSignInOptions(
             ) {
                 Text("🌐", fontSize = 14.sp)
                 Text(
-                    text = "Sign in with Google",
+                    text = stringResource(R.string.signInWithGoogle),
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -943,7 +943,7 @@ private fun PatientSignInOptions(
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
-                text = "⚡ Instant Demo Sign In",
+                text = stringResource(R.string.instantDemoSignIn),
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                 color = Color.White
             )
@@ -958,7 +958,7 @@ private fun PatientSignInOptions(
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
         ) {
             Text(
-                text = "🪪 Scan ASHA Card (QR Claim)",
+                text = stringResource(R.string.scanAshaCardQr),
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                 color = VS_Primary
             )
@@ -998,7 +998,7 @@ private fun DoctorSignInOptions(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
-            text = "Doctor Consultation Desk",
+            text = stringResource(R.string.doctorConsultationDesk),
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, fontSize = 15.sp),
             color = VS_OnBackground
         )
@@ -1006,8 +1006,8 @@ private fun DoctorSignInOptions(
         OutlinedTextField(
             value = doctorId,
             onValueChange = onDoctorIdChange,
-            label = { Text("Unique Doctor ID", fontSize = 11.sp) },
-            placeholder = { Text("e.g. DOC-101", fontSize = 11.sp) },
+            label = { Text(stringResource(R.string.uniqueDoctorId), fontSize = 11.sp) },
+            placeholder = { Text(stringResource(R.string.egDoctorId), fontSize = 11.sp) },
             singleLine = true,
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.fillMaxWidth()
@@ -1016,7 +1016,7 @@ private fun DoctorSignInOptions(
         OutlinedTextField(
             value = password,
             onValueChange = onPasswordChange,
-            label = { Text("Password", fontSize = 11.sp) },
+            label = { Text(stringResource(R.string.password), fontSize = 11.sp) },
             placeholder = { Text("••••••••", fontSize = 11.sp) },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
@@ -1031,7 +1031,7 @@ private fun DoctorSignInOptions(
             modifier = Modifier.fillMaxWidth().height(42.dp)
         ) {
             Text(
-                text = "Sign In with Doctor ID",
+                text = stringResource(R.string.signInWithDoctorId),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = Color.White
             )
@@ -1045,7 +1045,7 @@ private fun DoctorSignInOptions(
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
-                text = "⚡ Instant Demo Sign In",
+                text = stringResource(R.string.instantDemoSignIn),
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                 color = Color.White
             )
@@ -1066,7 +1066,7 @@ private fun AshaSignInOptions(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
-            text = "ASHA Field Worker Desk",
+            text = stringResource(R.string.ashaFieldWorkerDesk),
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, fontSize = 15.sp),
             color = VS_OnBackground
         )
@@ -1074,8 +1074,8 @@ private fun AshaSignInOptions(
         OutlinedTextField(
             value = ashaId,
             onValueChange = onAshaIdChange,
-            label = { Text("Unique ASHA ID", fontSize = 11.sp) },
-            placeholder = { Text("e.g. ASHA-401", fontSize = 11.sp) },
+            label = { Text(stringResource(R.string.uniqueAshaId), fontSize = 11.sp) },
+            placeholder = { Text(stringResource(R.string.egAshaId), fontSize = 11.sp) },
             singleLine = true,
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.fillMaxWidth()
@@ -1084,7 +1084,7 @@ private fun AshaSignInOptions(
         OutlinedTextField(
             value = pin,
             onValueChange = onPinChange,
-            label = { Text("PIN / Passcode", fontSize = 11.sp) },
+            label = { Text(stringResource(R.string.pinPasscode), fontSize = 11.sp) },
             placeholder = { Text("••••", fontSize = 11.sp) },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
@@ -1099,7 +1099,7 @@ private fun AshaSignInOptions(
             modifier = Modifier.fillMaxWidth().height(42.dp)
         ) {
             Text(
-                text = "Sign In with ASHA ID",
+                text = stringResource(R.string.signInWithAshaId),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = Color.White
             )
@@ -1113,7 +1113,7 @@ private fun AshaSignInOptions(
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
-                text = "⚡ Instant Demo Sign In",
+                text = stringResource(R.string.instantDemoSignIn),
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                 color = Color.White
             )
@@ -1144,8 +1144,8 @@ private fun AdminSignInOptions(
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
-            label = { Text("Official Gov Email", fontSize = 11.sp) },
-            placeholder = { Text("admin@vitalsense.gov.in", fontSize = 11.sp) },
+            label = { Text(stringResource(R.string.officialGovEmail), fontSize = 11.sp) },
+            placeholder = { Text(stringResource(R.string.adminEmailPlaceholder), fontSize = 11.sp) },
             singleLine = true,
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.fillMaxWidth()
@@ -1154,7 +1154,7 @@ private fun AdminSignInOptions(
         OutlinedTextField(
             value = password,
             onValueChange = onPasswordChange,
-            label = { Text("Passcode", fontSize = 11.sp) },
+            label = { Text(stringResource(R.string.passcodeLabel), fontSize = 11.sp) },
             placeholder = { Text("••••••••", fontSize = 11.sp) },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
@@ -1183,7 +1183,7 @@ private fun AdminSignInOptions(
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
-                text = "⚡ Instant Demo Sign In",
+                text = stringResource(R.string.instantDemoSignIn),
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                 color = Color.White
             )

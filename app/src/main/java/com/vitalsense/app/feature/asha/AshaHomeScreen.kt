@@ -342,13 +342,13 @@ fun AshaHomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
                 ) {
                     VitalSenseButton(
-                        text = "Immunization Tracker",
+                        text = stringResource(R.string.immunizationTrackerTitle),
                         onClick = onImmunizationClick,
                         modifier = Modifier.weight(1f),
                         style = ButtonStyle.SECONDARY
                     )
                     VitalSenseButton(
-                        text = "Daily Rounds",
+                        text = stringResource(R.string.dailyVillageRounds),
                         onClick = onDailyRoundsClick,
                         modifier = Modifier.weight(1f),
                         style = ButtonStyle.SECONDARY
@@ -359,7 +359,7 @@ fun AshaHomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
                 ) {
                     VitalSenseButton(
-                        text = "Medicine Restock",
+                        text = stringResource(R.string.medicineRestockTracker),
                         onClick = onMedicineRestockClick,
                         modifier = Modifier.fillMaxWidth(),
                         style = ButtonStyle.SECONDARY
@@ -376,7 +376,7 @@ fun AshaHomeScreen(
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                     Text(
-                        text = "📅 Today's Worklist",
+                        text = stringResource(R.string.todaysWorklist),
                         style = MaterialTheme.typography.headlineMedium,
                         color = VS_OnBackground
                     )
@@ -406,13 +406,13 @@ fun AshaHomeScreen(
                                             color = VS_OnBackground
                                         )
                                         Text(
-                                            text = "Routine Follow-up",
+                                            text = stringResource(R.string.routineFollowUp),
                                             style = MaterialTheme.typography.bodySmall,
                                             color = VS_OnSurfaceVariant
                                         )
                                     }
                                     VitalSenseButton(
-                                        text = "Visit",
+                                        text = stringResource(R.string.visitAction),
                                         onClick = { onSelectProxyPatient(patient) },
                                         style = ButtonStyle.SECONDARY
                                     )
@@ -484,7 +484,7 @@ fun AshaHomeScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "🚨 High-Risk Registry",
+                            text = stringResource(R.string.highRiskRegistry),
                             style = MaterialTheme.typography.headlineMedium,
                             color = VS_Error
                         )
@@ -544,13 +544,13 @@ fun AshaHomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
                         ) {
                             VitalSenseButton(
-                                text = "View Profile",
+                                text = stringResource(R.string.viewProfile),
                                 onClick = { onSelectProxyPatient(patient) },
                                 modifier = Modifier.weight(1f),
                                 style = ButtonStyle.OUTLINED
                             )
                             VitalSenseButton(
-                                text = "Log Vitals",
+                                text = stringResource(R.string.logVitalsAction),
                                 onClick = { onSelectProxyPatient(patient) },
                                 modifier = Modifier.weight(1f),
                                 style = ButtonStyle.PRIMARY
@@ -615,7 +615,7 @@ fun AshaHomeScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "All patients are in the High-Risk Registry.",
+                                text = stringResource(R.string.allPatientsHighRisk),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = VS_OnSurfaceVariant
                             )
@@ -706,7 +706,7 @@ fun AshaHomeScreen(
                                     ) {
                                         Text(text = "🚨", fontSize = 14.sp)
                                         Text(
-                                            text = "SOS",
+                                            text = stringResource(R.string.emergencySos),
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold)
                                         )
                                     }
@@ -805,7 +805,7 @@ fun AshaHomeScreen(
                                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                             ) {
                                 Text(
-                                    text = "Mark Emergency Clear",
+                                    text = stringResource(R.string.markEmergencyClear),
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White
@@ -881,7 +881,7 @@ fun AshaHomeScreen(
                                 shape = PillShape
                             ) {
                                 Text(
-                                    text = "✕ Dismiss",
+                                    text = stringResource(R.string.dismissBtn),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = VS_Primary
                                 )
@@ -950,7 +950,7 @@ fun AshaHomeScreen(
                     color = VS_OnSurfaceVariant
                 )
                 Text(
-                    text = "This will immediately dispatch a high-priority SOS alert to doctors and emergency response.",
+                    text = stringResource(R.string.dispatchEmergencySosDesc),
                     style = MaterialTheme.typography.bodySmall,
                     color = VS_Error
                 )
@@ -996,7 +996,7 @@ fun AshaHomeScreen(
             onDismissRequest = { sosToClear = null },
             title = {
                 Text(
-                    text = "Confirm Emergency Resolved",
+                    text = stringResource(R.string.confirmEmergencyResolved),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -1021,7 +1021,7 @@ fun AshaHomeScreen(
                     shape = PillShape
                 ) {
                     Text(
-                        text = "Yes, Mark Clear & Dismiss",
+                        text = stringResource(R.string.yesMarkClearDismiss),
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
@@ -1032,7 +1032,7 @@ fun AshaHomeScreen(
                     onClick = { sosToClear = null },
                     shape = PillShape
                 ) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             }
         )

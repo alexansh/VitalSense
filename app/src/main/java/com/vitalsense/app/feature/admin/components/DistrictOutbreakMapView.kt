@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.admin.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -493,13 +495,12 @@ fun DistrictOutbreakMapView(
                         Text(text = "o", fontWeight = FontWeight.Bold, fontSize = 11.sp, color = Color(0xFFFBBC04))
                         Text(text = "g", fontWeight = FontWeight.Bold, fontSize = 11.sp, color = Color(0xFF4285F4))
                         Text(text = "l", fontWeight = FontWeight.Bold, fontSize = 11.sp, color = Color(0xFF34A853))
-                        Text(text = "e", fontWeight = FontWeight.Bold, fontSize = 11.sp, color = Color(0xFFEA4335))
-                        Text(text = " Maps", fontWeight = FontWeight.Medium, fontSize = 10.sp, color = Color(0xFF64748B))
+                        Text(text = " " + stringResource(R.string.mapsLabel), fontWeight = FontWeight.Medium, fontSize = 10.sp, color = Color(0xFF64748B))
                     }
                 }
 
                 Text(
-                    text = "2 km ───┤ (Drag to pan freely)",
+                    text = stringResource(R.string.kmDragPan),
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Medium,
                     color = if (mapLayer == MapLayerType.STANDARD) Color(0xFF475569) else Color(0xFF94A3B8)

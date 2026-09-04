@@ -66,7 +66,7 @@ fun PatientHistoryDialog(
                 ) {
                     Column {
                         Text(
-                            text = "📋 Medical History & Records",
+                            text = stringResource(R.string.medicalHistoryAndRecords),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -123,7 +123,7 @@ fun PatientHistoryDialog(
                     Tab(
                         selected = selectedTab == 0,
                         onClick = { selectedTab = 0 },
-                        text = { Text("Records") }
+                        text = { Text(stringResource(R.string.recordsHeading)) }
                     )
                     Tab(
                         selected = selectedTab == 1,
@@ -142,7 +142,7 @@ fun PatientHistoryDialog(
 
                 if (patientConditions.isEmpty()) {
                     Text(
-                        text = "No condition records logged for this patient yet.",
+                        text = stringResource(R.string.noConditionRecordsLogged),
                         style = MaterialTheme.typography.bodySmall,
                         color = VS_OnSurfaceVariant
                     )
@@ -198,7 +198,7 @@ fun PatientHistoryDialog(
 
                 if (patientPrescriptions.isEmpty()) {
                     Text(
-                        text = "No prior prescriptions uploaded or issued.",
+                        text = stringResource(R.string.noPriorPrescriptionsUploaded),
                         style = MaterialTheme.typography.bodySmall,
                         color = VS_OnSurfaceVariant
                     )
@@ -219,7 +219,7 @@ fun PatientHistoryDialog(
                                     if (rx.isOcrExtracted) {
                                         Surface(shape = PillShape, color = VS_SuccessContainer) {
                                             Text(
-                                                text = "AI Digitized",
+                                                text = stringResource(R.string.aiDigitizedBadge),
                                                 style = MaterialTheme.typography.labelSmall.copy(color = VS_OnSuccessContainer, fontWeight = FontWeight.Bold),
                                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                             )
@@ -314,7 +314,7 @@ fun PatientHistoryDialog(
 
                 // Close Button
                 VitalSenseButton(
-                    text = "Close Medical History",
+                    text = stringResource(R.string.closeMedicalHistory),
                     onClick = onDismiss,
                     style = com.vitalsense.app.core.ui.components.ButtonStyle.PRIMARY
                 )

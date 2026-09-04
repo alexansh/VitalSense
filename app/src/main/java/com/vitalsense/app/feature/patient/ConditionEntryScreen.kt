@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -54,7 +56,7 @@ fun ConditionEntryScreen(
         VitalSenseCard {
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                 Text(
-                    text = "Select Severity Level:",
+                    text = stringResource(R.string.selectSeverityLevel),
                     style = MaterialTheme.typography.labelMedium,
                     color = VS_OnSurfaceVariant
                 )
@@ -94,7 +96,7 @@ fun ConditionEntryScreen(
                 )
 
                 VitalSenseButton(
-                    text = "Submit to Doctor Queue ✓",
+                    text = stringResource(R.string.submitToDoctorQueueCheck),
                     onClick = {
                         onLogCondition(
                             ConditionRecord(

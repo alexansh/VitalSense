@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -46,7 +48,7 @@ fun PrescriptionsListScreen(
     ) {
         item {
             Text(
-                text = "My Prescriptions",
+                text = stringResource(R.string.myPrescriptions),
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground
             )
@@ -56,7 +58,7 @@ fun PrescriptionsListScreen(
             item {
                 VitalSenseCard {
                     Text(
-                        text = "No prescriptions found.",
+                        text = stringResource(R.string.noPrescriptionsFound),
                         style = MaterialTheme.typography.bodyMedium,
                         color = VS_OnSurfaceVariant
                     )
@@ -86,7 +88,7 @@ fun PrescriptionsListScreen(
                             if (rx.isOcrExtracted) {
                                 Surface(shape = PillShape, color = VS_SuccessContainer) {
                                     Text(
-                                        text = "AI Scanned",
+                                        text = stringResource(R.string.aiScannedBadge),
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnSuccessContainer),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
@@ -97,7 +99,7 @@ fun PrescriptionsListScreen(
                         HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = 4.dp))
 
                         Text(
-                            text = "Prescribed Medicines:",
+                            text = stringResource(R.string.prescribedMedicinesLabel),
                             style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -123,7 +125,7 @@ fun PrescriptionsListScreen(
                                     )
                                     if (med.hasAlternativeAvailable) {
                                         Text(
-                                            text = "💡 Doctor suggested alternative available",
+                                            text = stringResource(R.string.docSuggestedAlternativePlain),
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                             color = VS_Error
                                         )
@@ -138,7 +140,7 @@ fun PrescriptionsListScreen(
                                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp)
                                 ) {
                                     Text(
-                                        text = "📍 Find nearby",
+                                        text = stringResource(R.string.findNearbyLink),
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                         color = VS_Primary
                                     )

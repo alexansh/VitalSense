@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.asha
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -26,7 +28,7 @@ fun ImmunizationTrackerScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Immunization Tracker") },
+                title = { Text(stringResource(R.string.immunizationTrackerTitle)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -51,7 +53,7 @@ fun ImmunizationTrackerScreen(
         ) {
             item {
                 Text(
-                    text = "Maternal & Child Records",
+                    text = stringResource(R.string.maternalChildRecords),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -60,7 +62,7 @@ fun ImmunizationTrackerScreen(
             if (records.isEmpty()) {
                 item {
                     Text(
-                        text = "No records found.",
+                        text = stringResource(R.string.noRecordsFound),
                         color = VS_OnSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -102,7 +104,7 @@ fun ImmunizationTrackerScreen(
                             HorizontalDivider(color = VS_Outline, thickness = 1.dp)
 
                             Text(
-                                text = "Vaccination Schedule",
+                                text = stringResource(R.string.vaccinationSchedule),
                                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )

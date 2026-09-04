@@ -89,7 +89,7 @@ fun IpdBedTrackerScreen(
                     border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
-                        text = "Hospital Care · IPD",
+                        text = stringResource(R.string.hospitalCareIpd),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
@@ -153,15 +153,15 @@ fun IpdBedTrackerScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Total Capacity", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.totalCapacity), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text("$totalBeds Beds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
                         Column {
-                            Text("Admitted Patients", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.admittedPatients), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text("$occupiedBeds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_Error)
                         }
                         Column {
-                            Text("Available Vacant", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.availableVacant), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text("$vacantBeds Beds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_Success)
                         }
                     }
@@ -301,7 +301,7 @@ fun IpdBedTrackerScreen(
                                 .fillMaxWidth()
                                 .defaultMinSize(minHeight = 36.dp)
                         ) {
-                            Text("Clear & Discharge Bed", style = MaterialTheme.typography.labelSmall, color = VS_Error)
+                            Text(stringResource(R.string.clearDischargeBed), style = MaterialTheme.typography.labelSmall, color = VS_Error)
                         }
                     } else {
                         // Vacant Bed Action
@@ -397,12 +397,12 @@ fun IpdBedTrackerScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     enabled = patientName.isNotBlank()
                 ) {
-                    Text("Confirm Admission", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.confirmAdmission), style = MaterialTheme.typography.labelSmall)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showAdmitDialogForBed = null }) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             },
             containerColor = VS_Surface,

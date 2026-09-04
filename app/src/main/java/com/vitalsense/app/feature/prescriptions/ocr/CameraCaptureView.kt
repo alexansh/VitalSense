@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.prescriptions.ocr
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import android.Manifest
 import android.content.Context
@@ -219,7 +221,7 @@ fun CameraCaptureView(
             verticalArrangement = Arrangement.spacedBy(Spacing.md)
         ) {
             Text(
-                text = "📄 Position prescription inside the frame",
+                text = stringResource(R.string.positionPrescriptionFrame),
                 color = Color.White,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
                 textAlign = TextAlign.Center
@@ -292,7 +294,7 @@ fun CameraCaptureView(
                     contentPadding = PaddingValues(horizontal = Spacing.md, vertical = Spacing.xs)
                 ) {
                     Text(
-                        text = "✨ Google Auto-Crop & Clean Scanner",
+                        text = stringResource(R.string.googleAutoCropScanner),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold)
                     )
                 }
@@ -303,7 +305,7 @@ fun CameraCaptureView(
                 modifier = Modifier.padding(horizontal = Spacing.md)
             ) {
                 Text(
-                    text = "✍️ Can't scan? Enter details manually",
+                    text = stringResource(R.string.cantScanEnterManually),
                     color = Color.White.copy(alpha = 0.9f),
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                 )
@@ -375,14 +377,14 @@ private fun CameraPermissionRationale(
                 Text(text = "📷", fontSize = 48.sp)
 
                 Text(
-                    text = "Camera Permission Needed",
+                    text = stringResource(R.string.cameraPermissionNeeded),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground,
                     textAlign = TextAlign.Center
                 )
 
                 Text(
-                    text = "VitalSense uses your camera to capture prescription documents and extract medicines offline on your device.",
+                    text = stringResource(R.string.cameraPermissionReason),
                     style = MaterialTheme.typography.bodyMedium,
                     color = VS_OnSurfaceVariant,
                     textAlign = TextAlign.Center
@@ -395,7 +397,7 @@ private fun CameraPermissionRationale(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = "Camera access was declined. Please open device settings to enable camera permissions for VitalSense.",
+                            text = stringResource(R.string.cameraAccessDeclinedMsg),
                             style = MaterialTheme.typography.bodySmall,
                             color = VS_OnErrorContainer,
                             modifier = Modifier.padding(Spacing.sm),
@@ -409,7 +411,7 @@ private fun CameraPermissionRationale(
                         shape = PillShape,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("⚙️ Open App Settings", color = Color.White, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.openAppSettingsBtn), color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 } else {
                     Button(
@@ -418,7 +420,7 @@ private fun CameraPermissionRationale(
                         shape = PillShape,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Allow Camera Access", color = Color.White, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.allowCameraAccessBtn), color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 }
 
@@ -428,11 +430,11 @@ private fun CameraPermissionRationale(
                     border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("✍️ Enter Details Manually", color = VS_OnBackground)
+                    Text(stringResource(R.string.enterDetailsManuallyBtn), color = VS_OnBackground)
                 }
 
                 TextButton(onClick = onClose) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             }
         }

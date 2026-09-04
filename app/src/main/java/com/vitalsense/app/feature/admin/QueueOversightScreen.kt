@@ -105,7 +105,7 @@ fun QueueOversightScreen(
                             ) {
                                 Column {
                                     Text(
-                                        text = "Current Serving Token",
+                                        text = stringResource(R.string.currentServingToken),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -118,7 +118,7 @@ fun QueueOversightScreen(
 
                                 Column(horizontalAlignment = Alignment.End) {
                                     Text(
-                                        text = "Waiting in Line",
+                                        text = stringResource(R.string.waitingInLine),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -151,7 +151,7 @@ fun QueueOversightScreen(
                                     modifier = Modifier.fillMaxWidth().padding(24.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text("No patients in queue for this doctor today.", color = VS_OnSurfaceVariant)
+                                    Text(stringResource(R.string.noPatientsInQueueToday), color = VS_OnSurfaceVariant)
                                 }
                             }
                         }
@@ -186,7 +186,7 @@ fun QueueOversightScreen(
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Tap doctor to inspect queue",
+                                text = stringResource(R.string.tapDoctorToInspect),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = VS_OnSurfaceVariant
                             )
@@ -258,7 +258,7 @@ fun QueueOversightScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Column {
-                                        Text("Now Serving", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                                        Text(stringResource(R.string.nowServingLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                         Text(
                                             text = if (summary.currentToken > 0) "#${summary.currentToken}" else "--",
                                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
@@ -267,7 +267,7 @@ fun QueueOversightScreen(
                                     }
 
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text("In Waiting", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                                        Text(stringResource(R.string.inWaitingLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                         Text(
                                             text = "${summary.waitingCount}",
                                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
@@ -276,7 +276,7 @@ fun QueueOversightScreen(
                                     }
 
                                     Column(horizontalAlignment = Alignment.End) {
-                                        Text("Avg Wait", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                                        Text(stringResource(R.string.avgWaitLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                         Text(
                                             text = "~${(summary.avgWaitSeconds + 59) / 60}m",
                                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),

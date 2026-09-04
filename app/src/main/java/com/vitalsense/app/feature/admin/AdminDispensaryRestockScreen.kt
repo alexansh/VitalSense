@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.admin
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +33,7 @@ fun AdminDispensaryRestockScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Dispensary Restock", color = VS_OnBackground) },
+                title = { Text(stringResource(R.string.dispensaryRestockTitle), color = VS_OnBackground) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -57,7 +59,7 @@ fun AdminDispensaryRestockScreen(
                 .padding(horizontal = Spacing.md)
         ) {
             Text(
-                text = "Manage Inventory",
+                text = stringResource(R.string.manageInventory),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground,
                 modifier = Modifier.padding(bottom = Spacing.sm, top = Spacing.sm)
@@ -139,7 +141,7 @@ fun DispensaryRestockCard(
                             modifier = Modifier.padding(top = 4.dp)
                         ) {
                             Text(
-                                text = "LOW STOCK",
+                                text = stringResource(R.string.lowStockTag),
                                 style = MaterialTheme.typography.labelSmall.copy(color = VS_Error, fontWeight = FontWeight.Bold),
                                 modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 2.dp)
                             )
@@ -151,7 +153,7 @@ fun DispensaryRestockCard(
             Spacer(modifier = Modifier.height(Spacing.md))
 
             VitalSenseButton(
-                text = "Restock Item",
+                text = stringResource(R.string.restockItem),
                 onClick = { showDialog = true },
                 style = ButtonStyle.OUTLINED,
                 modifier = Modifier.fillMaxWidth()
@@ -172,7 +174,7 @@ fun DispensaryRestockCard(
                     OutlinedTextField(
                         value = quantityText,
                         onValueChange = { quantityText = it.filter { char -> char.isDigit() } },
-                        label = { Text("Add quantity") },
+                        label = { Text(stringResource(R.string.addQuantityLabel)) },
                         singleLine = true
                     )
                 }
@@ -187,12 +189,12 @@ fun DispensaryRestockCard(
                         showDialog = false
                     }
                 ) {
-                    Text("Update")
+                    Text(stringResource(R.string.updateAction))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )

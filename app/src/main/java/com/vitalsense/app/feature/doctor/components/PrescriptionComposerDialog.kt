@@ -228,7 +228,7 @@ fun PrescriptionComposerDialog(
                                         border = BorderStroke(1.dp, VS_Error)
                                     ) {
                                         Text(
-                                            text = "⚠️ Out of stock near patient · Clinical override noted",
+                                            text = stringResource(R.string.outOfStockNearPatientWarning),
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                                             color = VS_OnErrorContainer,
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
@@ -240,7 +240,7 @@ fun PrescriptionComposerDialog(
                                         color = VS_SuccessContainer
                                     ) {
                                         Text(
-                                            text = "✅ Likely available near patient",
+                                            text = stringResource(R.string.likelyAvailableNearPatient),
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                                             color = VS_OnSuccessContainer,
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
@@ -259,7 +259,7 @@ fun PrescriptionComposerDialog(
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                                 Text(
-                                    text = "+ Add Another Medicine",
+                                    text = stringResource(R.string.addAnotherMedicineBtn),
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                     color = VS_OnBackground
                                 )
@@ -267,8 +267,8 @@ fun PrescriptionComposerDialog(
                                 OutlinedTextField(
                                     value = newMedName,
                                     onValueChange = { newMedName = it },
-                                    label = { Text("Medicine Name", color = VS_OnSurfaceVariant) },
-                                    placeholder = { Text("e.g. Paracetamol 650mg or Amoxicillin", color = VS_OnSurfaceVariant) },
+                                    label = { Text(stringResource(R.string.medicineName), color = VS_OnSurfaceVariant) },
+                                    placeholder = { Text(stringResource(R.string.medicineNamePlaceholder), color = VS_OnSurfaceVariant) },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = InputShape,
                                     colors = OutlinedTextFieldDefaults.colors(
@@ -320,7 +320,7 @@ fun PrescriptionComposerDialog(
                                             ) {
                                                 Column(modifier = Modifier.weight(1f)) {
                                                     Text(
-                                                        text = "⚠️ Not found near patient's location",
+                                                        text = stringResource(R.string.notFoundNearPatientLocation),
                                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                                         color = VS_OnErrorContainer
                                                     )
@@ -407,7 +407,7 @@ fun PrescriptionComposerDialog(
                                                                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                                                                 ) {
                                                                     Text(
-                                                                        text = "Swap ✓",
+                                                                        text = stringResource(R.string.swapMedicineBtn),
                                                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                                                         color = VS_OnBackground
                                                                     )
@@ -418,7 +418,7 @@ fun PrescriptionComposerDialog(
                                                 }
 
                                                 Text(
-                                                    text = "⚠️ Disclaimer: Suggestions are based on medicine category only — confirm clinical appropriateness before prescribing.",
+                                                    text = stringResource(R.string.medicineSuggestionDisclaimer),
                                                     style = MaterialTheme.typography.labelSmall,
                                                     color = VS_OnSurfaceVariant,
                                                     modifier = Modifier.padding(top = 4.dp)
@@ -437,7 +437,7 @@ fun PrescriptionComposerDialog(
                                     OutlinedTextField(
                                         value = newMedDosage,
                                         onValueChange = { newMedDosage = it },
-                                        label = { Text("Dosage", color = VS_OnSurfaceVariant) },
+                                        label = { Text(stringResource(R.string.dosageLabel), color = VS_OnSurfaceVariant) },
                                         modifier = Modifier.weight(1f),
                                         shape = InputShape,
                                         colors = OutlinedTextFieldDefaults.colors(
@@ -452,7 +452,7 @@ fun PrescriptionComposerDialog(
                                     OutlinedTextField(
                                         value = newMedQuantity,
                                         onValueChange = { newMedQuantity = it },
-                                        label = { Text("Qty", color = VS_OnSurfaceVariant) },
+                                        label = { Text(stringResource(R.string.quantityShort), color = VS_OnSurfaceVariant) },
                                         modifier = Modifier.weight(0.7f),
                                         shape = InputShape,
                                         colors = OutlinedTextFieldDefaults.colors(
@@ -469,7 +469,7 @@ fun PrescriptionComposerDialog(
                                 OutlinedTextField(
                                     value = newMedFrequency,
                                     onValueChange = { newMedFrequency = it },
-                                    label = { Text("Frequency & Timing", color = VS_OnSurfaceVariant) },
+                                    label = { Text(stringResource(R.string.frequencyAndTiming), color = VS_OnSurfaceVariant) },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = InputShape,
                                     colors = OutlinedTextFieldDefaults.colors(
@@ -485,7 +485,7 @@ fun PrescriptionComposerDialog(
                                 OutlinedTextField(
                                     value = newMedDuration,
                                     onValueChange = { newMedDuration = it },
-                                    label = { Text("Duration", color = VS_OnSurfaceVariant) },
+                                    label = { Text(stringResource(R.string.durationLabel), color = VS_OnSurfaceVariant) },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = InputShape,
                                     colors = OutlinedTextFieldDefaults.colors(
@@ -523,7 +523,7 @@ fun PrescriptionComposerDialog(
                                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                     modifier = Modifier.align(Alignment.End)
                                 ) {
-                                    Text("+ Add to Prescription", color = VS_OnBackground, style = MaterialTheme.typography.labelSmall)
+                                    Text(stringResource(R.string.addToPrescriptionBtn), color = VS_OnBackground, style = MaterialTheme.typography.labelSmall)
                                 }
                             }
                         }
@@ -532,14 +532,14 @@ fun PrescriptionComposerDialog(
                     // Special Instructions
                     item {
                         Text(
-                            text = "Dietary & Follow-Up Instructions",
+                            text = stringResource(R.string.dietaryFollowUpInstructions),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
                         OutlinedTextField(
                             value = instructions,
                             onValueChange = { instructions = it },
-                            label = { Text("Instructions for Patient & ASHA", color = VS_OnSurfaceVariant) },
+                            label = { Text(stringResource(R.string.instructionsPatientAsha), color = VS_OnSurfaceVariant) },
                             modifier = Modifier.fillMaxWidth(),
                             minLines = 3,
                             shape = InputShape,

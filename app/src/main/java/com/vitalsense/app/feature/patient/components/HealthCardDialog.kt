@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
@@ -90,7 +92,7 @@ fun HealthCardDialog(
                         }
                         Column {
                             Text(
-                                text = "DIGITAL HEALTH CARD (UMID)",
+                                text = stringResource(R.string.digitalHealthCardUmid),
                                 style = MaterialTheme.typography.labelMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     letterSpacing = 1.sp
@@ -98,7 +100,7 @@ fun HealthCardDialog(
                                 color = VS_Primary
                             )
                             Text(
-                                text = "VitalSense / SehatSetu Identity",
+                                text = stringResource(R.string.vitalSenseIdentity),
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                                 color = cardTextSecondary
                             )
@@ -114,7 +116,7 @@ fun HealthCardDialog(
                 if (familyMembers.isNotEmpty()) {
                     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         Text(
-                            text = "Linked Beneficiaries (Family):",
+                            text = stringResource(R.string.linkedBeneficiariesFamily),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnSurfaceVariant
                         )
@@ -131,7 +133,7 @@ fun HealthCardDialog(
                                     modifier = Modifier.clickable { selectedFamilyMember = null }
                                 ) {
                                     Text(
-                                        text = "👤 Primary (Self)",
+                                        text = stringResource(R.string.primarySelf),
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = if (isSelf) FontWeight.Bold else FontWeight.Normal
                                         ),
@@ -166,7 +168,7 @@ fun HealthCardDialog(
                 Spacer(modifier = Modifier.height(Spacing.xs))
                 
                 VitalSenseButton(
-                    text = "View Full Care Journey (Timeline)",
+                    text = stringResource(R.string.viewCareJourneyTimeline),
                     onClick = { showTimelineDialog = true },
                     modifier = Modifier.fillMaxWidth(),
                     style = ButtonStyle.SECONDARY
@@ -258,7 +260,7 @@ fun HealthCardDialog(
                         }
 
                         Text(
-                            text = "SCAN AT PHC CLINIC / DISPENSARY",
+                            text = stringResource(R.string.scanAtClinicDispensary),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp,
@@ -284,11 +286,11 @@ fun HealthCardDialog(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Column {
-                                Text("Emergency Contact", style = MaterialTheme.typography.labelSmall, color = cardTextSecondary)
+                                Text(stringResource(R.string.emergencyContactLabel), style = MaterialTheme.typography.labelSmall, color = cardTextSecondary)
                                 Text(patient.emergencyContact, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = cardTextPrimary)
                             }
                             Column(horizontalAlignment = Alignment.End) {
-                                Text("Assigned ASHA", style = MaterialTheme.typography.labelSmall, color = cardTextSecondary)
+                                Text(stringResource(R.string.assignedAshaLabel), style = MaterialTheme.typography.labelSmall, color = cardTextSecondary)
                                 Text(patient.ashaWorkerName, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = cardTextPrimary)
                             }
                         }
@@ -300,7 +302,7 @@ fun HealthCardDialog(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Column {
-                                Text("Active Clinical Condition", style = MaterialTheme.typography.labelSmall, color = cardTextSecondary)
+                                Text(stringResource(R.string.activeClinicalConditionLabel), style = MaterialTheme.typography.labelSmall, color = cardTextSecondary)
                                 Text(patient.lastCondition, style = MaterialTheme.typography.bodySmall, color = cardTextPrimary)
                             }
                         }
@@ -353,7 +355,7 @@ fun HealthCardDialog(
                                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
                                     modifier = Modifier.height(28.dp)
                                 ) {
-                                    Text("Link ABHA", style = MaterialTheme.typography.labelSmall)
+                                    Text(stringResource(R.string.linkAbhaBtn), style = MaterialTheme.typography.labelSmall)
                                 }
                             } else if (isSyncingAbdm) {
                                 CircularProgressIndicator(
@@ -387,7 +389,7 @@ fun HealthCardDialog(
                     ) {
                         Text("🔒", fontSize = 12.sp)
                         Text(
-                            text = "Offline SQLite Encrypted",
+                            text = stringResource(R.string.offlineSqliteEncrypted),
                             style = MaterialTheme.typography.labelSmall.copy(color = VS_Success, fontWeight = FontWeight.Bold)
                         )
                     }

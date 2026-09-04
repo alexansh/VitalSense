@@ -178,7 +178,7 @@ fun CaseDetailScreen(
                         if (record.ashaProxyLogged) {
                             Surface(shape = PillShape, color = VS_PrimaryContainer) {
                                 Text(
-                                    text = "🤝 Submitted via ASHA Helper",
+                                    text = stringResource(R.string.submittedViaAshaHelper),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.SemiBold,
                                         color = VS_PrimaryContainer
@@ -188,7 +188,7 @@ fun CaseDetailScreen(
                             }
                         } else {
                             Text(
-                                text = "Direct Patient Submission",
+                                text = stringResource(R.string.directPatientSubmission),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = VS_OnSurfaceVariant
                             )
@@ -204,7 +204,7 @@ fun CaseDetailScreen(
                                     contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                     modifier = Modifier.defaultMinSize(minHeight = 34.dp)
                                 ) {
-                                    Text(text = "📋 History & Rx", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                                    Text(text = stringResource(R.string.historyAndRx), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                                 }
 
                                 OutlinedButton(
@@ -214,7 +214,7 @@ fun CaseDetailScreen(
                                     contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                     modifier = Modifier.defaultMinSize(minHeight = 34.dp)
                                 ) {
-                                    Text(text = "🪪 Health Card", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                                    Text(text = stringResource(R.string.healthCardTab), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                                 }
                             }
                         }
@@ -240,12 +240,12 @@ fun CaseDetailScreen(
                         Text(text = "🧠", fontSize = 24.sp)
                         Column {
                             Text(
-                                text = "Mental Health Case Flag",
+                                text = stringResource(R.string.mentalHealthCaseFlag),
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )
                             Text(
-                                text = "Patient logged psychological stress/anxiety symptoms. Approached with empathy and holistic care.",
+                                text = stringResource(R.string.mentalHealthApproachNotice),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_OnBackground
                             )
@@ -267,7 +267,7 @@ fun CaseDetailScreen(
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                                 Text(
-                                    text = "↗ Referred by Dr. ${record.referredByDoctorName ?: "Colleague"}",
+                                    text = "↗ ${stringResource(R.string.referredByDoctor)}: Dr. ${record.referredByDoctorName ?: "Colleague"}",
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                     color = VS_PrimaryContainer
                                 )
@@ -324,7 +324,7 @@ fun CaseDetailScreen(
                                 }
 
                                 Text(
-                                    text = "Clinical Ask: \"${ref.clinicalQuestion}\"",
+                                    text = "${stringResource(R.string.clinicalAskPrefix)}\"${ref.clinicalQuestion}\"",
                                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
                                     color = VS_OnBackground
                                 )
@@ -332,14 +332,14 @@ fun CaseDetailScreen(
                                 if (isCompleted) {
                                     ref.specialistFindings?.let { f ->
                                         Text(
-                                            text = "Specialist Diagnostic Findings: $f",
+                                            text = "${stringResource(R.string.specialistFindingsDiagnosticAssessment)}: $f",
                                             style = MaterialTheme.typography.bodySmall,
                                             color = VS_OnBackground
                                         )
                                     }
                                     ref.specialistRecommendations?.let { r ->
                                         Text(
-                                            text = "Specialist Recommendations: $r",
+                                            text = "${stringResource(R.string.specialistRecommendationsCarePlan)}: $r",
                                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
                                             color = VS_Success
                                         )
@@ -421,7 +421,7 @@ fun CaseDetailScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "🔒 Confidential Clinical Notes (Doctor-Only)",
+                            text = stringResource(R.string.confidentialDoctorNotes),
                             style = MaterialTheme.typography.labelMedium,
                             color = VS_OnSurfaceVariant
                         )
@@ -467,7 +467,7 @@ fun CaseDetailScreen(
         // 6. Clinical Tool Actions
         item {
             Text(
-                text = "Clinical Actions",
+                text = stringResource(R.string.clinicalActionsTitle),
                 style = MaterialTheme.typography.headlineMedium,
                 color = VS_OnBackground
             )
@@ -476,7 +476,7 @@ fun CaseDetailScreen(
         item {
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                 VitalSenseButton(
-                    text = "📹 Start Tele-Consultation Call",
+                    text = stringResource(R.string.startTeleConsultCall),
                     onClick = { showTeleConsultModal = true },
                     modifier = Modifier.fillMaxWidth(),
                     style = ButtonStyle.PRIMARY
@@ -512,13 +512,13 @@ fun CaseDetailScreen(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
                 ) {
                     VitalSenseButton(
-                        text = "🧪 Order Lab Test",
+                        text = stringResource(R.string.orderDiagnosticLabTest),
                         onClick = { showOrderLabDialog = true },
                         modifier = Modifier.weight(1f),
                         style = ButtonStyle.SECONDARY
                     )
                     VitalSenseButton(
-                        text = "📜 Issue Certificate",
+                        text = stringResource(R.string.issueMedicalCertificateTitle),
                         onClick = { showMedicalCertDialog = true },
                         modifier = Modifier.weight(1f),
                         style = ButtonStyle.SECONDARY
@@ -526,7 +526,7 @@ fun CaseDetailScreen(
                 }
 
                 VitalSenseButton(
-                    text = "📷 Scan External Rx (OCR)",
+                    text = stringResource(R.string.scanExternalRxOcr),
                     onClick = { showScanPrescriptionDialog = true },
                     modifier = Modifier.fillMaxWidth(),
                     style = ButtonStyle.OUTLINED
@@ -567,7 +567,7 @@ fun CaseDetailScreen(
                             if (rx.isOcrExtracted) {
                                 Surface(shape = PillShape, color = VS_SuccessContainer) {
                                     Text(
-                                        text = "OCR Digitized",
+                                        text = stringResource(R.string.ocrDigitizedBadge),
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = FontWeight.Bold,
                                             color = VS_OnSuccessContainer

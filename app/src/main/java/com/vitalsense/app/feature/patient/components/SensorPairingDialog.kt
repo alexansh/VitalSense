@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import android.content.Context
 import androidx.compose.animation.*
@@ -277,7 +279,7 @@ fun SensorPairingDialog(
                             ) {
                                 Column(modifier = Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(text = "$liveSpO2%", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = VS_Success)
-                                    Text(text = "SpO2", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                                    Text(text = stringResource(R.string.spo2Label), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                 }
                             }
                         }

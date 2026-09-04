@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,12 +33,12 @@ fun DoctorSlotConfigDialog(
         title = {
             Column {
                 Text(
-                    text = "Configure Clinic & Queue Slots",
+                    text = stringResource(R.string.configureClinicQueueSlots),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
                 Text(
-                    text = "Manage patient capacity and walk-in entry rules for today.",
+                    text = stringResource(R.string.manageCapacityWalkInRules),
                     style = MaterialTheme.typography.bodySmall,
                     color = VS_OnSurfaceVariant
                 )
@@ -90,12 +92,12 @@ fun DoctorSlotConfigDialog(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Accept Walk-In Queue",
+                                text = stringResource(R.string.acceptWalkInQueue),
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Allow patients without prior booking to check-in directly.",
+                                text = stringResource(R.string.allowDirectCheckinNoBooking),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = VS_OnSurfaceVariant
                             )
@@ -114,7 +116,7 @@ fun DoctorSlotConfigDialog(
         },
         confirmButton = {
             VitalSenseButton(
-                text = "Save Configuration",
+                text = stringResource(R.string.saveConfiguration),
                 onClick = {
                     val cap = capacityText.toIntOrNull() ?: 20
                     onSave(cap, isWalkInOpen, startTime, endTime)
@@ -124,7 +126,7 @@ fun DoctorSlotConfigDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = VS_OnSurfaceVariant)
+                Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
             }
         },
         shape = RoundedCornerShape(18.dp),

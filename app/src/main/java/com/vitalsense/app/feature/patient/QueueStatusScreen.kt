@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -44,7 +46,7 @@ fun QueueStatusScreen(
                 TopAppBar(
                     title = {
                         Text(
-                            text = "Live Visit Queue",
+                            text = stringResource(R.string.liveVisitQueue),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -83,12 +85,12 @@ fun QueueStatusScreen(
                         ) {
                             Text("📋", fontSize = 36.sp)
                             Text(
-                                text = "No Active Queue Ticket",
+                                text = stringResource(R.string.noActiveQueueTicket),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Check in to a scheduled appointment or join a doctor's walk-in queue to receive your token.",
+                                text = stringResource(R.string.checkInScheduledDesc),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_OnSurfaceVariant,
                                 textAlign = TextAlign.Center
@@ -103,7 +105,7 @@ fun QueueStatusScreen(
                                 ) {
                                     Icon(Icons.Default.ConfirmationNumber, contentDescription = null, tint = Color.White)
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("Get Instant Token for Today", fontWeight = FontWeight.Bold, color = Color.White)
+                                    Text(stringResource(R.string.getInstantTokenToday), fontWeight = FontWeight.Bold, color = Color.White)
                                 }
                             }
                         }
@@ -157,7 +159,7 @@ fun QueueStatusScreen(
                             // Big Token Number
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
-                                    text = "YOUR TOKEN NUMBER",
+                                    text = stringResource(R.string.yourTokenNumberCaps),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         letterSpacing = 1.sp,
                                         fontWeight = FontWeight.Bold
@@ -172,7 +174,7 @@ fun QueueStatusScreen(
                                         border = BorderStroke(1.dp, VS_Error)
                                     ) {
                                         Text(
-                                            text = "Confirming your position…",
+                                            text = stringResource(R.string.confirmingPosition),
                                             style = MaterialTheme.typography.titleMedium.copy(
                                                 fontWeight = FontWeight.Bold
                                             ),
@@ -207,7 +209,7 @@ fun QueueStatusScreen(
                                         color = VS_OnBackground
                                     )
                                     Text(
-                                        text = "Queue Position",
+                                        text = stringResource(R.string.queuePositionLabel),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -227,7 +229,7 @@ fun QueueStatusScreen(
                                         color = VS_OnBackground
                                     )
                                     Text(
-                                        text = "Estimated Wait",
+                                        text = stringResource(R.string.estWaitTime),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -244,7 +246,7 @@ fun QueueStatusScreen(
                             ) {
                                 Column {
                                     Text(
-                                        text = "Attending Physician",
+                                        text = stringResource(R.string.attendingPhysician),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -287,7 +289,7 @@ fun QueueStatusScreen(
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "Cancel Token",
+                                text = stringResource(R.string.cancelTokenBtn),
                                 color = VS_Error,
                                 fontWeight = FontWeight.Bold
                             )

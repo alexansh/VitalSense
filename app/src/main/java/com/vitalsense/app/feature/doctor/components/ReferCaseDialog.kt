@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -49,7 +51,7 @@ fun ReferCaseDialog(
                 ) {
                     Column {
                         Text(
-                            text = "🔄 Refer Case to Specialist",
+                            text = stringResource(R.string.referCaseToSpecialist),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -67,7 +69,7 @@ fun ReferCaseDialog(
                 HorizontalDivider(color = VS_Outline)
 
                 Text(
-                    text = "Select Target Medical Specialty:",
+                    text = stringResource(R.string.selectTargetSpecialtyColon),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -110,7 +112,7 @@ fun ReferCaseDialog(
                 }
 
                 Text(
-                    text = "Clinical Referral Notes:",
+                    text = stringResource(R.string.clinicalReferralNotesColon),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -142,7 +144,7 @@ fun ReferCaseDialog(
                         shape = PillShape,
                         border = BorderStroke(1.dp, VS_Outline)
                     ) {
-                        Text("Cancel", color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                     }
 
                     Button(
@@ -154,7 +156,7 @@ fun ReferCaseDialog(
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(containerColor = VS_Primary, contentColor = VS_OnBackground)
                     ) {
-                        Text("Transfer Case →", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))
+                        Text(stringResource(R.string.transferCaseArrow), style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))
                     }
                 }
             }

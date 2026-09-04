@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.admin
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
@@ -43,7 +45,7 @@ fun AdminDiseaseTrendsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Disease Trends", color = VS_OnBackground) },
+                title = { Text(stringResource(R.string.diseaseTrendsTitle), color = VS_OnBackground) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -70,7 +72,7 @@ fun AdminDiseaseTrendsScreen(
         ) {
             item {
                 Text(
-                    text = "Village Selection",
+                    text = stringResource(R.string.villageSelection),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground,
                     modifier = Modifier.padding(bottom = Spacing.sm, top = Spacing.sm)
@@ -118,7 +120,7 @@ fun AdminDiseaseTrendsScreen(
 
                     if (filteredRecords.isNotEmpty()) {
                         Text(
-                            text = "Outbreak Trends (Total Cases)",
+                            text = stringResource(R.string.outbreakTrendsCases),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground,
                             modifier = Modifier.padding(bottom = Spacing.md)
@@ -135,7 +137,7 @@ fun AdminDiseaseTrendsScreen(
                     } else {
                         VitalSenseCard {
                             Text(
-                                text = "No trend data available for this village.",
+                                text = stringResource(R.string.noTrendDataVillage),
                                 color = VS_OnSurfaceVariant,
                                 modifier = Modifier.padding(Spacing.md)
                             )
@@ -254,7 +256,7 @@ fun ManualEntrySection(
     val diseases = listOf("Malaria", "Dengue", "Cholera", "Typhoid", "Tuberculosis")
 
     Text(
-        text = "Record New Data",
+        text = stringResource(R.string.recordNewData),
         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
         color = VS_OnBackground,
         modifier = Modifier.padding(bottom = Spacing.sm)
@@ -270,7 +272,7 @@ fun ManualEntrySection(
                     value = selectedDisease,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Disease") },
+                    label = { Text(stringResource(R.string.diseaseLabel)) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = diseaseExpanded) },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                     modifier = Modifier
@@ -298,7 +300,7 @@ fun ManualEntrySection(
             OutlinedTextField(
                 value = caseCountText,
                 onValueChange = { caseCountText = it.filter { char -> char.isDigit() } },
-                label = { Text("Total Cases") },
+                label = { Text(stringResource(R.string.totalCasesLabel)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -306,7 +308,7 @@ fun ManualEntrySection(
             Spacer(modifier = Modifier.height(Spacing.md))
 
             VitalSenseButton(
-                text = "Save Record",
+                text = stringResource(R.string.saveRecord),
                 onClick = {
                     val count = caseCountText.toIntOrNull()
                     if (count != null && count >= 0) {

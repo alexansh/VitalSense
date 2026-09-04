@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.asha.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -75,7 +77,7 @@ fun SendNoticeDialog(
                         }
                         Column {
                             Text(
-                                text = "Broadcast Village Advisory",
+                                text = stringResource(R.string.broadcastVillageAdvisory),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
@@ -103,7 +105,7 @@ fun SendNoticeDialog(
 
                 // Quick Templates
                 Text(
-                    text = "QUICK ADVISORY TEMPLATES",
+                    text = stringResource(R.string.quickAdvisoryTemplates),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -152,7 +154,7 @@ fun SendNoticeDialog(
 
                 // Village Selector
                 Text(
-                    text = "BROADCAST TARGET VILLAGE",
+                    text = stringResource(R.string.broadcastTargetVillage),
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -252,7 +254,7 @@ fun SendNoticeDialog(
                         .height(44.dp)
                 ) {
                     Text(
-                        text = "📢 Broadcast to Village Dashboard",
+                        text = stringResource(R.string.broadcastToVillageDashboard),
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
                 }

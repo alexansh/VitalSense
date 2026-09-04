@@ -238,7 +238,7 @@ fun DoctorHomeScreen(
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
                         Text(
-                            text = "CLINICAL TRIAGE TODAY",
+                            text = stringResource(R.string.clinicalTriageToday),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp
@@ -358,7 +358,7 @@ fun DoctorHomeScreen(
                                 horizontalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
                                 Text(
-                                    text = "Specialist Referrals Queue",
+                                    text = stringResource(R.string.specialistReferralsQueue),
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                     color = VS_OnBackground
                                 )
@@ -380,7 +380,7 @@ fun DoctorHomeScreen(
                                 }
                             }
                             Text(
-                                text = "Triage incoming consults & closed-loop specialist evaluations",
+                                text = stringResource(R.string.triageIncomingConsults),
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                                 color = VS_OnSurfaceVariant
                             )
@@ -405,8 +405,8 @@ fun DoctorHomeScreen(
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text("🔪", fontSize = 20.sp)
-                        Text("OT Desk", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
-                        Text("Surgeries & PAC", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.otDeskTab), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text(stringResource(R.string.surgeriesAndPac), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                     }
                 }
 
@@ -418,8 +418,8 @@ fun DoctorHomeScreen(
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text("🛏️", fontSize = 20.sp)
-                        Text("IPD Beds", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
-                        Text("Ward Occupancy", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.ipdBedsTab), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text(stringResource(R.string.wardOccupancy), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                     }
                 }
 
@@ -431,8 +431,8 @@ fun DoctorHomeScreen(
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text("🏛️", fontSize = 20.sp)
-                        Text("Referrals", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
-                        Text("AIIMS / Tie-Up", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.referralsTab), style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text(stringResource(R.string.aiimsTieUp), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                     }
                 }
             }
@@ -529,7 +529,7 @@ fun DoctorHomeScreen(
             ) {
                 if (emergencySosAlerts.isEmpty()) {
                     Text(
-                        text = "No active SOS alerts.",
+                        text = stringResource(R.string.noActiveSosAlerts),
                         style = MaterialTheme.typography.bodyMedium,
                         color = VS_OnSurfaceVariant
                     )
@@ -587,7 +587,7 @@ fun DoctorHomeScreen(
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                     ) {
                                         Text(
-                                            text = "Mark Emergency Clear",
+                                            text = stringResource(R.string.markEmergencyClear),
                                             fontSize = 11.sp,
                                             fontWeight = FontWeight.Bold,
                                             color = Color.White
@@ -677,7 +677,7 @@ fun DoctorHomeScreen(
                                         ) {
                                             Text(text = "🧠", style = MaterialTheme.typography.labelSmall)
                                             Text(
-                                                text = "Mental Health Referral",
+                                                text = stringResource(R.string.mentalHealthReferral),
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                                 color = VS_PrimaryContainer
                                             )
@@ -789,7 +789,7 @@ fun DoctorHomeScreen(
                 if (appointments.isEmpty()) {
                     VitalSenseCard {
                         Text(
-                            text = "No appointments scheduled.",
+                            text = stringResource(R.string.noAppointmentsScheduled),
                             style = MaterialTheme.typography.bodyMedium,
                             color = VS_OnSurfaceVariant
                         )
@@ -859,7 +859,7 @@ fun DoctorHomeScreen(
                                             onClick = { onDeclineAppointment(appointment.id) },
                                             shape = PillShape
                                         ) {
-                                            Text("Decline", color = VS_Error, style = MaterialTheme.typography.labelSmall)
+                                            Text(stringResource(R.string.declineAction), color = VS_Error, style = MaterialTheme.typography.labelSmall)
                                         }
                                         Button(
                                             onClick = { onAcceptAppointment(appointment.id) },
@@ -868,7 +868,7 @@ fun DoctorHomeScreen(
                                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                             modifier = Modifier.defaultMinSize(minHeight = 32.dp)
                                         ) {
-                                            Text("Accept ✓", color = VS_Background, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold))
+                                            Text(stringResource(R.string.acceptCheckAction), color = VS_Background, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold))
                                         }
                                     }
                                 } else {
@@ -885,7 +885,7 @@ fun DoctorHomeScreen(
                                                     color = VS_SuccessContainer
                                                 ) {
                                                     Text(
-                                                        text = "● Room Open",
+                                                        text = stringResource(R.string.roomOpenStatus),
                                                         style = MaterialTheme.typography.labelSmall.copy(
                                                             color = VS_Success,
                                                             fontWeight = FontWeight.Bold
@@ -930,12 +930,12 @@ fun DoctorHomeScreen(
                                                     contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                                     modifier = Modifier.defaultMinSize(minHeight = 30.dp)
                                                 ) {
-                                                    Text("Reschedule", style = MaterialTheme.typography.labelSmall, color = VS_PrimaryContainer)
+                                                    Text(stringResource(R.string.rescheduleAction), style = MaterialTheme.typography.labelSmall, color = VS_PrimaryContainer)
                                                 }
                                             }
                                             JoinWindowStatus.AFTER_WINDOW_MISSED -> {
                                                 Text(
-                                                    text = "Patient didn't join within window",
+                                                    text = stringResource(R.string.patientDidntJoinWindow),
                                                     style = MaterialTheme.typography.labelSmall.copy(color = VS_Error),
                                                 )
                                                 Button(
@@ -946,7 +946,7 @@ fun DoctorHomeScreen(
                                                     contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                                     modifier = Modifier.defaultMinSize(minHeight = 30.dp)
                                                 ) {
-                                                    Text("Reschedule", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                                                    Text(stringResource(R.string.rescheduleAction), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                                                 }
                                             }
                                         }
@@ -1017,7 +1017,7 @@ fun DoctorHomeScreen(
                                     if (item.isLowStock) {
                                         Surface(shape = PillShape, color = VS_ErrorContainer) {
                                             Text(
-                                                text = "LOW",
+                                                text = stringResource(R.string.lowStockTag),
                                                 style = MaterialTheme.typography.labelSmall.copy(color = VS_Error, fontWeight = FontWeight.Bold),
                                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                             )
@@ -1039,7 +1039,7 @@ fun DoctorHomeScreen(
                                         border = BorderStroke(1.dp, VS_Success.copy(alpha = 0.3f))
                                     ) {
                                         Text(
-                                            text = "✓ Admin Reminded",
+                                            text = stringResource(R.string.adminRemindedBadge),
                                             style = MaterialTheme.typography.labelSmall.copy(
                                                 fontWeight = FontWeight.Bold,
                                                 color = VS_OnSuccessContainer
@@ -1061,7 +1061,7 @@ fun DoctorHomeScreen(
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                     ) {
                                         Text(
-                                            text = "🔔 Remind Admin",
+                                            text = stringResource(R.string.remindAdminBtn),
                                             fontSize = 12.sp,
                                             fontWeight = FontWeight.Bold,
                                             color = if (item.isLowStock) VS_Error else VS_Primary
@@ -1145,7 +1145,7 @@ fun DoctorHomeScreen(
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
                                         modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                                     ) {
-                                        Text("📹 Call", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Success)
+                                        Text(stringResource(R.string.callActionBtn), style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Success)
                                     }
 
                                     Button(
@@ -1217,7 +1217,7 @@ fun DoctorHomeScreen(
                             if (directive.isUrgent) {
                                 Surface(shape = PillShape, color = VS_Error) {
                                     Text(
-                                        text = "DIRECTIVE",
+                                        text = stringResource(R.string.directiveLabel),
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnBackground),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
@@ -1249,7 +1249,7 @@ fun DoctorHomeScreen(
                                 shape = PillShape
                             ) {
                                 Text(
-                                    text = "✕ Dismiss",
+                                    text = stringResource(R.string.dismissBtn),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = VS_Primary
                                 )
@@ -1340,7 +1340,7 @@ fun DoctorHomeScreen(
                         ) {
                             Column(modifier = Modifier.padding(8.dp)) {
                                 Text(
-                                    text = "LIVE VITALS STATUS HALO",
+                                    text = stringResource(R.string.liveVitalsStatusHalo),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontSize = 9.sp,
                                         fontWeight = FontWeight.Bold,
@@ -1406,7 +1406,7 @@ fun DoctorHomeScreen(
                         },
                         shape = PillShape
                     ) {
-                        Text("Transfer to Next On-Call", color = VS_Warning)
+                        Text(stringResource(R.string.transferToNextOnCall), color = VS_Warning)
                     }
                 } else {
                     TextButton(
@@ -1415,7 +1415,7 @@ fun DoctorHomeScreen(
                         },
                         shape = PillShape
                     ) {
-                        Text("Decline", color = VS_OnSurfaceVariant)
+                        Text(stringResource(R.string.declineAction), color = VS_OnSurfaceVariant)
                     }
                 }
             }
@@ -1427,7 +1427,7 @@ fun DoctorHomeScreen(
             onDismissRequest = { sosToClear = null },
             title = {
                 Text(
-                    text = "Confirm Emergency Resolved",
+                    text = stringResource(R.string.confirmEmergencyResolved),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -1452,7 +1452,7 @@ fun DoctorHomeScreen(
                     shape = PillShape
                 ) {
                     Text(
-                        text = "Yes, Mark Clear & Dismiss",
+                        text = stringResource(R.string.yesMarkClearDismiss),
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
@@ -1463,7 +1463,7 @@ fun DoctorHomeScreen(
                     onClick = { sosToClear = null },
                     shape = PillShape
                 ) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             }
         )

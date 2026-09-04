@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.admin
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,7 +13,7 @@ import com.vitalsense.app.core.ui.components.VitalSenseCard
 @Composable
 fun VillageListScreen(villages: List<Village>) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text("Villages", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.villagesCategory), style = MaterialTheme.typography.headlineMedium)
         LazyColumn {
             items(villages) { v ->
                 VitalSenseCard {

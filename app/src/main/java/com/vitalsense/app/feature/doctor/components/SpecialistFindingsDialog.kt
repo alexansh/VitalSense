@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -61,7 +63,7 @@ fun SpecialistFindingsDialog(
                         ) {
                             Text(text = "📝", fontSize = 22.sp)
                             Text(
-                                text = "Specialist Loop Closure",
+                                text = stringResource(R.string.specialistLoopClosure),
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
@@ -96,7 +98,7 @@ fun SpecialistFindingsDialog(
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text(
-                                text = "Referring Ask / Clinical Question:",
+                                text = stringResource(R.string.referringAskClinicalQuestion),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )
@@ -110,7 +112,7 @@ fun SpecialistFindingsDialog(
 
                     // 1. Clinical Findings & Diagnostic Assessment
                     Text(
-                        text = "1. Clinical Findings & Diagnostic Assessment *",
+                        text = stringResource(R.string.clinicalFindingsDiagnosticAssessment),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -118,7 +120,7 @@ fun SpecialistFindingsDialog(
                         value = findings,
                         onValueChange = { findings = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Document your clinical evaluation, exam results, diagnostic conclusions...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
+                        placeholder = { Text(stringResource(R.string.documentEvaluationFindingsPrompt), fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 3,
                         maxLines = 5,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -131,7 +133,7 @@ fun SpecialistFindingsDialog(
 
                     // 2. Recommendations for Referring Physician
                     Text(
-                        text = "2. Ongoing Care Plan & Recommendations *",
+                        text = stringResource(R.string.ongoingCarePlanRecommendations),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -139,7 +141,7 @@ fun SpecialistFindingsDialog(
                         value = recommendations,
                         onValueChange = { recommendations = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Advise treatment adjustments, medication doses, lifestyle advice, or monitoring frequency...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
+                        placeholder = { Text(stringResource(R.string.adviseTreatmentAdjustmentsPrompt), fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 3,
                         maxLines = 5,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -165,7 +167,7 @@ fun SpecialistFindingsDialog(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "Specialist Follow-Up Required",
+                                    text = stringResource(R.string.specialistFollowUpRequired),
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                                     color = VS_OnBackground
                                 )
@@ -207,7 +209,7 @@ fun SpecialistFindingsDialog(
                         shape = PillShape,
                         border = BorderStroke(1.dp, VS_Outline)
                     ) {
-                        Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                        Text(stringResource(R.string.cancel), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
 
                     Button(
@@ -229,7 +231,7 @@ fun SpecialistFindingsDialog(
                         colors = ButtonDefaults.buttonColors(containerColor = VS_Success)
                     ) {
                         Text(
-                            text = "Send Findings & Close Loop",
+                            text = stringResource(R.string.sendFindingsCloseLoop),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_Background
                         )

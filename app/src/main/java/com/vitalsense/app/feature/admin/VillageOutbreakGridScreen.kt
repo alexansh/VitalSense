@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.admin
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.*
@@ -12,7 +14,7 @@ import com.vitalsense.app.core.ui.theme.VS_Primary
 @Composable
 fun VillageOutbreakGridScreen(villages: List<Village>) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text("Village Outbreak Heatmap", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.villageOutbreakHeatmap), style = MaterialTheme.typography.headlineMedium)
         LazyVerticalGrid(columns = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(villages) { v ->
                 val bg = if (v.highRiskCount > 0) VS_Error else VS_Primary

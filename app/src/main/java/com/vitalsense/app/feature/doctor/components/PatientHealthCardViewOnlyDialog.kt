@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -47,7 +49,7 @@ fun PatientHealthCardViewOnlyDialog(
                 ) {
                     Column {
                         Text(
-                            text = "🪪 Patient Health Card",
+                            text = stringResource(R.string.patientHealthCardTitle),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -57,7 +59,7 @@ fun PatientHealthCardViewOnlyDialog(
                             modifier = Modifier.padding(top = 2.dp)
                         ) {
                             Text(
-                                text = "🔒 VIEW-ONLY ACCESS (§3 PRD Rule)",
+                                text = stringResource(R.string.viewOnlyAccessRule),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp),
                                 color = VS_PrimaryContainer
@@ -124,7 +126,7 @@ fun PatientHealthCardViewOnlyDialog(
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text(
-                            text = "📋 Latest Reported Condition",
+                            text = stringResource(R.string.latestReportedCondition),
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -152,7 +154,7 @@ fun PatientHealthCardViewOnlyDialog(
                 }
 
                 VitalSenseButton(
-                    text = "Close Health Card",
+                    text = stringResource(R.string.closeHealthCard),
                     onClick = onDismiss,
                     style = com.vitalsense.app.core.ui.components.ButtonStyle.PRIMARY
                 )

@@ -247,7 +247,7 @@ fun TeleConsultationModal(
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "📡 Ultra-Low Bandwidth Mode (2G Audio Only)",
+                                text = stringResource(R.string.ultraLowBandwidthMode),
                                 style = MaterialTheme.typography.bodySmall.copy(color = VS_Success, fontWeight = FontWeight.Bold)
                             )
 
@@ -299,7 +299,7 @@ fun TeleConsultationModal(
                                     color = VS_OnBackground
                                 )
                                 Text(
-                                    text = "Connected from Sundarpura PHC Tele-Kiosk",
+                                    text = stringResource(R.string.connectedPhcTeleKiosk),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = VS_OnSurfaceVariant
                                 )
@@ -402,33 +402,33 @@ fun TeleConsultationModal(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("❤️ Pulse", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text(stringResource(R.string.pulseLabel), style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
                             Text("74 bpm", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_Success))
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("🩸 BP", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text(stringResource(R.string.bpLabel), style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
                             Text("118/78", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_OnBackground))
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("🫁 SpO2", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text(stringResource(R.string.spo2VitalsLabel), style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
                             Text("98%", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_Success))
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("🌡️ Temp", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text(stringResource(R.string.tempLabel), style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
                             Text("98.4°F", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_OnBackground))
                         }
 
                         Text(
-                            text = "Tap to expand",
+                            text = stringResource(R.string.tapToExpand),
                             style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp, color = VS_Primary)
                         )
                     }
@@ -455,7 +455,7 @@ fun TeleConsultationModal(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "Patient Health Vitals",
+                                    text = stringResource(R.string.patientHealthVitals),
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                     color = Color.White
                                 )
@@ -469,12 +469,12 @@ fun TeleConsultationModal(
                             HorizontalDivider(color = VS_Outline)
                             Text("Patient: $patientName ($patientAge yrs)", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                             Text("Village: $villageName", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
-                            Text("• Blood Pressure: 118/78 mmHg (Normal)", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
-                            Text("• Heart Rate: 74 bpm (Stable)", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
-                            Text("• Blood Oxygen: 98% SpO2 (Healthy)", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
-                            Text("• Temperature: 98.4°F", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
-                            Text("• Chronic Condition: None", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
-                            Text("• Last Visit: 12 days ago (PHC OPD)", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.bpNormalSample), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text(stringResource(R.string.heartRateSample), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text(stringResource(R.string.bloodOxygenSample), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text(stringResource(R.string.temperatureSample), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text(stringResource(R.string.chronicConditionNone), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.lastVisitSample), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -495,7 +495,7 @@ fun TeleConsultationModal(
                         contentAlignment = Alignment.Center
                     ) {
                         if (isCameraOff) {
-                            Text("📷 Off", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.camOffLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         } else {
                             if (cameraGranted) {
                                 CameraPreview(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp)))
@@ -509,7 +509,7 @@ fun TeleConsultationModal(
                                 ) {
                                     Text("👨‍⚕️", fontSize = 42.sp)
                                     Text(
-                                        text = "Tap to Enable Cam",
+                                        text = stringResource(R.string.tapToEnableCam),
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontSize = 9.sp,
                                             fontWeight = FontWeight.Bold,
@@ -573,7 +573,7 @@ fun TeleConsultationModal(
                                     Text("🎙️", fontSize = 14.sp)
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
-                                        text = "Switch to Voice Call (Save Bandwidth / Weak Signal)",
+                                        text = stringResource(R.string.switchToVoiceCallWeakSignal),
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             color = VS_Warning,
                                             fontWeight = FontWeight.Bold

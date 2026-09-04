@@ -119,7 +119,7 @@ fun BloodBankScreen(
                     ) {
                         Column {
                             Text(
-                                text = "Critical Shortages",
+                                text = stringResource(R.string.criticalShortages),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = if (criticalCount > 0) VS_Error else VS_OnSurfaceVariant
                             )
@@ -181,13 +181,13 @@ fun BloodBankScreen(
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                             Icon(imageVector = Icons.Outlined.LocalHospital, contentDescription = null, tint = VS_Primary, modifier = Modifier.size(18.dp))
                             Text(
-                                text = "Emergency Transfusion Protocol",
+                                text = stringResource(R.string.emergencyTransfusionProtocol),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )
                         }
                         Text(
-                            text = "Universal Donor: O Negative (O-) · Universal Recipient: AB Positive (AB+). For maternal hemorrhages or road trauma, cross-matching is fast-tracked at District Hospital Rampur.",
+                            text = stringResource(R.string.emergencyTransfusionDesc),
                             style = MaterialTheme.typography.bodySmall,
                             color = VS_OnBackground
                         )

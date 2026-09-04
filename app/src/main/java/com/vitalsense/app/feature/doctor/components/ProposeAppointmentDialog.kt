@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -45,7 +47,7 @@ fun ProposeAppointmentDialog(
                 ) {
                     Column {
                         Text(
-                            text = "📅 Propose Appointment",
+                            text = stringResource(R.string.proposeAppt),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -62,7 +64,7 @@ fun ProposeAppointmentDialog(
 
                 // Date Selection
                 Text(
-                    text = "Select Proposed Date:",
+                    text = stringResource(R.string.selectProposedDate),
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -87,7 +89,7 @@ fun ProposeAppointmentDialog(
 
                 // Time Slot Selection
                 Text(
-                    text = "Select Time Slot:",
+                    text = stringResource(R.string.selectTimeSlotDialog),
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -121,7 +123,7 @@ fun ProposeAppointmentDialog(
                         modifier = Modifier.weight(1f),
                         shape = PillShape
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
 
                     Button(
@@ -133,7 +135,7 @@ fun ProposeAppointmentDialog(
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(containerColor = VS_PrimaryContainer, contentColor = VS_OnBackground)
                     ) {
-                        Text("Send Proposal", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.sendProposalBtn), fontWeight = FontWeight.Bold)
                     }
                 }
             }

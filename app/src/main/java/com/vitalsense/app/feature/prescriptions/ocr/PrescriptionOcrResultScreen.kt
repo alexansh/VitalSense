@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.prescriptions.ocr
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
@@ -76,12 +78,12 @@ fun PrescriptionOcrResultScreen(
             ) {
                 CircularProgressIndicator(color = VS_Primary, modifier = Modifier.size(48.dp))
                 Text(
-                    text = "🔍 Reading prescription on-device...",
+                    text = stringResource(R.string.readingPrescriptionOnDevice),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
                 Text(
-                    text = "Running local ML Kit OCR without network",
+                    text = stringResource(R.string.runningLocalMlKitOcr),
                     style = MaterialTheme.typography.bodySmall,
                     color = VS_OnSurfaceVariant
                 )
@@ -116,7 +118,7 @@ fun PrescriptionOcrResultScreen(
         ) {
             Column {
                 Text(
-                    text = "📋 Review & Confirm OCR Scan",
+                    text = stringResource(R.string.reviewConfirmOcrScan),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -148,7 +150,7 @@ fun PrescriptionOcrResultScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Extracted Text (Tap to Edit):",
+                        text = stringResource(R.string.extractedTextTapToEdit),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -157,7 +159,7 @@ fun PrescriptionOcrResultScreen(
                         color = VS_SuccessContainer
                     ) {
                         Text(
-                            text = "ON-DEVICE OCR",
+                            text = stringResource(R.string.onDeviceOcrBadge),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnSuccessContainer),
                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                         )
@@ -201,7 +203,7 @@ fun PrescriptionOcrResultScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "No standard medicine names matched automatically. The raw text above will be saved as a Digitized Prescription note.",
+                        text = stringResource(R.string.noMedicineNamesMatchedFallback),
                         style = MaterialTheme.typography.bodySmall,
                         color = VS_OnSurfaceVariant,
                         modifier = Modifier.padding(Spacing.md)
@@ -249,7 +251,7 @@ fun PrescriptionOcrResultScreen(
         // 3. Attending Doctor Name & Notes
         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
             Text(
-                text = "Prescribing Doctor / Health Post:",
+                text = stringResource(R.string.prescribingDoctorHealthPost),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground
             )
@@ -262,7 +264,7 @@ fun PrescriptionOcrResultScreen(
             )
 
             Text(
-                text = "Instructions / Dosage Directions:",
+                text = stringResource(R.string.instructionsDosageDirections),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground
             )
@@ -282,7 +284,7 @@ fun PrescriptionOcrResultScreen(
             verticalArrangement = Arrangement.spacedBy(Spacing.sm)
         ) {
             VitalSenseButton(
-                text = "💾 Save Digitized Prescription",
+                text = stringResource(R.string.saveDigitizedPrescription),
                 style = ButtonStyle.PRIMARY,
                 onClick = {
                     val finalMedicines = if (medicinesList.isNotEmpty()) {
@@ -325,7 +327,7 @@ fun PrescriptionOcrResultScreen(
                 border = BorderStroke(1.dp, VS_Outline),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("🔁 Retake Photo", color = VS_OnBackground)
+                Text(stringResource(R.string.retakePhotoBtn), color = VS_OnBackground)
             }
         }
     }
@@ -361,14 +363,14 @@ private fun NoTextDetectedView(
                 Text(text = "🔍", fontSize = 48.sp)
 
                 Text(
-                    text = "We couldn't read any text",
+                    text = stringResource(R.string.couldntReadAnyText),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
 
                 Text(
-                    text = "The photo might be too blurry, too dark, or taken at an angle. Please try again with better lighting and hold the camera steady.",
+                    text = stringResource(R.string.photoQualityHint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = VS_OnSurfaceVariant,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -380,7 +382,7 @@ private fun NoTextDetectedView(
                     shape = PillShape,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("🔁 Retake Photo", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.retakePhotoBtn), color = Color.White, fontWeight = FontWeight.Bold)
                 }
 
                 OutlinedButton(
@@ -389,7 +391,7 @@ private fun NoTextDetectedView(
                     border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("✍️ Enter Prescription Manually", color = VS_OnBackground)
+                    Text(stringResource(R.string.enterPrescriptionManually), color = VS_OnBackground)
                 }
             }
         }

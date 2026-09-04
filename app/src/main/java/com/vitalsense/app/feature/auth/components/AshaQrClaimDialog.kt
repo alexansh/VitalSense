@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.auth.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -54,7 +56,7 @@ fun AshaQrClaimDialog(
 
     VitalSenseDialog(
         onDismissRequest = onDismiss,
-        title = if (language == AppLanguage.HINDI) "🪪 आशा स्वास्थ्य कार्ड स्कैन करें" else "🪪 Scan ASHA Health Card",
+        title = stringResource(R.string.scanAshaCardQr),
         icon = { Text("🪪", fontSize = 22.sp) },
         confirmButton = {
             if (!isScanning && claimedPatient != null) {
@@ -107,7 +109,7 @@ fun AshaQrClaimDialog(
                         Text("📷", fontSize = 36.sp)
                         Spacer(modifier = Modifier.height(Spacing.xxs))
                         Text(
-                            text = "Scanning ASHA QR...",
+                            text = stringResource(R.string.scanningAshaQr),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_PrimaryContainer
                         )
@@ -115,7 +117,7 @@ fun AshaQrClaimDialog(
                 }
 
                 Text(
-                    text = if (language == AppLanguage.HINDI) "आशा कार्यकर्ता द्वारा दिया गया स्वास्थ्य कार्ड स्कैन करें। किसी पासवर्ड की आवश्यकता नहीं है।" else "Scan the physical health card issued by your village ASHA worker. Zero passwords required.",
+                    text = stringResource(R.string.scanPhysicalCardZeroPwdDesc),
                     style = MaterialTheme.typography.bodySmall,
                     color = VS_OnSurfaceVariant
                 )
@@ -134,7 +136,7 @@ fun AshaQrClaimDialog(
                     ) {
                         Text("✓ ", color = VS_Success, fontWeight = FontWeight.Bold)
                         Text(
-                            text = if (language == AppLanguage.HINDI) "मरीज़ पहचान सत्यापित!" else "Patient Identity Verified!",
+                            text = stringResource(R.string.patientIdentityVerified),
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_Success
                         )
@@ -152,12 +154,12 @@ fun AshaQrClaimDialog(
                             color = VS_OnBackground
                         )
                         Text(
-                            text = "गांव:  · आयु:  ()",
+                            text = stringResource(R.string.villageAgeLabel),
                             style = MaterialTheme.typography.bodySmall,
                             color = VS_OnSurfaceVariant
                         )
                         Text(
-                            text = "आशा कार्यकर्ता: ",
+                            text = stringResource(R.string.ashaWorkerLabel),
                             style = MaterialTheme.typography.labelSmall,
                             color = VS_PrimaryContainer
                         )

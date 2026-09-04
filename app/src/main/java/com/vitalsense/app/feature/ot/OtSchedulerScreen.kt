@@ -71,7 +71,7 @@ fun OtSchedulerScreen(
                     border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
-                        text = "Surgical Care · OT Module",
+                        text = stringResource(R.string.surgicalCareOtModule),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
@@ -139,12 +139,12 @@ fun OtSchedulerScreen(
 
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Lead Surgeon: Dr. Ayushman Dev Singh",
+                                text = stringResource(R.string.leadSurgeonLabel),
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "MDS, Maxillofacial Trauma & Reconstructive Surgery",
+                                text = stringResource(R.string.surgeonSpecialtyLabel),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = VS_PrimaryContainer
                             )
@@ -167,7 +167,7 @@ fun OtSchedulerScreen(
                     color = VS_OnBackground
                 )
                 Text(
-                    text = "PAC Validated",
+                    text = stringResource(R.string.pacValidatedBadge),
                     style = MaterialTheme.typography.labelSmall,
                     color = VS_Success
                 )
@@ -178,7 +178,7 @@ fun OtSchedulerScreen(
             item {
                 VitalSenseCard {
                     Text(
-                        text = "No surgical procedures currently scheduled in OT.",
+                        text = stringResource(R.string.noSurgicalProceduresScheduled),
                         style = MaterialTheme.typography.bodySmall,
                         color = VS_OnSurfaceVariant
                     )
@@ -246,11 +246,11 @@ fun OtSchedulerScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Patient", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.rolePatient), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(booking.patientName, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
                         Column {
-                            Text("Time Slot", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.timeSlotLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(booking.scheduledTimeSlot, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                         }
                     }
@@ -260,11 +260,11 @@ fun OtSchedulerScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Operating Surgeon", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.operatingSurgeon), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(booking.surgeonName, style = MaterialTheme.typography.labelSmall, color = VS_PrimaryContainer)
                         }
                         Column {
-                            Text("Anesthetist", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(stringResource(R.string.anesthetistLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(booking.anesthetistName, style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         }
                     }
@@ -356,7 +356,7 @@ fun OtSchedulerScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Pre-Anesthesia Checkup (PAC) Cleared",
+                            text = stringResource(R.string.pacClearedCheck),
                             style = MaterialTheme.typography.labelSmall,
                             color = VS_OnBackground
                         )
@@ -394,12 +394,12 @@ fun OtSchedulerScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     enabled = patientName.isNotBlank() && surgeryName.isNotBlank()
                 ) {
-                    Text("Confirm OT Slot", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.confirmOtSlotBtn), style = MaterialTheme.typography.labelSmall)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showBookSurgeryDialog = false }) {
-                    Text("Cancel", color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant)
                 }
             },
             containerColor = VS_Surface,

@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.prescriptions.ocr
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -93,7 +95,7 @@ fun PrescriptionOcrDialog(
                 ) {
                     Column {
                         Text(
-                            text = "📷 AI Prescription Digitizer",
+                            text = stringResource(R.string.aiPrescriptionDigitizer),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -118,12 +120,12 @@ fun PrescriptionOcrDialog(
                 ) {
                     Column(modifier = Modifier.padding(Spacing.md), verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text(
-                            text = "⚡ Zero-Cloud Offline Inference",
+                            text = stringResource(R.string.zeroCloudOfflineInference),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_PrimaryContainer
                         )
                         Text(
-                            text = "Select a prescription photo to extract clinical entities locally on device without network latency.",
+                            text = stringResource(R.string.selectPrescriptionPhotoDesc),
                             style = MaterialTheme.typography.bodySmall,
                             color = VS_OnBackground
                         )
@@ -132,7 +134,7 @@ fun PrescriptionOcrDialog(
 
                 // Sample Prescription Buttons
                 Text(
-                    text = "Simulate Camera Capture / Rx Scan:",
+                    text = stringResource(R.string.simulateCaptureScan),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -147,7 +149,7 @@ fun PrescriptionOcrDialog(
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                     ) {
-                        Text("🌡️ Fever Rx", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                        Text(stringResource(R.string.feverRxSample), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
                     Button(
                         onClick = { processSamplePrescription("Maternal") },
@@ -155,7 +157,7 @@ fun PrescriptionOcrDialog(
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                     ) {
-                        Text("🤰 Maternal", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                        Text(stringResource(R.string.maternalCategory), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
                     Button(
                         onClick = { processSamplePrescription("Infection") },
@@ -163,7 +165,7 @@ fun PrescriptionOcrDialog(
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                     ) {
-                        Text("💊 Infection", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                        Text(stringResource(R.string.infectionSample), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
                 }
 
@@ -182,7 +184,7 @@ fun PrescriptionOcrDialog(
                 // OCR Output & Medicine Extraction
                 if (recognizedRawText.isNotBlank()) {
                     Text(
-                        text = "Extracted Clinical Entities:",
+                        text = stringResource(R.string.extractedClinicalEntities),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -193,7 +195,7 @@ fun PrescriptionOcrDialog(
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                             Text(
-                                text = "RAW OCR TEXT STREAM",
+                                text = stringResource(R.string.rawOcrTextStream),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )
@@ -248,7 +250,7 @@ fun PrescriptionOcrDialog(
                     OutlinedTextField(
                         value = instructionsText,
                         onValueChange = { instructionsText = it },
-                        label = { Text("Clinical Instructions & Notes", color = VS_OnSurfaceVariant) },
+                        label = { Text(stringResource(R.string.clinicalInstructionsNotes), color = VS_OnSurfaceVariant) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = InputShape,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -290,7 +292,7 @@ fun PrescriptionOcrDialog(
                         )
                     ) {
                         Text(
-                            text = "Save to Patient's Medical Record ✓",
+                            text = stringResource(R.string.saveToMedicalRecord),
                             style = MaterialTheme.typography.labelLarge
                         )
                     }

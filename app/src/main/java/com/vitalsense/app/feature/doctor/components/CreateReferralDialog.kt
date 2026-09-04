@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
@@ -124,7 +126,7 @@ fun CreateReferralDialog(
                         ) {
                             Text(text = "🔄", fontSize = 22.sp)
                             Text(
-                                text = "Doctor-to-Doctor Referral",
+                                text = stringResource(R.string.doctorToDoctorReferral),
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                                 color = VS_OnBackground
                             )
@@ -155,7 +157,7 @@ fun CreateReferralDialog(
                 ) {
                     // 1. Target Medical Specialty (Required)
                     Text(
-                        text = "1. Select Target Medical Specialty *",
+                        text = stringResource(R.string.selectTargetSpecialty),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -204,7 +206,7 @@ fun CreateReferralDialog(
 
                     // 2. Routing Mode: Queue vs Named Specialist
                     Text(
-                        text = "2. Routing & Triage Assignment",
+                        text = stringResource(R.string.routingTriageAssignment),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -226,7 +228,7 @@ fun CreateReferralDialog(
                         ) {
                             Column(modifier = Modifier.padding(Spacing.xs)) {
                                 Text(
-                                    text = "🏢 Specialty Queue",
+                                    text = stringResource(R.string.specialtyQueueOption),
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                     color = if (!routeToNamedDoctor) VS_PrimaryContainer else VS_OnBackground
                                 )
@@ -251,12 +253,12 @@ fun CreateReferralDialog(
                         ) {
                             Column(modifier = Modifier.padding(Spacing.xs)) {
                                 Text(
-                                    text = "👨‍⚕️ Named Specialist",
+                                    text = stringResource(R.string.namedSpecialistOption),
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                     color = if (routeToNamedDoctor) VS_PrimaryContainer else VS_OnBackground
                                 )
                                 Text(
-                                    text = "Direct specific physician handoff",
+                                    text = stringResource(R.string.directPhysicianHandoff),
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                                     color = VS_OnSurfaceVariant
                                 )
@@ -268,7 +270,7 @@ fun CreateReferralDialog(
                     if (routeToNamedDoctor) {
                         if (specialistsForSpecialty.isEmpty()) {
                             Text(
-                                text = "No specific named specialist registered for this specialty. Will fallback to department queue.",
+                                text = stringResource(R.string.noNamedSpecialistFallback),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = VS_Warning
                             )
@@ -323,7 +325,7 @@ fun CreateReferralDialog(
 
                     // 3. Urgency Level Selector
                     Text(
-                        text = "3. Urgency Level *",
+                        text = stringResource(R.string.urgencyLevelRequired),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -403,13 +405,13 @@ fun CreateReferralDialog(
                                 ) {
                                     Text("🚨", fontSize = 20.sp)
                                     Text(
-                                        text = "Emergency Warning: Queue Delay Risk",
+                                        text = stringResource(R.string.emergencyWarningQueueDelay),
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                         color = VS_Error
                                     )
                                 }
                                 Text(
-                                    text = "A referral queue is an asynchronous clinical handoff, NOT an acute response mechanism. If this patient has unstable vitals or life-threatening symptoms, please launch an immediate Emergency SOS call in addition to this record.",
+                                    text = stringResource(R.string.referralQueueNotAcuteResponse),
                                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                                     color = VS_OnBackground
                                 )
@@ -422,7 +424,7 @@ fun CreateReferralDialog(
                                     shape = PillShape,
                                     modifier = Modifier.fillMaxWidth().height(36.dp)
                                 ) {
-                                    Text("🚨 Launch Emergency Video/Voice SOS Now", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = Color.White)
+                                    Text(stringResource(R.string.launchEmergencySosNow), style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = Color.White)
                                 }
                             }
                         }
@@ -430,7 +432,7 @@ fun CreateReferralDialog(
 
                     // 4. Clinical Reason for Referral
                     Text(
-                        text = "4. Clinical Reason for Referral *",
+                        text = stringResource(R.string.clinicalReasonForReferral),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -438,7 +440,7 @@ fun CreateReferralDialog(
                         value = reason,
                         onValueChange = { reason = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Describe clinical findings, progression, and why specialist input is required...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
+                        placeholder = { Text(stringResource(R.string.describeClinicalFindingsPrompt), fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 2,
                         maxLines = 4,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -451,12 +453,12 @@ fun CreateReferralDialog(
 
                     // 5. Clinical Question / Specific Ask
                     Text(
-                        text = "5. Specific Clinical Question / Ask *",
+                        text = stringResource(R.string.specificClinicalQuestionHeading),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
                     Text(
-                        text = "Clearly specify what you need from the specialist (e.g. 'Confirm diagnosis of stage 2 HTN and advise titration')",
+                        text = stringResource(R.string.clearlySpecifyQuestionInstruction),
                         style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                         color = VS_OnSurfaceVariant
                     )
@@ -464,7 +466,7 @@ fun CreateReferralDialog(
                         value = clinicalQuestion,
                         onValueChange = { clinicalQuestion = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("e.g. Confirm diagnosis of X, evaluate for surgical intervention, or advise on drug titration...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
+                        placeholder = { Text(stringResource(R.string.clinicalQuestionPlaceholder), fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 2,
                         maxLines = 3,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -547,7 +549,7 @@ fun CreateReferralDialog(
                         shape = PillShape,
                         border = BorderStroke(1.dp, VS_Outline)
                     ) {
-                        Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                        Text(stringResource(R.string.cancel), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
 
                     Button(
@@ -592,7 +594,7 @@ fun CreateReferralDialog(
                         )
                     ) {
                         Text(
-                            text = "Send Referral to Specialist",
+                            text = stringResource(R.string.sendReferralToSpecialist),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = Color.White
                         )

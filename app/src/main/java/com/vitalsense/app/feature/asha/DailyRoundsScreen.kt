@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.asha
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -34,7 +36,7 @@ fun DailyRoundsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Daily Village Rounds") },
+                title = { Text(stringResource(R.string.dailyVillageRounds)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -59,7 +61,7 @@ fun DailyRoundsScreen(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Icon(Icons.Outlined.Add, contentDescription = "Log Round")
-                    Text("Log Visit", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.logVisitBtn), fontWeight = FontWeight.Bold)
                 }
             }
         },
@@ -80,7 +82,7 @@ fun DailyRoundsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Village Rounds & Door-to-Door Visits",
+                        text = stringResource(R.string.villageRoundsDoorToDoor),
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = VS_OnBackground
                     )
@@ -116,7 +118,7 @@ fun DailyRoundsScreen(
             if (rounds.isEmpty()) {
                 item {
                     Text(
-                        text = "No village rounds logged yet. Tap '+ Log Visit' to record door-to-door checkups.",
+                        text = stringResource(R.string.noVillageRoundsLogged),
                         color = VS_OnSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -174,17 +176,17 @@ fun DailyRoundsScreen(
                             ) {
                                 if (round.isPregnancyChecked) {
                                     Surface(shape = PillShape, color = VS_PrimaryContainer) {
-                                        Text("🤰 Maternal", fontSize = 10.sp, color = VS_PrimaryContainer, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                                        Text(stringResource(R.string.maternalCategory), fontSize = 10.sp, color = VS_PrimaryContainer, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
                                     }
                                 }
                                 if (round.isChildHealthChecked) {
                                     Surface(shape = PillShape, color = VS_SuccessContainer) {
-                                        Text("👶 Child", fontSize = 10.sp, color = VS_Success, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                                        Text(stringResource(R.string.childCategory), fontSize = 10.sp, color = VS_Success, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
                                     }
                                 }
                                 if (round.isImmunizationChecked) {
                                     Surface(shape = PillShape, color = VS_WarningContainer) {
-                                        Text("💉 Vaccine", fontSize = 10.sp, color = VS_Warning, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                                        Text(stringResource(R.string.vaccineCategory), fontSize = 10.sp, color = VS_Warning, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
                                     }
                                 }
                             }

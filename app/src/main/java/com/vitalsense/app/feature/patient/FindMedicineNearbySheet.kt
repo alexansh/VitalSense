@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import android.content.Intent
 import android.net.Uri
@@ -115,7 +117,7 @@ fun FindMedicineNearbySheet(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "📍 Find Medicine Nearby",
+                            text = stringResource(R.string.findMedicineNearby),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
@@ -192,7 +194,7 @@ fun FindMedicineNearbySheet(
                             ) {
                                 Text(text = "🔴", fontSize = 12.sp)
                                 Text(
-                                    text = "Not found in stock nearby — Doctor's alternative suggested",
+                                    text = stringResource(R.string.notFoundNearbyAlternative),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = VS_OnErrorContainer
                                 )
@@ -257,9 +259,9 @@ fun FindMedicineNearbySheet(
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = "🟢 Likely In-Stock", style = MaterialTheme.typography.labelSmall, color = VS_OnSuccessContainer)
+                            Text(text = stringResource(R.string.likelyInStock), style = MaterialTheme.typography.labelSmall, color = VS_OnSuccessContainer)
                             Text(text = "•", color = VS_OnSurfaceVariant)
-                            Text(text = "🔴 Out", style = MaterialTheme.typography.labelSmall, color = VS_OnErrorContainer)
+                            Text(text = stringResource(R.string.outOfStockTag), style = MaterialTheme.typography.labelSmall, color = VS_OnErrorContainer)
                         }
                     }
                 }
@@ -310,7 +312,7 @@ fun FindMedicineNearbySheet(
                                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                 ) {
                                     Text(
-                                        text = "📞 Call",
+                                        text = stringResource(R.string.callPharmacyBtn),
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                         color = VS_OnBackground
                                     )
@@ -329,7 +331,7 @@ fun FindMedicineNearbySheet(
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text(
-                                text = "💡 Doctor's Suggested Alternative Available",
+                                text = stringResource(R.string.docSuggestedAlternative),
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )
@@ -421,7 +423,7 @@ fun FindMedicineNearbySheet(
 
                 // Mandatory disclaimer notice
                 Text(
-                    text = "Notice: Pharmacy stock is estimated from chain data and deterministic modeling. Please call to confirm before traveling.",
+                    text = stringResource(R.string.pharmacyStockNotice),
                     style = MaterialTheme.typography.labelSmall,
                     color = VS_OnSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp)

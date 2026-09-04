@@ -218,7 +218,7 @@ fun PatientHomeScreen(
                                     color = VS_Primary
                                 )
                                 Text(
-                                    text = "Permanent QR & Offline Record",
+                                    text = stringResource(R.string.permanentQrOfflineRecord),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = textSecondaryColor
                                 )
@@ -305,7 +305,7 @@ fun PatientHomeScreen(
                         ) {
                             Text("✓", color = VS_Success, fontWeight = FontWeight.Bold)
                             Text(
-                                text = "Symptoms submitted to PHC Doctor triage queue!",
+                                text = stringResource(R.string.symptomsSubmittedTriage),
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                                 color = VS_Success
                             )
@@ -690,7 +690,7 @@ fun PatientHomeScreen(
                             if (rx.isOcrExtracted) {
                                 Surface(shape = PillShape, color = VS_SuccessContainer) {
                                     Text(
-                                        text = "AI Scanned",
+                                        text = stringResource(R.string.aiScannedBadge),
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnSuccessContainer),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
@@ -722,7 +722,7 @@ fun PatientHomeScreen(
                                         )
                                         if (med.hasAlternativeAvailable) {
                                             Text(
-                                                text = "💡 Doctor suggested alternative available",
+                                                text = stringResource(R.string.docSuggestedAlternativePlain),
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                                 color = VS_Error
                                             )
@@ -737,7 +737,7 @@ fun PatientHomeScreen(
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp)
                                     ) {
                                         Text(
-                                            text = "📍 Find nearby",
+                                            text = stringResource(R.string.findNearbyLink),
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                             color = VS_Primary
                                         )
@@ -843,7 +843,7 @@ fun PatientHomeScreen(
                                 shape = PillShape
                             ) {
                                 Text(
-                                    text = "✕ Dismiss",
+                                    text = stringResource(R.string.dismissBtn),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = if (advisory.isUrgent) VS_OnErrorContainer else VS_Primary
                                 )
@@ -882,12 +882,12 @@ fun PatientHomeScreen(
                         }
                         Column {
                             Text(
-                                text = "Rural Health Schemes (PM-JAY)",
+                                text = stringResource(R.string.ruralHealthSchemesPmjay),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = textPrimaryColor
                             )
                             Text(
-                                text = "Free treatment up to ₹5 Lakh & Maternal Subsidies",
+                                text = stringResource(R.string.freeTreatment5Lakh),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = textSecondaryColor
                             )
@@ -899,7 +899,7 @@ fun PatientHomeScreen(
                         modifier = Modifier.clickable { showSchemesDialog = true }
                     ) {
                         Text(
-                            text = "View Schemes",
+                            text = stringResource(R.string.viewSchemesBtn),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold

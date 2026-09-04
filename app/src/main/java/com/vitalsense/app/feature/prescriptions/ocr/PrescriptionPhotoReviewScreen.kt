@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.prescriptions.ocr
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -46,13 +48,13 @@ fun PrescriptionPhotoReviewScreen(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
         ) {
             Text(
-                text = "📸 Review Prescription Photo",
+                text = stringResource(R.string.reviewPrescriptionPhoto),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground,
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "Make sure the doctor's writing and medicine names are clear and readable.",
+                text = stringResource(R.string.ensureHandwritingReadable),
                 style = MaterialTheme.typography.bodySmall,
                 color = VS_OnSurfaceVariant,
                 textAlign = TextAlign.Center
@@ -99,7 +101,7 @@ fun PrescriptionPhotoReviewScreen(
                     .height(54.dp)
             ) {
                 Text(
-                    text = "✅ Use this photo (Scan Text)",
+                    text = stringResource(R.string.useThisPhotoScanText),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -116,7 +118,7 @@ fun PrescriptionPhotoReviewScreen(
                     .height(52.dp)
             ) {
                 Text(
-                    text = "🔁 Retake Photo",
+                    text = stringResource(R.string.retakePhotoBtn),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = VS_OnBackground

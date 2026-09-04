@@ -1,15 +1,20 @@
 package com.vitalsense.app.core.ui.theme
 
 import android.app.Activity
+import android.content.res.Configuration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import java.util.Locale
 
 /**
  * VitalSense uses a single, fixed light color scheme intentionally.
@@ -75,7 +80,22 @@ fun VitalSenseTheme(
         }
     }
 
+    val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val locale = remember(language) { Locale(language.code) }
+    val localizedConfiguration = remember(configuration, locale) {
+        Configuration(configuration).apply {
+            setLocale(locale)
+            setLayoutDirection(locale)
+        }
+    }
+    val localizedContext = remember(context, localizedConfiguration) {
+        context.createConfigurationContext(localizedConfiguration)
+    }
+
     CompositionLocalProvider(
+        LocalConfiguration provides localizedConfiguration,
+        LocalContext provides localizedContext,
         LocalSpacing provides VitalSenseSpacing(),
         LocalAppStrings provides AppLanguageManager.getStrings(language)
     ) {

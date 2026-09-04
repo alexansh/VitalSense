@@ -159,7 +159,7 @@ fun SpecialistReferralsScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("📥", fontSize = 48.sp)
                     Text(
-                        text = "No referrals in this queue view.",
+                        text = stringResource(R.string.noReferralsInQueue),
                         style = MaterialTheme.typography.titleMedium,
                         color = VS_OnSurfaceVariant
                     )
@@ -269,7 +269,7 @@ fun SpecialistReferralsScreen(
                             ) {
                                 Column(modifier = Modifier.padding(Spacing.xs)) {
                                     Text(
-                                        text = "🎯 SPECIFIC CLINICAL QUESTION / ASK:",
+                                        text = stringResource(R.string.specificClinicalQuestionAsk),
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 10.sp,
@@ -292,7 +292,7 @@ fun SpecialistReferralsScreen(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                                 ) {
-                                    Text("📎 Attached Records:", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                                    Text(stringResource(R.string.attachedRecordsLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                     ref.attachedRecordIds.forEach { recId ->
                                         Surface(shape = PillShape, color = VS_SurfaceVariant) {
                                             Text(
@@ -321,7 +321,7 @@ fun SpecialistReferralsScreen(
                                         ) {
                                             Text("✅", fontSize = 14.sp)
                                             Text(
-                                                text = "CLOSED LOOP: SPECIALIST FINDINGS RECORDED",
+                                                text = stringResource(R.string.closedLoopFindingsRecorded),
                                                 style = MaterialTheme.typography.labelSmall.copy(
                                                     fontWeight = FontWeight.Bold,
                                                     color = VS_Success
@@ -367,7 +367,7 @@ fun SpecialistReferralsScreen(
                                             shape = PillShape,
                                             modifier = Modifier.weight(1.2f).height(38.dp)
                                         ) {
-                                            Text("✓ Accept Referral", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Background)
+                                            Text(stringResource(R.string.acceptReferral), style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Background)
                                         }
 
                                         OutlinedButton(
@@ -376,7 +376,7 @@ fun SpecialistReferralsScreen(
                                             border = BorderStroke(1.dp, VS_Warning),
                                             modifier = Modifier.weight(1f).height(38.dp)
                                         ) {
-                                            Text("❓ Ask Info", style = MaterialTheme.typography.labelSmall, color = VS_Warning)
+                                            Text(stringResource(R.string.askInfoBtn), style = MaterialTheme.typography.labelSmall, color = VS_Warning)
                                         }
 
                                         OutlinedButton(
@@ -385,7 +385,7 @@ fun SpecialistReferralsScreen(
                                             border = BorderStroke(1.dp, VS_Error),
                                             modifier = Modifier.weight(0.9f).height(38.dp)
                                         ) {
-                                            Text("✕ Decline", style = MaterialTheme.typography.labelSmall, color = VS_Error)
+                                            Text(stringResource(R.string.declineReferralBtn), style = MaterialTheme.typography.labelSmall, color = VS_Error)
                                         }
                                     }
                                 }
@@ -401,7 +401,7 @@ fun SpecialistReferralsScreen(
                                             shape = PillShape,
                                             modifier = Modifier.weight(1.2f).height(38.dp)
                                         ) {
-                                            Text("📹 Call Patient (Consult)", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = Color.White)
+                                            Text(stringResource(R.string.callPatientConsultBtn), style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = Color.White)
                                         }
 
                                         Button(
@@ -410,7 +410,7 @@ fun SpecialistReferralsScreen(
                                             shape = PillShape,
                                             modifier = Modifier.weight(1.2f).height(38.dp)
                                         ) {
-                                            Text("📝 Send Findings Back", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Background)
+                                            Text(stringResource(R.string.sendFindingsBackBtn), style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Background)
                                         }
                                     }
                                 }
@@ -431,23 +431,23 @@ fun SpecialistReferralsScreen(
 
         AlertDialog(
             onDismissRequest = { activeDeclineReferral = null },
-            title = { Text("Decline Referral", fontWeight = FontWeight.Bold, color = VS_OnBackground) },
+            title = { Text(stringResource(R.string.declineReferral), fontWeight = FontWeight.Bold, color = VS_OnBackground) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                    Text("Please provide the clinical rationale for declining this referral handoff:", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.provideDeclineRationale), style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                     OutlinedTextField(
                         value = declineReason,
                         onValueChange = { declineReason = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("e.g. Beyond department scope, bed capacity reached, refer to Oncology instead...", fontSize = 12.sp) },
+                        placeholder = { Text(stringResource(R.string.declineRationalePlaceholder), fontSize = 12.sp) },
                         minLines = 2
                     )
-                    Text("Suggested Specialist / Department (Optional):", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.suggestedSpecialistDept), style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                     OutlinedTextField(
                         value = suggestedReroute,
                         onValueChange = { suggestedReroute = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("e.g. Dr. Meera Nambiar / Psychiatry", fontSize = 12.sp) },
+                        placeholder = { Text(stringResource(R.string.suggestedSpecialistPlaceholder), fontSize = 12.sp) },
                         singleLine = true
                     )
                 }
@@ -463,12 +463,12 @@ fun SpecialistReferralsScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                     shape = PillShape
                 ) {
-                    Text("Decline & Notify", style = MaterialTheme.typography.labelSmall, color = Color.White)
+                    Text(stringResource(R.string.declineAndNotifyBtn), style = MaterialTheme.typography.labelSmall, color = Color.White)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { activeDeclineReferral = null }) {
-                    Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                 }
             }
         )
@@ -480,15 +480,15 @@ fun SpecialistReferralsScreen(
 
         AlertDialog(
             onDismissRequest = { activeInfoRequestReferral = null },
-            title = { Text("Request More Information", fontWeight = FontWeight.Bold, color = VS_OnBackground) },
+            title = { Text(stringResource(R.string.requestMoreInfoTitle), fontWeight = FontWeight.Bold, color = VS_OnBackground) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                    Text("Specify the clinical details or diagnostic tests you need before accepting:", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.specifyDetailsNeedBeforeAccepting), style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                     OutlinedTextField(
                         value = infoQuestion,
                         onValueChange = { infoQuestion = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("e.g. Please provide recent serum creatinine and 12-lead ECG strip...", fontSize = 12.sp) },
+                        placeholder = { Text(stringResource(R.string.requestInfoPlaceholder), fontSize = 12.sp) },
                         minLines = 3
                     )
                 }
@@ -504,12 +504,12 @@ fun SpecialistReferralsScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = VS_Warning),
                     shape = PillShape
                 ) {
-                    Text("Send Request", style = MaterialTheme.typography.labelSmall, color = VS_Background)
+                    Text(stringResource(R.string.sendRequestBtn), style = MaterialTheme.typography.labelSmall, color = VS_Background)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { activeInfoRequestReferral = null }) {
-                    Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.cancel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                 }
             }
         )

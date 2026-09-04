@@ -110,7 +110,7 @@ fun OpdQueueScreen(
             // 2. Hospital Department Live Queue Display
             item {
                 Text(
-                    text = "Hospital Departments Live Board",
+                    text = stringResource(R.string.hospitalDeptsLiveBoard),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                     color = VS_PrimaryContainer
                 )
@@ -223,7 +223,7 @@ fun ActiveTokenCard(
                                 .background(VS_OnSuccessContainer)
                         )
                         Text(
-                            text = "LIVE OPD QUEUE",
+                            text = stringResource(R.string.liveOpdQueueTitle),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
@@ -255,7 +255,7 @@ fun ActiveTokenCard(
             ) {
                 Column {
                     Text(
-                        text = "Your Token Number",
+                        text = stringResource(R.string.yourTokenNumber),
                         style = MaterialTheme.typography.labelSmall,
                         color = VS_OnSurfaceVariant
                     )
@@ -268,7 +268,7 @@ fun ActiveTokenCard(
 
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Currently Serving",
+                        text = stringResource(R.string.nowServingLabel),
                         style = MaterialTheme.typography.labelSmall,
                         color = VS_OnSurfaceVariant
                     )
@@ -287,15 +287,15 @@ fun ActiveTokenCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Department", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.departmentLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                     Text(token.department, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                 }
                 Column {
-                    Text("Room / Cabin", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.roomCabinLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                     Text(token.cabinNumber, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text("Est. Wait Time", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.estWaitTime), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                     Text("~${token.estimatedWaitMinutes} mins", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnWarningContainer)
                 }
             }
@@ -303,7 +303,7 @@ fun ActiveTokenCard(
             Spacer(modifier = Modifier.height(Spacing.xs))
             
             VitalSenseButton(
-                text = "📹 Join Teleconsultation",
+                text = stringResource(R.string.joinCall),
                 onClick = { showTeleconsultation = true },
                 style = ButtonStyle.PRIMARY,
                 modifier = Modifier.fillMaxWidth()
@@ -346,17 +346,17 @@ fun NoActiveTokenCard(
                 tint = VS_Primary
             )
             Text(
-                text = "No Active OPD Token",
+                text = stringResource(R.string.noActiveOpdToken),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground
             )
             Text(
-                text = "Self check-in or generate a digital queue slip to visit PHC / District Hospital doctors without physical lines.",
+                text = stringResource(R.string.opdDigitalSlipDesc),
                 style = MaterialTheme.typography.bodySmall,
                 color = VS_OnSurfaceVariant
             )
             VitalSenseButton(
-                text = "🎟️ Book OPD Token Now",
+                text = stringResource(R.string.bookOpdTokenNow),
                 onClick = onBookClick,
                 style = ButtonStyle.PRIMARY
             )
@@ -391,7 +391,7 @@ fun DepartmentQueueRow(
             }
             Column(horizontalAlignment = Alignment.End) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("Serving:", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(stringResource(R.string.servingTokenPrefix), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                     Text(currentServing, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_OnSuccessContainer)
                 }
                 Text("Queue: $totalQueue", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)

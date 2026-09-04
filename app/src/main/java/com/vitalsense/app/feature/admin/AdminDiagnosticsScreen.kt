@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.admin
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,7 +39,7 @@ fun AdminDiagnosticsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Diagnostics Availability", color = VS_OnBackground) },
+                title = { Text(stringResource(R.string.diagnosticsAvailability), color = VS_OnBackground) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -62,14 +64,14 @@ fun AdminDiagnosticsScreen(
                 .padding(horizontal = Spacing.md)
         ) {
             Text(
-                text = "Live Machine & Lab Status",
+                text = stringResource(R.string.liveMachineLabStatus),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground,
                 modifier = Modifier.padding(bottom = Spacing.sm, top = Spacing.sm)
             )
             
             Text(
-                text = "Monitor the real-time operational status of all facility diagnostic machines and laboratories.",
+                text = stringResource(R.string.monitorRealTimeStatus),
                 style = MaterialTheme.typography.bodySmall,
                 color = VS_OnSurfaceVariant,
                 modifier = Modifier.padding(bottom = Spacing.md)

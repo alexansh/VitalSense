@@ -146,7 +146,7 @@ fun LabReportsScreen(
                     ) {
                         Column {
                             Text(
-                                text = "Abnormal Findings",
+                                text = stringResource(R.string.abnormalFindings),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = if (totalAbnormalFlags > 0) VS_Error else VS_OnSurfaceVariant
                             )
@@ -203,7 +203,7 @@ fun LabReportsScreen(
                             )
                             Spacer(Modifier.height(Spacing.sm))
                             Text(
-                                text = "No lab investigations in this category",
+                                text = stringResource(R.string.noLabInvestigationsCategory),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = VS_OnSurfaceVariant
                             )
@@ -372,7 +372,7 @@ fun LabReportCard(
             ) {
                 TextButton(onClick = onViewDetails) {
                     Text(
-                        text = "View Full E-Report ➔",
+                        text = stringResource(R.string.viewFullEReport),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_Primary
                     )
@@ -402,7 +402,7 @@ fun LabReportDetailModal(
                         color = VS_OnBackground
                     )
                     Text(
-                        text = "Certified Laboratory Report",
+                        text = stringResource(R.string.certifiedLabReport),
                         style = MaterialTheme.typography.labelSmall,
                         color = VS_OnSuccessContainer
                     )
@@ -434,7 +434,7 @@ fun LabReportDetailModal(
 
                 item {
                     Text(
-                        text = "Investigation Findings",
+                        text = stringResource(R.string.investigationFindings),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                         color = VS_PrimaryContainer
                     )
@@ -511,7 +511,7 @@ fun LabReportDetailModal(
                     ) {
                         Column(modifier = Modifier.padding(Spacing.sm)) {
                             Text(
-                                text = "Pathologist Clinical Notes",
+                                text = stringResource(R.string.pathologistClinicalNotes),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = VS_PrimaryContainer
                             )
@@ -527,7 +527,7 @@ fun LabReportDetailModal(
         },
         confirmButton = {
             VitalSenseButton(
-                text = "Close E-Report",
+                text = stringResource(R.string.closeEReport),
                 onClick = onDismiss,
                 style = ButtonStyle.SECONDARY
             )
@@ -558,7 +558,7 @@ fun OrderLabTestDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "Order Diagnostic Lab Test",
+                text = stringResource(R.string.orderDiagnosticLabTest),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = VS_OnBackground
             )
@@ -566,7 +566,7 @@ fun OrderLabTestDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                 Text(
-                    text = "Select Investigation Panel:",
+                    text = stringResource(R.string.selectInvestigationPanel),
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnSurfaceVariant
                 )
@@ -611,7 +611,7 @@ fun OrderLabTestDialog(
         },
         confirmButton = {
             VitalSenseButton(
-                text = "Issue Order",
+                text = stringResource(R.string.issueOrder),
                 onClick = {
                     val dateFormatted = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
                     val sampleItems = when (selectedCategory) {
@@ -647,7 +647,7 @@ fun OrderLabTestDialog(
         },
         dismissButton = {
             VitalSenseButton(
-                text = "Cancel",
+                text = stringResource(R.string.cancel),
                 onClick = onDismiss,
                 style = ButtonStyle.SECONDARY
             )

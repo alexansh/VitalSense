@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.patient.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -69,7 +71,7 @@ fun PatientTimelineDialog(
                 ) {
                     Column {
                         Text(
-                            text = "Care Journey",
+                            text = stringResource(R.string.careJourneyTitle),
                             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )

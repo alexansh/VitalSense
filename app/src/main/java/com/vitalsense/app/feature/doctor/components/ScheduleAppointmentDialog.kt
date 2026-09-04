@@ -1,4 +1,6 @@
 package com.vitalsense.app.feature.doctor.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -49,12 +51,12 @@ fun ScheduleAppointmentDialog(
                 ) {
                     Column {
                         Text(
-                            text = "📅 Schedule New Appointment",
+                            text = stringResource(R.string.scheduleNewAppointmentTitle),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = VS_OnBackground
                         )
                         Text(
-                            text = "Propose consultation time to patient",
+                            text = stringResource(R.string.proposeConsultationTime),
                             style = MaterialTheme.typography.bodySmall,
                             color = VS_OnSurfaceVariant
                         )
@@ -68,7 +70,7 @@ fun ScheduleAppointmentDialog(
 
                 // Select Patient Dropdown
                 Text(
-                    text = "Select Patient:",
+                    text = stringResource(R.string.selectPatientColon),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -119,7 +121,7 @@ fun ScheduleAppointmentDialog(
 
                 // Date Picker Chips
                 Text(
-                    text = "Select Date:",
+                    text = stringResource(R.string.selectDateColon),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -152,7 +154,7 @@ fun ScheduleAppointmentDialog(
 
                 // Time Slots Chips
                 Text(
-                    text = "Available Time Slot:",
+                    text = stringResource(R.string.availableTimeSlotColon),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = VS_OnBackground
                 )
@@ -204,7 +206,7 @@ fun ScheduleAppointmentDialog(
                     enabled = selectedPatient != null
                 ) {
                     Text(
-                        text = "Send Appointment Proposal ✓",
+                        text = stringResource(R.string.sendAppointmentProposalCheck),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }

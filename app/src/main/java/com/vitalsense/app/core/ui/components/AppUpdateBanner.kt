@@ -1,4 +1,6 @@
 package com.vitalsense.app.core.ui.components
+import androidx.compose.ui.res.stringResource
+import com.vitalsense.app.R
 
 import android.content.Intent
 import android.net.Uri
@@ -76,7 +78,7 @@ fun AppUpdateBanner(
                                 color = VS_OnBackground
                             )
                             Text(
-                                text = "Interactive Google Maps & enhancements",
+                                text = stringResource(R.string.interactiveMapsEnhance),
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                                 color = VS_OnSurfaceVariant
                             )
@@ -97,7 +99,7 @@ fun AppUpdateBanner(
                             modifier = Modifier.height(30.dp)
                         ) {
                             Text(
-                                text = "Update",
+                                text = stringResource(R.string.updateAction),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = Color.White)
                             )
                         }
