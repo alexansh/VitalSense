@@ -43,8 +43,8 @@ fun AppUpdateBanner(
                     .fillMaxWidth()
                     .padding(horizontal = Spacing.md, vertical = Spacing.xs),
                 shape = CardShape,
-                color = GlumeSurfaceElevated,
-                border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.6f)),
+                color = VS_SurfaceVariant,
+                border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.6f)),
                 shadowElevation = 4.dp
             ) {
                 Row(
@@ -61,7 +61,7 @@ fun AppUpdateBanner(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(32.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -73,12 +73,12 @@ fun AppUpdateBanner(
                             Text(
                                 text = "New Version Available (${updateInfo.latestVersionName})",
                                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Interactive Google Maps & enhancements",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -92,7 +92,7 @@ fun AppUpdateBanner(
                                 AppUpdateChecker.openDownloadLink(context, updateInfo.downloadUrl)
                             },
                             shape = PillShape,
-                            colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                             modifier = Modifier.height(30.dp)
                         ) {
@@ -108,7 +108,7 @@ fun AppUpdateBanner(
                         ) {
                             Text(
                                 text = "✕",
-                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = GlumeTextSecondary)
+                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnSurfaceVariant)
                             )
                         }
                     }

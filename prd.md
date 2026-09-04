@@ -108,4 +108,4 @@ VitalSense (**SehatSetu**) resolves these issues through a **single, unified, 4-
 | **Memory Footprint** | Peak RAM consumption kept below 150MB for smooth performance on 2GB RAM Android devices. |
 | **Battery Consumption** | Battery drain constrained to < 3% per hour during active field use. |
 | **Data Privacy & Security**| Local database encrypted with AES-256; patient records protected by revocable consent artifacts. |
-| **Compliance** | Zero mention of legacy HMIS; full alignment with Ayushman Bharat Digital Mission (ABDM) standards. |\n
+| **Compliance** | Full alignment with Ayushman Bharat Digital Mission (ABDM) standards and modern digital health infrastructure. |\n

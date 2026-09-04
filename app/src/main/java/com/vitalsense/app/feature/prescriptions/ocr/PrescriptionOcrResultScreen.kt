@@ -67,23 +67,23 @@ fun PrescriptionOcrResultScreen(
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(GlumeBackground),
+                .background(VS_Background),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(Spacing.md)
             ) {
-                CircularProgressIndicator(color = GlumePrimaryPurple, modifier = Modifier.size(48.dp))
+                CircularProgressIndicator(color = VS_Primary, modifier = Modifier.size(48.dp))
                 Text(
                     text = "🔍 Reading prescription on-device...",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "Running local ML Kit OCR without network",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             }
         }
@@ -103,7 +103,7 @@ fun PrescriptionOcrResultScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(Spacing.md)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(Spacing.md)
@@ -118,12 +118,12 @@ fun PrescriptionOcrResultScreen(
                 Text(
                     text = "📋 Review & Confirm OCR Scan",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "Patient: ${patient.name} · Verify extracted text below",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             }
             // Listen to recognized text
@@ -133,7 +133,7 @@ fun PrescriptionOcrResultScreen(
                 },
                 modifier = Modifier
                     .size(40.dp)
-                    .background(GlumePrimaryPurpleContainer, RoundedCornerShape(10.dp))
+                    .background(VS_PrimaryContainer, RoundedCornerShape(10.dp))
             ) {
                 Text("🔊", fontSize = 18.sp)
             }
@@ -150,15 +150,15 @@ fun PrescriptionOcrResultScreen(
                     Text(
                         text = "Extracted Text (Tap to Edit):",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Surface(
                         shape = PillShape,
-                        color = GlumeSuccessContainer
+                        color = VS_SuccessContainer
                     ) {
                         Text(
                             text = "ON-DEVICE OCR",
-                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = GlumeSuccessText),
+                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnSuccessContainer),
                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                         )
                     }
@@ -175,10 +175,10 @@ fun PrescriptionOcrResultScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 100.dp, max = 160.dp),
-                    textStyle = MaterialTheme.typography.bodyMedium.copy(color = GlumeTextPrimary),
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(color = VS_OnBackground),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = GlumePrimaryPurple,
-                        unfocusedBorderColor = GlumeBorder
+                        focusedBorderColor = VS_Primary,
+                        unfocusedBorderColor = VS_Outline
                     ),
                     shape = RoundedCornerShape(12.dp)
                 )
@@ -190,20 +190,20 @@ fun PrescriptionOcrResultScreen(
             Text(
                 text = "Identified Medicines (${medicinesList.size}):",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
 
             if (medicinesList.isEmpty()) {
                 Surface(
                     shape = CardShape,
-                    color = GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         text = "No standard medicine names matched automatically. The raw text above will be saved as a Digitized Prescription note.",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary,
+                        color = VS_OnSurfaceVariant,
                         modifier = Modifier.padding(Spacing.md)
                     )
                 }
@@ -212,8 +212,8 @@ fun PrescriptionOcrResultScreen(
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = GlumeSurfaceCard),
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Row(
                             modifier = Modifier
@@ -226,19 +226,19 @@ fun PrescriptionOcrResultScreen(
                                 Text(
                                     text = "💊 ${med.name} (${med.dosage})",
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "${med.frequency} · Duration: ${med.duration}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             IconButton(
                                 onClick = { medicinesList.removeAt(index) },
                                 modifier = Modifier.size(32.dp)
                             ) {
-                                Text("✕", color = GlumeAlertCoral, fontWeight = FontWeight.Bold)
+                                Text("✕", color = VS_Error, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -251,7 +251,7 @@ fun PrescriptionOcrResultScreen(
             Text(
                 text = "Prescribing Doctor / Health Post:",
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
             OutlinedTextField(
                 value = doctorName,
@@ -264,7 +264,7 @@ fun PrescriptionOcrResultScreen(
             Text(
                 text = "Instructions / Dosage Directions:",
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
             OutlinedTextField(
                 value = instructions,
@@ -322,10 +322,10 @@ fun PrescriptionOcrResultScreen(
             OutlinedButton(
                 onClick = onRetakePhoto,
                 shape = PillShape,
-                border = BorderStroke(1.dp, GlumeBorder),
+                border = BorderStroke(1.dp, VS_Outline),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("🔁 Retake Photo", color = GlumeTextPrimary)
+                Text("🔁 Retake Photo", color = VS_OnBackground)
             }
         }
     }
@@ -343,14 +343,14 @@ private fun NoTextDetectedView(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(Spacing.lg),
         contentAlignment = Alignment.Center
     ) {
         Card(
             shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = GlumeSurfaceCard),
-            border = BorderStroke(1.dp, GlumeBorder),
+            colors = CardDefaults.cardColors(containerColor = VS_Surface),
+            border = BorderStroke(1.dp, VS_Outline),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -363,20 +363,20 @@ private fun NoTextDetectedView(
                 Text(
                     text = "We couldn't read any text",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary,
+                    color = VS_OnBackground,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
 
                 Text(
                     text = "The photo might be too blurry, too dark, or taken at an angle. Please try again with better lighting and hold the camera steady.",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
 
                 Button(
                     onClick = onRetake,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     shape = PillShape,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -386,10 +386,10 @@ private fun NoTextDetectedView(
                 OutlinedButton(
                     onClick = onManualEntry,
                     shape = PillShape,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("✍️ Enter Prescription Manually", color = GlumeTextPrimary)
+                    Text("✍️ Enter Prescription Manually", color = VS_OnBackground)
                 }
             }
         }

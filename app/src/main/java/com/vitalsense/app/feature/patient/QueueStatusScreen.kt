@@ -6,8 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.*
+
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,7 +46,7 @@ fun QueueStatusScreen(
                         Text(
                             text = "Live Visit Queue",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     },
                     navigationIcon = {
@@ -50,14 +54,14 @@ fun QueueStatusScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",
-                                tint = GlumeTextPrimary
+                                tint = VS_OnBackground
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
                 )
             },
-            containerColor = NagarSevaCanvasLight
+            containerColor = VS_Background
         ) { paddingValues ->
             if (entry == null) {
                 Box(
@@ -69,8 +73,8 @@ fun QueueStatusScreen(
                 ) {
                     Card(
                         shape = RoundedCornerShape(18.dp),
-                        colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                        border = BorderStroke(1.dp, NagarSevaBorderLight)
+                        colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Column(
                             modifier = Modifier.padding(32.dp),
@@ -81,12 +85,12 @@ fun QueueStatusScreen(
                             Text(
                                 text = "No Active Queue Ticket",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Check in to a scheduled appointment or join a doctor's walk-in queue to receive your token.",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary,
+                                color = VS_OnSurfaceVariant,
                                 textAlign = TextAlign.Center
                             )
                             if (onJoinWalkIn != null) {
@@ -94,7 +98,7 @@ fun QueueStatusScreen(
                                 Button(
                                     onClick = onJoinWalkIn,
                                     shape = RoundedCornerShape(12.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                     modifier = Modifier.touchSpring()
                                 ) {
                                     Icon(Icons.Default.ConfirmationNumber, contentDescription = null, tint = Color.White)
@@ -118,8 +122,8 @@ fun QueueStatusScreen(
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(24.dp),
-                        colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                        border = BorderStroke(1.5.dp, NagarSevaPrimary.copy(alpha = 0.3f)),
+                        colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                        border = BorderStroke(1.5.dp, VS_Primary.copy(alpha = 0.3f)),
                         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
                     ) {
                         Column(
@@ -131,11 +135,11 @@ fun QueueStatusScreen(
                         ) {
                             // Header Chip
                             val (chipBg, chipFg) = when (entry.status) {
-                                QueueEntryStatus.WAITING -> Pair(NagarSevaStatusProgressBg, NagarSevaStatusProgress)
+                                QueueEntryStatus.WAITING -> Pair(NagarSevaStatusProgressBg, VS_Warning)
                                 QueueEntryStatus.CALLED -> Pair(Color(0xFFEDE9FE), Color(0xFF7C5CFF))
-                                QueueEntryStatus.IN_CONSULTATION -> Pair(NagarSevaStatusNormalBg, NagarSevaStatusNormal)
-                                QueueEntryStatus.COMPLETED -> Pair(Color(0xFFF1F5F9), GlumeTextSecondary)
-                                else -> Pair(NagarSevaStatusUrgentBg, NagarSevaStatusUrgent)
+                                QueueEntryStatus.IN_CONSULTATION -> Pair(NagarSevaStatusNormalBg, VS_Success)
+                                QueueEntryStatus.COMPLETED -> Pair(Color(0xFFF1F5F9), VS_OnSurfaceVariant)
+                                else -> Pair(NagarSevaStatusUrgentBg, VS_Error)
                             }
 
                             TabularStatusChip(
@@ -158,21 +162,21 @@ fun QueueStatusScreen(
                                         letterSpacing = 1.sp,
                                         fontWeight = FontWeight.Bold
                                     ),
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                                 Spacer(modifier = Modifier.height(6.dp))
                                 if (entry.provisionalToken) {
                                     Surface(
                                         shape = RoundedCornerShape(12.dp),
-                                        color = GlumeAlertAmberContainer,
-                                        border = BorderStroke(1.dp, GlumeAlertAmber)
+                                        color = VS_WarningContainer,
+                                        border = BorderStroke(1.dp, VS_Error)
                                     ) {
                                         Text(
                                             text = "Confirming your position…",
                                             style = MaterialTheme.typography.titleMedium.copy(
                                                 fontWeight = FontWeight.Bold
                                             ),
-                                            color = GlumeAlertAmber,
+                                            color = VS_Error,
                                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
                                         )
                                     }
@@ -183,12 +187,12 @@ fun QueueStatusScreen(
                                             fontWeight = FontWeight.ExtraBold,
                                             fontSize = 64.sp
                                         ),
-                                        color = NagarSevaPrimary
+                                        color = VS_Primary
                                     )
                                 }
                             }
 
-                            HorizontalDivider(color = NagarSevaBorderLight)
+                            HorizontalDivider(color = VS_Outline)
 
                             // Metrics: Position Ahead & Estimated Wait
                             Row(
@@ -200,12 +204,12 @@ fun QueueStatusScreen(
                                     Text(
                                         text = if (position <= 0) "Next in Line" else "$position Ahead",
                                         style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "Queue Position",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
 
@@ -213,24 +217,24 @@ fun QueueStatusScreen(
                                     modifier = Modifier
                                         .height(36.dp)
                                         .width(1.dp)
-                                        .background(NagarSevaBorderLight)
+                                        .background(VS_Outline)
                                 )
 
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(
                                         text = if (position <= 0) "< 2 min" else "~$estimatedWaitMinutes min",
                                         style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "Estimated Wait",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                             }
 
-                            HorizontalDivider(color = NagarSevaBorderLight)
+                            HorizontalDivider(color = VS_Outline)
 
                             // Doctor Information
                             Row(
@@ -242,18 +246,18 @@ fun QueueStatusScreen(
                                     Text(
                                         text = "Attending Physician",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                     Text(
                                         text = "Dr. ${entry.doctorName}",
                                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                 }
 
                                 Surface(
                                     shape = CircleShape,
-                                    color = NagarSevaElevatedLight,
+                                    color = VS_SurfaceVariant,
                                     modifier = Modifier.size(36.dp)
                                 ) {
                                     Box(contentAlignment = Alignment.Center) {
@@ -273,18 +277,18 @@ fun QueueStatusScreen(
                                 .height(48.dp)
                                 .touchSpring(),
                             shape = RoundedCornerShape(12.dp),
-                            border = BorderStroke(1.dp, NagarSevaStatusUrgent.copy(alpha = 0.5f))
+                            border = BorderStroke(1.dp, VS_Error.copy(alpha = 0.5f))
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Close,
                                 contentDescription = null,
-                                tint = NagarSevaStatusUrgent,
+                                tint = VS_Error,
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = "Cancel Token",
-                                color = NagarSevaStatusUrgent,
+                                color = VS_Error,
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -294,3 +298,4 @@ fun QueueStatusScreen(
         }
     }
 }
+

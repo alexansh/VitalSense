@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,11 +43,11 @@ fun QueueEntryListItem(
             .touchSpring(),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (entry.priorityFlag) NagarSevaElevatedLight else NagarSevaSurfaceLight
+            containerColor = if (entry.priorityFlag) VS_SurfaceVariant else VS_Surface
         ),
         border = BorderStroke(
             1.dp,
-            if (entry.priorityFlag) GlumeAlertAmber.copy(alpha = 0.5f) else NagarSevaBorderLight
+            if (entry.priorityFlag) VS_Error.copy(alpha = 0.5f) else VS_Outline
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
@@ -71,10 +71,10 @@ fun QueueEntryListItem(
                     // Token Pill
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = if (entry.provisionalToken) GlumeAlertAmberContainer else NagarSevaPrimary.copy(alpha = 0.12f),
+                        color = if (entry.provisionalToken) VS_WarningContainer else VS_Primary.copy(alpha = 0.12f),
                         border = BorderStroke(
                             1.dp,
-                            if (entry.provisionalToken) GlumeAlertAmber else NagarSevaPrimary.copy(alpha = 0.3f)
+                            if (entry.provisionalToken) VS_Error else VS_Primary.copy(alpha = 0.3f)
                         )
                     ) {
                         Text(
@@ -83,7 +83,7 @@ fun QueueEntryListItem(
                                 fontWeight = FontWeight.ExtraBold,
                                 fontSize = 13.sp
                             ),
-                            color = if (entry.provisionalToken) GlumeAlertAmber else NagarSevaPrimary,
+                            color = if (entry.provisionalToken) VS_Error else VS_Primary,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
@@ -96,15 +96,15 @@ fun QueueEntryListItem(
                             Text(
                                 text = entry.patientName,
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary,
+                                color = VS_OnBackground,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
                             if (entry.priorityFlag) {
                                 Icon(
-                                    imageVector = Icons.Default.Star,
+                                    imageVector = Icons.Outlined.Star,
                                     contentDescription = "Prioritized",
-                                    tint = GlumeAlertAmber,
+                                    tint = VS_Error,
                                     modifier = Modifier.size(16.dp)
                                 )
                             }
@@ -112,7 +112,7 @@ fun QueueEntryListItem(
                         Text(
                             text = "Checked in: $timeFormatted",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
@@ -135,13 +135,13 @@ fun QueueEntryListItem(
                     }
 
                     val (chipBg, chipFg) = when (entry.status) {
-                        QueueEntryStatus.WAITING -> Pair(NagarSevaStatusProgressBg, NagarSevaStatusProgress)
+                        QueueEntryStatus.WAITING -> Pair(NagarSevaStatusProgressBg, VS_Warning)
                         QueueEntryStatus.CALLED -> Pair(Color(0xFFEDE9FE), Color(0xFF7C5CFF))
-                        QueueEntryStatus.IN_CONSULTATION -> Pair(NagarSevaStatusNormalBg, NagarSevaStatusNormal)
-                        QueueEntryStatus.COMPLETED -> Pair(Color(0xFFF1F5F9), GlumeTextSecondary)
-                        QueueEntryStatus.NO_SHOW -> Pair(NagarSevaStatusUrgentBg, NagarSevaStatusUrgent)
+                        QueueEntryStatus.IN_CONSULTATION -> Pair(NagarSevaStatusNormalBg, VS_Success)
+                        QueueEntryStatus.COMPLETED -> Pair(Color(0xFFF1F5F9), VS_OnSurfaceVariant)
+                        QueueEntryStatus.NO_SHOW -> Pair(NagarSevaStatusUrgentBg, VS_Error)
                         QueueEntryStatus.SKIPPED -> Pair(Color(0xFFFFEDD5), Color(0xFFC2410C))
-                        QueueEntryStatus.CANCELLED -> Pair(Color(0xFFF1F5F9), GlumeTextSecondary)
+                        QueueEntryStatus.CANCELLED -> Pair(Color(0xFFF1F5F9), VS_OnSurfaceVariant)
                     }
 
                     TabularStatusChip(
@@ -164,7 +164,7 @@ fun QueueEntryListItem(
                             onClick = onStartConsultation,
                             modifier = Modifier.weight(1f).height(36.dp),
                             shape = RoundedCornerShape(8.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
                         ) {
                             Text("Start Consult", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -176,13 +176,13 @@ fun QueueEntryListItem(
                             onClick = onPrioritize,
                             modifier = Modifier.weight(1f).height(36.dp),
                             shape = RoundedCornerShape(8.dp),
-                            border = BorderStroke(1.dp, if (entry.priorityFlag) GlumeAlertAmber else NagarSevaBorderLight),
+                            border = BorderStroke(1.dp, if (entry.priorityFlag) VS_Error else VS_Outline),
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
                             Text(
                                 text = if (entry.priorityFlag) "Deprioritize" else "Prioritize",
                                 fontSize = 11.sp,
-                                color = if (entry.priorityFlag) GlumeAlertAmber else GlumeTextPrimary
+                                color = if (entry.priorityFlag) VS_Error else VS_OnBackground
                             )
                         }
                     }
@@ -192,10 +192,10 @@ fun QueueEntryListItem(
                             onClick = onSkip,
                             modifier = Modifier.weight(0.8f).height(36.dp),
                             shape = RoundedCornerShape(8.dp),
-                            border = BorderStroke(1.dp, NagarSevaBorderLight),
+                            border = BorderStroke(1.dp, VS_Outline),
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
-                            Text("Skip", fontSize = 11.sp, color = GlumeTextPrimary)
+                            Text("Skip", fontSize = 11.sp, color = VS_OnBackground)
                         }
                     }
 
@@ -204,10 +204,10 @@ fun QueueEntryListItem(
                             onClick = onMarkNoShow,
                             modifier = Modifier.weight(0.9f).height(36.dp),
                             shape = RoundedCornerShape(8.dp),
-                            border = BorderStroke(1.dp, NagarSevaStatusUrgent.copy(alpha = 0.4f)),
+                            border = BorderStroke(1.dp, VS_Error.copy(alpha = 0.4f)),
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                         ) {
-                            Text("No-Show", fontSize = 11.sp, color = NagarSevaStatusUrgent)
+                            Text("No-Show", fontSize = 11.sp, color = VS_Error)
                         }
                     }
                 }

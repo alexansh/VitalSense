@@ -78,9 +78,9 @@ fun SplashScreen(
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        PresentationLightBackground,
-                        VitalSenseTealContainer,
-                        PresentationLightBackground
+                        VS_Background,
+                        VS_PrimaryContainer,
+                        VS_Background
                     )
                 )
             ),
@@ -104,7 +104,7 @@ fun SplashScreen(
                             .size(100.dp)
                             .scale(pulseRingScale)
                             .clip(CircleShape)
-                            .background(GlumePrimaryPurple.copy(alpha = pulseRingAlpha))
+                            .background(VS_Primary.copy(alpha = pulseRingAlpha))
                     )
                 }
 
@@ -113,14 +113,14 @@ fun SplashScreen(
                     modifier = Modifier
                         .size(100.dp)
                         .clip(CircleShape)
-                        .background(GlumePrimaryPurpleContainer)
+                        .background(VS_PrimaryContainer)
                 )
 
                 // Main Core "V" Shield
                 Surface(
                     shape = CircleShape,
-                    color = GlumePrimaryPurple,
-                    border = BorderStroke(2.dp, GlumePrimaryPurpleLight),
+                    color = VS_Primary,
+                    border = BorderStroke(2.dp, VS_PrimaryContainer),
                     shadowElevation = 16.dp,
                     modifier = Modifier.size(80.dp)
                 ) {
@@ -166,7 +166,7 @@ fun SplashScreen(
 
                     drawPath(
                         path = path,
-                        color = GlumeSuccessMint,
+                        color = VS_Success,
                         style = Stroke(width = 3.dp.toPx())
                     )
                 }
@@ -185,21 +185,21 @@ fun SplashScreen(
                         fontSize = 32.sp,
                         letterSpacing = 1.sp
                     ),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "SEHAT SETU · सेहत सेतु",
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 1.5.sp,
-                        color = GlumePrimaryPurpleLight
+                        color = VS_PrimaryContainer
                     )
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Bridging Rural Healthcare · Zero-Internet Ready",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             }
         }
@@ -215,8 +215,8 @@ fun SplashScreen(
         ) {
             Surface(
                 shape = PillShape,
-                color = GlumeSurfaceElevated,
-                border = BorderStroke(1.dp, GlumeBorder)
+                color = VS_SurfaceVariant,
+                border = BorderStroke(1.dp, VS_Outline)
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
@@ -227,7 +227,7 @@ fun SplashScreen(
                     Text(
                         text = "Encrypted Offline SQLite · ABHA Ready",
                         style = MaterialTheme.typography.labelSmall.copy(
-                            color = GlumeTextSecondary,
+                            color = VS_OnSurfaceVariant,
                             fontWeight = FontWeight.SemiBold
                         )
                     )

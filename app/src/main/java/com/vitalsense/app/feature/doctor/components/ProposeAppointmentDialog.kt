@@ -29,7 +29,7 @@ fun ProposeAppointmentDialog(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = CardShape,
-            color = WarmCreamBackground,
+            color = VS_Background,
             shadowElevation = 8.dp
         ) {
             Column(
@@ -47,12 +47,12 @@ fun ProposeAppointmentDialog(
                         Text(
                             text = "📅 Propose Appointment",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = TextPrimaryNearBlack
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "To: ${patient?.name ?: patientNameFallback}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondaryMuted
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     IconButton(onClick = onDismiss) {
@@ -64,7 +64,7 @@ fun ProposeAppointmentDialog(
                 Text(
                     text = "Select Proposed Date:",
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                    color = TextPrimaryNearBlack
+                    color = VS_OnBackground
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -78,8 +78,8 @@ fun ProposeAppointmentDialog(
                             label = { Text(date, fontSize = 11.sp) },
                             shape = PillShape,
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = DarkCharcoal,
-                                selectedLabelColor = LimePrimary
+                                selectedContainerColor = VS_SurfaceVariant,
+                                selectedLabelColor = VS_Primary
                             )
                         )
                     }
@@ -89,7 +89,7 @@ fun ProposeAppointmentDialog(
                 Text(
                     text = "Select Time Slot:",
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                    color = TextPrimaryNearBlack
+                    color = VS_OnBackground
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -103,8 +103,8 @@ fun ProposeAppointmentDialog(
                             label = { Text(slot, fontSize = 11.sp) },
                             shape = PillShape,
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = DarkCharcoal,
-                                selectedLabelColor = LimePrimary
+                                selectedContainerColor = VS_SurfaceVariant,
+                                selectedLabelColor = VS_Primary
                             )
                         )
                     }
@@ -131,7 +131,7 @@ fun ProposeAppointmentDialog(
                         },
                         modifier = Modifier.weight(1.3f),
                         shape = PillShape,
-                        colors = ButtonDefaults.buttonColors(containerColor = LavenderSecondary, contentColor = TextPrimaryNearBlack)
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_PrimaryContainer, contentColor = VS_OnBackground)
                     ) {
                         Text("Send Proposal", fontWeight = FontWeight.Bold)
                     }

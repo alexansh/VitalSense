@@ -10,7 +10,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CallEnd
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.*
+
+import androidx.compose.material.icons.outlined.CallEnd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -202,8 +206,8 @@ fun TeleConsultationModal(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .background(GlumeBackground),
-            color = GlumeBackground
+                .background(VS_Background),
+            color = VS_Background
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 // 1. Video Simulation Canvas
@@ -229,8 +233,8 @@ fun TeleConsultationModal(
                         ) {
                             Surface(
                                 shape = CircleShape,
-                                color = GlumePrimaryPurpleContainer,
-                                border = BorderStroke(2.dp, GlumePrimaryPurple),
+                                color = VS_PrimaryContainer,
+                                border = BorderStroke(2.dp, VS_Primary),
                                 modifier = Modifier.size(110.dp)
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
@@ -240,11 +244,11 @@ fun TeleConsultationModal(
                             Text(
                                 text = patientName,
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "📡 Ultra-Low Bandwidth Mode (2G Audio Only)",
-                                style = MaterialTheme.typography.bodySmall.copy(color = GlumeSuccessMint, fontWeight = FontWeight.Bold)
+                                style = MaterialTheme.typography.bodySmall.copy(color = VS_Success, fontWeight = FontWeight.Bold)
                             )
 
                             // Live Audio Bars
@@ -260,7 +264,7 @@ fun TeleConsultationModal(
                                             .width(5.dp)
                                             .fillMaxHeight(heightFraction)
                                             .clip(CircleShape)
-                                            .background(GlumeSuccessMint)
+                                            .background(VS_Success)
                                     )
                                 }
                             }
@@ -278,8 +282,8 @@ fun TeleConsultationModal(
                                     .background(
                                         Brush.radialGradient(
                                             colors = listOf(
-                                                GlumePrimaryPurpleContainer,
-                                                GlumeSurfaceElevated
+                                                VS_PrimaryContainer,
+                                                VS_SurfaceVariant
                                             )
                                         )
                                     ),
@@ -292,12 +296,12 @@ fun TeleConsultationModal(
                                 Text(
                                     text = "$patientName ($patientAge yrs)",
                                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "Connected from Sundarpura PHC Tele-Kiosk",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                         }
@@ -316,7 +320,7 @@ fun TeleConsultationModal(
                     Surface(
                         shape = PillShape,
                         color = Color(0x99000000),
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
@@ -327,7 +331,7 @@ fun TeleConsultationModal(
                                 modifier = Modifier
                                     .size(8.dp)
                                     .clip(CircleShape)
-                                    .background(GlumeAlertCoral)
+                                    .background(VS_Error)
                             )
                             Text(
                                 text = "REC  $formattedTime",
@@ -343,7 +347,7 @@ fun TeleConsultationModal(
                     Surface(
                         shape = PillShape,
                         color = Color(0x99000000),
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
@@ -354,7 +358,7 @@ fun TeleConsultationModal(
                             Text(
                                 text = if (isLowBandwidthMode) "2G Optimized (32 kbps)" else "HD 720p · 42ms",
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    color = if (isLowBandwidthMode) GlumeWarningAmber else GlumeSuccessMint,
+                                    color = if (isLowBandwidthMode) VS_Warning else VS_Success,
                                     fontWeight = FontWeight.Bold
                                 )
                             )
@@ -368,7 +372,7 @@ fun TeleConsultationModal(
                 Surface(
                     shape = RoundedCornerShape(12.dp),
                     color = Color(0xCC181824),
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(start = Spacing.md)
@@ -389,43 +393,43 @@ fun TeleConsultationModal(
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             )
-                            Text(if (showVitalsSidePanel) "◀" else "▶", fontSize = 10.sp, color = GlumePrimaryPurple)
+                            Text(if (showVitalsSidePanel) "◀" else "▶", fontSize = 10.sp, color = VS_Primary)
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("❤️ Pulse", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = GlumeTextSecondary))
-                            Text("74 bpm", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = GlumeSuccessMint))
+                            Text("❤️ Pulse", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text("74 bpm", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_Success))
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("🩸 BP", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = GlumeTextSecondary))
-                            Text("118/78", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = GlumeTextPrimary))
+                            Text("🩸 BP", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text("118/78", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_OnBackground))
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("🫁 SpO2", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = GlumeTextSecondary))
-                            Text("98%", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = GlumeSuccessMint))
+                            Text("🫁 SpO2", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text("98%", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_Success))
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("🌡️ Temp", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = GlumeTextSecondary))
-                            Text("98.4°F", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = GlumeTextPrimary))
+                            Text("🌡️ Temp", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnSurfaceVariant))
+                            Text("98.4°F", style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VS_OnBackground))
                         }
 
                         Text(
                             text = "Tap to expand",
-                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp, color = GlumePrimaryPurple)
+                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp, color = VS_Primary)
                         )
                     }
                 }
@@ -435,7 +439,7 @@ fun TeleConsultationModal(
                     Surface(
                         shape = RoundedCornerShape(16.dp),
                         color = Color(0xF0181826),
-                        border = BorderStroke(1.5.dp, GlumePrimaryPurple),
+                        border = BorderStroke(1.5.dp, VS_Primary),
                         modifier = Modifier
                             .align(Alignment.CenterStart)
                             .padding(start = Spacing.md)
@@ -458,19 +462,19 @@ fun TeleConsultationModal(
                                 Text(
                                     text = "✕",
                                     fontSize = 14.sp,
-                                    color = GlumeTextSecondary,
+                                    color = VS_OnSurfaceVariant,
                                     modifier = Modifier.clickable { showVitalsSidePanel = false }
                                 )
                             }
-                            HorizontalDivider(color = GlumeBorder)
-                            Text("Patient: $patientName ($patientAge yrs)", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                            Text("Village: $villageName", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
-                            Text("• Blood Pressure: 118/78 mmHg (Normal)", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
-                            Text("• Heart Rate: 74 bpm (Stable)", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
-                            Text("• Blood Oxygen: 98% SpO2 (Healthy)", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
-                            Text("• Temperature: 98.4°F", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
-                            Text("• Chronic Condition: None", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
-                            Text("• Last Visit: 12 days ago (PHC OPD)", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                            HorizontalDivider(color = VS_Outline)
+                            Text("Patient: $patientName ($patientAge yrs)", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text("Village: $villageName", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("• Blood Pressure: 118/78 mmHg (Normal)", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text("• Heart Rate: 74 bpm (Stable)", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text("• Blood Oxygen: 98% SpO2 (Healthy)", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text("• Temperature: 98.4°F", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text("• Chronic Condition: None", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("• Last Visit: 12 days ago (PHC OPD)", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -478,8 +482,8 @@ fun TeleConsultationModal(
                 // 4. Picture-in-Picture (PiP) Floating Doctor View
                 Surface(
                     shape = RoundedCornerShape(14.dp),
-                    color = if (isCameraOff) GlumeSurfaceElevated else Color(0xFF28283C),
-                    border = BorderStroke(1.5.dp, GlumePrimaryPurple),
+                    color = if (isCameraOff) VS_SurfaceVariant else Color(0xFF28283C),
+                    border = BorderStroke(1.5.dp, VS_Primary),
                     shadowElevation = 8.dp,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -491,7 +495,7 @@ fun TeleConsultationModal(
                         contentAlignment = Alignment.Center
                     ) {
                         if (isCameraOff) {
-                            Text("📷 Off", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                            Text("📷 Off", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         } else {
                             if (cameraGranted) {
                                 CameraPreview(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp)))
@@ -509,7 +513,7 @@ fun TeleConsultationModal(
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontSize = 9.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = GlumePrimaryPurpleLight
+                                            color = VS_PrimaryContainer
                                         )
                                     )
                                 }
@@ -519,7 +523,7 @@ fun TeleConsultationModal(
                         if (isMuted) {
                             Surface(
                                 shape = CircleShape,
-                                color = GlumeAlertCoral,
+                                color = VS_Error,
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
                                     .padding(4.dp)
@@ -537,7 +541,7 @@ fun TeleConsultationModal(
                 Surface(
                     shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
                     color = Color(0xEB14141E),
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
@@ -552,8 +556,8 @@ fun TeleConsultationModal(
                         if (!isLowBandwidthMode) {
                             Surface(
                                 shape = PillShape,
-                                color = GlumeWarningAmber.copy(alpha = 0.2f),
-                                border = BorderStroke(1.dp, GlumeWarningAmber),
+                                color = VS_Warning.copy(alpha = 0.2f),
+                                border = BorderStroke(1.dp, VS_Warning),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
@@ -571,7 +575,7 @@ fun TeleConsultationModal(
                                     Text(
                                         text = "Switch to Voice Call (Save Bandwidth / Weak Signal)",
                                         style = MaterialTheme.typography.labelSmall.copy(
-                                            color = GlumeWarningAmber,
+                                            color = VS_Warning,
                                             fontWeight = FontWeight.Bold
                                         )
                                     )
@@ -588,11 +592,11 @@ fun TeleConsultationModal(
                             Surface(
                                 shape = CircleShape,
                                 color = when {
-                                    isMuted -> GlumeAlertCoral
-                                    isSpeaking -> GlumeSuccessMint.copy(alpha = 0.85f)
-                                    else -> GlumeSurfaceElevated
+                                    isMuted -> VS_Error
+                                    isSpeaking -> VS_Success.copy(alpha = 0.85f)
+                                    else -> VS_SurfaceVariant
                                 },
-                                border = if (isSpeaking && !isMuted) BorderStroke(2.dp, GlumeSuccessMint) else null,
+                                border = if (isSpeaking && !isMuted) BorderStroke(2.dp, VS_Success) else null,
                                 modifier = Modifier
                                     .size(56.dp)
                                     .clickable { isMuted = !isMuted }
@@ -605,7 +609,7 @@ fun TeleConsultationModal(
                             // Camera Button (56dp touch target)
                             Surface(
                                 shape = CircleShape,
-                                color = if (isCameraOff) GlumeSurfaceSubtle else GlumeSurfaceElevated,
+                                color = if (isCameraOff) VS_PrimaryContainer else VS_SurfaceVariant,
                                 modifier = Modifier
                                     .size(56.dp)
                                     .clickable { isCameraOff = !isCameraOff }
@@ -618,10 +622,10 @@ fun TeleConsultationModal(
                             // 2G Mode / Voice Button (56dp touch target)
                             Surface(
                                 shape = CircleShape,
-                                color = if (isLowBandwidthMode) GlumeWarningAmber.copy(alpha = 0.3f) else GlumeSurfaceElevated,
+                                color = if (isLowBandwidthMode) VS_Warning.copy(alpha = 0.3f) else VS_SurfaceVariant,
                                 border = BorderStroke(
                                     1.dp,
-                                    if (isLowBandwidthMode) GlumeWarningAmber else Color.Transparent
+                                    if (isLowBandwidthMode) VS_Warning else Color.Transparent
                                 ),
                                 modifier = Modifier
                                     .size(56.dp)
@@ -638,7 +642,7 @@ fun TeleConsultationModal(
                             // End Call Button (Red Circle, 64dp touch target)
                             Surface(
                                 shape = CircleShape,
-                                color = GlumeAlertCoral,
+                                color = VS_Error,
                                 modifier = Modifier
                                     .size(64.dp)
                                     .clickable {
@@ -647,7 +651,7 @@ fun TeleConsultationModal(
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
-                                        imageVector = Icons.Default.CallEnd,
+                                        imageVector = Icons.Outlined.CallEnd,
                                         contentDescription = stringResource(R.string.endCall),
                                         tint = Color.White,
                                         modifier = Modifier.size(32.dp)
@@ -713,3 +717,4 @@ fun CameraPreview(modifier: Modifier = Modifier) {
         }
     )
 }
+

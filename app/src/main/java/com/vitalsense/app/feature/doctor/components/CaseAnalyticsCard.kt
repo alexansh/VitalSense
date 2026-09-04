@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.sp
 import com.vitalsense.app.core.data.model.DoctorCaseAnalytics
 import com.vitalsense.app.core.data.model.SeverityLevel
 import com.vitalsense.app.core.ui.components.VitalSenseCard
-import com.vitalsense.app.core.ui.theme.GlumeTextPrimary
-import com.vitalsense.app.core.ui.theme.GlumeTextSecondary
+import com.vitalsense.app.core.ui.theme.VS_OnBackground
+import com.vitalsense.app.core.ui.theme.VS_OnSurfaceVariant
 import com.vitalsense.app.core.ui.theme.Spacing
 import com.vitalsense.app.R
 import androidx.compose.ui.res.stringResource
@@ -42,7 +42,7 @@ fun CaseAnalyticsCard(
             Text(
                 text = stringResource(R.string.triageBreakdownTitle),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
 
             // Horizontal Stacked Bar
@@ -121,7 +121,7 @@ private fun LegendItem(label: String, color: Color) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-            color = GlumeTextSecondary
+            color = VS_OnSurfaceVariant
         )
     }
 }
@@ -139,12 +139,12 @@ private fun MiniStatTile(label: String, value: String, modifier: Modifier = Modi
         Text(
             text = value,
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            color = GlumeTextPrimary
+            color = VS_OnBackground
         )
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-            color = GlumeTextSecondary
+            color = VS_OnSurfaceVariant
         )
     }
 }

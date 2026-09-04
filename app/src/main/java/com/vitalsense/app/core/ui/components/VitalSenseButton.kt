@@ -32,23 +32,23 @@ fun VitalSenseButton(
     enabled: Boolean = true
 ) {
     val containerColor = when (style) {
-        ButtonStyle.PRIMARY -> GlumePrimaryPurple
-        ButtonStyle.DARK -> GlumeSurfaceElevated
-        ButtonStyle.SECONDARY -> GlumePrimaryPurpleContainer
-        ButtonStyle.DANGER -> GlumeAlertCoral
+        ButtonStyle.PRIMARY -> VS_Primary
+        ButtonStyle.DARK -> VS_SurfaceVariant
+        ButtonStyle.SECONDARY -> VS_PrimaryContainer
+        ButtonStyle.DANGER -> VS_Error
         ButtonStyle.OUTLINED -> Color.Transparent
     }
 
     val contentColor = when (style) {
         ButtonStyle.PRIMARY -> Color.White
-        ButtonStyle.DARK -> GlumeTextPrimary
-        ButtonStyle.SECONDARY -> GlumePrimaryPurple
+        ButtonStyle.DARK -> VS_OnBackground
+        ButtonStyle.SECONDARY -> VS_Primary
         ButtonStyle.DANGER -> Color.White
-        ButtonStyle.OUTLINED -> GlumeTextPrimary
+        ButtonStyle.OUTLINED -> VS_OnBackground
     }
 
     val border = if (style == ButtonStyle.OUTLINED) {
-        BorderStroke(1.dp, GlumeBorder)
+        BorderStroke(1.dp, VS_Outline)
     } else null
 
     Button(
@@ -62,8 +62,8 @@ fun VitalSenseButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor,
-            disabledContainerColor = GlumeSurfaceElevated.copy(alpha = 0.5f),
-            disabledContentColor = GlumeTextTertiary
+            disabledContainerColor = VS_SurfaceVariant.copy(alpha = 0.5f),
+            disabledContentColor = VS_OnSurfaceVariant
         ),
         border = border,
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)

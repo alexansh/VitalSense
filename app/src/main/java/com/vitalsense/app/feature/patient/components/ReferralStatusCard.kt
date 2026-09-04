@@ -168,17 +168,17 @@ fun ReferralStatusCard(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = when (referral.status) {
-                ReferralStatus.COMPLETED -> GlumeSuccessMint.copy(alpha = 0.08f)
-                ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> GlumePrimaryPurpleContainer.copy(alpha = 0.35f)
-                else -> GlumeSurfaceCard
+                ReferralStatus.COMPLETED -> VS_Success.copy(alpha = 0.08f)
+                ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> VS_PrimaryContainer.copy(alpha = 0.35f)
+                else -> VS_Surface
             }
         ),
         border = BorderStroke(
             width = 1.dp,
             color = when (referral.status) {
-                ReferralStatus.COMPLETED -> GlumeSuccessMint.copy(alpha = 0.4f)
-                ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> GlumePrimaryPurpleLight.copy(alpha = 0.5f)
-                else -> GlumeBorder
+                ReferralStatus.COMPLETED -> VS_Success.copy(alpha = 0.4f)
+                ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> VS_PrimaryContainer.copy(alpha = 0.5f)
+                else -> VS_Outline
             }
         ),
         modifier = modifier
@@ -225,7 +225,7 @@ fun ReferralStatusCard(
                         )
                     },
                     shape = PillShape,
-                    color = GlumePrimaryBlue.copy(alpha = 0.12f),
+                    color = VS_Primary.copy(alpha = 0.12f),
                     modifier = Modifier.size(36.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
@@ -249,9 +249,9 @@ fun ReferralStatusCard(
                 Surface(
                     shape = PillShape,
                     color = when (referral.status) {
-                        ReferralStatus.COMPLETED -> GlumeSuccessMint.copy(alpha = 0.2f)
-                        ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> GlumePrimaryPurpleContainer
-                        else -> GlumeWarningContainer
+                        ReferralStatus.COMPLETED -> VS_Success.copy(alpha = 0.2f)
+                        ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> VS_PrimaryContainer
+                        else -> VS_WarningContainer
                     }
                 ) {
                     Text(
@@ -280,9 +280,9 @@ fun ReferralStatusCard(
                             fontWeight = FontWeight.Bold,
                             fontSize = 10.sp,
                             color = when (referral.status) {
-                                ReferralStatus.COMPLETED -> GlumeSuccessMint
-                                ReferralStatus.ACCEPTED -> GlumePrimaryPurpleLight
-                                else -> GlumeWarningAmber
+                                ReferralStatus.COMPLETED -> VS_Success
+                                ReferralStatus.ACCEPTED -> VS_PrimaryContainer
+                                else -> VS_Warning
                             }
                         ),
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)

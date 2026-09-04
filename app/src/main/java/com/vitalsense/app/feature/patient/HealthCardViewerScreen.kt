@@ -22,19 +22,19 @@ fun HealthCardViewerScreen(patient: Patient) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md)
     ) {
         Text(
             text = "Offline Health Card",
             style = MaterialTheme.typography.displayMedium,
-            color = GlumeTextPrimary
+            color = VS_OnBackground
         )
 
         VitalSenseCard(
-            backgroundColor = GlumeSurfaceCard,
-            border = BorderStroke(1.dp, GlumeBorder)
+            backgroundColor = VS_Surface,
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                 Row(
@@ -46,41 +46,41 @@ fun HealthCardViewerScreen(patient: Patient) {
                         Text(
                             text = patient.name,
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "Age: ${patient.age} · Gender: ${patient.gender} · Village: ${patient.villageName}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     SeverityBadge(severity = patient.currentRiskLevel)
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column {
-                        Text("Blood Group", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
-                        Text("O+ Positive", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                        Text("Blood Group", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                        Text("O+ Positive", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                     }
                     Column {
-                        Text("Allergies", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
-                        Text("None Reported", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                        Text("Allergies", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                        Text("None Reported", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                     }
                     Column {
-                        Text("Emergency", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
-                        Text(patient.emergencyContact, style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = GlumeAlertCoral)
+                        Text("Emergency", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                        Text(patient.emergencyContact, style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = VS_Error)
                     }
                 }
 
                 Surface(
                     shape = CardShape,
-                    color = GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -93,12 +93,12 @@ fun HealthCardViewerScreen(patient: Patient) {
                             Text(
                                 text = "Permanent Offline QR Identity",
                                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                             Text(
                                 text = "UID: ${patient.id} · Cached Offline",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }

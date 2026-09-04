@@ -26,8 +26,8 @@ fun GovernmentSchemesDialog(
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(20.dp),
-            color = GlumeSurfaceCard,
-            border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.6f)),
+            color = VS_Surface,
+            border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.6f)),
             shadowElevation = 12.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -52,7 +52,7 @@ fun GovernmentSchemesDialog(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(36.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -63,22 +63,22 @@ fun GovernmentSchemesDialog(
                             Text(
                                 text = "Government Health Schemes",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Rural Welfare & Subsidy Programs",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
 
                     IconButton(onClick = onDismiss, modifier = Modifier.size(32.dp)) {
-                        Text("✕", color = GlumeTextSecondary, fontWeight = FontWeight.Bold)
+                        Text("✕", color = VS_OnSurfaceVariant, fontWeight = FontWeight.Bold)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 // Scheme list
                 LazyColumn(
@@ -88,8 +88,8 @@ fun GovernmentSchemesDialog(
                     items(schemes) { scheme ->
                         Surface(
                             shape = CardShape,
-                            color = GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, GlumeBorder),
+                            color = VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, VS_Outline),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Column(
@@ -106,17 +106,17 @@ fun GovernmentSchemesDialog(
                                     Text(
                                         text = scheme.title,
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary,
+                                        color = VS_OnBackground,
                                         modifier = Modifier.weight(1f)
                                     )
                                     Surface(
                                         shape = PillShape,
-                                        color = GlumeSuccessContainer
+                                        color = VS_SuccessContainer
                                     ) {
                                         Text(
                                             text = "ELIGIBLE",
                                             style = MaterialTheme.typography.labelSmall.copy(
-                                                color = GlumeSuccessMint,
+                                                color = VS_Success,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 9.sp
                                             ),
@@ -127,24 +127,24 @@ fun GovernmentSchemesDialog(
 
                                 Text(
                                     text = "Beneficiaries: ${scheme.targetBeneficiary}",
-                                    style = MaterialTheme.typography.bodySmall.copy(color = GlumePrimaryPurpleLight)
+                                    style = MaterialTheme.typography.bodySmall.copy(color = VS_PrimaryContainer)
                                 )
 
                                 Text(
                                     text = scheme.benefitsSummary,
-                                    style = MaterialTheme.typography.bodySmall.copy(color = GlumeTextPrimary)
+                                    style = MaterialTheme.typography.bodySmall.copy(color = VS_OnBackground)
                                 )
 
                                 Surface(
                                     shape = RoundedCornerShape(6.dp),
-                                    color = GlumeBackground,
+                                    color = VS_Background,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Text(
                                         text = "Criteria: ${scheme.eligibility}",
                                         style = MaterialTheme.typography.bodySmall.copy(
                                             fontSize = 11.sp,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         ),
                                         modifier = Modifier.padding(6.dp)
                                     )
@@ -158,7 +158,7 @@ fun GovernmentSchemesDialog(
                 Button(
                     onClick = onDismiss,
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Close Schemes View", color = Color.White, fontWeight = FontWeight.Bold)

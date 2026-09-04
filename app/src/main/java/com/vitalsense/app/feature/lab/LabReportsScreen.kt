@@ -11,8 +11,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.*
+
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -70,12 +74,12 @@ fun LabReportsScreen(
                         Text(
                             text = stringResource(R.string.diagnosticLabReports),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "E-Diagnostics Lab · ${patient.name}",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 },
@@ -84,7 +88,7 @@ fun LabReportsScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.exit),
-                            tint = GlumeTextPrimary
+                            tint = VS_OnBackground
                         )
                     }
                 },
@@ -93,14 +97,14 @@ fun LabReportsScreen(
                         Icon(
                             imageVector = Icons.Default.AddCircle,
                             contentDescription = stringResource(R.string.viewLabDiagnostics),
-                            tint = GlumePrimaryPurple
+                            tint = VS_Primary
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = GlumeBackground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = VS_Background)
             )
         },
-        containerColor = GlumeBackground,
+        containerColor = VS_Background,
         modifier = modifier.fillMaxSize()
     ) { paddingValues ->
         LazyColumn(
@@ -118,38 +122,38 @@ fun LabReportsScreen(
                 ) {
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        backgroundColor = VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Column {
                             Text(
                                 text = stringResource(R.string.statTotal),
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                             Text(
                                 text = "${labReports.size}",
                                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                         }
                     }
 
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = if (totalAbnormalFlags > 0) GlumeErrorContainer.copy(alpha = 0.4f) else GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, if (totalAbnormalFlags > 0) GlumeError.copy(alpha = 0.5f) else GlumeBorder)
+                        backgroundColor = if (totalAbnormalFlags > 0) VS_ErrorContainer.copy(alpha = 0.4f) else VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, if (totalAbnormalFlags > 0) VS_Error.copy(alpha = 0.5f) else VS_Outline)
                     ) {
                         Column {
                             Text(
                                 text = "Abnormal Findings",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = if (totalAbnormalFlags > 0) GlumeError else GlumeTextSecondary
+                                color = if (totalAbnormalFlags > 0) VS_Error else VS_OnSurfaceVariant
                             )
                             Text(
                                 text = "$totalAbnormalFlags Parameters",
                                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                                color = if (totalAbnormalFlags > 0) GlumeError else GlumeSuccessText
+                                color = if (totalAbnormalFlags > 0) VS_Error else VS_OnSuccessContainer
                             )
                         }
                     }
@@ -166,14 +170,14 @@ fun LabReportsScreen(
                         val isSelected = selectedCategory == category
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder),
+                            color = if (isSelected) VS_Primary else VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline),
                             modifier = Modifier.clickable { selectedCategory = category }
                         ) {
                             Text(
                                 text = category,
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
-                                color = if (isSelected) Color.White else GlumeTextPrimary,
+                                color = if (isSelected) Color.White else VS_OnBackground,
                                 modifier = Modifier.padding(horizontal = Spacing.md, vertical = 6.dp)
                             )
                         }
@@ -195,13 +199,13 @@ fun LabReportsScreen(
                                 imageVector = Icons.Default.Science,
                                 contentDescription = null,
                                 modifier = Modifier.size(48.dp),
-                                tint = GlumeTextTertiary
+                                tint = VS_OnSurfaceVariant
                             )
                             Spacer(Modifier.height(Spacing.sm))
                             Text(
                                 text = "No lab investigations in this category",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -250,8 +254,8 @@ fun LabReportCard(
 
     VitalSenseCard(
         modifier = modifier.fillMaxWidth(),
-        backgroundColor = GlumeSurfaceElevated,
-        border = BorderStroke(1.dp, GlumeBorder)
+        backgroundColor = VS_SurfaceVariant,
+        border = BorderStroke(1.dp, VS_Outline)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
             Row(
@@ -267,13 +271,13 @@ fun LabReportCard(
                         modifier = Modifier
                             .size(32.dp)
                             .clip(CircleShape)
-                            .background(GlumePrimaryPurpleContainer),
+                            .background(VS_PrimaryContainer),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Science,
                             contentDescription = null,
-                            tint = GlumePrimaryPurple,
+                            tint = VS_Primary,
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -281,24 +285,24 @@ fun LabReportCard(
                         Text(
                             text = report.testCategory,
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "Prescribed by ${report.doctorName} · ${report.dateFormatted}",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
 
                 Surface(
                     shape = PillShape,
-                    color = if (abnormalCount > 0) GlumeErrorContainer else GlumeSuccessContainer
+                    color = if (abnormalCount > 0) VS_ErrorContainer else VS_SuccessContainer
                 ) {
                     Text(
                         text = if (abnormalCount > 0) "$abnormalCount ${stringResource(R.string.outOfStock)}" else stringResource(R.string.normalRange),
                         style = MaterialTheme.typography.labelSmall.copy(
-                            color = if (abnormalCount > 0) GlumeError else GlumeSuccessText,
+                            color = if (abnormalCount > 0) VS_Error else VS_OnSuccessContainer,
                             fontWeight = FontWeight.Bold
                         ),
                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
@@ -306,7 +310,7 @@ fun LabReportCard(
                 }
             }
 
-            HorizontalDivider(color = GlumeBorder.copy(alpha = 0.5f))
+            HorizontalDivider(color = VS_Outline.copy(alpha = 0.5f))
 
             // Highlight top 3 test items preview
             report.items.take(3).forEach { item ->
@@ -318,7 +322,7 @@ fun LabReportCard(
                     Text(
                         text = item.testName,
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary,
+                        color = VS_OnSurfaceVariant,
                         modifier = Modifier.weight(1f)
                     )
                     Row(
@@ -329,22 +333,22 @@ fun LabReportCard(
                             text = "${item.resultValue} ${item.unit}",
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                             color = when (item.flag) {
-                                "HIGH" -> GlumeError
-                                "LOW" -> GlumeWarning
-                                else -> GlumeTextPrimary
+                                "HIGH" -> VS_Error
+                                "LOW" -> VS_Warning
+                                else -> VS_OnBackground
                             }
                         )
                         if (item.flag != "NORMAL") {
                             Surface(
                                 shape = RoundedCornerShape(4.dp),
-                                color = if (item.flag == "HIGH") GlumeErrorContainer else GlumeWarningContainer
+                                color = if (item.flag == "HIGH") VS_ErrorContainer else VS_WarningContainer
                             ) {
                                 Text(
                                     text = item.flag,
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontSize = 9.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = if (item.flag == "HIGH") GlumeError else GlumeWarningText
+                                        color = if (item.flag == "HIGH") VS_Error else VS_OnWarningContainer
                                     ),
                                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
                                 )
@@ -358,7 +362,7 @@ fun LabReportCard(
                 Text(
                     text = "+ ${report.items.size - 3} more parameters measured",
                     style = MaterialTheme.typography.labelSmall,
-                    color = GlumePrimaryPurpleLight
+                    color = VS_PrimaryContainer
                 )
             }
 
@@ -370,7 +374,7 @@ fun LabReportCard(
                     Text(
                         text = "View Full E-Report ➔",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumePrimaryPurple
+                        color = VS_Primary
                     )
                 }
             }
@@ -395,16 +399,16 @@ fun LabReportDetailModal(
                     Text(
                         text = report.testCategory,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = "Certified Laboratory Report",
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumeSuccessText
+                        color = VS_OnSuccessContainer
                     )
                 }
                 IconButton(onClick = onDismiss) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = "Close", tint = GlumeTextSecondary)
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "Close", tint = VS_OnSurfaceVariant)
                 }
             }
         },
@@ -416,14 +420,14 @@ fun LabReportDetailModal(
                 item {
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, GlumeBorder),
+                        color = VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, VS_Outline),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(modifier = Modifier.padding(Spacing.sm)) {
-                            Text("Patient: ${report.patientName}", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
-                            Text("Consultant: ${report.doctorName}", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
-                            Text("Report Date: ${report.dateFormatted}", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                            Text("Patient: ${report.patientName}", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
+                            Text("Consultant: ${report.doctorName}", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("Report Date: ${report.dateFormatted}", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -432,14 +436,14 @@ fun LabReportDetailModal(
                     Text(
                         text = "Investigation Findings",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumePrimaryPurpleLight
+                        color = VS_PrimaryContainer
                     )
                 }
 
                 items(report.items) { item ->
                     VitalSenseCard(
-                        backgroundColor = GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        backgroundColor = VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                             Row(
@@ -450,14 +454,14 @@ fun LabReportDetailModal(
                                 Text(
                                     text = item.testName,
                                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Surface(
                                     shape = RoundedCornerShape(4.dp),
                                     color = when (item.flag) {
-                                        "HIGH" -> GlumeErrorContainer
-                                        "LOW" -> GlumeWarningContainer
-                                        else -> GlumeSuccessContainer
+                                        "HIGH" -> VS_ErrorContainer
+                                        "LOW" -> VS_WarningContainer
+                                        else -> VS_SuccessContainer
                                     }
                                 ) {
                                     Text(
@@ -466,9 +470,9 @@ fun LabReportDetailModal(
                                             fontSize = 9.sp,
                                             fontWeight = FontWeight.Bold,
                                             color = when (item.flag) {
-                                                "HIGH" -> GlumeError
-                                                "LOW" -> GlumeWarningText
-                                                else -> GlumeSuccessText
+                                                "HIGH" -> VS_Error
+                                                "LOW" -> VS_OnWarningContainer
+                                                else -> VS_OnSuccessContainer
                                             }
                                         ),
                                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
@@ -483,15 +487,15 @@ fun LabReportDetailModal(
                                     text = "Observed: ${item.resultValue} ${item.unit}",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = when (item.flag) {
-                                        "HIGH" -> GlumeError
-                                        "LOW" -> GlumeWarning
-                                        else -> GlumeTextPrimary
+                                        "HIGH" -> VS_Error
+                                        "LOW" -> VS_Warning
+                                        else -> VS_OnBackground
                                     }
                                 )
                                 Text(
                                     text = "Ref: ${item.referenceRange}",
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = GlumeTextTertiary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                         }
@@ -501,20 +505,20 @@ fun LabReportDetailModal(
                 item {
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = GlumePrimaryPurpleContainer.copy(alpha = 0.3f),
-                        border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.3f)),
+                        color = VS_PrimaryContainer.copy(alpha = 0.3f),
+                        border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f)),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(modifier = Modifier.padding(Spacing.sm)) {
                             Text(
                                 text = "Pathologist Clinical Notes",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                             Text(
                                 text = report.notes,
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                     }
@@ -528,7 +532,7 @@ fun LabReportDetailModal(
                 style = ButtonStyle.SECONDARY
             )
         },
-        containerColor = GlumeBackground
+        containerColor = VS_Background
     )
 }
 
@@ -556,7 +560,7 @@ fun OrderLabTestDialog(
             Text(
                 text = "Order Diagnostic Lab Test",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
         },
         text = {
@@ -564,15 +568,15 @@ fun OrderLabTestDialog(
                 Text(
                     text = "Select Investigation Panel:",
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 presetCategories.forEach { category ->
                     val isSelected = selectedCategory == category
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder),
+                        color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline),
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { selectedCategory = category }
@@ -586,7 +590,7 @@ fun OrderLabTestDialog(
                             Text(
                                 text = category,
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                     }
@@ -648,6 +652,7 @@ fun OrderLabTestDialog(
                 style = ButtonStyle.SECONDARY
             )
         },
-        containerColor = GlumeBackground
+        containerColor = VS_Background
     )
 }
+

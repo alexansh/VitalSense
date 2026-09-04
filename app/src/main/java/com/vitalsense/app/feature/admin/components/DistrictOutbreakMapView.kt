@@ -56,7 +56,7 @@ fun DistrictOutbreakMapView(
         modifier = modifier
             .fillMaxWidth()
             .clip(CardShape)
-            .border(BorderStroke(1.dp, GlumeBorder), CardShape),
+            .border(BorderStroke(1.dp, VS_Outline), CardShape),
         color = when (mapLayer) {
             MapLayerType.STANDARD -> Color(0xFFF4F3F0)
             MapLayerType.SATELLITE -> Color(0xFF1E281E)
@@ -336,9 +336,9 @@ fun DistrictOutbreakMapView(
                     val isSelected = selectedVillage?.id == village.id
 
                     val pinColor = when {
-                        village.highRiskCount > 0 -> GlumeAlertCoral
-                        village.activeCases > 5 -> GlumeWarningAmber
-                        else -> GlumeSuccessMint
+                        village.highRiskCount > 0 -> VS_Error
+                        village.activeCases > 5 -> VS_Warning
+                        else -> VS_Success
                     }
 
                     Box(
@@ -348,7 +348,7 @@ fun DistrictOutbreakMapView(
                     ) {
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurple else Color.White,
+                            color = if (isSelected) VS_Primary else Color.White,
                             shadowElevation = 4.dp,
                             border = BorderStroke(1.dp, if (isSelected) Color.White else pinColor)
                         ) {
@@ -401,7 +401,7 @@ fun DistrictOutbreakMapView(
                             Box(
                                 modifier = Modifier
                                     .clip(PillShape)
-                                    .background(if (active) GlumePrimaryPurple else Color.Transparent)
+                                    .background(if (active) VS_Primary else Color.Transparent)
                                     .clickable { mapLayer = type }
                                     .padding(horizontal = 8.dp, vertical = 3.dp)
                             ) {
@@ -515,8 +515,8 @@ fun DistrictOutbreakMapView(
         ) {
             if (selectedVillage != null) {
                 Surface(
-                    color = GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.5f)),
+                    color = VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.5f)),
                     shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
                 ) {
                     Column(
@@ -532,12 +532,12 @@ fun DistrictOutbreakMapView(
                                 Text(
                                     text = "📍 ${selectedVillage.name} (${selectedVillage.district})",
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "Population: ${selectedVillage.population} · Active Cases: ${selectedVillage.activeCases} · Critical: ${selectedVillage.highRiskCount}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             SeverityBadge(
@@ -551,7 +551,7 @@ fun DistrictOutbreakMapView(
                                 .fillMaxWidth()
                                 .height(38.dp),
                             shape = PillShape,
-                            colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple)
+                            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                         ) {
                             Text(
                                 text = "📢 Send Advisory to ${selectedVillage.name} Residents",

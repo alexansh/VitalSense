@@ -82,7 +82,7 @@ fun AshaHomeScreen(
         state = scrollState,
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.sm, bottom = Spacing.xxl)
@@ -96,12 +96,12 @@ fun AshaHomeScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp
                     ),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "${stringResource(R.string.assignedVillages)} ${asha.assignedVillages.joinToString(", ")}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             }
         }
@@ -109,7 +109,7 @@ fun AshaHomeScreen(
         // 2. Glume Hero Completion Ring Card: Community Care Progress
         item {
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
+                backgroundColor = VS_Surface,
                 elevation = 0.dp
             ) {
                 Row(
@@ -127,17 +127,17 @@ fun AshaHomeScreen(
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp
                             ),
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                         Text(
                             text = "$visitedPatients of $totalPatients Patients Monitored",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = if (highRiskPatients > 0) "$highRiskPatients patients need home checkup" else "All village caseloads stable",
                             style = MaterialTheme.typography.bodySmall,
-                            color = if (highRiskPatients > 0) GlumeAlertCoral else GlumeSuccessText
+                            color = if (highRiskPatients > 0) VS_Error else VS_OnSuccessContainer
                         )
                     }
 
@@ -145,8 +145,8 @@ fun AshaHomeScreen(
                         progressFraction = followUpFraction,
                         size = 72.dp,
                         strokeWidth = 7.dp,
-                        ringColor = GlumePrimaryPurple,
-                        trackColor = GlumeSurfaceElevated
+                        ringColor = VS_Primary,
+                        trackColor = VS_SurfaceVariant
                     )
                 }
             }
@@ -164,7 +164,7 @@ fun AshaHomeScreen(
                     icon = "👥",
                     modifier = Modifier.weight(1f),
                     badgeText = "Total",
-                    badgeColor = GlumePrimaryPurple
+                    badgeColor = VS_Primary
                 )
                 GlumeStatCard(
                     label = stringResource(R.string.criticalCases),
@@ -172,7 +172,7 @@ fun AshaHomeScreen(
                     icon = "⚠️",
                     modifier = Modifier.weight(1f),
                     badgeText = if (highRiskPatients > 0) "Alert" else "None",
-                    badgeColor = if (highRiskPatients > 0) GlumeAlertCoral else GlumeSuccessMint
+                    badgeColor = if (highRiskPatients > 0) VS_Error else VS_Success
                 )
                 GlumeStatCard(
                     label = stringResource(R.string.assignedVillages),
@@ -180,7 +180,7 @@ fun AshaHomeScreen(
                     icon = "🏡",
                     modifier = Modifier.weight(1f),
                     badgeText = "Active",
-                    badgeColor = GlumeSuccessMint
+                    badgeColor = VS_Success
                 )
             }
         }
@@ -188,8 +188,8 @@ fun AshaHomeScreen(
         // 4. ASHA Unique ID Card (Glume Dark Elevated Style)
         item {
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceElevated,
-                border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.4f))
+                backgroundColor = VS_SurfaceVariant,
+                border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.4f))
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -203,17 +203,17 @@ fun AshaHomeScreen(
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp
                             ),
-                            color = GlumePrimaryPurpleLight
+                            color = VS_PrimaryContainer
                         )
                         Text(
                             text = asha.ashaUniqueId,
                             style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = stringResource(R.string.shareAshaIdDesc),
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
 
@@ -221,7 +221,7 @@ fun AshaHomeScreen(
                         modifier = Modifier
                             .size(46.dp)
                             .clip(CircleShape)
-                            .background(GlumePrimaryPurpleContainer),
+                            .background(VS_PrimaryContainer),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(text = "🆔", fontSize = 22.sp)
@@ -235,8 +235,8 @@ fun AshaHomeScreen(
             item {
                 Surface(
                     shape = PillShape,
-                    color = GlumeSuccessContainer,
-                    border = BorderStroke(1.dp, GlumeSuccessMint),
+                    color = VS_SuccessContainer,
+                    border = BorderStroke(1.dp, VS_Success),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -247,10 +247,10 @@ fun AshaHomeScreen(
                         Text(
                             text = successMessage ?: "",
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeSuccessMint
+                            color = VS_Success
                         )
                         IconButton(onClick = { successMessage = null }, modifier = Modifier.size(24.dp)) {
-                            Text("✕", color = GlumeSuccessMint, fontSize = 12.sp)
+                            Text("✕", color = VS_Success, fontSize = 12.sp)
                         }
                     }
                 }
@@ -263,8 +263,8 @@ fun AshaHomeScreen(
                 val failedPatient = sosFailedPatient!!
                 Surface(
                     shape = PillShape,
-                    color = GlumeAlertContainer,
-                    border = BorderStroke(1.dp, GlumeAlertCoral),
+                    color = VS_ErrorContainer,
+                    border = BorderStroke(1.dp, VS_Error),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -281,7 +281,7 @@ fun AshaHomeScreen(
                             Text(
                                 text = "${stringResource(R.string.sosFailedForPatient)} (${failedPatient.name})",
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeAlertCoral
+                                color = VS_Error
                             )
                         }
                         val sosDispatchedText = stringResource(R.string.sosDispatchedForPatient)
@@ -307,10 +307,10 @@ fun AshaHomeScreen(
                                     }
                                 }
                             ) {
-                                Text(stringResource(R.string.retry), color = GlumeAlertCoral, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold))
+                                Text(stringResource(R.string.retry), color = VS_Error, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold))
                             }
                             IconButton(onClick = { sosFailedPatient = null }, modifier = Modifier.size(24.dp)) {
-                                Text("✕", color = GlumeAlertCoral, fontSize = 12.sp)
+                                Text("✕", color = VS_Error, fontSize = 12.sp)
                             }
                         }
                     }
@@ -379,20 +379,20 @@ fun AshaHomeScreen(
                     Text(
                         text = "📅 Today's Worklist",
                         style = MaterialTheme.typography.headlineMedium,
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     if (followUps.isNotEmpty()) {
                         Text(
                             text = "Routine Follow-ups Due (${followUps.size})",
                             style = MaterialTheme.typography.titleSmall,
-                            color = GlumeTextSecondary,
+                            color = VS_OnSurfaceVariant,
                             modifier = Modifier.padding(top = Spacing.xxs)
                         )
                         followUps.forEach { patient ->
                             VitalSenseCard(
-                                backgroundColor = GlumeSurfaceCard,
-                                border = BorderStroke(1.dp, GlumeBorder),
+                                backgroundColor = VS_Surface,
+                                border = BorderStroke(1.dp, VS_Outline),
                                 onClick = { onSelectProxyPatient(patient) }
                             ) {
                                 Row(
@@ -404,12 +404,12 @@ fun AshaHomeScreen(
                                         Text(
                                             text = patient.name,
                                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                         Text(
                                             text = "Routine Follow-up",
                                             style = MaterialTheme.typography.bodySmall,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                     }
                                     VitalSenseButton(
@@ -426,13 +426,13 @@ fun AshaHomeScreen(
                         Text(
                             text = "Referrals Need Follow-up (${followUpReferrals.size})",
                             style = MaterialTheme.typography.titleSmall,
-                            color = GlumeTextSecondary,
+                            color = VS_OnSurfaceVariant,
                             modifier = Modifier.padding(top = Spacing.xxs)
                         )
                         followUpReferrals.forEach { ref ->
                             VitalSenseCard(
-                                backgroundColor = GlumeSurfaceCard,
-                                border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.5f))
+                                backgroundColor = VS_Surface,
+                                border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.5f))
                             ) {
                                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                                     Row(
@@ -443,14 +443,14 @@ fun AshaHomeScreen(
                                         Text(
                                             text = "${ref.patientName} ➔ ${ref.targetSpecialty}",
                                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                         Surface(
                                             shape = PillShape,
                                             color = when (ref.urgency) {
-                                                com.vitalsense.app.core.data.model.ReferralUrgency.EMERGENCY -> GlumeAlertCoral
-                                                com.vitalsense.app.core.data.model.ReferralUrgency.URGENT -> GlumeWarningAmber
-                                                com.vitalsense.app.core.data.model.ReferralUrgency.ROUTINE -> GlumeSuccessMint
+                                                com.vitalsense.app.core.data.model.ReferralUrgency.EMERGENCY -> VS_Error
+                                                com.vitalsense.app.core.data.model.ReferralUrgency.URGENT -> VS_Warning
+                                                com.vitalsense.app.core.data.model.ReferralUrgency.ROUTINE -> VS_Success
                                             }
                                         ) {
                                             Text(
@@ -464,7 +464,7 @@ fun AshaHomeScreen(
                                     Text(
                                         text = "Referred by ${ref.referringUserName}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                     
                                     VitalSenseButton(
@@ -494,12 +494,12 @@ fun AshaHomeScreen(
                         Text(
                             text = "🚨 High-Risk Registry",
                             style = MaterialTheme.typography.headlineMedium,
-                            color = GlumeAlertCoral
+                            color = VS_Error
                         )
-                        Surface(shape = PillShape, color = GlumeAlertContainer) {
+                        Surface(shape = PillShape, color = VS_ErrorContainer) {
                             Text(
                                 text = "${highRiskPatientList.size} Priority",
-                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = GlumeAlertCoral),
+                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_Error),
                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                             )
                         }
@@ -515,8 +515,8 @@ fun AshaHomeScreen(
                 val isSosInFlight = loadingSosPatientId == patient.id
 
                 VitalSenseCard(
-                    backgroundColor = GlumeAlertContainer,
-                    border = BorderStroke(1.dp, GlumeAlertCoral.copy(alpha = 0.4f))
+                    backgroundColor = VS_ErrorContainer,
+                    border = BorderStroke(1.dp, VS_Error.copy(alpha = 0.4f))
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                         Row(
@@ -528,23 +528,23 @@ fun AshaHomeScreen(
                                 Text(
                                     text = patient.name,
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "${patient.age} yrs • ${patient.gender}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             SeverityBadge(severity = patient.currentRiskLevel)
                         }
 
-                        HorizontalDivider(color = GlumeBorder)
+                        HorizontalDivider(color = VS_Outline)
 
                         Text(
                             text = "Last Visit: ${patient.lastVisitDate}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
 
                         Row(
@@ -579,15 +579,15 @@ fun AshaHomeScreen(
                 Text(
                     text = "${stringResource(R.string.villageCaseload)} (${patients.size})",
                     style = MaterialTheme.typography.headlineMedium,
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 if (asha.alertCount > 0) {
-                    Surface(shape = PillShape, color = GlumeAlertContainer) {
+                    Surface(shape = PillShape, color = VS_ErrorContainer) {
                         Text(
                             text = "${asha.alertCount} ${stringResource(R.string.highRisk)}",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = GlumeAlertCoral
+                                color = VS_Error
                             ),
                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                         )
@@ -607,7 +607,7 @@ fun AshaHomeScreen(
                         Text(
                             text = stringResource(R.string.noPatientsYet),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
@@ -625,7 +625,7 @@ fun AshaHomeScreen(
                             Text(
                                 text = "All patients are in the High-Risk Registry.",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -640,8 +640,8 @@ fun AshaHomeScreen(
                 val isSosInFlight = loadingSosPatientId == patient.id
 
                 VitalSenseCard(
-                    backgroundColor = if (isHighRisk) GlumeAlertContainer else GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, if (isHighRisk) GlumeAlertCoral.copy(alpha = 0.4f) else GlumeBorder)
+                    backgroundColor = if (isHighRisk) VS_ErrorContainer else VS_Surface,
+                    border = BorderStroke(1.dp, if (isHighRisk) VS_Error.copy(alpha = 0.4f) else VS_Outline)
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                         // Patient name & Risk badge
@@ -654,12 +654,12 @@ fun AshaHomeScreen(
                                 Text(
                                     text = patient.name,
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "Age: ${patient.age} (${patient.gender}) · ${patient.villageName}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             SeverityBadge(severity = patient.currentRiskLevel)
@@ -669,16 +669,16 @@ fun AshaHomeScreen(
                         Text(
                             text = "Condition: ${patient.lastCondition}",
                             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
 
                         Text(
                             text = "Last Visit: ${patient.lastVisitDate} · Next: ${patient.nextAppointmentDate ?: stringResource(R.string.noneScheduled)}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
 
-                        HorizontalDivider(color = GlumeBorder, thickness = 1.dp)
+                        HorizontalDivider(color = VS_Outline, thickness = 1.dp)
 
                         // Action Buttons: Per-Patient Emergency SOS, Scan Rx, & Proxy Mode
                         Row(
@@ -692,10 +692,10 @@ fun AshaHomeScreen(
                                 enabled = isAssignedToThisAsha && !isSosInFlight,
                                 shape = PillShape,
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = GlumeAlertCoral,
-                                    contentColor = GlumeTextPrimary,
-                                    disabledContainerColor = GlumeAlertCoral.copy(alpha = 0.4f),
-                                    disabledContentColor = GlumeTextPrimary.copy(alpha = 0.6f)
+                                    containerColor = VS_Error,
+                                    contentColor = VS_OnBackground,
+                                    disabledContainerColor = VS_Error.copy(alpha = 0.4f),
+                                    disabledContentColor = VS_OnBackground.copy(alpha = 0.6f)
                                 ),
                                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
                                 modifier = Modifier
@@ -704,7 +704,7 @@ fun AshaHomeScreen(
                                 if (isSosInFlight) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.size(18.dp),
-                                        color = GlumeTextPrimary,
+                                        color = VS_OnBackground,
                                         strokeWidth = 2.dp
                                     )
                                 } else {
@@ -726,9 +726,9 @@ fun AshaHomeScreen(
                                 onClick = { ocrTargetPatient = patient },
                                 modifier = Modifier.weight(1f).defaultMinSize(minHeight = 40.dp),
                                 shape = PillShape,
-                                border = BorderStroke(1.dp, GlumeBorder)
+                                border = BorderStroke(1.dp, VS_Outline)
                             ) {
-                                Text(text = stringResource(R.string.scanRx), style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                                Text(text = stringResource(R.string.scanRx), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                             }
 
                             // 3. Proxy Mode Button
@@ -737,8 +737,8 @@ fun AshaHomeScreen(
                                 modifier = Modifier.weight(1.2f).defaultMinSize(minHeight = 40.dp),
                                 shape = PillShape,
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = GlumePrimaryPurple,
-                                    contentColor = GlumeTextPrimary
+                                    containerColor = VS_Primary,
+                                    contentColor = VS_OnBackground
                                 )
                             ) {
                                 Text(
@@ -759,14 +759,14 @@ fun AshaHomeScreen(
                 Text(
                     text = "${stringResource(R.string.emergencyPatientAlerts)} (${emergencySosAlerts.size})",
                     style = MaterialTheme.typography.headlineMedium,
-                    color = GlumeAlertCoral
+                    color = VS_Error
                 )
             }
 
             items(emergencySosAlerts) { sos ->
                 VitalSenseCard(
-                    backgroundColor = GlumeAlertContainer,
-                    border = BorderStroke(1.dp, GlumeAlertCoral.copy(alpha = 0.5f))
+                    backgroundColor = VS_ErrorContainer,
+                    border = BorderStroke(1.dp, VS_Error.copy(alpha = 0.5f))
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                         Row(
@@ -777,14 +777,14 @@ fun AshaHomeScreen(
                             Text(
                                 text = sos.title,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = GlumeAlertText
+                                color = VS_OnErrorContainer
                             )
-                            Surface(shape = PillShape, color = GlumeAlertCoral) {
+                            Surface(shape = PillShape, color = VS_Error) {
                                 Text(
                                     text = stringResource(R.string.highPriority),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     ),
                                     modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                 )
@@ -793,7 +793,7 @@ fun AshaHomeScreen(
                         Text(
                             text = sos.message,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -803,13 +803,13 @@ fun AshaHomeScreen(
                             Text(
                                 text = "From: ${sos.senderName} · Village: ${sos.targetVillage ?: "General"}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary,
+                                color = VS_OnSurfaceVariant,
                                 modifier = Modifier.weight(1f)
                             )
                             Button(
                                 onClick = { sosToClear = sos },
                                 shape = PillShape,
-                                colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+                                colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                             ) {
                                 Text(
@@ -836,7 +836,7 @@ fun AshaHomeScreen(
                     Text(
                         text = stringResource(R.string.districtAdvisories),
                         style = MaterialTheme.typography.headlineMedium,
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     if (dismissedAdvisoryIds.isNotEmpty()) {
                         TextButton(
@@ -849,7 +849,7 @@ fun AshaHomeScreen(
                             Text(
                                 text = "🔄 Restore (${dismissedAdvisoryIds.size})",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = NagarSevaPrimary
+                                color = VS_Primary
                             )
                         }
                     }
@@ -862,12 +862,12 @@ fun AshaHomeScreen(
                         Text(
                             text = notice.title,
                             style = MaterialTheme.typography.titleMedium,
-                            color = if (notice.isUrgent) GlumeAlertText else GlumeTextPrimary
+                            color = if (notice.isUrgent) VS_OnErrorContainer else VS_OnBackground
                         )
                         Text(
                             text = notice.message,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -877,7 +877,7 @@ fun AshaHomeScreen(
                             Text(
                                 text = "${stringResource(R.string.issuedBy)} ${notice.senderName} (${notice.senderRole.name})",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary,
+                                color = VS_OnSurfaceVariant,
                                 modifier = Modifier.weight(1f)
                             )
                             TextButton(
@@ -891,7 +891,7 @@ fun AshaHomeScreen(
                                 Text(
                                     text = "✕ Dismiss",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = NagarSevaPrimary
+                                    color = VS_Primary
                                 )
                             }
                         }
@@ -929,11 +929,11 @@ fun AshaHomeScreen(
                             }
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                     shape = PillShape,
                     modifier = Modifier.defaultMinSize(minHeight = 44.dp)
                 ) {
-                    Text(stringResource(R.string.yesSendAlert), color = GlumeTextPrimary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.yesSendAlert), color = VS_OnBackground, style = MaterialTheme.typography.labelLarge)
                 }
             },
             dismissButton = {
@@ -942,7 +942,7 @@ fun AshaHomeScreen(
                     shape = PillShape,
                     modifier = Modifier.defaultMinSize(minHeight = 44.dp)
                 ) {
-                    Text(stringResource(R.string.cancel), color = GlumeTextSecondary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant, style = MaterialTheme.typography.labelLarge)
                 }
             }
         ) {
@@ -950,17 +950,17 @@ fun AshaHomeScreen(
                 Text(
                     text = "${stringResource(R.string.confirmSosPatientMsg)} ${targetPatient.name}?",
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "• ${stringResource(R.string.village)}: ${targetPatient.villageName}\n• Age: ${targetPatient.age} (${targetPatient.gender})\n• Emergency Contact: ${targetPatient.phone}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
                 Text(
                     text = "This will immediately dispatch a high-priority SOS alert to doctors and emergency response.",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeAlertCoral
+                    color = VS_Error
                 )
             }
         }
@@ -1006,14 +1006,14 @@ fun AshaHomeScreen(
                 Text(
                     text = "Confirm Emergency Resolved",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             },
             text = {
                 Text(
                     text = "Are you sure this emergency alert for ${sosToClear?.senderName} has been addressed and the patient is safe?",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             },
             confirmButton = {
@@ -1025,7 +1025,7 @@ fun AshaHomeScreen(
                         sosToClear = null
                         AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                     shape = PillShape
                 ) {
                     Text(
@@ -1040,7 +1040,7 @@ fun AshaHomeScreen(
                     onClick = { sosToClear = null },
                     shape = PillShape
                 ) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             }
         )

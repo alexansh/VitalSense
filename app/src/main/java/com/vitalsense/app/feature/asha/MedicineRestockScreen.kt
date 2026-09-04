@@ -38,13 +38,13 @@ fun MedicineRestockScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = GlumeSurfaceElevated,
-                    titleContentColor = GlumeTextPrimary,
-                    navigationIconContentColor = GlumeTextPrimary
+                    containerColor = VS_SurfaceVariant,
+                    titleContentColor = VS_OnBackground,
+                    navigationIconContentColor = VS_OnBackground
                 )
             )
         },
-        containerColor = GlumeBackground
+        containerColor = VS_Background
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -58,7 +58,7 @@ fun MedicineRestockScreen(
                 Text(
                     text = "ASHA Field Kit Stock & Indent",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             }
 
@@ -66,8 +66,8 @@ fun MedicineRestockScreen(
                 item {
                     Surface(
                         shape = PillShape,
-                        color = GlumeSuccessContainer,
-                        border = BorderStroke(1.dp, GlumeSuccessMint),
+                        color = VS_SuccessContainer,
+                        border = BorderStroke(1.dp, VS_Success),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
@@ -78,10 +78,10 @@ fun MedicineRestockScreen(
                             Text(
                                 text = restockSuccessMsg ?: "",
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeSuccessMint
+                                color = VS_Success
                             )
                             IconButton(onClick = { restockSuccessMsg = null }, modifier = Modifier.size(24.dp)) {
-                                Text("✕", color = GlumeSuccessMint, fontSize = 12.sp)
+                                Text("✕", color = VS_Success, fontSize = 12.sp)
                             }
                         }
                     }
@@ -92,7 +92,7 @@ fun MedicineRestockScreen(
                 item {
                     Text(
                         text = "No medicines found in kit.",
-                        color = GlumeTextSecondary,
+                        color = VS_OnSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -102,9 +102,9 @@ fun MedicineRestockScreen(
                     val isLowStock = medicine.availableQuantity <= medicine.minStockQuantity && !isOutOfStock
 
                     val statusColor = when {
-                        isOutOfStock -> GlumeAlertCoral
-                        isLowStock -> GlumeWarningAmber
-                        else -> GlumeSuccessMint
+                        isOutOfStock -> VS_Error
+                        isLowStock -> VS_Warning
+                        else -> VS_Success
                     }
                     val statusText = when {
                         isOutOfStock -> "Out of Stock"
@@ -113,8 +113,8 @@ fun MedicineRestockScreen(
                     }
 
                     VitalSenseCard(
-                        backgroundColor = if (isOutOfStock) GlumeAlertContainer else GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, if (isOutOfStock) GlumeAlertCoral.copy(alpha = 0.4f) else GlumeBorder)
+                        backgroundColor = if (isOutOfStock) VS_ErrorContainer else VS_Surface,
+                        border = BorderStroke(1.dp, if (isOutOfStock) VS_Error.copy(alpha = 0.4f) else VS_Outline)
                     ) {
                         Column(
                             modifier = Modifier
@@ -130,7 +130,7 @@ fun MedicineRestockScreen(
                                 Text(
                                     text = medicine.medicineName,
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Surface(shape = CircleShape, color = statusColor.copy(alpha = 0.2f)) {
                                     Text(
@@ -145,7 +145,7 @@ fun MedicineRestockScreen(
                             Text(
                                 text = "Quantity: ${medicine.availableQuantity} ${medicine.unit} (Min: ${medicine.minStockQuantity})",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             
                             Row(
@@ -155,17 +155,17 @@ fun MedicineRestockScreen(
                                 Text(
                                     text = "Expiry: ${medicine.expiryDateFormatted}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                                 Text(
                                     text = "Last Restock: ${medicine.lastRestockDateFormatted}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
 
                             if (isLowStock || isOutOfStock) {
-                                HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = 4.dp))
+                                HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = 4.dp))
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -173,7 +173,7 @@ fun MedicineRestockScreen(
                                 ) {
                                     Text(
                                         text = "Kit refill needed from PHC dispensary",
-                                        style = MaterialTheme.typography.bodySmall.copy(color = GlumeAlertCoral, fontSize = 11.sp)
+                                        style = MaterialTheme.typography.bodySmall.copy(color = VS_Error, fontSize = 11.sp)
                                     )
                                     Button(
                                         onClick = {
@@ -185,7 +185,7 @@ fun MedicineRestockScreen(
                                             restockSuccessMsg = "✓ Indent submitted for 50 ${medicine.unit} of ${medicine.medicineName}!"
                                         },
                                         shape = PillShape,
-                                        colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                                         modifier = Modifier.height(32.dp)
                                     ) {

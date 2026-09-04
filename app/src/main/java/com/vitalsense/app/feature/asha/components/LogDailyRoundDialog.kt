@@ -44,8 +44,8 @@ fun LogDailyRoundDialog(
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(20.dp),
-            color = GlumeSurfaceCard,
-            border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.6f)),
+            color = VS_Surface,
+            border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.6f)),
             shadowElevation = 12.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,7 +69,7 @@ fun LogDailyRoundDialog(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(36.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -80,27 +80,27 @@ fun LogDailyRoundDialog(
                             Text(
                                 text = "Log Village Round Visit",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Door-to-Door Health Record",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
 
                     IconButton(onClick = onDismiss, modifier = Modifier.size(32.dp)) {
-                        Text("✕", color = GlumeTextSecondary, fontWeight = FontWeight.Bold)
+                        Text("✕", color = VS_OnSurfaceVariant, fontWeight = FontWeight.Bold)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 if (errorMessage.isNotBlank()) {
                     Text(
                         text = errorMessage,
-                        style = MaterialTheme.typography.bodySmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold)
+                        style = MaterialTheme.typography.bodySmall.copy(color = VS_Error, fontWeight = FontWeight.Bold)
                     )
                 }
 
@@ -147,7 +147,7 @@ fun LogDailyRoundDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -225,7 +225,7 @@ fun LogDailyRoundDialog(
                     },
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = GlumePrimaryPurple,
+                        containerColor = VS_Primary,
                         contentColor = Color.White
                     ),
                     modifier = Modifier

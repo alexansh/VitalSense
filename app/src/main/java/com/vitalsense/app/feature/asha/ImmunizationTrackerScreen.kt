@@ -33,13 +33,13 @@ fun ImmunizationTrackerScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = GlumeSurfaceElevated,
-                    titleContentColor = GlumeTextPrimary,
-                    navigationIconContentColor = GlumeTextPrimary
+                    containerColor = VS_SurfaceVariant,
+                    titleContentColor = VS_OnBackground,
+                    navigationIconContentColor = VS_OnBackground
                 )
             )
         },
-        containerColor = GlumeBackground
+        containerColor = VS_Background
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -53,7 +53,7 @@ fun ImmunizationTrackerScreen(
                 Text(
                     text = "Maternal & Child Records",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             }
 
@@ -61,15 +61,15 @@ fun ImmunizationTrackerScreen(
                 item {
                     Text(
                         text = "No records found.",
-                        color = GlumeTextSecondary,
+                        color = VS_OnSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
             } else {
                 items(records) { record ->
                     VitalSenseCard(
-                        backgroundColor = GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        backgroundColor = VS_Surface,
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Column(
                             modifier = Modifier
@@ -85,26 +85,26 @@ fun ImmunizationTrackerScreen(
                                 Text(
                                     text = record.childName,
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "DOB: ${record.dobFormatted}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             Text(
                                 text = "Mother: ${record.motherName} | Village: ${record.villageName}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
 
-                            HorizontalDivider(color = GlumeBorder, thickness = 1.dp)
+                            HorizontalDivider(color = VS_Outline, thickness = 1.dp)
 
                             Text(
                                 text = "Vaccination Schedule",
                                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
 
                             record.vaccines.forEach { vaccine ->
@@ -117,19 +117,19 @@ fun ImmunizationTrackerScreen(
                                         Text(
                                             text = vaccine.name,
                                             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                         Text(
                                             text = "Due: ${vaccine.dueDateFormatted}",
                                             style = MaterialTheme.typography.bodySmall,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                     }
                                     
                                     val statusColor = when (vaccine.status) {
-                                        "Completed" -> GlumeSuccessMint
-                                        "Overdue" -> GlumeAlertCoral
-                                        else -> GlumeTextSecondary
+                                        "Completed" -> VS_Success
+                                        "Overdue" -> VS_Error
+                                        else -> VS_OnSurfaceVariant
                                     }
                                     Text(
                                         text = vaccine.status,

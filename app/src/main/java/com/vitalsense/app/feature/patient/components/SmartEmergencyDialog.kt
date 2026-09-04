@@ -109,21 +109,21 @@ fun SmartEmergencyDialog(
                         onDismiss()
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeSurfaceElevated),
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_SurfaceVariant),
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 46.dp)
                 ) {
                     Text(
                         text = cancelAlertText,
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                 }
             } else {
                 Button(
                     onClick = onDismiss,
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 44.dp)
                 ) {
                     Text(text = closeText, style = MaterialTheme.typography.labelLarge, color = Color.White)
@@ -154,17 +154,17 @@ fun SmartEmergencyDialog(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                 ) {
-                    Text(text = sendingInText, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeAlertCoral)
+                    Text(text = sendingInText, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_Error)
                     Box(
                         modifier = Modifier
                             .size(90.dp)
                             .clip(CircleShape)
-                            .background(GlumeAlertCoral.copy(alpha = 0.15f)),
+                            .background(VS_Error.copy(alpha = 0.15f)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "$countdownSeconds", fontSize = 44.sp, fontWeight = FontWeight.Black, color = GlumeAlertCoral)
+                        Text(text = "$countdownSeconds", fontSize = 44.sp, fontWeight = FontWeight.Black, color = VS_Error)
                     }
-                    Text(text = accidentalText, style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary, textAlign = TextAlign.Center)
+                    Text(text = accidentalText, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant, textAlign = TextAlign.Center)
                 }
             } else {
                 val helpOnWayText = when (language) {
@@ -184,8 +184,8 @@ fun SmartEmergencyDialog(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                 ) {
                     Text(text = "🚨", fontSize = 42.sp)
-                    Text(text = helpOnWayText, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeAlertCoral)
-                    Text(text = dispatchedDesc, style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary, textAlign = TextAlign.Center)
+                    Text(text = helpOnWayText, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_Error)
+                    Text(text = dispatchedDesc, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant, textAlign = TextAlign.Center)
 
                     Spacer(modifier = Modifier.height(Spacing.xs))
 
@@ -202,7 +202,7 @@ fun SmartEmergencyDialog(
                             context.startActivity(intent)
                         },
                         shape = PillShape,
-                        colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                         modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 44.dp)
                     ) {
                         Text(text = call108Text, color = Color.White, style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))

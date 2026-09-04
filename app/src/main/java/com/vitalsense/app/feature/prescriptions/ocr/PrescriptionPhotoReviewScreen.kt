@@ -34,7 +34,7 @@ fun PrescriptionPhotoReviewScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(Spacing.md),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -48,13 +48,13 @@ fun PrescriptionPhotoReviewScreen(
             Text(
                 text = "📸 Review Prescription Photo",
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary,
+                color = VS_OnBackground,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = "Make sure the doctor's writing and medicine names are clear and readable.",
                 style = MaterialTheme.typography.bodySmall,
-                color = GlumeTextSecondary,
+                color = VS_OnSurfaceVariant,
                 textAlign = TextAlign.Center
             )
         }
@@ -67,7 +67,7 @@ fun PrescriptionPhotoReviewScreen(
                 .padding(vertical = Spacing.md),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Black),
-            border = BorderStroke(1.5.dp, GlumeBorder)
+            border = BorderStroke(1.5.dp, VS_Outline)
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -92,7 +92,7 @@ fun PrescriptionPhotoReviewScreen(
             // Confirm button
             Button(
                 onClick = { onConfirmUsePhoto(photoFile) },
-                colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                 shape = PillShape,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,7 +110,7 @@ fun PrescriptionPhotoReviewScreen(
             OutlinedButton(
                 onClick = onRetakePhoto,
                 shape = PillShape,
-                border = BorderStroke(1.5.dp, GlumeBorder),
+                border = BorderStroke(1.5.dp, VS_Outline),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
@@ -119,7 +119,7 @@ fun PrescriptionPhotoReviewScreen(
                     text = "🔁 Retake Photo",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             }
         }

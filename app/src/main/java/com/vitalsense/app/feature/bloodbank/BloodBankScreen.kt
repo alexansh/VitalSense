@@ -13,7 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -60,12 +60,12 @@ fun BloodBankScreen(
                         Text(
                             text = stringResource(R.string.bloodBankRegistry),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = stringResource(R.string.bloodBankSubtitle),
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 },
@@ -74,14 +74,14 @@ fun BloodBankScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.exit),
-                            tint = GlumeTextPrimary
+                            tint = VS_OnBackground
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = GlumeBackground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = VS_Background)
             )
         },
-        containerColor = GlumeBackground,
+        containerColor = VS_Background,
         modifier = modifier.fillMaxSize()
     ) { paddingValues ->
         LazyColumn(
@@ -99,34 +99,34 @@ fun BloodBankScreen(
                 ) {
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        backgroundColor = VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Column {
-                            Text(stringResource(R.string.bloodUnitsAvailable), style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                            Text(stringResource(R.string.bloodUnitsAvailable), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             Text(
                                 text = "$totalUnits Units",
                                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                         }
                     }
 
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = if (criticalCount > 0) GlumeErrorContainer.copy(alpha = 0.4f) else GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, if (criticalCount > 0) GlumeError.copy(alpha = 0.5f) else GlumeBorder)
+                        backgroundColor = if (criticalCount > 0) VS_ErrorContainer.copy(alpha = 0.4f) else VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, if (criticalCount > 0) VS_Error.copy(alpha = 0.5f) else VS_Outline)
                     ) {
                         Column {
                             Text(
                                 text = "Critical Shortages",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = if (criticalCount > 0) GlumeError else GlumeTextSecondary
+                                color = if (criticalCount > 0) VS_Error else VS_OnSurfaceVariant
                             )
                             Text(
                                 text = "$criticalCount Groups Low",
                                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                                color = if (criticalCount > 0) GlumeError else GlumeSuccessText
+                                color = if (criticalCount > 0) VS_Error else VS_OnSuccessContainer
                             )
                         }
                     }
@@ -143,14 +143,14 @@ fun BloodBankScreen(
                         val isSelected = selectedBloodGroup == group
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder),
+                            color = if (isSelected) VS_Primary else VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline),
                             modifier = Modifier.clickable { selectedBloodGroup = group }
                         ) {
                             Text(
                                 text = group,
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
-                                color = if (isSelected) Color.White else GlumeTextPrimary,
+                                color = if (isSelected) Color.White else VS_OnBackground,
                                 modifier = Modifier.padding(horizontal = Spacing.md, vertical = 6.dp)
                             )
                         }
@@ -173,23 +173,23 @@ fun BloodBankScreen(
             item {
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = GlumePrimaryPurpleContainer.copy(alpha = 0.2f),
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.3f)),
+                    color = VS_PrimaryContainer.copy(alpha = 0.2f),
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(Spacing.sm), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                            Icon(imageVector = Icons.Default.LocalHospital, contentDescription = null, tint = GlumePrimaryPurple, modifier = Modifier.size(18.dp))
+                            Icon(imageVector = Icons.Outlined.LocalHospital, contentDescription = null, tint = VS_Primary, modifier = Modifier.size(18.dp))
                             Text(
                                 text = "Emergency Transfusion Protocol",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                         }
                         Text(
                             text = "Universal Donor: O Negative (O-) · Universal Recipient: AB Positive (AB+). For maternal hemorrhages or road trauma, cross-matching is fast-tracked at District Hospital Rampur.",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     }
                 }
@@ -208,8 +208,8 @@ fun BloodStockCard(
 ) {
     VitalSenseCard(
         modifier = modifier.fillMaxWidth(),
-        backgroundColor = GlumeSurfaceElevated,
-        border = BorderStroke(1.dp, if (item.isCritical) GlumeError.copy(alpha = 0.6f) else GlumeBorder)
+        backgroundColor = VS_SurfaceVariant,
+        border = BorderStroke(1.dp, if (item.isCritical) VS_Error.copy(alpha = 0.6f) else VS_Outline)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -224,14 +224,14 @@ fun BloodStockCard(
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(if (item.isCritical) GlumeErrorContainer else GlumePrimaryPurpleContainer),
+                        .background(if (item.isCritical) VS_ErrorContainer else VS_PrimaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = item.bloodGroup,
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Black,
-                            color = if (item.isCritical) GlumeError else GlumePrimaryPurple
+                            color = if (item.isCritical) VS_Error else VS_Primary
                         )
                     )
                 }
@@ -240,17 +240,17 @@ fun BloodStockCard(
                     Text(
                         text = "${item.unitsAvailable} Units Available",
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = item.hospitalName,
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                     Text(
                         text = "Phone: ${item.contactPhone}",
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumePrimaryPurpleLight
+                        color = VS_PrimaryContainer
                     )
                 }
             }
@@ -259,9 +259,9 @@ fun BloodStockCard(
                 Surface(
                     shape = PillShape,
                     color = when (item.status) {
-                        "Critical" -> GlumeErrorContainer
-                        "Low Stock" -> GlumeWarningContainer
-                        else -> GlumeSuccessContainer
+                        "Critical" -> VS_ErrorContainer
+                        "Low Stock" -> VS_WarningContainer
+                        else -> VS_SuccessContainer
                     }
                 ) {
                     Text(
@@ -269,9 +269,9 @@ fun BloodStockCard(
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold,
                             color = when (item.status) {
-                                "Critical" -> GlumeError
-                                "Low Stock" -> GlumeWarningText
-                                else -> GlumeSuccessText
+                                "Critical" -> VS_Error
+                                "Low Stock" -> VS_OnWarningContainer
+                                else -> VS_OnSuccessContainer
                             }
                         ),
                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
@@ -280,9 +280,9 @@ fun BloodStockCard(
 
                 IconButton(onClick = onCallHospital) {
                     Icon(
-                        imageVector = Icons.Default.Phone,
+                        imageVector = Icons.Outlined.Phone,
                         contentDescription = stringResource(R.string.callBloodBank),
-                        tint = GlumeSuccessText
+                        tint = VS_OnSuccessContainer
                     )
                 }
             }

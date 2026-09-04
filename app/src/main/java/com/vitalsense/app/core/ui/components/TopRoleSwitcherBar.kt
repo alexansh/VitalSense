@@ -54,14 +54,14 @@ fun TopRoleSwitcherBar(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.sm, vertical = Spacing.xs)
     ) {
         // Floating Top Island Header (NagarSeva Design System)
         Surface(
             shape = PillShape,
-            color = GlumeSurfaceCard,
-            border = BorderStroke(1.dp, GlumeBorder),
+            color = VS_Surface,
+            border = BorderStroke(1.dp, VS_Outline),
             shadowElevation = 3.dp,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -82,7 +82,7 @@ fun TopRoleSwitcherBar(
                         modifier = Modifier
                             .size(38.dp)
                             .clip(CircleShape)
-                            .background(GlumePrimaryPurple),
+                            .background(VS_Primary),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -99,7 +99,7 @@ fun TopRoleSwitcherBar(
                         Text(
                             text = if (activeUserName.isNotBlank()) activeUserName else stringResource(R.string.app_name),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary,
+                            color = VS_OnBackground,
                             maxLines = 1
                         )
                         Text(
@@ -110,7 +110,7 @@ fun TopRoleSwitcherBar(
                                 UserRole.ADMIN -> stringResource(R.string.adminPortal)
                             },
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                            color = GlumePrimaryPurpleLight
+                            color = VS_PrimaryContainer
                         )
                     }
                 }
@@ -124,8 +124,8 @@ fun TopRoleSwitcherBar(
                 Surface(
                     onClick = { showLanguageDialog = true },
                     shape = PillShape,
-                    color = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
@@ -137,7 +137,7 @@ fun TopRoleSwitcherBar(
                         Text(
                             text = currentLanguage.nativeName,
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     }
                 }
@@ -146,8 +146,8 @@ fun TopRoleSwitcherBar(
                 Surface(
                     onClick = onToggleOffline,
                     shape = PillShape,
-                    color = if (isOffline) GlumeSurfaceElevated else GlumeSuccessContainer,
-                    border = BorderStroke(1.dp, if (isOffline) GlumeBorder else GlumeSuccessMint.copy(alpha = 0.4f)),
+                    color = if (isOffline) VS_SurfaceVariant else VS_SuccessContainer,
+                    border = BorderStroke(1.dp, if (isOffline) VS_Outline else VS_Success.copy(alpha = 0.4f)),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
@@ -159,12 +159,12 @@ fun TopRoleSwitcherBar(
                             modifier = Modifier
                                 .size(8.dp)
                                 .clip(CircleShape)
-                                .background(if (isOffline) GlumeTextTertiary else GlumeSuccessMint)
+                                .background(if (isOffline) VS_OnSurfaceVariant else VS_Success)
                         )
                         Text(
                             text = if (isOffline) stringResource(R.string.offline) else stringResource(R.string.online),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = if (isOffline) GlumeTextSecondary else GlumeSuccessText
+                            color = if (isOffline) VS_OnSurfaceVariant else VS_OnSuccessContainer
                         )
                     }
                 }
@@ -173,8 +173,8 @@ fun TopRoleSwitcherBar(
                 Surface(
                     onClick = onLogout,
                     shape = PillShape,
-                    color = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
@@ -186,7 +186,7 @@ fun TopRoleSwitcherBar(
                         Text(
                             text = stringResource(R.string.exit),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     }
                 }
@@ -202,12 +202,12 @@ fun TopRoleSwitcherBar(
         ) {
             if (activeProxyPatient != null) {
                 Surface(
-                    color = GlumePrimaryPurpleContainer,
+                    color = VS_PrimaryContainer,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = Spacing.md, vertical = Spacing.xxs),
                     shape = CardShape,
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.5f))
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.5f))
                 ) {
                     Row(
                         modifier = Modifier
@@ -226,12 +226,12 @@ fun TopRoleSwitcherBar(
                                 Text(
                                     text = stringResource(R.string.actingAsProxy),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumePrimaryPurpleLight
+                                    color = VS_PrimaryContainer
                                 )
                                 Text(
                                     text = "${activeProxyPatient.name} (${activeProxyPatient.villageName})",
                                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                             }
                         }
@@ -239,8 +239,8 @@ fun TopRoleSwitcherBar(
                             onClick = onExitProxy,
                             shape = PillShape,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = GlumePrimaryPurple,
-                                contentColor = GlumeTextPrimary
+                                containerColor = VS_Primary,
+                                contentColor = VS_OnBackground
                             ),
                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
                             modifier = Modifier.height(34.dp)
@@ -254,7 +254,7 @@ fun TopRoleSwitcherBar(
 
         HorizontalDivider(
             thickness = 1.dp,
-            color = GlumeBorderSubtle
+            color = VS_Outline
         )
     }
 }

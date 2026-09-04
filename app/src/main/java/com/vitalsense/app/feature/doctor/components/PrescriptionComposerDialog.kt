@@ -140,9 +140,9 @@ fun PrescriptionComposerDialog(
                 .fillMaxWidth(0.95f)
                 .fillMaxHeight(0.95f),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -159,20 +159,20 @@ fun PrescriptionComposerDialog(
                         Text(
                             text = "💊 ${stringResource(R.string.issueRx)}",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "Patient: ${patient?.name ?: patientNameFallback} (${patient?.villageName ?: "Rural PHC"})",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     IconButton(onClick = onDismiss) {
-                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
+                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnSurfaceVariant)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xs))
 
                 LazyColumn(
                     modifier = Modifier.weight(1f),
@@ -183,14 +183,14 @@ fun PrescriptionComposerDialog(
                         Text(
                             text = "Prescribed Medicines (${medicinesList.size})",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     }
 
                     itemsIndexed(medicinesList) { index, med ->
                         VitalSenseCard(
-                            backgroundColor = GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, GlumeBorder)
+                            backgroundColor = VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, VS_Outline)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                                 Row(
@@ -202,17 +202,17 @@ fun PrescriptionComposerDialog(
                                         Text(
                                             text = med.name,
                                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                         Text(
                                             text = "${med.dosage} · ${med.frequency} for ${med.duration}",
                                             style = MaterialTheme.typography.bodySmall,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                         Text(
                                             text = "Qty to dispense: ${med.quantity} units",
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumePrimaryPurpleLight
+                                            color = VS_PrimaryContainer
                                         )
                                     }
                                     IconButton(onClick = { medicinesList.removeAt(index) }) {
@@ -224,25 +224,25 @@ fun PrescriptionComposerDialog(
                                 if (med.hasAlternativeAvailable) {
                                     Surface(
                                         shape = PillShape,
-                                        color = GlumeAlertContainer,
-                                        border = BorderStroke(1.dp, GlumeAlertCoral)
+                                        color = VS_ErrorContainer,
+                                        border = BorderStroke(1.dp, VS_Error)
                                     ) {
                                         Text(
                                             text = "⚠️ Out of stock near patient · Clinical override noted",
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                                            color = GlumeAlertText,
+                                            color = VS_OnErrorContainer,
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                         )
                                     }
                                 } else {
                                     Surface(
                                         shape = PillShape,
-                                        color = GlumeSuccessContainer
+                                        color = VS_SuccessContainer
                                     ) {
                                         Text(
                                             text = "✅ Likely available near patient",
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                                            color = GlumeSuccessText,
+                                            color = VS_OnSuccessContainer,
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                         )
                                     }
@@ -254,30 +254,30 @@ fun PrescriptionComposerDialog(
                     // Add Medicine Form
                     item {
                         VitalSenseCard(
-                            backgroundColor = GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, GlumeBorder)
+                            backgroundColor = VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, VS_Outline)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                                 Text(
                                     text = "+ Add Another Medicine",
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
 
                                 OutlinedTextField(
                                     value = newMedName,
                                     onValueChange = { newMedName = it },
-                                    label = { Text("Medicine Name", color = GlumeTextSecondary) },
-                                    placeholder = { Text("e.g. Paracetamol 650mg or Amoxicillin", color = GlumeTextTertiary) },
+                                    label = { Text("Medicine Name", color = VS_OnSurfaceVariant) },
+                                    placeholder = { Text("e.g. Paracetamol 650mg or Amoxicillin", color = VS_OnSurfaceVariant) },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = InputShape,
                                     colors = OutlinedTextFieldDefaults.colors(
-                                        focusedContainerColor = GlumeSurfaceCard,
-                                        unfocusedContainerColor = GlumeSurfaceCard,
-                                        focusedBorderColor = GlumePrimaryPurple,
-                                        unfocusedBorderColor = GlumeBorder,
-                                        focusedTextColor = GlumeTextPrimary,
-                                        unfocusedTextColor = GlumeTextPrimary
+                                        focusedContainerColor = VS_Surface,
+                                        unfocusedContainerColor = VS_Surface,
+                                        focusedBorderColor = VS_Primary,
+                                        unfocusedBorderColor = VS_Outline,
+                                        focusedTextColor = VS_OnBackground,
+                                        unfocusedTextColor = VS_OnBackground
                                     )
                                 )
 
@@ -287,19 +287,19 @@ fun PrescriptionComposerDialog(
                                         Text(
                                             text = "🔍 Checking nearby pharmacy availability near ${patient?.villageName ?: "patient"}...",
                                             style = MaterialTheme.typography.labelSmall,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                     }
 
                                     is AvailabilityCheckState.Available -> {
                                         Surface(
                                             shape = PillShape,
-                                            color = GlumeSuccessContainer
+                                            color = VS_SuccessContainer
                                         ) {
                                             Text(
                                                 text = "✅ Likely available at ${state.count} nearby pharmacies",
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                color = GlumeSuccessText,
+                                                color = VS_OnSuccessContainer,
                                                 modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
                                             )
                                         }
@@ -310,7 +310,7 @@ fun PrescriptionComposerDialog(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .clip(InputShape)
-                                                .background(GlumeAlertContainer)
+                                                .background(VS_ErrorContainer)
                                                 .padding(Spacing.xs)
                                         ) {
                                             Row(
@@ -322,12 +322,12 @@ fun PrescriptionComposerDialog(
                                                     Text(
                                                         text = "⚠️ Not found near patient's location",
                                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                        color = GlumeAlertText
+                                                        color = VS_OnErrorContainer
                                                     )
                                                     Text(
                                                         text = "Likely out of stock at nearby stores in ${patient?.villageName ?: "this area"}.",
                                                         style = MaterialTheme.typography.bodySmall,
-                                                        color = GlumeTextSecondary
+                                                        color = VS_OnSurfaceVariant
                                                     )
                                                 }
 
@@ -335,13 +335,13 @@ fun PrescriptionComposerDialog(
                                                     Button(
                                                         onClick = { showAlternativeSuggestions = !showAlternativeSuggestions },
                                                         shape = PillShape,
-                                                        colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+                                                        colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                                     ) {
                                                         Text(
                                                             text = if (showAlternativeSuggestions) "Hide Options" else "Suggest Alternative",
                                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                            color = GlumeTextPrimary
+                                                            color = VS_OnBackground
                                                         )
                                                     }
                                                 }
@@ -353,7 +353,7 @@ fun PrescriptionComposerDialog(
                                                 Text(
                                                     text = "Clinically Interchangeable Alternatives (${state.candidateSubstitutes.size}):",
                                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                    color = GlumeTextPrimary
+                                                    color = VS_OnBackground
                                                 )
 
                                                 state.candidateSubstitutes.forEach { (substitute, subInStockCount) ->
@@ -362,8 +362,8 @@ fun PrescriptionComposerDialog(
                                                             .fillMaxWidth()
                                                             .padding(vertical = 3.dp),
                                                         shape = InputShape,
-                                                        colors = CardDefaults.cardColors(containerColor = GlumeSurfaceElevated),
-                                                        border = BorderStroke(1.dp, GlumeBorder)
+                                                        colors = CardDefaults.cardColors(containerColor = VS_SurfaceVariant),
+                                                        border = BorderStroke(1.dp, VS_Outline)
                                                     ) {
                                                         Column(modifier = Modifier.padding(Spacing.xs)) {
                                                             Row(
@@ -375,22 +375,22 @@ fun PrescriptionComposerDialog(
                                                                     Text(
                                                                         text = substitute.name,
                                                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                                                        color = GlumeTextPrimary
+                                                                        color = VS_OnBackground
                                                                     )
                                                                     Text(
                                                                         text = "Generic: ${substitute.genericName}",
                                                                         style = MaterialTheme.typography.bodySmall,
-                                                                        color = GlumeTextSecondary
+                                                                        color = VS_OnSurfaceVariant
                                                                     )
                                                                     Text(
                                                                         text = "Class: ${substitute.therapeuticClass} · ${substitute.commonUseDescription}",
                                                                         style = MaterialTheme.typography.bodySmall,
-                                                                        color = GlumePrimaryPurpleLight
+                                                                        color = VS_PrimaryContainer
                                                                     )
                                                                     Text(
                                                                         text = if (subInStockCount > 0) "✅ Likely in stock at $subInStockCount nearby stores" else "⚠️ Limited local stock",
                                                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                                                                        color = if (subInStockCount > 0) GlumeSuccessText else GlumeAlertText
+                                                                        color = if (subInStockCount > 0) VS_OnSuccessContainer else VS_OnErrorContainer
                                                                     )
                                                                 }
 
@@ -403,13 +403,13 @@ fun PrescriptionComposerDialog(
                                                                         showAlternativeSuggestions = false
                                                                     },
                                                                     shape = PillShape,
-                                                                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                                                                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                                                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                                                                 ) {
                                                                     Text(
                                                                         text = "Swap ✓",
                                                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                                        color = GlumeTextPrimary
+                                                                        color = VS_OnBackground
                                                                     )
                                                                 }
                                                             }
@@ -420,7 +420,7 @@ fun PrescriptionComposerDialog(
                                                 Text(
                                                     text = "⚠️ Disclaimer: Suggestions are based on medicine category only — confirm clinical appropriateness before prescribing.",
                                                     style = MaterialTheme.typography.labelSmall,
-                                                    color = GlumeTextTertiary,
+                                                    color = VS_OnSurfaceVariant,
                                                     modifier = Modifier.padding(top = 4.dp)
                                                 )
                                             }
@@ -437,31 +437,31 @@ fun PrescriptionComposerDialog(
                                     OutlinedTextField(
                                         value = newMedDosage,
                                         onValueChange = { newMedDosage = it },
-                                        label = { Text("Dosage", color = GlumeTextSecondary) },
+                                        label = { Text("Dosage", color = VS_OnSurfaceVariant) },
                                         modifier = Modifier.weight(1f),
                                         shape = InputShape,
                                         colors = OutlinedTextFieldDefaults.colors(
-                                            focusedContainerColor = GlumeSurfaceCard,
-                                            unfocusedContainerColor = GlumeSurfaceCard,
-                                            focusedBorderColor = GlumePrimaryPurple,
-                                            unfocusedBorderColor = GlumeBorder,
-                                            focusedTextColor = GlumeTextPrimary,
-                                            unfocusedTextColor = GlumeTextPrimary
+                                            focusedContainerColor = VS_Surface,
+                                            unfocusedContainerColor = VS_Surface,
+                                            focusedBorderColor = VS_Primary,
+                                            unfocusedBorderColor = VS_Outline,
+                                            focusedTextColor = VS_OnBackground,
+                                            unfocusedTextColor = VS_OnBackground
                                         )
                                     )
                                     OutlinedTextField(
                                         value = newMedQuantity,
                                         onValueChange = { newMedQuantity = it },
-                                        label = { Text("Qty", color = GlumeTextSecondary) },
+                                        label = { Text("Qty", color = VS_OnSurfaceVariant) },
                                         modifier = Modifier.weight(0.7f),
                                         shape = InputShape,
                                         colors = OutlinedTextFieldDefaults.colors(
-                                            focusedContainerColor = GlumeSurfaceCard,
-                                            unfocusedContainerColor = GlumeSurfaceCard,
-                                            focusedBorderColor = GlumePrimaryPurple,
-                                            unfocusedBorderColor = GlumeBorder,
-                                            focusedTextColor = GlumeTextPrimary,
-                                            unfocusedTextColor = GlumeTextPrimary
+                                            focusedContainerColor = VS_Surface,
+                                            unfocusedContainerColor = VS_Surface,
+                                            focusedBorderColor = VS_Primary,
+                                            unfocusedBorderColor = VS_Outline,
+                                            focusedTextColor = VS_OnBackground,
+                                            unfocusedTextColor = VS_OnBackground
                                         )
                                     )
                                 }
@@ -469,32 +469,32 @@ fun PrescriptionComposerDialog(
                                 OutlinedTextField(
                                     value = newMedFrequency,
                                     onValueChange = { newMedFrequency = it },
-                                    label = { Text("Frequency & Timing", color = GlumeTextSecondary) },
+                                    label = { Text("Frequency & Timing", color = VS_OnSurfaceVariant) },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = InputShape,
                                     colors = OutlinedTextFieldDefaults.colors(
-                                        focusedContainerColor = GlumeSurfaceCard,
-                                        unfocusedContainerColor = GlumeSurfaceCard,
-                                        focusedBorderColor = GlumePrimaryPurple,
-                                        unfocusedBorderColor = GlumeBorder,
-                                        focusedTextColor = GlumeTextPrimary,
-                                        unfocusedTextColor = GlumeTextPrimary
+                                        focusedContainerColor = VS_Surface,
+                                        unfocusedContainerColor = VS_Surface,
+                                        focusedBorderColor = VS_Primary,
+                                        unfocusedBorderColor = VS_Outline,
+                                        focusedTextColor = VS_OnBackground,
+                                        unfocusedTextColor = VS_OnBackground
                                     )
                                 )
 
                                 OutlinedTextField(
                                     value = newMedDuration,
                                     onValueChange = { newMedDuration = it },
-                                    label = { Text("Duration", color = GlumeTextSecondary) },
+                                    label = { Text("Duration", color = VS_OnSurfaceVariant) },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = InputShape,
                                     colors = OutlinedTextFieldDefaults.colors(
-                                        focusedContainerColor = GlumeSurfaceCard,
-                                        unfocusedContainerColor = GlumeSurfaceCard,
-                                        focusedBorderColor = GlumePrimaryPurple,
-                                        unfocusedBorderColor = GlumeBorder,
-                                        focusedTextColor = GlumeTextPrimary,
-                                        unfocusedTextColor = GlumeTextPrimary
+                                        focusedContainerColor = VS_Surface,
+                                        unfocusedContainerColor = VS_Surface,
+                                        focusedBorderColor = VS_Primary,
+                                        unfocusedBorderColor = VS_Outline,
+                                        focusedTextColor = VS_OnBackground,
+                                        unfocusedTextColor = VS_OnBackground
                                     )
                                 )
 
@@ -520,10 +520,10 @@ fun PrescriptionComposerDialog(
                                         }
                                     },
                                     shape = PillShape,
-                                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                     modifier = Modifier.align(Alignment.End)
                                 ) {
-                                    Text("+ Add to Prescription", color = GlumeTextPrimary, style = MaterialTheme.typography.labelSmall)
+                                    Text("+ Add to Prescription", color = VS_OnBackground, style = MaterialTheme.typography.labelSmall)
                                 }
                             }
                         }
@@ -534,22 +534,22 @@ fun PrescriptionComposerDialog(
                         Text(
                             text = "Dietary & Follow-Up Instructions",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         OutlinedTextField(
                             value = instructions,
                             onValueChange = { instructions = it },
-                            label = { Text("Instructions for Patient & ASHA", color = GlumeTextSecondary) },
+                            label = { Text("Instructions for Patient & ASHA", color = VS_OnSurfaceVariant) },
                             modifier = Modifier.fillMaxWidth(),
                             minLines = 3,
                             shape = InputShape,
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedContainerColor = GlumeSurfaceElevated,
-                                unfocusedContainerColor = GlumeSurfaceCard,
-                                focusedBorderColor = GlumePrimaryPurple,
-                                unfocusedBorderColor = GlumeBorder,
-                                focusedTextColor = GlumeTextPrimary,
-                                unfocusedTextColor = GlumeTextPrimary
+                                focusedContainerColor = VS_SurfaceVariant,
+                                unfocusedContainerColor = VS_Surface,
+                                focusedBorderColor = VS_Primary,
+                                unfocusedBorderColor = VS_Outline,
+                                focusedTextColor = VS_OnBackground,
+                                unfocusedTextColor = VS_OnBackground
                             )
                         )
                     }
@@ -568,8 +568,8 @@ fun PrescriptionComposerDialog(
                         .height(48.dp),
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = GlumePrimaryPurple,
-                        contentColor = GlumeTextPrimary
+                        containerColor = VS_Primary,
+                        contentColor = VS_OnBackground
                     ),
                     enabled = medicinesList.isNotEmpty()
                 ) {

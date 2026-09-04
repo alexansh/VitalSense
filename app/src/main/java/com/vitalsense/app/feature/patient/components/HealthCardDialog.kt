@@ -48,10 +48,10 @@ fun HealthCardDialog(
     val activeAbha = selectedFamilyMember?.abhaId ?: "91-${patient.phone.takeLast(6)}-${patient.id.takeLast(4).uppercase()}"
     val activeBloodGroup = selectedFamilyMember?.bloodGroup ?: "O+"
 
-    val cardBg = if (isSunlightMode) Color.White else GlumeSurfaceCard
-    val cardTextPrimary = if (isSunlightMode) Color(0xFF111111) else GlumeTextPrimary
-    val cardTextSecondary = if (isSunlightMode) Color(0xFF555555) else GlumeTextSecondary
-    val cardBorder = if (isSunlightMode) Color(0xFFCCCCCC) else GlumePrimaryPurple.copy(alpha = 0.6f)
+    val cardBg = if (isSunlightMode) Color.White else VS_Surface
+    val cardTextPrimary = if (isSunlightMode) Color(0xFF111111) else VS_OnBackground
+    val cardTextSecondary = if (isSunlightMode) Color(0xFF555555) else VS_OnSurfaceVariant
+    val cardBorder = if (isSunlightMode) Color(0xFFCCCCCC) else VS_Primary.copy(alpha = 0.6f)
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -81,7 +81,7 @@ fun HealthCardDialog(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(36.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -95,7 +95,7 @@ fun HealthCardDialog(
                                     fontWeight = FontWeight.Bold,
                                     letterSpacing = 1.sp
                                 ),
-                                color = GlumePrimaryPurple
+                                color = VS_Primary
                             )
                             Text(
                                 text = "VitalSense / SehatSetu Identity",
@@ -116,7 +116,7 @@ fun HealthCardDialog(
                         Text(
                             text = "Linked Beneficiaries (Family):",
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextTertiary
+                            color = VS_OnSurfaceVariant
                         )
                         androidx.compose.foundation.lazy.LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -126,8 +126,8 @@ fun HealthCardDialog(
                                 val isSelf = selectedFamilyMember == null
                                 Surface(
                                     shape = PillShape,
-                                    color = if (isSelf) GlumePrimaryPurple else GlumeSurfaceElevated,
-                                    border = BorderStroke(1.dp, if (isSelf) GlumePrimaryPurple else GlumeBorder),
+                                    color = if (isSelf) VS_Primary else VS_SurfaceVariant,
+                                    border = BorderStroke(1.dp, if (isSelf) VS_Primary else VS_Outline),
                                     modifier = Modifier.clickable { selectedFamilyMember = null }
                                 ) {
                                     Text(
@@ -145,8 +145,8 @@ fun HealthCardDialog(
                                 val isSelected = selectedFamilyMember?.id == member.id
                                 Surface(
                                     shape = PillShape,
-                                    color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceElevated,
-                                    border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder),
+                                    color = if (isSelected) VS_Primary else VS_SurfaceVariant,
+                                    border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline),
                                     modifier = Modifier.clickable { selectedFamilyMember = member }
                                 ) {
                                     Text(
@@ -172,7 +172,7 @@ fun HealthCardDialog(
                     style = ButtonStyle.SECONDARY
                 )
 
-                HorizontalDivider(color = if (isSunlightMode) Color(0xFFEEEEEE) else GlumeBorder)
+                HorizontalDivider(color = if (isSunlightMode) Color(0xFFEEEEEE) else VS_Outline)
 
                 // Patient Profile Header
                 Row(
@@ -195,7 +195,7 @@ fun HealthCardDialog(
                             text = "ABHA ID: $activeAbha",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontFamily = FontFamily.Monospace,
-                                color = GlumePrimaryPurpleLight,
+                                color = VS_PrimaryContainer,
                                 fontWeight = FontWeight.Bold
                             )
                         )
@@ -271,8 +271,8 @@ fun HealthCardDialog(
                 // Emergency & Care Details Grid
                 Surface(
                     shape = RoundedCornerShape(12.dp),
-                    color = if (isSunlightMode) Color(0xFFF7F7F7) else GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, if (isSunlightMode) Color(0xFFE0E0E0) else GlumeBorder),
+                    color = if (isSunlightMode) Color(0xFFF7F7F7) else VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, if (isSunlightMode) Color(0xFFE0E0E0) else VS_Outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(
@@ -293,7 +293,7 @@ fun HealthCardDialog(
                             }
                         }
 
-                        HorizontalDivider(color = if (isSunlightMode) Color(0xFFE5E5E5) else GlumeBorder)
+                        HorizontalDivider(color = if (isSunlightMode) Color(0xFFE5E5E5) else VS_Outline)
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -314,8 +314,8 @@ fun HealthCardDialog(
 
                 Surface(
                     shape = RoundedCornerShape(12.dp),
-                    color = if (abdmSyncSuccess) GlumeSuccessMint.copy(alpha = 0.1f) else GlumePrimaryPurpleContainer.copy(alpha = 0.5f),
-                    border = BorderStroke(1.dp, if (abdmSyncSuccess) GlumeSuccessMint else GlumePrimaryPurple.copy(alpha = 0.3f)),
+                    color = if (abdmSyncSuccess) VS_Success.copy(alpha = 0.1f) else VS_PrimaryContainer.copy(alpha = 0.5f),
+                    border = BorderStroke(1.dp, if (abdmSyncSuccess) VS_Success else VS_Primary.copy(alpha = 0.3f)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(
@@ -336,7 +336,7 @@ fun HealthCardDialog(
                                     text = if (abdmSyncSuccess) "ABDM Network Synchronized" else "ABHA ID Integration (ABDM)",
                                     style = MaterialTheme.typography.labelMedium.copy(
                                         fontWeight = FontWeight.Bold,
-                                        color = if (abdmSyncSuccess) GlumeSuccessMint else GlumePrimaryPurple
+                                        color = if (abdmSyncSuccess) VS_Success else VS_Primary
                                     )
                                 )
                             }
@@ -358,7 +358,7 @@ fun HealthCardDialog(
                             } else if (isSyncingAbdm) {
                                 CircularProgressIndicator(
                                     modifier = Modifier.size(16.dp),
-                                    color = GlumePrimaryPurple,
+                                    color = VS_Primary,
                                     strokeWidth = 2.dp
                                 )
                             }
@@ -388,7 +388,7 @@ fun HealthCardDialog(
                         Text("🔒", fontSize = 12.sp)
                         Text(
                             text = "Offline SQLite Encrypted",
-                            style = MaterialTheme.typography.labelSmall.copy(color = GlumeSuccessMint, fontWeight = FontWeight.Bold)
+                            style = MaterialTheme.typography.labelSmall.copy(color = VS_Success, fontWeight = FontWeight.Bold)
                         )
                     }
 
@@ -400,7 +400,7 @@ fun HealthCardDialog(
                             text = if (isSunlightMode) "🌙 Dark Mode" else "☀️ Sunlight Mode",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = GlumePrimaryPurple
+                                color = VS_Primary
                             )
                         )
                     }

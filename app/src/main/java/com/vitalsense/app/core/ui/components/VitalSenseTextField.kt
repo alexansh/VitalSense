@@ -34,9 +34,9 @@ fun VitalSenseTextField(
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            label = { Text(text = label, style = MaterialTheme.typography.bodyMedium, color = GlumeTextSecondary) },
+            label = { Text(text = label, style = MaterialTheme.typography.bodyMedium, color = VS_OnSurfaceVariant) },
             placeholder = if (placeholder != null) {
-                { Text(text = placeholder, style = MaterialTheme.typography.bodyMedium, color = GlumeTextTertiary) }
+                { Text(text = placeholder, style = MaterialTheme.typography.bodyMedium, color = VS_OnSurfaceVariant) }
             } else null,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
@@ -49,18 +49,18 @@ fun VitalSenseTextField(
             enabled = enabled,
             shape = InputShape,
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = GlumeSurfaceElevated,
-                unfocusedContainerColor = GlumeSurfaceCard,
-                disabledContainerColor = GlumeSurfaceElevated.copy(alpha = 0.4f),
-                errorContainerColor = GlumeSurfaceCard,
-                focusedBorderColor = GlumePrimaryPurple,
-                unfocusedBorderColor = GlumeBorder,
-                errorBorderColor = GlumeAlertCoral,
-                focusedLabelColor = GlumePrimaryPurpleLight,
-                unfocusedLabelColor = GlumeTextSecondary,
-                cursorColor = GlumePrimaryPurple,
-                focusedTextColor = GlumeTextPrimary,
-                unfocusedTextColor = GlumeTextPrimary
+                focusedContainerColor = VS_SurfaceVariant,
+                unfocusedContainerColor = VS_Surface,
+                disabledContainerColor = VS_SurfaceVariant.copy(alpha = 0.4f),
+                errorContainerColor = VS_Surface,
+                focusedBorderColor = VS_Primary,
+                unfocusedBorderColor = VS_Outline,
+                errorBorderColor = VS_Error,
+                focusedLabelColor = VS_PrimaryContainer,
+                unfocusedLabelColor = VS_OnSurfaceVariant,
+                cursorColor = VS_Primary,
+                focusedTextColor = VS_OnBackground,
+                unfocusedTextColor = VS_OnBackground
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -69,7 +69,7 @@ fun VitalSenseTextField(
             Text(
                 text = errorMessage,
                 style = MaterialTheme.typography.bodySmall,
-                color = GlumeAlertCoral,
+                color = VS_Error,
                 modifier = Modifier.padding(start = Spacing.xs, top = Spacing.xxs)
             )
         }

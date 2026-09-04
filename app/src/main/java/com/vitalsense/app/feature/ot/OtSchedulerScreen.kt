@@ -36,7 +36,7 @@ fun OtSchedulerScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.md, bottom = Spacing.xxl)
@@ -51,8 +51,8 @@ fun OtSchedulerScreen(
                 Surface(
                     onClick = onBackClick,
                     shape = PillShape,
-                    color = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
@@ -60,20 +60,20 @@ fun OtSchedulerScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
-                        Text("←", color = GlumeTextPrimary, fontWeight = FontWeight.Bold)
-                        Text(stringResource(R.string.roleDoctor), style = MaterialTheme.typography.labelMedium, color = GlumeTextPrimary)
+                        Text("←", color = VS_OnBackground, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.roleDoctor), style = MaterialTheme.typography.labelMedium, color = VS_OnBackground)
                     }
                 }
 
                 Surface(
                     shape = PillShape,
-                    color = GlumePrimaryPurpleContainer,
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.3f))
+                    color = VS_PrimaryContainer,
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
                         text = "Surgical Care · OT Module",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumePrimaryPurpleLight,
+                        color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
                     )
                 }
@@ -83,8 +83,8 @@ fun OtSchedulerScreen(
         // 2. Hero Operation Theatre HUD
         item {
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
-                border = BorderStroke(1.dp, GlumeBorder)
+                backgroundColor = VS_Surface,
+                border = BorderStroke(1.dp, VS_Outline)
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                     Row(
@@ -96,12 +96,12 @@ fun OtSchedulerScreen(
                             Text(
                                 text = "🔪 ${stringResource(R.string.otScheduler)}",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = stringResource(R.string.otSubtitle),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
 
@@ -109,8 +109,8 @@ fun OtSchedulerScreen(
                             onClick = { showBookSurgeryDialog = true },
                             shape = PillShape,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = GlumePrimaryPurple,
-                                contentColor = GlumeTextPrimary
+                                containerColor = VS_Primary,
+                                contentColor = VS_OnBackground
                             ),
                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                             modifier = Modifier.defaultMinSize(minHeight = 36.dp)
@@ -119,7 +119,7 @@ fun OtSchedulerScreen(
                         }
                     }
 
-                    HorizontalDivider(color = GlumeBorderSubtle)
+                    HorizontalDivider(color = VS_Outline)
 
                     // Chief Surgeon Spotlight
                     Row(
@@ -129,7 +129,7 @@ fun OtSchedulerScreen(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(40.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -141,12 +141,12 @@ fun OtSchedulerScreen(
                             Text(
                                 text = "Lead Surgeon: Dr. Ayushman Dev Singh",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "MDS, Maxillofacial Trauma & Reconstructive Surgery",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                         }
                     }
@@ -164,12 +164,12 @@ fun OtSchedulerScreen(
                 Text(
                     text = "Surgical Roster & Bookings (${bookings.size})",
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "PAC Validated",
                     style = MaterialTheme.typography.labelSmall,
-                    color = GlumeSuccessMint
+                    color = VS_Success
                 )
             }
         }
@@ -180,7 +180,7 @@ fun OtSchedulerScreen(
                     Text(
                         text = "No surgical procedures currently scheduled in OT.",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
             }
@@ -188,8 +188,8 @@ fun OtSchedulerScreen(
 
         items(bookings, key = { it.id }) { booking ->
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
-                border = BorderStroke(1.dp, if (booking.status == "Completed") GlumeBorder else GlumePrimaryPurple.copy(alpha = 0.4f))
+                backgroundColor = VS_Surface,
+                border = BorderStroke(1.dp, if (booking.status == "Completed") VS_Outline else VS_Primary.copy(alpha = 0.4f))
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                     Row(
@@ -203,31 +203,31 @@ fun OtSchedulerScreen(
                         ) {
                             Surface(
                                 shape = PillShape,
-                                color = GlumeSurfaceElevated,
-                                border = BorderStroke(1.dp, GlumeBorder)
+                                color = VS_SurfaceVariant,
+                                border = BorderStroke(1.dp, VS_Outline)
                             ) {
                                 Text(
                                     text = booking.otRoomName,
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary,
+                                    color = VS_OnBackground,
                                     modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 2.dp)
                                 )
                             }
                             Text(
                                 text = "· ${booking.scheduledDate}",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
 
                         Surface(
                             shape = PillShape,
-                            color = if (booking.pacCleared) GlumeSuccessContainer else GlumeAlertContainer
+                            color = if (booking.pacCleared) VS_SuccessContainer else VS_ErrorContainer
                         ) {
                             Text(
                                 text = if (booking.pacCleared) "✓ PAC CLEARED" else "⚠ PAC PENDING",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 10.sp),
-                                color = if (booking.pacCleared) GlumeSuccessMint else GlumeAlertCoral,
+                                color = if (booking.pacCleared) VS_Success else VS_Error,
                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                             )
                         }
@@ -236,22 +236,22 @@ fun OtSchedulerScreen(
                     Text(
                         text = booking.surgeryName,
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
-                    HorizontalDivider(color = GlumeBorderSubtle)
+                    HorizontalDivider(color = VS_Outline)
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Patient", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text(booking.patientName, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                            Text("Patient", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(booking.patientName, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
                         Column {
-                            Text("Time Slot", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text(booking.scheduledTimeSlot, style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary)
+                            Text("Time Slot", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(booking.scheduledTimeSlot, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                         }
                     }
 
@@ -260,12 +260,12 @@ fun OtSchedulerScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Operating Surgeon", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text(booking.surgeonName, style = MaterialTheme.typography.labelSmall, color = GlumePrimaryPurpleLight)
+                            Text("Operating Surgeon", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(booking.surgeonName, style = MaterialTheme.typography.labelSmall, color = VS_PrimaryContainer)
                         }
                         Column {
-                            Text("Anesthetist", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text(booking.anesthetistName, style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                            Text("Anesthetist", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(booking.anesthetistName, style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -290,7 +290,7 @@ fun OtSchedulerScreen(
                 Text(
                     text = stringResource(R.string.bookOtSlot),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             },
             text = {
@@ -358,14 +358,14 @@ fun OtSchedulerScreen(
                         Text(
                             text = "Pre-Anesthesia Checkup (PAC) Cleared",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Switch(
                             checked = pacCleared,
                             onCheckedChange = { pacCleared = it },
                             colors = SwitchDefaults.colors(
-                                checkedThumbColor = GlumeTextPrimary,
-                                checkedTrackColor = GlumePrimaryPurple
+                                checkedThumbColor = VS_OnBackground,
+                                checkedTrackColor = VS_Primary
                             )
                         )
                     }
@@ -391,7 +391,7 @@ fun OtSchedulerScreen(
                         showBookSurgeryDialog = false
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     enabled = patientName.isNotBlank() && surgeryName.isNotBlank()
                 ) {
                     Text("Confirm OT Slot", style = MaterialTheme.typography.labelSmall)
@@ -399,10 +399,10 @@ fun OtSchedulerScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showBookSurgeryDialog = false }) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             },
-            containerColor = GlumeSurfaceCard,
+            containerColor = VS_Surface,
             tonalElevation = 6.dp
         )
     }

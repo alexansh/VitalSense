@@ -2,117 +2,67 @@ package com.vitalsense.app.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// --- NagarSeva Design System Palette ---
-// Canvas & Surfaces
-val NagarSevaCanvasLight = Color(0xFFF8F9FA)      // Soft neutral canvas
-val NagarSevaCanvasDark = Color(0xFF0F172A)       // Midnight slate canvas
-val NagarSevaSurfaceLight = Color(0xFFFFFFFF)     // Crisp white elevated card
-val NagarSevaSurfaceDark = Color(0xFF1E293B)      // Slate 800 card
-val NagarSevaElevatedLight = Color(0xFFF1F5F9)    // Slate 100 inner elevation
-val NagarSevaElevatedDark = Color(0xFF334155)     // Slate 700 inner elevation
-val NagarSevaBorderLight = Color(0xFFE2E8F0)      // Subtle hairline border (Slate 200)
-val NagarSevaBorderDark = Color(0xFF334155)       // Dark border outline
+/**
+ * VitalSense Design System — Color Tokens
+ *
+ * Direction: calm, trustworthy, government/public-health register.
+ * - Desaturated blue-teal as primary (not vibrant SaaS blue)
+ * - Muted sage green as secondary (health / ASHA / wellness)
+ * - Near-white background, not pure white panels stacked on pure white
+ * - Text is near-black, never pure #000000 (softer, less harsh)
+ * - Status colors are muted, not neon — meant to inform, not decorate
+ */
 
-// Primary Accent: Electric Violet / Indigo
-val NagarSevaPrimary = Color(0xFF7C5CFF)          // Electric Violet primary CTA
-val NagarSevaPrimaryVariant = Color(0xFF6366F1)   // Indigo accent variant
-val NagarSevaPrimaryContainer = Color(0xFFEEF2FF) // Soft indigo container tint
-val NagarSevaPrimaryLight = Color(0xFFA58FFF)     // Lavender text accent
+// ---------- Brand ----------
+val VS_Primary = Color(0xFF2E6F8E)          // muted blue-teal
+val VS_OnPrimary = Color(0xFFFFFFFF)
+val VS_PrimaryContainer = Color(0xFFDCEEF5)
+val VS_OnPrimaryContainer = Color(0xFF0F3644)
 
-// High-Contrast Typography Tokens
-val NagarSevaTextPrimaryLight = Color(0xFF0F172A) // Slate 900 (High contrast)
-val NagarSevaTextPrimaryDark = Color(0xFFF8FAFC)  // Slate 50
-val NagarSevaTextSecondaryLight = Color(0xFF64748B) // Slate 500
-val NagarSevaTextSecondaryDark = Color(0xFF94A3B8)  // Slate 400
-val NagarSevaTextTertiary = Color(0xFFCBD5E1)     // Slate 300
+val VS_Secondary = Color(0xFF4F7D5C)        // muted sage green
+val VS_OnSecondary = Color(0xFFFFFFFF)
+val VS_SecondaryContainer = Color(0xFFE1EFE4)
+val VS_OnSecondaryContainer = Color(0xFF1E3626)
 
-// Status Badges & Alerts
-val NagarSevaStatusUrgent = Color(0xFFEF4444)     // Red 500
-val NagarSevaStatusUrgentContainer = Color(0xFFFEE2E2) // Red 100
-val NagarSevaStatusUrgentText = Color(0xFFDC2626) // Red 600
+val VS_Tertiary = Color(0xFF8A6D3B)         // muted gold — reserve for admin/highlights only
+val VS_OnTertiary = Color(0xFFFFFFFF)
+val VS_TertiaryContainer = Color(0xFFF3E6CE)
+val VS_OnTertiaryContainer = Color(0xFF3A2C0F)
 
-val NagarSevaStatusProgress = Color(0xFFF59E0B)   // Amber 500
-val NagarSevaStatusProgressContainer = Color(0xFFFEF3C7) // Amber 100
-val NagarSevaStatusProgressText = Color(0xFFD97706) // Amber 600
+// ---------- Neutrals ----------
+val VS_Background = Color(0xFFF7F8FA)       // soft off-white, not stark white
+val VS_OnBackground = Color(0xFF1C1F23)     // near-black, softer than pure black
 
-val NagarSevaStatusNormal = Color(0xFF10B981)     // Emerald 500
-val NagarSevaStatusNormalContainer = Color(0xFFD1FAE5) // Emerald 100
-val NagarSevaStatusNormalText = Color(0xFF059669) // Emerald 600
+val VS_Surface = Color(0xFFFFFFFF)
+val VS_OnSurface = Color(0xFF1C1F23)
+val VS_SurfaceVariant = Color(0xFFEEF1F4)   // subtle panel differentiation
+val VS_OnSurfaceVariant = Color(0xFF5B6470) // secondary text / inactive icons
 
-val NagarSevaStatusNormalBg = NagarSevaStatusNormalContainer
-val NagarSevaStatusProgressBg = NagarSevaStatusProgressContainer
-val NagarSevaStatusUrgentBg = NagarSevaStatusUrgentContainer
+val VS_Outline = Color(0xFFC7CDD4)          // borders, dividers
+val VS_OutlineVariant = Color(0xFFE3E7EB)
 
-val GlumeAlertAmber = NagarSevaStatusProgress
-val GlumeAlertAmberContainer = NagarSevaStatusProgressContainer
+// ---------- Status (muted, semantic only — never decorative) ----------
+val VS_Success = Color(0xFF2F9E5B)
+val VS_SuccessContainer = Color(0xFFE1F3E7)
+val VS_OnSuccessContainer = Color(0xFF16442A)
 
-// Glume Aliases Mapped to NagarSeva System for 100% Zero-Regression
-val GlumeBackground = NagarSevaCanvasLight
-val GlumeSurfaceCard = NagarSevaSurfaceLight
-val GlumeSurfaceElevated = NagarSevaElevatedLight
-val GlumeSurfaceSubtle = NagarSevaPrimaryContainer
-val GlumeBorder = NagarSevaBorderLight
-val GlumeBorderSubtle = NagarSevaBorderLight
+val VS_Warning = Color(0xFFC77700)
+val VS_WarningContainer = Color(0xFFF7E9D2)
+val VS_OnWarningContainer = Color(0xFF4A2E00)
 
-val GlumePrimaryPurple = NagarSevaPrimary
-val GlumePrimaryPurpleVariant = NagarSevaPrimaryVariant
-val GlumePrimaryPurpleContainer = NagarSevaPrimaryContainer
-val GlumePrimaryPurpleLight = NagarSevaPrimaryLight
+val VS_Error = Color(0xFFB3261E)
+val VS_ErrorContainer = Color(0xFFF9DEDC)
+val VS_OnErrorContainer = Color(0xFF410E0B)
 
-val GlumeTextPrimary = NagarSevaTextPrimaryLight
-val GlumeTextSecondary = NagarSevaTextSecondaryLight
-val GlumeTextTertiary = NagarSevaTextTertiary
+val VS_Info = VS_Primary
+val VS_InfoContainer = VS_PrimaryContainer
 
-val GlumeSuccessMint = NagarSevaStatusNormal
-val GlumeSuccessContainer = NagarSevaStatusNormalContainer
-val GlumeSuccessText = NagarSevaStatusNormalText
+// ---------- Pending / neutral state (e.g. "Out for Delivery: Pending") ----------
+val VS_Pending = Color(0xFF8A8F98)
+val VS_PendingContainer = Color(0xFFEDEEF0)
 
-val GlumeAlertCoral = NagarSevaStatusUrgent
-val GlumeAlertContainer = NagarSevaStatusUrgentContainer
-val GlumeAlertText = NagarSevaStatusUrgentText
 
-val GlumeWarningAmber = NagarSevaStatusProgress
-val GlumeWarningContainer = NagarSevaStatusProgressContainer
-val GlumeWarningText = NagarSevaStatusProgressText
+val NagarSevaStatusNormalBg = Color(0xFFE1F3E7)
+val NagarSevaStatusProgressBg = Color(0xFFF7E9D2)
+val NagarSevaStatusUrgentBg = Color(0xFFF9DEDC)
 
-val GlumeError = GlumeAlertCoral
-val GlumeErrorContainer = GlumeAlertContainer
-val GlumeWarning = GlumeWarningAmber
-val GlumePrimaryBlue = GlumePrimaryPurple
-val StatusSafeGreen = GlumeSuccessMint
-val StatusAttentionAmber = GlumeWarningAmber
-val StatusDangerRed = GlumeAlertCoral
-
-// Presentation Tokens
-val VitalSenseTealPrimary = NagarSevaPrimary
-val VitalSenseTealContainer = NagarSevaPrimaryContainer
-val PresentationLightBackground = NagarSevaCanvasLight
-val PresentationLightCard = NagarSevaSurfaceLight
-val PresentationLightCardElevated = NagarSevaElevatedLight
-val PresentationLightBorder = NagarSevaBorderLight
-val PresentationLightTextPrimary = NagarSevaTextPrimaryLight
-val PresentationLightTextSecondary = NagarSevaTextSecondaryLight
-
-// Aliases for compatibility
-val PatientLightBackground = PresentationLightBackground
-val PatientLightCard = PresentationLightCard
-val PatientLightCardElevated = PresentationLightCardElevated
-val PatientLightBorder = PresentationLightBorder
-val PatientLightTextPrimary = PresentationLightTextPrimary
-val PatientLightTextSecondary = PresentationLightTextSecondary
-
-val LimePrimary = GlumePrimaryPurple
-val DarkCharcoal = GlumeSurfaceElevated
-val LavenderSecondary = GlumeSurfaceSubtle
-val BlushPinkTertiary = GlumeSurfaceElevated
-val WarmCreamBackground = GlumeBackground
-val SurfaceWhite = GlumeSurfaceCard
-val SurfaceCream = GlumeSurfaceElevated
-val TextPrimaryNearBlack = GlumeTextPrimary
-val TextSecondaryMuted = GlumeTextSecondary
-val TextTertiarySubtle = GlumeTextTertiary
-val SoftMintSuccess = GlumeSuccessMint
-val CoralAlert = GlumeAlertCoral
-val AmberWarning = GlumeWarningAmber
-val SoftMint = GlumeSuccessMint
-val SlateCard = GlumeSurfaceCard

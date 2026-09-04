@@ -92,8 +92,8 @@ fun LogSymptomDialog(
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = CardShape,
-            color = GlumeSurfaceCard,
-            border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.5f)),
+            color = VS_Surface,
+            border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.5f)),
             shadowElevation = 8.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -117,7 +117,7 @@ fun LogSymptomDialog(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(36.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -128,22 +128,22 @@ fun LogSymptomDialog(
                             Text(
                                 text = "Log Health Symptoms",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "For ${patient.name} (${patient.villageName})",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
 
                     IconButton(onClick = onDismiss, modifier = Modifier.size(32.dp)) {
-                        Text("✕", color = GlumeTextSecondary, fontWeight = FontWeight.Bold)
+                        Text("✕", color = VS_OnSurfaceVariant, fontWeight = FontWeight.Bold)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 // 1. Category Switcher Tabs
                 Text(
@@ -152,7 +152,7 @@ fun LogSymptomDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 LazyRow(
@@ -163,8 +163,8 @@ fun LogSymptomDialog(
                         val isSelected = cat == selectedCategory
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurpleLight else GlumeBorder),
+                            color = if (isSelected) VS_Primary else VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, if (isSelected) VS_PrimaryContainer else VS_Outline),
                             modifier = Modifier.clickable {
                                 selectedCategory = cat
                                 selectedSymptoms.clear()
@@ -179,7 +179,7 @@ fun LogSymptomDialog(
                                 Text(
                                     text = cat.displayName.split(" ").first(),
                                     style = MaterialTheme.typography.labelSmall.copy(
-                                        color = if (isSelected) Color.White else GlumeTextPrimary,
+                                        color = if (isSelected) Color.White else VS_OnBackground,
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                                     )
                                 )
@@ -195,7 +195,7 @@ fun LogSymptomDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 FlowRow(
@@ -207,10 +207,10 @@ fun LogSymptomDialog(
                         val isPicked = selectedSymptoms.contains(symptom)
                         Surface(
                             shape = PillShape,
-                            color = if (isPicked) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
+                            color = if (isPicked) VS_PrimaryContainer else VS_SurfaceVariant,
                             border = BorderStroke(
                                 1.dp,
-                                if (isPicked) GlumePrimaryPurple else GlumeBorder
+                                if (isPicked) VS_Primary else VS_Outline
                             ),
                             modifier = Modifier.clickable {
                                 if (isPicked) selectedSymptoms.remove(symptom)
@@ -222,7 +222,7 @@ fun LogSymptomDialog(
                                 style = MaterialTheme.typography.bodySmall.copy(
                                     fontSize = 11.sp,
                                     fontWeight = if (isPicked) FontWeight.Bold else FontWeight.Normal,
-                                    color = if (isPicked) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                    color = if (isPicked) VS_PrimaryContainer else VS_OnBackground
                                 ),
                                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
                             )
@@ -237,7 +237,7 @@ fun LogSymptomDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 Row(
@@ -247,18 +247,18 @@ fun LogSymptomDialog(
                     SeverityLevel.values().forEach { sev ->
                         val isSelected = sev == selectedSeverity
                         val sevColor = when (sev) {
-                            SeverityLevel.LOW -> GlumeSuccessMint
-                            SeverityLevel.MODERATE -> GlumeWarningAmber
-                            SeverityLevel.HIGH -> GlumeAlertCoral.copy(alpha = 0.8f)
-                            SeverityLevel.SEVERE -> GlumeAlertCoral
+                            SeverityLevel.LOW -> VS_Success
+                            SeverityLevel.MODERATE -> VS_Warning
+                            SeverityLevel.HIGH -> VS_Error.copy(alpha = 0.8f)
+                            SeverityLevel.SEVERE -> VS_Error
                         }
 
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) sevColor.copy(alpha = 0.25f) else GlumeSurfaceElevated,
+                            color = if (isSelected) sevColor.copy(alpha = 0.25f) else VS_SurfaceVariant,
                             border = BorderStroke(
                                 1.dp,
-                                if (isSelected) sevColor else GlumeBorder
+                                if (isSelected) sevColor else VS_Outline
                             ),
                             modifier = Modifier
                                 .weight(1f)
@@ -273,7 +273,7 @@ fun LogSymptomDialog(
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontSize = 10.sp,
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isSelected) sevColor else GlumeTextSecondary
+                                        color = if (isSelected) sevColor else VS_OnSurfaceVariant
                                     )
                                 )
                             }
@@ -338,7 +338,7 @@ fun LogSymptomDialog(
                     },
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = GlumePrimaryPurple,
+                        containerColor = VS_Primary,
                         contentColor = Color.White
                     ),
                     modifier = Modifier

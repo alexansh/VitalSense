@@ -34,7 +34,7 @@ fun ConditionEntryScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md)
     ) {
@@ -42,12 +42,12 @@ fun ConditionEntryScreen(
             Text(
                 text = "Log ${category.displayName} Symptom",
                 style = MaterialTheme.typography.displayMedium,
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
             Text(
                 text = "Patient: $patientName · $villageName",
                 style = MaterialTheme.typography.bodyMedium,
-                color = GlumeTextSecondary
+                color = VS_OnSurfaceVariant
             )
         }
 
@@ -56,7 +56,7 @@ fun ConditionEntryScreen(
                 Text(
                     text = "Select Severity Level:",
                     style = MaterialTheme.typography.labelMedium,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 Row(
@@ -68,15 +68,15 @@ fun ConditionEntryScreen(
                         Surface(
                             onClick = { severity = level },
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                            border = if (isSelected) BorderStroke(1.5.dp, GlumePrimaryPurple) else BorderStroke(1.dp, GlumeBorder),
+                            color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                            border = if (isSelected) BorderStroke(1.5.dp, VS_Primary) else BorderStroke(1.dp, VS_Outline),
                             modifier = Modifier.weight(1f).defaultMinSize(minHeight = 38.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 6.dp)) {
                                 Text(
                                     text = level.displayName,
                                     style = MaterialTheme.typography.labelSmall.copy(
-                                        color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                        color = if (isSelected) VS_PrimaryContainer else VS_OnBackground
                                     )
                                 )
                             }
