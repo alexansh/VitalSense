@@ -43,9 +43,9 @@ fun SpecialistReferralsScreen(
     // Filter referrals
     val filteredReferrals = remember(referrals, selectedFilter) {
         val list = when (selectedFilter) {
-            "PENDING" -> referrals.filter { it.status == ReferralStatus.SENT }
-            "ACTIVE" -> referrals.filter { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
-            "COMPLETED" -> referrals.filter { it.status in listOf(ReferralStatus.COMPLETED, ReferralStatus.DECLINED) }
+            "PENDING" -> referrals.filter { it.status == ReferralStatus.CREATED || it.status == ReferralStatus.SENT }
+            "ACTIVE" -> referrals.filter { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.APPOINTMENT_SCHEDULED, ReferralStatus.PATIENT_REACHED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
+            "COMPLETED" -> referrals.filter { it.status in listOf(ReferralStatus.CONSULTATION_COMPLETED, ReferralStatus.FOLLOW_UP, ReferralStatus.COMPLETED, ReferralStatus.DECLINED) }
             else -> referrals
         }
         // Sort: EMERGENCY top, then URGENT, then ROUTINE; within each tier, newest first
@@ -60,8 +60,8 @@ fun SpecialistReferralsScreen(
         )
     }
 
-    val pendingCount = referrals.count { it.status == ReferralStatus.SENT }
-    val activeCount = referrals.count { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
+    val pendingCount = referrals.count { it.status == ReferralStatus.CREATED || it.status == ReferralStatus.SENT }
+    val activeCount = referrals.count { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.APPOINTMENT_SCHEDULED, ReferralStatus.PATIENT_REACHED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
 
     Column(
         modifier = modifier
@@ -199,7 +199,7 @@ fun SpecialistReferralsScreen(
                                         color = GlumeTextPrimary
                                     )
                                     Text(
-                                        text = "Referred by Dr. ${ref.referringDoctorName} (${ref.referringDoctorSpecialty})",
+                                        text = "Referred by ${ref.referringUserName} (${ref.referringUserSpecialty})",
                                         style = MaterialTheme.typography.bodySmall,
                                         color = GlumeTextSecondary
                                     )
@@ -356,7 +356,7 @@ fun SpecialistReferralsScreen(
 
                             // Interactive Buttons based on State
                             when (ref.status) {
-                                ReferralStatus.SENT -> {
+                                ReferralStatus.CREATED, ReferralStatus.SENT -> {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -390,7 +390,7 @@ fun SpecialistReferralsScreen(
                                     }
                                 }
 
-                                ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> {
+                                ReferralStatus.ACCEPTED, ReferralStatus.APPOINTMENT_SCHEDULED, ReferralStatus.PATIENT_REACHED, ReferralStatus.IN_PROGRESS -> {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.spacedBy(6.dp)

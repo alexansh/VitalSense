@@ -457,7 +457,21 @@ fun VitalSenseNavGraph(
                                                             onImmunizationClick = { currentAshaScreen = "immunization" },
                                                             onDailyRoundsClick = { currentAshaScreen = "daily_rounds" },
                                                             onMedicineRestockClick = { currentAshaScreen = "medicine_restock" },
-                                                            referrals = ashaReferrals
+                                                            referrals = ashaReferrals,
+                                                            onCompleteReferral = { ref ->
+                                                                coroutineScope.launch {
+                                                                    val updatedStatusHistory = ref.statusHistory + com.vitalsense.app.core.data.model.ReferralStatusHistory(
+                                                                        status = com.vitalsense.app.core.data.model.ReferralStatus.COMPLETED,
+                                                                        changedByUserId = activeAsha.id,
+                                                                        note = "Follow-up marked done by ASHA"
+                                                                    )
+                                                                    repository.updateReferral(ref.copy(
+                                                                        status = com.vitalsense.app.core.data.model.ReferralStatus.COMPLETED,
+                                                                        statusHistory = updatedStatusHistory,
+                                                                        updatedAt = System.currentTimeMillis()
+                                                                    ))
+                                                                }
+                                                            }
                                                         )
                                                     }
                                                 }

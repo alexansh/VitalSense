@@ -27,6 +27,7 @@ class FirestoreDataSource @Inject constructor(
     private val queueEntriesCollection = firestore.collection("queue_entries")
     private val doctorSlotsCollection = firestore.collection("doctor_day_slots")
     private val queueCountersCollection = firestore.collection("queue_counters")
+    private val referralsCollection = firestore.collection("referrals")
 
     init {
         // Ensure an authenticated session for Firestore security rules
@@ -200,14 +201,60 @@ class FirestoreDataSource @Inject constructor(
                 "dateFormatted" to entry.dateFormatted
             )
             firestore.collection("patientMedicalHistory").document(entry.id).set(data).await()
-            Log.d(TAG, "✅ Successfully uploaded medical history: ${entry.id}")
+            Log.d(TAG, "✅ Successfully uploaded patient record: ${entry.id}")
         } catch (e: Exception) {
-            Log.e(TAG, "❌ Failed to upload medical history: ${e.message}", e)
+            Log.e(TAG, "❌ Failed to upload patient record: ${e.message}", e)
             throw e
         }
     }
 
-    // --- REAL-TIME LISTENERS (Reads) ---
+    suspend fun uploadReferral(referral: Referral) {
+        try {
+            val historyMaps = referral.statusHistory.map {
+                hashMapOf(
+                    "status" to it.status.name,
+                    "timestamp" to it.timestamp,
+                    "changedByUserId" to it.changedByUserId,
+                    "note" to (it.note ?: "")
+                )
+            }
+            
+            val data = hashMapOf(
+                "id" to referral.id,
+                "patientId" to referral.patientId,
+                "patientName" to referral.patientName,
+                "referringUserId" to referral.referringUserId,
+                "referringUserName" to referral.referringUserName,
+                "referringUserSpecialty" to referral.referringUserSpecialty,
+                "targetDoctorId" to (referral.targetDoctorId ?: ""),
+                "targetDoctorName" to (referral.targetDoctorName ?: ""),
+                "targetSpecialty" to referral.targetSpecialty,
+                "reason" to referral.reason,
+                "clinicalQuestion" to referral.clinicalQuestion,
+                "urgency" to referral.urgency.name,
+                "attachedRecordIds" to referral.attachedRecordIds,
+                "status" to referral.status.name,
+                "statusHistory" to historyMaps,
+                "declineReason" to (referral.declineReason ?: ""),
+                "suggestedSpecialtyOrDoctor" to (referral.suggestedSpecialtyOrDoctor ?: ""),
+                "infoRequestNote" to (referral.infoRequestNote ?: ""),
+                "specialistFindings" to (referral.specialistFindings ?: ""),
+                "specialistRecommendations" to (referral.specialistRecommendations ?: ""),
+                "specialistFollowUpNeeded" to referral.specialistFollowUpNeeded,
+                "createdAt" to referral.createdAt,
+                "updatedAt" to referral.updatedAt,
+                "respondedAt" to (referral.respondedAt ?: 0L),
+                "completedAt" to (referral.completedAt ?: 0L)
+            )
+            referralsCollection.document(referral.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded referral: ${referral.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload referral: ${e.message}", e)
+            throw e
+        }
+    }
+
+    // --- PULL OPERATIONS (Reads / Listeners) ---
 
     fun getConditionRecordsStream(): Flow<List<ConditionRecord>> = callbackFlow {
         val listener = conditionsCollection.addSnapshotListener { snapshot, error ->

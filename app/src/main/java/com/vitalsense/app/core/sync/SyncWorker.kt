@@ -67,6 +67,12 @@ class SyncWorker(
                             dao.deleteOutboxRecord(record.id)
                             Log.d(TAG, "✓ Flushed patient record: ${record.entityId}")
                         }
+                        "CREATE_REFERRAL", "UPDATE_REFERRAL" -> {
+                            val referral = gson.fromJson(record.payloadJson, Referral::class.java)
+                            firestoreDataSource.uploadReferral(referral)
+                            dao.deleteOutboxRecord(record.id)
+                            Log.d(TAG, "✓ Flushed referral: ${record.entityId}")
+                        }
                         "QUEUE_ENTRY" -> {
                             val entry = gson.fromJson(record.payloadJson, QueueEntry::class.java)
                             if (entry.provisionalToken) {

@@ -363,10 +363,19 @@ class DoctorViewModel @Inject constructor(
 
     fun acceptReferral(referralId: String) {
         viewModelScope.launch {
+            val doctor = activeDoctor.value
             val ref = allReferrals.value.find { it.id == referralId } ?: return@launch
             val updated = ref.copy(
                 status = ReferralStatus.ACCEPTED,
-                respondedAt = System.currentTimeMillis()
+                targetDoctorId = doctor.id,
+                targetDoctorName = doctor.name,
+                respondedAt = System.currentTimeMillis(),
+                updatedAt = System.currentTimeMillis(),
+                statusHistory = ref.statusHistory + ReferralStatusHistory(
+                    status = ReferralStatus.ACCEPTED,
+                    changedByUserId = doctor.id,
+                    note = "Accepted by Specialist"
+                )
             )
             repository.updateReferral(updated)
         }
@@ -374,12 +383,19 @@ class DoctorViewModel @Inject constructor(
 
     fun declineReferral(referralId: String, reason: String, suggestedReroute: String?) {
         viewModelScope.launch {
+            val doctor = activeDoctor.value
             val ref = allReferrals.value.find { it.id == referralId } ?: return@launch
             val updated = ref.copy(
                 status = ReferralStatus.DECLINED,
                 declineReason = reason,
                 suggestedSpecialtyOrDoctor = suggestedReroute,
-                respondedAt = System.currentTimeMillis()
+                respondedAt = System.currentTimeMillis(),
+                updatedAt = System.currentTimeMillis(),
+                statusHistory = ref.statusHistory + ReferralStatusHistory(
+                    status = ReferralStatus.DECLINED,
+                    changedByUserId = doctor.id,
+                    note = "Declined: $reason"
+                )
             )
             repository.updateReferral(updated)
         }
@@ -387,11 +403,18 @@ class DoctorViewModel @Inject constructor(
 
     fun requestMoreInfo(referralId: String, infoNote: String) {
         viewModelScope.launch {
+            val doctor = activeDoctor.value
             val ref = allReferrals.value.find { it.id == referralId } ?: return@launch
             val updated = ref.copy(
                 status = ReferralStatus.INFO_REQUESTED,
                 infoRequestNote = infoNote,
-                respondedAt = System.currentTimeMillis()
+                respondedAt = System.currentTimeMillis(),
+                updatedAt = System.currentTimeMillis(),
+                statusHistory = ref.statusHistory + ReferralStatusHistory(
+                    status = ReferralStatus.INFO_REQUESTED,
+                    changedByUserId = doctor.id,
+                    note = infoNote
+                )
             )
             repository.updateReferral(updated)
         }
@@ -404,13 +427,21 @@ class DoctorViewModel @Inject constructor(
         followUpNeeded: Boolean
     ) {
         viewModelScope.launch {
+            val doctor = activeDoctor.value
             val ref = allReferrals.value.find { it.id == referralId } ?: return@launch
+            val newStatus = if (followUpNeeded) ReferralStatus.FOLLOW_UP else ReferralStatus.CONSULTATION_COMPLETED
             val updated = ref.copy(
-                status = ReferralStatus.COMPLETED,
+                status = newStatus,
                 specialistFindings = findings,
                 specialistRecommendations = recommendations,
                 specialistFollowUpNeeded = followUpNeeded,
-                completedAt = System.currentTimeMillis()
+                completedAt = System.currentTimeMillis(),
+                updatedAt = System.currentTimeMillis(),
+                statusHistory = ref.statusHistory + ReferralStatusHistory(
+                    status = newStatus,
+                    changedByUserId = doctor.id,
+                    note = "Specialist findings submitted"
+                )
             )
             repository.updateReferral(updated)
         }

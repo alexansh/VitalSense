@@ -87,5 +87,14 @@ class Converters {
     fun fromReferralStatus(value: ReferralStatus): String = value.name
 
     @TypeConverter
-    fun toReferralStatus(value: String): ReferralStatus = runCatching { ReferralStatus.valueOf(value) }.getOrDefault(ReferralStatus.SENT)
+    fun toReferralStatus(value: String): ReferralStatus = runCatching { ReferralStatus.valueOf(value) }.getOrDefault(ReferralStatus.CREATED)
+
+    @TypeConverter
+    fun fromReferralStatusHistoryList(value: List<ReferralStatusHistory>): String = gson.toJson(value)
+
+    @TypeConverter
+    fun toReferralStatusHistoryList(value: String): List<ReferralStatusHistory> {
+        val listType = object : TypeToken<List<ReferralStatusHistory>>() {}.type
+        return gson.fromJson(value, listType) ?: emptyList()
+    }
 }

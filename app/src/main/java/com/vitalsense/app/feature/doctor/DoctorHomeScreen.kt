@@ -316,7 +316,7 @@ fun DoctorHomeScreen(
 
         // 3.1 Specialist Referrals Queue Card
         item {
-            val pendingReferrals = referrals.filter { it.status == ReferralStatus.SENT }
+            val pendingReferrals = referrals.filter { it.status == ReferralStatus.CREATED || it.status == ReferralStatus.SENT }
             val hasEmergency = pendingReferrals.any { it.urgency == ReferralUrgency.EMERGENCY }
             val hasUrgent = pendingReferrals.any { it.urgency == ReferralUrgency.URGENT }
 
