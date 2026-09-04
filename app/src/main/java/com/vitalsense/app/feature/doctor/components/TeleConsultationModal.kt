@@ -40,6 +40,13 @@ import androidx.core.content.ContextCompat
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.isGranted
+import android.media.AudioFormat
+import android.media.AudioRecord
+import android.media.MediaRecorder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -66,9 +73,77 @@ fun TeleConsultationModal(
         )
     )
 
+    val cameraGranted = permissionState.permissions.find { it.permission == Manifest.permission.CAMERA }?.status?.isGranted == true
+    val audioGranted = permissionState.permissions.find { it.permission == Manifest.permission.RECORD_AUDIO }?.status?.isGranted == true
+
     LaunchedEffect(Unit) {
         if (!permissionState.allPermissionsGranted) {
             permissionState.launchMultiplePermissionRequest()
+        }
+    }
+
+    // Real microphone audio level monitor
+    var micLevel by remember { mutableFloatStateOf(0f) }
+    var isSpeaking by remember { mutableStateOf(false) }
+
+    LaunchedEffect(audioGranted, isMuted) {
+        if (!audioGranted || isMuted) {
+            micLevel = 0f
+            isSpeaking = false
+            return@LaunchedEffect
+        }
+
+        withContext(Dispatchers.IO) {
+            val sampleRate = 8000
+            val channelConfig = AudioFormat.CHANNEL_IN_MONO
+            val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+            val bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat).coerceAtLeast(1024)
+
+            var audioRecord: AudioRecord? = null
+            try {
+                audioRecord = AudioRecord(
+                    MediaRecorder.AudioSource.MIC,
+                    sampleRate,
+                    channelConfig,
+                    audioFormat,
+                    bufferSize
+                )
+
+                if (audioRecord.state == AudioRecord.STATE_INITIALIZED) {
+                    audioRecord.startRecording()
+                    val buffer = ShortArray(bufferSize / 2)
+
+                    while (isActive && !isMuted) {
+                        val read = audioRecord.read(buffer, 0, buffer.size)
+                        if (read > 0) {
+                            var sum = 0.0
+                            for (i in 0 until read) {
+                                sum += buffer[i] * buffer[i]
+                            }
+                            val rms = Math.sqrt(sum / read)
+                            val normalized = (rms / 2500.0).toFloat().coerceIn(0.1f, 1.0f)
+                            withContext(Dispatchers.Main) {
+                                micLevel = normalized
+                                isSpeaking = rms > 350
+                            }
+                        }
+                        kotlinx.coroutines.delay(80)
+                    }
+                }
+            } catch (e: SecurityException) {
+                // Permission not granted
+            } catch (e: Exception) {
+                // Audio hardware busy
+            } finally {
+                try {
+                    if (audioRecord?.recordingState == AudioRecord.RECORDSTATE_RECORDING) {
+                        audioRecord.stop()
+                    }
+                    audioRecord?.release()
+                } catch (e: Exception) {
+                    // Ignore
+                }
+            }
         }
     }
 
@@ -178,7 +253,8 @@ fun TeleConsultationModal(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier.height(30.dp)
                             ) {
-                                listOf(waveAnim1, waveAnim2, waveAnim3, waveAnim2, waveAnim1).forEach { heightFraction ->
+                                val dynamicWave = if (audioGranted && !isMuted && isSpeaking) micLevel else waveAnim1
+                                listOf(dynamicWave, waveAnim2, waveAnim3, waveAnim2, dynamicWave).forEach { heightFraction ->
                                     Box(
                                         modifier = Modifier
                                             .width(5.dp)
@@ -417,20 +493,23 @@ fun TeleConsultationModal(
                         if (isCameraOff) {
                             Text("📷 Off", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
                         } else {
-                            if (permissionState.allPermissionsGranted) {
+                            if (cameraGranted) {
                                 CameraPreview(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp)))
                             } else {
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                                    modifier = Modifier.clickable {
+                                        permissionState.launchMultiplePermissionRequest()
+                                    }
                                 ) {
                                     Text("👨‍⚕️", fontSize = 42.sp)
                                     Text(
-                                        text = "You",
+                                        text = "Tap to Enable Cam",
                                         style = MaterialTheme.typography.labelSmall.copy(
-                                            fontSize = 10.sp,
+                                            fontSize = 9.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color.White
+                                            color = GlumePrimaryPurpleLight
                                         )
                                     )
                                 }
@@ -505,16 +584,21 @@ fun TeleConsultationModal(
                             horizontalArrangement = Arrangement.SpaceEvenly,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            // Mic Button (56dp touch target)
+                            // Mic Button (56dp touch target) with real speaking indicator
                             Surface(
                                 shape = CircleShape,
-                                color = if (isMuted) GlumeAlertCoral else GlumeSurfaceElevated,
+                                color = when {
+                                    isMuted -> GlumeAlertCoral
+                                    isSpeaking -> GlumeSuccessMint.copy(alpha = 0.85f)
+                                    else -> GlumeSurfaceElevated
+                                },
+                                border = if (isSpeaking && !isMuted) BorderStroke(2.dp, GlumeSuccessMint) else null,
                                 modifier = Modifier
                                     .size(56.dp)
                                     .clickable { isMuted = !isMuted }
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
-                                    Text(if (isMuted) "🔇" else "🎙️", fontSize = 22.sp)
+                                    Text(if (isMuted) "🔇" else if (isSpeaking) "🗣️" else "🎙️", fontSize = 22.sp)
                                 }
                             }
 
@@ -583,22 +667,37 @@ fun CameraPreview(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            try {
+                val cameraProvider = ProcessCameraProvider.getInstance(context).get()
+                cameraProvider.unbindAll()
+            } catch (e: Exception) {
+                // Ignore cleanup error
+            }
+        }
+    }
+
     AndroidView(
         modifier = modifier,
         factory = { ctx ->
             val previewView = PreviewView(ctx).apply {
-                this.scaleType = PreviewView.ScaleType.FILL_CENTER
+                scaleType = PreviewView.ScaleType.FILL_CENTER
             }
             val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
 
             cameraProviderFuture.addListener({
-                val cameraProvider = cameraProviderFuture.get()
-                val preview = Preview.Builder().build().also {
-                    it.setSurfaceProvider(previewView.surfaceProvider)
-                }
-                val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
-
                 try {
+                    val cameraProvider = cameraProviderFuture.get()
+                    val preview = Preview.Builder().build().also {
+                        it.setSurfaceProvider(previewView.surfaceProvider)
+                    }
+                    val cameraSelector = if (cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)) {
+                        CameraSelector.DEFAULT_FRONT_CAMERA
+                    } else {
+                        CameraSelector.DEFAULT_BACK_CAMERA
+                    }
+
                     cameraProvider.unbindAll()
                     cameraProvider.bindToLifecycle(
                         lifecycleOwner,
@@ -606,7 +705,7 @@ fun CameraPreview(modifier: Modifier = Modifier) {
                         preview
                     )
                 } catch (exc: Exception) {
-                    // Ignore exceptions for simplicity
+                    exc.printStackTrace()
                 }
             }, ContextCompat.getMainExecutor(ctx))
 

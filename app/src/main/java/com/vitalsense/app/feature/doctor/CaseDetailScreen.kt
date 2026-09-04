@@ -64,6 +64,7 @@ fun CaseDetailScreen(
     var showTeleConsultModal by remember { mutableStateOf(false) }
     var showMedicalCertDialog by remember { mutableStateOf(false) }
     var showOrderLabDialog by remember { mutableStateOf(false) }
+    var showScanPrescriptionDialog by remember { mutableStateOf(false) }
     var isMedicalHistoryExpanded by remember { mutableStateOf(false) }
 
     val isMentalHealthCase = record.category == ConditionCategory.MENTAL_HEALTH ||
@@ -523,6 +524,13 @@ fun CaseDetailScreen(
                         style = ButtonStyle.SECONDARY
                     )
                 }
+
+                VitalSenseButton(
+                    text = "📷 Scan External Rx (OCR)",
+                    onClick = { showScanPrescriptionDialog = true },
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.OUTLINED
+                )
             }
         }
 
@@ -783,6 +791,34 @@ fun CaseDetailScreen(
             onConfirmOrder = { newReport ->
                 onOrderLabTest(newReport)
                 showOrderLabDialog = false
+            }
+        )
+    }
+
+    if (showScanPrescriptionDialog) {
+        val fallbackPatient = patient ?: Patient(
+            id = record.patientId,
+            name = record.patientName,
+            age = 35,
+            gender = "Adult",
+            phone = "9876543210",
+            villageId = record.villageId,
+            villageName = record.villageName,
+            ashaWorkerId = "asha_1",
+            ashaWorkerName = "Priya Devi",
+            currentRiskLevel = SeverityLevel.LOW,
+            lastCondition = record.notes,
+            lastVisitDate = "Today",
+            nextAppointmentDate = null,
+            emergencyContact = "9876543210"
+        )
+        com.vitalsense.app.feature.prescriptions.PrescriptionUploadDialog(
+            patient = fallbackPatient,
+            isAshaProxy = false,
+            onDismiss = { showScanPrescriptionDialog = false },
+            onSavePrescription = { rx ->
+                onIssuePrescription(rx.medicines, rx.instructions)
+                showScanPrescriptionDialog = false
             }
         )
     }

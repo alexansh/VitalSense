@@ -1,36 +1,50 @@
 package com.vitalsense.app.feature.prescriptions
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.vitalsense.app.R
 import com.vitalsense.app.core.data.model.Patient
 import com.vitalsense.app.core.data.model.PrescribedMedicine
 import com.vitalsense.app.core.data.model.Prescription
+import com.vitalsense.app.core.ui.components.ButtonStyle
 import com.vitalsense.app.core.ui.components.VitalSenseButton
 import com.vitalsense.app.core.ui.components.VitalSenseCard
 import com.vitalsense.app.core.ui.components.VitalSenseTextField
 import com.vitalsense.app.core.ui.theme.*
-import com.vitalsense.app.feature.prescriptions.ocr.PrescriptionOcrHelper
-import kotlinx.coroutines.launch
+import com.vitalsense.app.feature.prescriptions.ocr.CameraCaptureView
+import com.vitalsense.app.feature.prescriptions.ocr.PrescriptionOcrResultScreen
+import com.vitalsense.app.feature.prescriptions.ocr.PrescriptionPhotoReviewScreen
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
+import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
+import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import com.vitalsense.app.R
-import androidx.compose.ui.res.stringResource
+
+enum class OcrStep {
+    CAPTURE,
+    REVIEW,
+    RESULT
+}
 
 @Composable
 fun PrescriptionUploadDialog(
@@ -39,15 +53,59 @@ fun PrescriptionUploadDialog(
     onDismiss: () -> Unit,
     onSavePrescription: (Prescription) -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
     var selectedTab by remember { mutableStateOf(0) } // 0: Camera / AI Scan, 1: Write Down (Manual)
+    var ocrStep by remember { mutableStateOf(OcrStep.CAPTURE) }
+    var capturedPhotoFile by remember { mutableStateOf<File?>(null) }
 
-    // --- OCR State ---
-    var isProcessingOcr by remember { mutableStateOf(false) }
-    var recognizedOcrText by remember { mutableStateOf("") }
-    var ocrMedicines by remember { mutableStateOf<List<PrescribedMedicine>>(emptyList()) }
-    var ocrDoctorName by remember { mutableStateOf("PHC Attending (Digitized)") }
-    var ocrInstructions by remember { mutableStateOf("Take medicines after meals with warm water.") }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val activity = context as? Activity
+
+    val scannerOptions = remember {
+        GmsDocumentScannerOptions.Builder()
+            .setGalleryImportAllowed(true)
+            .setPageLimit(1)
+            .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
+            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
+            .build()
+    }
+
+    val docScannerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val scanResult = GmsDocumentScanningResult.fromActivityResultIntent(result.data)
+            val pageUri = scanResult?.pages?.firstOrNull()?.imageUri
+            if (pageUri != null) {
+                try {
+                    val cacheFile = File(context.cacheDir, "doc_scan_${System.currentTimeMillis()}.jpg")
+                    context.contentResolver.openInputStream(pageUri)?.use { input ->
+                        cacheFile.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    capturedPhotoFile = cacheFile
+                    ocrStep = OcrStep.RESULT
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    val launchDocumentScanner: () -> Unit = {
+        if (activity != null) {
+            val scannerClient = GmsDocumentScanning.getClient(scannerOptions)
+            scannerClient.getStartScanIntent(activity)
+                .addOnSuccessListener { intentSender ->
+                    docScannerLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
+                }
+                .addOnFailureListener { e ->
+                    ocrStep = OcrStep.CAPTURE
+                }
+        } else {
+            ocrStep = OcrStep.CAPTURE
+        }
+    }
 
     // --- Manual Entry State ---
     var manualDoctorName by remember { mutableStateOf("") }
@@ -60,208 +118,130 @@ fun PrescriptionUploadDialog(
     var currentFrequency by remember { mutableStateOf("Twice daily (after meals)") }
     var currentDuration by remember { mutableStateOf("5 Days") }
 
-    fun runSampleOcr(sampleType: String) {
-        isProcessingOcr = true
-        coroutineScope.launch {
-            val sampleText = when (sampleType) {
-                "Fever" -> "Rx:\nTab Paracetamol 650mg 1-0-1 (BD)\nTab Cetirizine 10mg 0-0-1 (HS)\nSyp Cough Relief 10ml TDS"
-                "Maternal" -> "Rx:\nTab Iron Folic Acid 100mg 1-0-0\nTab Calcium 500mg 0-1-0\nMultivitamin Daily"
-                else -> "Rx:\nTab Amoxicillin 500mg 1-1-1\nTab Paracetamol 500mg 1-0-1\nORS solution daily"
-            }
-
-            val bitmap = Bitmap.createBitmap(400, 200, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            canvas.drawColor(android.graphics.Color.WHITE)
-            val paint = Paint().apply {
-                color = android.graphics.Color.BLACK
-                textSize = 24f
-            }
-            canvas.drawText(sampleText, 20f, 60f, paint)
-
-            val text = PrescriptionOcrHelper.recognizeTextFromBitmap(bitmap)
-            val finalText = if (text.isNotBlank() && !text.startsWith("OCR Processing Error")) text else sampleText
-            val parsed = PrescriptionOcrHelper.parseMedicinesFromText(finalText)
-
-            recognizedOcrText = finalText
-            ocrMedicines = parsed
-            isProcessingOcr = false
-        }
-    }
-
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .fillMaxWidth(0.95f)
+                .fillMaxHeight(0.92f),
             shape = DialogShape,
             color = GlumeSurfaceCard,
-            shadowElevation = 8.dp,
+            shadowElevation = 10.dp,
             border = BorderStroke(1.dp, GlumeBorder)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Spacing.lg)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Spacing.md)
-            ) {
-                // Header
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text(
-                            text = if (isAshaProxy) "Upload Prescription (for ${patient.name})" else stringResource(R.string.uploadPrescriptionTitle),
-                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
-                        )
-                        Text(
-                            text = "Digitize paper prescription via camera OCR or manual entry",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
-                        )
-                    }
-                    IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
-                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
-                    }
-                }
-
-                // Glume Segmented Pill Tabs
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
-                ) {
-                    val tabs = listOf("📷 ${stringResource(R.string.cameraAiScan)}", "✍️ ${stringResource(R.string.writeDown)}")
-                    tabs.forEachIndexed { index, title ->
-                        val isSelected = selectedTab == index
-                        Surface(
-                            onClick = { selectedTab = index },
-                            shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                            border = if (isSelected) BorderStroke(1.5.dp, GlumePrimaryPurple) else BorderStroke(1.dp, GlumeBorder),
-                            modifier = Modifier.weight(1f).defaultMinSize(minHeight = 40.dp)
-                        ) {
-                            Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 8.dp)) {
-                                Text(
-                                    text = title,
-                                    style = MaterialTheme.typography.labelSmall.copy(
-                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                        color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary
-                                    )
-                                )
-                            }
+            Column(modifier = Modifier.fillMaxSize()) {
+                // Header (shown on Manual Tab and OCR Result Tab, or when not in full camera mode)
+                if (selectedTab == 1 || ocrStep == OcrStep.RESULT) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.md, vertical = Spacing.sm),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text(
+                                text = if (isAshaProxy) "Upload Prescription (for ${patient.name})" else stringResource(R.string.uploadPrescriptionTitle),
+                                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                                color = GlumeTextPrimary
+                            )
+                            Text(
+                                text = "Digitize paper prescription via camera OCR or manual entry",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = GlumeTextSecondary
+                            )
+                        }
+                        IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
+                            Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
                         }
                     }
-                }
 
-                HorizontalDivider(color = GlumeBorder)
-
-                // Tab 0: Camera / AI Scan
-                if (selectedTab == 0) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
-                        Text(
-                            text = "📸 Simulate Camera Scan / Capture Rx",
-                            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
-                        )
-                        Text(
-                            text = "Point camera at doctor's handwritten or printed prescription. On-device ML Kit will extract dosage and medicines automatically.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
-                        )
-
-                        // Sample Rx Presets for Demonstration
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
-                        ) {
-                            listOf("Fever", "Maternal", "Antibiotic").forEach { preset ->
-                                OutlinedButton(
-                                    onClick = { runSampleOcr(preset) },
-                                    modifier = Modifier.weight(1f),
-                                    shape = PillShape,
-                                    border = BorderStroke(1.dp, GlumeBorder)
-                                ) {
-                                    Text("Rx: $preset", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
-                                }
-                            }
-                        }
-
-                        if (isProcessingOcr) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth().padding(Spacing.md),
-                                contentAlignment = Alignment.Center
+                    // Segmented Tabs
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.md, vertical = Spacing.xxs),
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
+                    ) {
+                        val tabs = listOf("📷 ${stringResource(R.string.cameraAiScan)}", "✍️ ${stringResource(R.string.writeDown)}")
+                        tabs.forEachIndexed { index, title ->
+                            val isSelected = selectedTab == index
+                            Surface(
+                                onClick = { selectedTab = index },
+                                shape = PillShape,
+                                color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
+                                border = if (isSelected) BorderStroke(1.5.dp, GlumePrimaryPurple) else BorderStroke(1.dp, GlumeBorder),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .defaultMinSize(minHeight = 40.dp)
                             ) {
-                                CircularProgressIndicator(color = GlumePrimaryPurple)
-                            }
-                        } else if (recognizedOcrText.isNotBlank()) {
-                            VitalSenseCard(
-                                backgroundColor = GlumeSurfaceElevated,
-                                border = BorderStroke(1.dp, GlumeBorder)
-                            ) {
-                                Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = "Extracted OCR Telemetry",
-                                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumePrimaryPurpleLight
-                                        )
-                                        Surface(shape = PillShape, color = GlumeSuccessContainer) {
-                                            Text(
-                                                text = "Parsed ${ocrMedicines.size} items",
-                                                style = MaterialTheme.typography.labelSmall.copy(color = GlumeSuccessText, fontWeight = FontWeight.Bold),
-                                                modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
-                                            )
-                                        }
-                                    }
+                                Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 8.dp)) {
                                     Text(
-                                        text = recognizedOcrText,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextPrimary
+                                        text = title,
+                                        style = MaterialTheme.typography.labelSmall.copy(
+                                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                            color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                        )
                                     )
                                 }
                             }
+                        }
+                    }
 
-                            VitalSenseTextField(
-                                value = ocrDoctorName,
-                                onValueChange = { ocrDoctorName = it },
-                                label = "Prescribing Doctor / Clinic"
+                    HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                }
+
+                // Tab 0: Camera / AI Scan Flow
+                if (selectedTab == 0) {
+                    when (ocrStep) {
+                        OcrStep.CAPTURE -> {
+                            CameraCaptureView(
+                                onPhotoCaptured = { photo ->
+                                    capturedPhotoFile = photo
+                                    ocrStep = OcrStep.REVIEW
+                                },
+                                onManualEntryFallback = {
+                                    selectedTab = 1
+                                },
+                                onClose = onDismiss,
+                                onLaunchDocumentScanner = launchDocumentScanner,
+                                modifier = Modifier.fillMaxSize()
                             )
-
-                            VitalSenseTextField(
-                                value = ocrInstructions,
-                                onValueChange = { ocrInstructions = it },
-                                label = "Instructions / Diet Notes"
-                            )
-
-                            VitalSenseButton(
-                                text = "Save & Attach Prescription",
-                                onClick = {
-                                    val newRx = Prescription(
-                                        id = "rx_${System.currentTimeMillis()}",
-                                        patientId = patient.id,
-                                        patientName = patient.name,
-                                        doctorId = "doc_attending",
-                                        doctorName = ocrDoctorName.ifBlank { "PHC Attending (Digitized)" },
-                                        doctorSpecialty = "General Physician",
-                                        timestamp = System.currentTimeMillis(),
-                                        dateFormatted = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date()),
-                                        medicines = if (ocrMedicines.isNotEmpty()) ocrMedicines else listOf(
-                                            PrescribedMedicine("Paracetamol", "500 mg", "Twice daily", "3 Days", 10)
-                                        ),
-                                        instructions = ocrInstructions,
-                                        isOcrExtracted = true
-                                    )
-                                    onSavePrescription(newRx)
+                        }
+                        OcrStep.REVIEW -> {
+                            val photo = capturedPhotoFile
+                            if (photo != null && photo.exists()) {
+                                PrescriptionPhotoReviewScreen(
+                                    photoFile = photo,
+                                    onConfirmUsePhoto = {
+                                        ocrStep = OcrStep.RESULT
+                                    },
+                                    onRetakePhoto = {
+                                        ocrStep = OcrStep.CAPTURE
+                                    },
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            } else {
+                                ocrStep = OcrStep.CAPTURE
+                            }
+                        }
+                        OcrStep.RESULT -> {
+                            PrescriptionOcrResultScreen(
+                                patient = patient,
+                                photoFile = capturedPhotoFile,
+                                onSavePrescription = { rx ->
+                                    onSavePrescription(rx)
                                     onDismiss()
                                 },
-                                style = com.vitalsense.app.core.ui.components.ButtonStyle.PRIMARY
+                                onRetakePhoto = {
+                                    ocrStep = OcrStep.CAPTURE
+                                },
+                                onManualEntryFallback = {
+                                    selectedTab = 1
+                                },
+                                modifier = Modifier.fillMaxSize()
                             )
                         }
                     }
@@ -269,7 +249,13 @@ fun PrescriptionUploadDialog(
 
                 // Tab 1: Write Down (Manual Entry)
                 if (selectedTab == 1) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = Spacing.md)
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.sm)
+                    ) {
                         VitalSenseTextField(
                             value = manualDoctorName,
                             onValueChange = { manualDoctorName = it },
@@ -351,7 +337,7 @@ fun PrescriptionUploadDialog(
                                     modifier = Modifier.align(Alignment.End),
                                     enabled = currentMedName.isNotBlank()
                                 ) {
-                                    Text("+ Add Medicine", color = GlumeTextPrimary, style = MaterialTheme.typography.labelSmall)
+                                    Text("+ Add Medicine", color = Color.White, style = MaterialTheme.typography.labelSmall)
                                 }
                             }
                         }
@@ -416,8 +402,9 @@ fun PrescriptionUploadDialog(
                                 onSavePrescription(newRx)
                                 onDismiss()
                             },
-                            style = com.vitalsense.app.core.ui.components.ButtonStyle.PRIMARY,
-                            enabled = manualMedicines.isNotEmpty()
+                            style = ButtonStyle.PRIMARY,
+                            enabled = manualMedicines.isNotEmpty(),
+                            modifier = Modifier.padding(bottom = Spacing.lg)
                         )
                     }
                 }
