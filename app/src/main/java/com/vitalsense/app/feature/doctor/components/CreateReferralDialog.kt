@@ -50,7 +50,7 @@ fun CreateReferralDialog(
             DoctorSpecialty.PSYCHOLOGIST,
             DoctorSpecialty.NEUROLOGIST,
             DoctorSpecialty.GENERAL_PHYSICIAN
-        ).filter { it != currentDoctor.specialty }
+        )
     }
 
     var selectedSpecialty by remember {
