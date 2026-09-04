@@ -6,7 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -76,9 +76,9 @@ fun AdminFacilityQualityScreen(
 @Composable
 fun FacilityQualityCard(quality: FacilityQuality) {
     val scoreColor = when {
-        quality.cleanlinessScore + quality.staffAvailabilityScore + quality.equipmentReadinessScore > 240 -> GlumeSuccessMint
-        quality.cleanlinessScore + quality.staffAvailabilityScore + quality.equipmentReadinessScore > 180 -> GlumeWarningAmber
-        else -> GlumeAlertCoral
+        quality.cleanlinessScore + quality.staffAvailabilityScore + quality.equipmentReadinessScore > 240 -> VS_Success
+        quality.cleanlinessScore + quality.staffAvailabilityScore + quality.equipmentReadinessScore > 180 -> VS_Warning
+        else -> VS_Error
     }
 
     Card(
@@ -99,7 +99,7 @@ fun FacilityQualityCard(quality: FacilityQuality) {
                     fontWeight = FontWeight.Bold
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Star, contentDescription = "Rating", tint = Color(0xFFFFC107))
+                    Icon(Icons.Outlined.Star, contentDescription = "Rating", tint = com.vitalsense.app.core.ui.theme.VS_Warning)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = quality.patientFeedbackScore.toString(),
@@ -145,3 +145,5 @@ fun QualityMetricBar(label: String, score: Int, color: Color) {
         }
     }
 }
+
+

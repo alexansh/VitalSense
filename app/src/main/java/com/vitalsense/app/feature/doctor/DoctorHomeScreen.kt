@@ -103,7 +103,7 @@ fun DoctorHomeScreen(
         state = scrollState,
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.sm, bottom = Spacing.xxl)
@@ -125,12 +125,12 @@ fun DoctorHomeScreen(
                             fontWeight = FontWeight.Bold,
                             fontSize = 28.sp
                         ),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = "${doctor.specialty.displayName} · ${doctor.hospitalName}",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
 
@@ -138,16 +138,16 @@ fun DoctorHomeScreen(
                 Surface(
                     shape = PillShape,
                     color = when (onCallStatus) {
-                        DoctorAvailabilityStatus.AVAILABLE -> GlumeSuccessContainer
-                        DoctorAvailabilityStatus.BUSY -> GlumeWarningContainer
-                        DoctorAvailabilityStatus.OFFLINE -> GlumeSurfaceElevated
+                        DoctorAvailabilityStatus.AVAILABLE -> VS_SuccessContainer
+                        DoctorAvailabilityStatus.BUSY -> VS_WarningContainer
+                        DoctorAvailabilityStatus.OFFLINE -> VS_SurfaceVariant
                     },
                     border = BorderStroke(
                         1.dp,
                         when (onCallStatus) {
-                            DoctorAvailabilityStatus.AVAILABLE -> GlumeSuccessMint
-                            DoctorAvailabilityStatus.BUSY -> GlumeWarningAmber
-                            DoctorAvailabilityStatus.OFFLINE -> GlumeBorder
+                            DoctorAvailabilityStatus.AVAILABLE -> VS_Success
+                            DoctorAvailabilityStatus.BUSY -> VS_Warning
+                            DoctorAvailabilityStatus.OFFLINE -> VS_Outline
                         }
                     ),
                     modifier = Modifier.clickable {
@@ -169,9 +169,9 @@ fun DoctorHomeScreen(
                                 .clip(CircleShape)
                                 .background(
                                     when (onCallStatus) {
-                                        DoctorAvailabilityStatus.AVAILABLE -> GlumeSuccessMint
-                                        DoctorAvailabilityStatus.BUSY -> GlumeWarningAmber
-                                        DoctorAvailabilityStatus.OFFLINE -> GlumeTextSecondary
+                                        DoctorAvailabilityStatus.AVAILABLE -> VS_Success
+                                        DoctorAvailabilityStatus.BUSY -> VS_Warning
+                                        DoctorAvailabilityStatus.OFFLINE -> VS_OnSurfaceVariant
                                     }
                                 )
                         )
@@ -184,9 +184,9 @@ fun DoctorHomeScreen(
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = when (onCallStatus) {
-                                    DoctorAvailabilityStatus.AVAILABLE -> GlumeSuccessMint
-                                    DoctorAvailabilityStatus.BUSY -> GlumeWarningAmber
-                                    DoctorAvailabilityStatus.OFFLINE -> GlumeTextSecondary
+                                    DoctorAvailabilityStatus.AVAILABLE -> VS_Success
+                                    DoctorAvailabilityStatus.BUSY -> VS_Warning
+                                    DoctorAvailabilityStatus.OFFLINE -> VS_OnSurfaceVariant
                                 }
                             )
                         )
@@ -200,8 +200,8 @@ fun DoctorHomeScreen(
             item {
                 Surface(
                     shape = PillShape,
-                    color = GlumeSuccessContainer,
-                    border = BorderStroke(1.dp, GlumeSuccessMint),
+                    color = VS_SuccessContainer,
+                    border = BorderStroke(1.dp, VS_Success),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -212,10 +212,10 @@ fun DoctorHomeScreen(
                         Text(
                             text = restockToastMessage ?: "",
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeSuccessMint
+                            color = VS_Success
                         )
                         IconButton(onClick = { restockToastMessage = null }, modifier = Modifier.size(24.dp)) {
-                            Text("✕", color = GlumeSuccessMint, fontSize = 12.sp)
+                            Text("✕", color = VS_Success, fontSize = 12.sp)
                         }
                     }
                 }
@@ -225,7 +225,7 @@ fun DoctorHomeScreen(
         // 2. Glume Hero Completion Ring Card
         item {
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
+                backgroundColor = VS_Surface,
                 elevation = 0.dp
             ) {
                 Row(
@@ -243,27 +243,27 @@ fun DoctorHomeScreen(
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp
                             ),
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                         Text(
                             text = "$respondedCases of $totalCases Cases Responded",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = if (pendingCases.isEmpty()) "All caught up! Excellent work." else "${pendingCases.size} cases awaiting review",
                             style = MaterialTheme.typography.bodySmall,
-                            color = if (pendingCases.isEmpty()) GlumeSuccessText else GlumePrimaryPurpleLight
+                            color = if (pendingCases.isEmpty()) VS_OnSuccessContainer else VS_PrimaryContainer
                         )
                     }
 
-                    GlumeProgressRing(
-                        progressFraction = completionFraction,
-                        size = 72.dp,
-                        strokeWidth = 7.dp,
-                        ringColor = GlumeSuccessMint,
-                        trackColor = GlumeSurfaceElevated
-                    )
+                    CircularProgressIndicator(
+progress = completionFraction,
+modifier = Modifier.size(72.dp),
+strokeWidth = 7.dp,
+color = VS_Success,
+trackColor = VS_SurfaceVariant
+)
                 }
             }
         }
@@ -289,7 +289,7 @@ fun DoctorHomeScreen(
                     icon = "⏳",
                     modifier = Modifier.weight(1f),
                     badgeText = if (pendingCases.isNotEmpty()) "Queue" else null,
-                    badgeColor = GlumePrimaryPurple
+                    badgeColor = VS_Primary
                 )
 
                 // Critical Cases Stat Card
@@ -299,7 +299,7 @@ fun DoctorHomeScreen(
                     icon = "🚨",
                     modifier = Modifier.weight(1f),
                     badgeText = if (severeCount > 0) "Urgent" else null,
-                    badgeColor = if (severeCount > 0) GlumeAlertCoral else GlumeSuccessMint
+                    badgeColor = if (severeCount > 0) VS_Error else VS_Success
                 )
 
                 // Scheduled Appointments Stat Card
@@ -309,7 +309,7 @@ fun DoctorHomeScreen(
                     icon = "📅",
                     modifier = Modifier.weight(1f),
                     badgeText = "Today",
-                    badgeColor = GlumeSuccessMint
+                    badgeColor = VS_Success
                 )
             }
         }
@@ -322,14 +322,14 @@ fun DoctorHomeScreen(
 
             VitalSenseCard(
                 modifier = Modifier.fillMaxWidth(),
-                backgroundColor = if (hasEmergency) GlumeAlertContainer.copy(alpha = 0.35f) else GlumeSurfaceCard,
+                backgroundColor = if (hasEmergency) VS_ErrorContainer.copy(alpha = 0.35f) else VS_Surface,
                 border = BorderStroke(
                     1.5.dp,
                     when {
-                        hasEmergency -> GlumeAlertCoral
-                        hasUrgent -> GlumeWarningAmber
-                        pendingReferrals.isNotEmpty() -> GlumePrimaryPurpleLight
-                        else -> GlumeBorder
+                        hasEmergency -> VS_Error
+                        hasUrgent -> VS_Warning
+                        pendingReferrals.isNotEmpty() -> VS_PrimaryContainer
+                        else -> VS_Outline
                     }
                 ),
                 onClick = onNavigateToSpecialistReferrals
@@ -345,7 +345,7 @@ fun DoctorHomeScreen(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = if (hasEmergency) GlumeAlertCoral.copy(alpha = 0.2f) else GlumePrimaryPurpleContainer,
+                            color = if (hasEmergency) VS_Error.copy(alpha = 0.2f) else VS_PrimaryContainer,
                             modifier = Modifier.size(42.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -360,12 +360,12 @@ fun DoctorHomeScreen(
                                 Text(
                                     text = "Specialist Referrals Queue",
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 if (pendingReferrals.isNotEmpty()) {
                                     Surface(
                                         shape = PillShape,
-                                        color = if (hasEmergency) GlumeAlertCoral else GlumePrimaryPurple
+                                        color = if (hasEmergency) VS_Error else VS_Primary
                                     ) {
                                         Text(
                                             text = "${pendingReferrals.size} PENDING",
@@ -382,11 +382,11 @@ fun DoctorHomeScreen(
                             Text(
                                 text = "Triage incoming consults & closed-loop specialist evaluations",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
-                    Text("➔", fontSize = 20.sp, color = GlumeTextSecondary)
+                    Text("➔", fontSize = 20.sp, color = VS_OnSurfaceVariant)
                 }
             }
         }
@@ -399,40 +399,40 @@ fun DoctorHomeScreen(
             ) {
                 VitalSenseCard(
                     modifier = Modifier.weight(1f),
-                    backgroundColor = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    backgroundColor = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     onClick = onNavigateToOtScheduler
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text("🔪", fontSize = 20.sp)
-                        Text("OT Desk", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                        Text("Surgeries & PAC", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = GlumeTextSecondary)
+                        Text("OT Desk", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text("Surgeries & PAC", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                     }
                 }
 
                 VitalSenseCard(
                     modifier = Modifier.weight(1f),
-                    backgroundColor = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    backgroundColor = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     onClick = onNavigateToIpdBeds
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text("🛏️", fontSize = 20.sp)
-                        Text("IPD Beds", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                        Text("Ward Occupancy", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = GlumeTextSecondary)
+                        Text("IPD Beds", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text("Ward Occupancy", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                     }
                 }
 
                 VitalSenseCard(
                     modifier = Modifier.weight(1f),
-                    backgroundColor = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    backgroundColor = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     onClick = onNavigateToExternalReferrals
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text("🏛️", fontSize = 20.sp)
-                        Text("Referrals", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                        Text("AIIMS / Tie-Up", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = GlumeTextSecondary)
+                        Text("Referrals", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                        Text("AIIMS / Tie-Up", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                     }
                 }
             }
@@ -445,8 +445,8 @@ fun DoctorHomeScreen(
                     .fillMaxWidth()
                     .touchSpring(),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                border = BorderStroke(1.5.dp, NagarSevaPrimary.copy(alpha = 0.3f)),
+                colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                border = BorderStroke(1.5.dp, VS_Primary.copy(alpha = 0.3f)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Row(
@@ -463,7 +463,7 @@ fun DoctorHomeScreen(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = NagarSevaPrimary.copy(alpha = 0.12f),
+                            color = VS_Primary.copy(alpha = 0.12f),
                             modifier = Modifier.size(44.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -478,19 +478,19 @@ fun DoctorHomeScreen(
                                 Text(
                                     text = stringResource(R.string.liveQueueTitle),
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 val waitingCount = todaysQueue.count { it.status == QueueEntryStatus.WAITING }
                                 if (waitingCount > 0) {
                                     Surface(
                                         shape = PillShape,
                                         color = NagarSevaStatusProgressBg,
-                                        border = BorderStroke(1.dp, NagarSevaStatusProgress)
+                                        border = BorderStroke(1.dp, VS_Warning)
                                     ) {
                                         Text(
                                             text = "$waitingCount waiting",
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = NagarSevaStatusProgress,
+                                            color = VS_Warning,
                                             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                         )
                                     }
@@ -499,7 +499,7 @@ fun DoctorHomeScreen(
                             Text(
                                 text = stringResource(R.string.liveQueueDesc),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -507,7 +507,7 @@ fun DoctorHomeScreen(
                     Button(
                         onClick = onNavigateToLiveQueue,
                         shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
                     ) {
                         Text(stringResource(R.string.openHud), fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -521,7 +521,7 @@ fun DoctorHomeScreen(
         item {
             DashboardAccordionItem(
                 icon = "🚨",
-                iconBackgroundColor = GlumeAlertCoral,
+                iconBackgroundColor = VS_Error,
                 title = "Emergency Patients SOS Alerts",
                 subtitle = "Instant SOS alerts for critical cases to notify ASHA workers, doctors, and nearby facilities.",
                 expanded = expandedSos,
@@ -531,13 +531,13 @@ fun DoctorHomeScreen(
                     Text(
                         text = "No active SOS alerts.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 } else {
                     emergencySosAlerts.forEach { sos ->
                         VitalSenseCard(
-                            backgroundColor = GlumeAlertContainer,
-                            border = BorderStroke(1.dp, GlumeAlertCoral.copy(alpha = 0.5f))
+                            backgroundColor = VS_ErrorContainer,
+                            border = BorderStroke(1.dp, VS_Error.copy(alpha = 0.5f))
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                                 Row(
@@ -548,17 +548,17 @@ fun DoctorHomeScreen(
                                     Text(
                                         text = sos.title,
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = GlumeAlertText
+                                        color = VS_OnErrorContainer
                                     )
                                     Surface(
                                         shape = PillShape,
-                                        color = GlumeAlertCoral
+                                        color = VS_Error
                                     ) {
                                         Text(
                                             text = stringResource(R.string.highPriority),
                                             style = MaterialTheme.typography.labelSmall.copy(
                                                 fontWeight = FontWeight.Bold,
-                                                color = GlumeTextPrimary
+                                                color = VS_OnBackground
                                             ),
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                         )
@@ -567,7 +567,7 @@ fun DoctorHomeScreen(
                                 Text(
                                     text = sos.message,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -577,13 +577,13 @@ fun DoctorHomeScreen(
                                     Text(
                                         text = "${stringResource(R.string.village)}: ${sos.targetVillage ?: "General"}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary,
+                                        color = VS_OnSurfaceVariant,
                                         modifier = Modifier.weight(1f)
                                     )
                                     Button(
                                         onClick = { sosToClear = sos },
                                         shape = PillShape,
-                                        colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+                                        colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                     ) {
                                         Text(
@@ -605,7 +605,7 @@ fun DoctorHomeScreen(
         item {
             DashboardAccordionItem(
                 icon = "👤",
-                iconBackgroundColor = GlumePrimaryPurple,
+                iconBackgroundColor = VS_Primary,
                 title = "Specialist Triage Queue",
                 subtitle = "Prioritized queue for specialist review and triage based on severity and urgency.",
                 expanded = expandedTriage,
@@ -619,7 +619,7 @@ fun DoctorHomeScreen(
                     Text(
                         text = "${cases.size} cases · ${doctor.specialty.displayName} Stream",
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
 
@@ -634,7 +634,7 @@ fun DoctorHomeScreen(
                             Text(
                                 text = stringResource(R.string.noPendingCases),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -644,8 +644,8 @@ fun DoctorHomeScreen(
                         val isMentalHealth = record.category == ConditionCategory.MENTAL_HEALTH || record.requestedDoctorType == DoctorSpecialty.PSYCHOLOGIST
 
                         VitalSenseCard(
-                            backgroundColor = if (isSevere) GlumeAlertContainer else GlumeSurfaceCard,
-                            border = BorderStroke(1.dp, if (isSevere) GlumeAlertCoral.copy(alpha = 0.4f) else GlumeBorder)
+                            backgroundColor = if (isSevere) VS_ErrorContainer else VS_Surface,
+                            border = BorderStroke(1.dp, if (isSevere) VS_Error.copy(alpha = 0.4f) else VS_Outline)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                                 Row(
@@ -657,19 +657,19 @@ fun DoctorHomeScreen(
                                         Text(
                                             text = record.patientName,
                                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                         Text(
                                             text = "${stringResource(R.string.village)}: ${record.villageName} · ${record.category.displayName}",
                                             style = MaterialTheme.typography.bodySmall,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                     }
                                     SeverityBadge(severity = record.severity)
                                 }
 
                                 if (isMentalHealth) {
-                                    Surface(shape = PillShape, color = GlumePrimaryPurpleContainer) {
+                                    Surface(shape = PillShape, color = VS_PrimaryContainer) {
                                         Row(
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp),
                                             verticalAlignment = Alignment.CenterVertically,
@@ -679,7 +679,7 @@ fun DoctorHomeScreen(
                                             Text(
                                                 text = "Mental Health Referral",
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                color = GlumePrimaryPurpleLight
+                                                color = VS_PrimaryContainer
                                             )
                                         }
                                     }
@@ -688,7 +688,7 @@ fun DoctorHomeScreen(
                                 Text(
                                     text = "${stringResource(R.string.symptoms)} ${record.notes}",
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
 
                                 Row(
@@ -698,13 +698,13 @@ fun DoctorHomeScreen(
                                 ) {
                                     Surface(
                                         shape = PillShape,
-                                        color = GlumeSurfaceElevated
+                                        color = VS_SurfaceVariant
                                     ) {
                                         Text(
                                             text = record.status.displayName,
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 4.dp),
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                     }
 
@@ -730,19 +730,19 @@ fun DoctorHomeScreen(
                                                     )
                                             },
                                             shape = PillShape,
-                                            border = BorderStroke(1.dp, GlumeBorder),
+                                            border = BorderStroke(1.dp, VS_Outline),
                                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                             modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                                         ) {
-                                            Text(text = stringResource(R.string.history), style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                                            Text(text = stringResource(R.string.history), style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                                         }
 
                                         Button(
                                             onClick = { onSelectCase(record) },
                                             shape = PillShape,
                                             colors = ButtonDefaults.buttonColors(
-                                                containerColor = GlumePrimaryPurple,
-                                                contentColor = GlumeTextPrimary
+                                                containerColor = VS_Primary,
+                                                contentColor = VS_OnBackground
                                             ),
                                             contentPadding = PaddingValues(horizontal = Spacing.md, vertical = Spacing.xxs),
                                             modifier = Modifier.defaultMinSize(minHeight = 36.dp)
@@ -776,8 +776,8 @@ fun DoctorHomeScreen(
                         onClick = { showScheduleDialog = true },
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = GlumePrimaryPurple,
-                            contentColor = GlumeTextPrimary
+                            containerColor = VS_Primary,
+                            contentColor = VS_OnBackground
                         ),
                         contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                         modifier = Modifier.defaultMinSize(minHeight = 34.dp)
@@ -791,14 +791,14 @@ fun DoctorHomeScreen(
                         Text(
                             text = "No appointments scheduled.",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 } else {
                     appointments.forEach { appointment ->
                         val isPending = appointment.status.contains("Pending", ignoreCase = true)
                         VitalSenseCard(
-                            backgroundColor = if (isPending) GlumeWarningContainer else GlumeSurfaceCard
+                            backgroundColor = if (isPending) VS_WarningContainer else VS_Surface
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                                 Row(
@@ -810,12 +810,12 @@ fun DoctorHomeScreen(
                                         Text(
                                             text = appointment.patientName,
                                             style = MaterialTheme.typography.titleMedium,
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                         Text(
                                             text = "${appointment.dateFormatted} at ${appointment.timeSlot}",
                                             style = MaterialTheme.typography.bodySmall,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                     }
                                     Row(
@@ -825,25 +825,25 @@ fun DoctorHomeScreen(
                                         // Call Type Badge
                                         Surface(
                                             shape = PillShape,
-                                            color = GlumePrimaryPurpleContainer
+                                            color = VS_PrimaryContainer
                                         ) {
                                             Text(
                                                 text = if (appointment.callType == CallType.VOICE) "🎙️ Voice" else "📹 Video",
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp),
-                                                color = GlumePrimaryPurpleLight
+                                                color = VS_PrimaryContainer
                                             )
                                         }
 
                                         Surface(
                                             shape = PillShape,
-                                            color = if (isPending) GlumeWarningContainer else GlumeSuccessContainer
+                                            color = if (isPending) VS_WarningContainer else VS_SuccessContainer
                                         ) {
                                             Text(
                                                 text = appointment.status,
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp),
-                                                color = if (isPending) GlumeWarningAmber else GlumeSuccessText
+                                                color = if (isPending) VS_Warning else VS_OnSuccessContainer
                                             )
                                         }
                                     }
@@ -859,16 +859,16 @@ fun DoctorHomeScreen(
                                             onClick = { onDeclineAppointment(appointment.id) },
                                             shape = PillShape
                                         ) {
-                                            Text("Decline", color = GlumeAlertCoral, style = MaterialTheme.typography.labelSmall)
+                                            Text("Decline", color = VS_Error, style = MaterialTheme.typography.labelSmall)
                                         }
                                         Button(
                                             onClick = { onAcceptAppointment(appointment.id) },
                                             shape = PillShape,
-                                            colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                                            colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                             modifier = Modifier.defaultMinSize(minHeight = 32.dp)
                                         ) {
-                                            Text("Accept ✓", color = GlumeBackground, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold))
+                                            Text("Accept ✓", color = VS_Background, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold))
                                         }
                                     }
                                 } else {
@@ -882,12 +882,12 @@ fun DoctorHomeScreen(
                                             JoinWindowStatus.JOIN_ACTIVE -> {
                                                 Surface(
                                                     shape = PillShape,
-                                                    color = GlumeSuccessContainer
+                                                    color = VS_SuccessContainer
                                                 ) {
                                                     Text(
                                                         text = "● Room Open",
                                                         style = MaterialTheme.typography.labelSmall.copy(
-                                                            color = GlumeSuccessMint,
+                                                            color = VS_Success,
                                                             fontWeight = FontWeight.Bold
                                                         ),
                                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
@@ -899,7 +899,7 @@ fun DoctorHomeScreen(
                                                         activeTeleConsultationPatient = appointment.patientName
                                                     },
                                                     shape = PillShape,
-                                                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                                                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                                     contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                                     modifier = Modifier.defaultMinSize(minHeight = 32.dp)
                                                 ) {
@@ -922,7 +922,7 @@ fun DoctorHomeScreen(
                                                 Text(
                                                     text = "Room opens 10m before ${appointment.timeSlot}",
                                                     style = MaterialTheme.typography.labelSmall,
-                                                    color = GlumeTextSecondary
+                                                    color = VS_OnSurfaceVariant
                                                 )
                                                 OutlinedButton(
                                                     onClick = { showScheduleDialog = true },
@@ -930,23 +930,23 @@ fun DoctorHomeScreen(
                                                     contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                                     modifier = Modifier.defaultMinSize(minHeight = 30.dp)
                                                 ) {
-                                                    Text("Reschedule", style = MaterialTheme.typography.labelSmall, color = GlumePrimaryPurpleLight)
+                                                    Text("Reschedule", style = MaterialTheme.typography.labelSmall, color = VS_PrimaryContainer)
                                                 }
                                             }
                                             JoinWindowStatus.AFTER_WINDOW_MISSED -> {
                                                 Text(
                                                     text = "Patient didn't join within window",
-                                                    style = MaterialTheme.typography.labelSmall.copy(color = GlumeAlertCoral),
+                                                    style = MaterialTheme.typography.labelSmall.copy(color = VS_Error),
                                                 )
                                                 Button(
                                                     onClick = { showScheduleDialog = true },
                                                     shape = PillShape,
-                                                    colors = ButtonDefaults.buttonColors(containerColor = GlumeSurfaceElevated),
-                                                    border = BorderStroke(1.dp, GlumeBorder),
+                                                    colors = ButtonDefaults.buttonColors(containerColor = VS_SurfaceVariant),
+                                                    border = BorderStroke(1.dp, VS_Outline),
                                                     contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                                     modifier = Modifier.defaultMinSize(minHeight = 30.dp)
                                                 ) {
-                                                    Text("Reschedule", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                                                    Text("Reschedule", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                                                 }
                                             }
                                         }
@@ -963,17 +963,17 @@ fun DoctorHomeScreen(
         item {
             DashboardAccordionItem(
                 icon = "💊",
-                iconBackgroundColor = GlumeWarningAmber,
+                iconBackgroundColor = VS_Warning,
                 title = "Dispensary Stock",
                 subtitle = "Track medicine inventory, stock levels, and low stock alerts in real-time.",
                 expanded = expandedDispensary,
                 onToggle = { expandedDispensary = !expandedDispensary }
             ) {
                 if (lowStockCount > 0) {
-                    Surface(shape = PillShape, color = GlumeAlertContainer) {
+                    Surface(shape = PillShape, color = VS_ErrorContainer) {
                         Text(
                             text = "$lowStockCount ${stringResource(R.string.lowStock)}",
-                            style = MaterialTheme.typography.labelSmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold),
+                            style = MaterialTheme.typography.labelSmall.copy(color = VS_Error, fontWeight = FontWeight.Bold),
                             modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                         )
                     }
@@ -995,12 +995,12 @@ fun DoctorHomeScreen(
                                     Text(
                                         text = item.medicineName,
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = item.category,
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                                 Row(
@@ -1011,14 +1011,14 @@ fun DoctorHomeScreen(
                                         text = "${item.availableQuantity} ${item.unit}",
                                         style = MaterialTheme.typography.titleSmall.copy(
                                             fontWeight = FontWeight.Bold,
-                                            color = if (item.isLowStock) GlumeAlertCoral else GlumeTextPrimary
+                                            color = if (item.isLowStock) VS_Error else VS_OnBackground
                                         )
                                     )
                                     if (item.isLowStock) {
-                                        Surface(shape = PillShape, color = GlumeAlertContainer) {
+                                        Surface(shape = PillShape, color = VS_ErrorContainer) {
                                             Text(
                                                 text = "LOW",
-                                                style = MaterialTheme.typography.labelSmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold),
+                                                style = MaterialTheme.typography.labelSmall.copy(color = VS_Error, fontWeight = FontWeight.Bold),
                                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                             )
                                         }
@@ -1035,14 +1035,14 @@ fun DoctorHomeScreen(
                                 if (isReminded) {
                                     Surface(
                                         shape = PillShape,
-                                        color = GlumeSuccessContainer,
-                                        border = BorderStroke(1.dp, GlumeSuccessMint.copy(alpha = 0.3f))
+                                        color = VS_SuccessContainer,
+                                        border = BorderStroke(1.dp, VS_Success.copy(alpha = 0.3f))
                                     ) {
                                         Text(
                                             text = "✓ Admin Reminded",
                                             style = MaterialTheme.typography.labelSmall.copy(
                                                 fontWeight = FontWeight.Bold,
-                                                color = GlumeSuccessText
+                                                color = VS_OnSuccessContainer
                                             ),
                                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                                         )
@@ -1057,14 +1057,14 @@ fun DoctorHomeScreen(
                                             restockToastMessage = "Restock reminder sent to Admin for ${item.medicineName}!"
                                         },
                                         shape = PillShape,
-                                        border = BorderStroke(1.dp, if (item.isLowStock) GlumeAlertCoral else NagarSevaPrimary),
+                                        border = BorderStroke(1.dp, if (item.isLowStock) VS_Error else VS_Primary),
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                     ) {
                                         Text(
                                             text = "🔔 Remind Admin",
                                             fontSize = 12.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = if (item.isLowStock) GlumeAlertCoral else NagarSevaPrimary
+                                            color = if (item.isLowStock) VS_Error else VS_Primary
                                         )
                                     }
                                 }
@@ -1109,12 +1109,12 @@ fun DoctorHomeScreen(
                                     Text(
                                         text = pat.name,
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "${pat.villageName} · Age: ${pat.age} (${pat.gender}) · ${stringResource(R.string.ashaAssigned)}: ${pat.ashaWorkerName}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                                 Row(
@@ -1141,19 +1141,19 @@ fun DoctorHomeScreen(
                                             activeTeleConsultationPatient = pat.name
                                         },
                                         shape = PillShape,
-                                        border = BorderStroke(1.dp, GlumeSuccessMint),
+                                        border = BorderStroke(1.dp, VS_Success),
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
                                         modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                                     ) {
-                                        Text("📹 Call", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = GlumeSuccessMint)
+                                        Text("📹 Call", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Success)
                                     }
 
                                     Button(
                                         onClick = { selectedPatientForHistory = pat },
                                         shape = PillShape,
                                         colors = ButtonDefaults.buttonColors(
-                                            containerColor = GlumePrimaryPurpleContainer,
-                                            contentColor = GlumePrimaryPurpleLight
+                                            containerColor = VS_PrimaryContainer,
+                                            contentColor = VS_PrimaryContainer
                                         ),
                                         contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                         modifier = Modifier.defaultMinSize(minHeight = 36.dp)
@@ -1179,7 +1179,7 @@ fun DoctorHomeScreen(
                     Text(
                         text = "📢 ${stringResource(R.string.districtAdvisories)}",
                         style = MaterialTheme.typography.headlineMedium,
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     if (dismissedAdvisoryIds.isNotEmpty()) {
                         TextButton(
@@ -1192,7 +1192,7 @@ fun DoctorHomeScreen(
                             Text(
                                 text = "🔄 Restore (${dismissedAdvisoryIds.size})",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = NagarSevaPrimary
+                                color = VS_Primary
                             )
                         }
                     }
@@ -1201,7 +1201,7 @@ fun DoctorHomeScreen(
 
             items(adminDirectives) { directive ->
                 VitalSenseCard(
-                    backgroundColor = if (directive.isUrgent) GlumeAlertContainer else GlumeSurfaceCard
+                    backgroundColor = if (directive.isUrgent) VS_ErrorContainer else VS_Surface
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Row(
@@ -1212,13 +1212,13 @@ fun DoctorHomeScreen(
                             Text(
                                 text = directive.title,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = if (directive.isUrgent) GlumeAlertCoral else GlumeTextPrimary
+                                color = if (directive.isUrgent) VS_Error else VS_OnBackground
                             )
                             if (directive.isUrgent) {
-                                Surface(shape = PillShape, color = GlumeAlertCoral) {
+                                Surface(shape = PillShape, color = VS_Error) {
                                     Text(
                                         text = "DIRECTIVE",
-                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = GlumeTextPrimary),
+                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnBackground),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
                                 }
@@ -1227,7 +1227,7 @@ fun DoctorHomeScreen(
                         Text(
                             text = directive.message,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -1237,7 +1237,7 @@ fun DoctorHomeScreen(
                             Text(
                                 text = "${stringResource(R.string.issuedBy)} ${directive.senderName} (${directive.senderRole.name})",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary,
+                                color = VS_OnSurfaceVariant,
                                 modifier = Modifier.weight(1f)
                             )
                             TextButton(
@@ -1251,7 +1251,7 @@ fun DoctorHomeScreen(
                                 Text(
                                     text = "✕ Dismiss",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = NagarSevaPrimary
+                                    color = VS_Primary
                                 )
                             }
                         }
@@ -1315,7 +1315,7 @@ fun DoctorHomeScreen(
                     Text(
                         text = if (isEmergency) "CRITICAL EMERGENCY CALL" else "Incoming Appointment Call",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = if (isEmergency) GlumeAlertCoral else GlumePrimaryPurple
+                        color = if (isEmergency) VS_Error else VS_Primary
                     )
                 }
             },
@@ -1324,19 +1324,19 @@ fun DoctorHomeScreen(
                     Text(
                         text = "Patient: ${incomingSession.patientName} (${incomingSession.patientAge} yrs)",
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = "Village: ${incomingSession.villageName}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
 
                     if (isEmergency) {
                         Surface(
                             shape = RoundedCornerShape(8.dp),
-                            color = GlumeAlertContainer,
-                            border = BorderStroke(1.dp, GlumeAlertCoral)
+                            color = VS_ErrorContainer,
+                            border = BorderStroke(1.dp, VS_Error)
                         ) {
                             Column(modifier = Modifier.padding(8.dp)) {
                                 Text(
@@ -1344,13 +1344,13 @@ fun DoctorHomeScreen(
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontSize = 9.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = GlumeAlertText
+                                        color = VS_OnErrorContainer
                                     )
                                 )
                                 Text(
                                     text = incomingSession.patientVitalsSummary,
                                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                             }
                         }
@@ -1358,7 +1358,7 @@ fun DoctorHomeScreen(
                         Text(
                             text = "Type: ${if (incomingSession.type == CallType.VOICE) "🎙️ Voice Consultation" else "📹 Video Consultation"}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
@@ -1370,7 +1370,7 @@ fun DoctorHomeScreen(
                         activeTeleConsultationPatient = incomingSession.patientName
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isEmergency) GlumeAlertCoral else GlumeSuccessMint
+                        containerColor = if (isEmergency) VS_Error else VS_Success
                     ),
                     shape = PillShape,
                     modifier = Modifier.defaultMinSize(minHeight = 44.dp)
@@ -1406,7 +1406,7 @@ fun DoctorHomeScreen(
                         },
                         shape = PillShape
                     ) {
-                        Text("Transfer to Next On-Call", color = GlumeWarningAmber)
+                        Text("Transfer to Next On-Call", color = VS_Warning)
                     }
                 } else {
                     TextButton(
@@ -1415,7 +1415,7 @@ fun DoctorHomeScreen(
                         },
                         shape = PillShape
                     ) {
-                        Text("Decline", color = GlumeTextSecondary)
+                        Text("Decline", color = VS_OnSurfaceVariant)
                     }
                 }
             }
@@ -1429,14 +1429,14 @@ fun DoctorHomeScreen(
                 Text(
                     text = "Confirm Emergency Resolved",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             },
             text = {
                 Text(
                     text = "Confirm that emergency clinical action has been taken and patient ${sosToClear?.senderName} is stabilized?",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             },
             confirmButton = {
@@ -1448,7 +1448,7 @@ fun DoctorHomeScreen(
                         sosToClear = null
                         AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                     shape = PillShape
                 ) {
                     Text(
@@ -1463,9 +1463,10 @@ fun DoctorHomeScreen(
                     onClick = { sosToClear = null },
                     shape = PillShape
                 ) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             }
         )
     }
 }
+

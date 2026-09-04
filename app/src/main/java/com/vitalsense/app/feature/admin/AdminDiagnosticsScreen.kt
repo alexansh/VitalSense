@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,22 +37,22 @@ fun AdminDiagnosticsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Diagnostics Availability", color = GlumeTextPrimary) },
+                title = { Text("Diagnostics Availability", color = VS_OnBackground) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = "Back",
-                            tint = GlumeTextPrimary
+                            tint = VS_OnBackground
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = GlumeBackground
+                    containerColor = VS_Background
                 )
             )
         },
-        containerColor = GlumeBackground,
+        containerColor = VS_Background,
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
         Column(
@@ -64,14 +64,14 @@ fun AdminDiagnosticsScreen(
             Text(
                 text = "Live Machine & Lab Status",
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary,
+                color = VS_OnBackground,
                 modifier = Modifier.padding(bottom = Spacing.sm, top = Spacing.sm)
             )
             
             Text(
                 text = "Monitor the real-time operational status of all facility diagnostic machines and laboratories.",
                 style = MaterialTheme.typography.bodySmall,
-                color = GlumeTextSecondary,
+                color = VS_OnSurfaceVariant,
                 modifier = Modifier.padding(bottom = Spacing.md)
             )
 
@@ -90,9 +90,9 @@ fun AdminDiagnosticsScreen(
 @Composable
 fun DiagnosticServiceCard(service: DiagnosticService) {
     val statusColor = when (service.status) {
-        "Available" -> GlumeSuccessMint
-        "Maintenance" -> GlumeAlertCoral
-        else -> GlumeWarningAmber
+        "Available" -> VS_Success
+        "Maintenance" -> VS_Error
+        else -> VS_Warning
     }
 
     VitalSenseCard(
@@ -107,12 +107,12 @@ fun DiagnosticServiceCard(service: DiagnosticService) {
                 Text(
                     text = service.name,
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "Wait Time: ${service.waitingTime}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     modifier = Modifier.padding(top = 2.dp)
                 )
             }
@@ -131,3 +131,4 @@ fun DiagnosticServiceCard(service: DiagnosticService) {
         }
     }
 }
+

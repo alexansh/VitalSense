@@ -38,9 +38,9 @@ fun StatusHaloCard(
 
     val haloColor by animateColorAsState(
         targetValue = when (patient.currentRiskLevel) {
-            SeverityLevel.LOW -> StatusSafeGreen
-            SeverityLevel.MODERATE -> StatusAttentionAmber
-            SeverityLevel.HIGH, SeverityLevel.SEVERE -> StatusDangerRed
+            SeverityLevel.LOW -> VS_Success
+            SeverityLevel.MODERATE -> VS_Warning
+            SeverityLevel.HIGH, SeverityLevel.SEVERE -> VS_Error
         },
         animationSpec = tween(durationMillis = 600),
         label = "HaloColorAnim"
@@ -191,7 +191,7 @@ fun StatusHaloCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Text("☁️✓", fontSize = 11.sp, color = VitalSenseTealPrimary)
+                        Text("☁️✓", fontSize = 11.sp, color = VS_Primary)
                         Text(
                             text = syncedText,
                             style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold),
@@ -274,7 +274,7 @@ fun StatusHaloCard(
                         label = heartRateLabel,
                         value = "$heartRate bpm",
                         status = normalStatusText,
-                        statusColor = VitalSenseTealPrimary,
+                        statusColor = VS_Primary,
                         modifier = Modifier.weight(1f)
                     )
 
@@ -283,7 +283,7 @@ fun StatusHaloCard(
                         label = spo2Label,
                         value = "$spO2%",
                         status = normalStatusText,
-                        statusColor = VitalSenseTealPrimary,
+                        statusColor = VS_Primary,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -297,7 +297,7 @@ fun StatusHaloCard(
                         label = bpLabel,
                         value = bloodPressure,
                         status = normalStatusText,
-                        statusColor = VitalSenseTealPrimary,
+                        statusColor = VS_Primary,
                         modifier = Modifier.weight(1f)
                     )
 
@@ -306,7 +306,7 @@ fun StatusHaloCard(
                         label = tempLabel,
                         value = temperature,
                         status = normalStatusText,
-                        statusColor = VitalSenseTealPrimary,
+                        statusColor = VS_Primary,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -320,7 +320,7 @@ fun StatusHaloCard(
             ) {
                 Surface(
                     shape = PillShape,
-                    color = VitalSenseTealContainer,
+                    color = VS_PrimaryContainer,
                     modifier = Modifier.clickable {
                         AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                         val speech = AudioGuidanceHelper.getSpokenHealthSummary(
@@ -343,7 +343,7 @@ fun StatusHaloCard(
                             text = listenBtnText,
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = VitalSenseTealPrimary
+                                color = VS_Primary
                             )
                         )
                     }
@@ -352,7 +352,7 @@ fun StatusHaloCard(
                 Button(
                     onClick = onTakeReadingClick,
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = VitalSenseTealPrimary),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     contentPadding = PaddingValues(horizontal = Spacing.md, vertical = 6.dp),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {

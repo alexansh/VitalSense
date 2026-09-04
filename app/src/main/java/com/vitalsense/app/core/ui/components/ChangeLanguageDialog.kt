@@ -6,9 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,7 +35,7 @@ fun ChangeLanguageDialog(
             shape = RoundedCornerShape(20.dp),
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 6.dp,
-            border = BorderStroke(1.dp, GlumeBorder),
+            border = BorderStroke(1.dp, VS_Outline),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -58,14 +58,14 @@ fun ChangeLanguageDialog(
                     ) {
                         Surface(
                             shape = PillShape,
-                            color = GlumePrimaryBlue.copy(alpha = 0.12f),
+                            color = VS_Primary.copy(alpha = 0.12f),
                             modifier = Modifier.size(40.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
                                 Icon(
-                                    imageVector = Icons.Default.Language,
+                                    imageVector = Icons.Outlined.Language,
                                     contentDescription = "Language",
-                                    tint = GlumePrimaryBlue,
+                                    tint = VS_Primary,
                                     modifier = Modifier.size(22.dp)
                                 )
                             }
@@ -89,14 +89,14 @@ fun ChangeLanguageDialog(
                         modifier = Modifier.size(32.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Close,
+                            imageVector = Icons.Outlined.Close,
                             contentDescription = "Close",
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder.copy(alpha = 0.5f))
+                HorizontalDivider(color = VS_Outline.copy(alpha = 0.5f))
 
                 // 4 Language Cards (Native Scripts)
                 val languages = listOf(
@@ -116,10 +116,10 @@ fun ChangeLanguageDialog(
                             onDismiss()
                         },
                         shape = RoundedCornerShape(14.dp),
-                        color = if (isSelected) GlumePrimaryBlue.copy(alpha = 0.08f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                        color = if (isSelected) VS_Primary.copy(alpha = 0.08f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
                         border = BorderStroke(
                             width = if (isSelected) 2.dp else 1.dp,
-                            color = if (isSelected) GlumePrimaryBlue else GlumeBorder
+                            color = if (isSelected) VS_Primary else VS_Outline
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -139,7 +139,7 @@ fun ChangeLanguageDialog(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 18.sp
                                     ),
-                                    color = if (isSelected) GlumePrimaryBlue else MaterialTheme.colorScheme.onSurface
+                                    color = if (isSelected) VS_Primary else MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
                                     text = transliterated,
@@ -155,19 +155,19 @@ fun ChangeLanguageDialog(
                                 ) {
                                     Surface(
                                         shape = PillShape,
-                                        color = GlumePrimaryBlue.copy(alpha = 0.15f)
+                                        color = VS_Primary.copy(alpha = 0.15f)
                                     ) {
                                         Text(
                                             text = stringResource(R.string.currentLanguageBadge),
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                                            color = GlumePrimaryBlue,
+                                            color = VS_Primary,
                                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                                         )
                                     }
                                     Icon(
-                                        imageVector = Icons.Default.CheckCircle,
+                                        imageVector = Icons.Outlined.CheckCircle,
                                         contentDescription = "Selected",
-                                        tint = GlumePrimaryBlue,
+                                        tint = VS_Primary,
                                         modifier = Modifier.size(20.dp)
                                     )
                                 }
@@ -179,3 +179,4 @@ fun ChangeLanguageDialog(
         }
     }
 }
+

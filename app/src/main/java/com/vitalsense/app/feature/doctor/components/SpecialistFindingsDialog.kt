@@ -39,9 +39,9 @@ fun SpecialistFindingsDialog(
                 .fillMaxWidth(0.95f)
                 .fillMaxHeight(0.88f),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -63,25 +63,25 @@ fun SpecialistFindingsDialog(
                             Text(
                                 text = "Specialist Loop Closure",
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                         Text(
                             text = "Handoff to Dr. ${referral.referringDoctorName} · Patient: ${referral.patientName}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
                         Text(
                             text = "✕",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xs))
 
                 Column(
                     modifier = Modifier
@@ -91,19 +91,19 @@ fun SpecialistFindingsDialog(
                 ) {
                     // Clinical Question being answered
                     VitalSenseCard(
-                        backgroundColor = GlumePrimaryPurpleContainer.copy(alpha = 0.35f),
-                        border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.4f))
+                        backgroundColor = VS_PrimaryContainer.copy(alpha = 0.35f),
+                        border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.4f))
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text(
                                 text = "Referring Ask / Clinical Question:",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                             Text(
                                 text = "\"${referral.clinicalQuestion}\"",
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                     }
@@ -112,20 +112,20 @@ fun SpecialistFindingsDialog(
                     Text(
                         text = "1. Clinical Findings & Diagnostic Assessment *",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     OutlinedTextField(
                         value = findings,
                         onValueChange = { findings = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Document your clinical evaluation, exam results, diagnostic conclusions...", fontSize = 12.sp, color = GlumeTextSecondary) },
+                        placeholder = { Text("Document your clinical evaluation, exam results, diagnostic conclusions...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 3,
                         maxLines = 5,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = GlumePrimaryPurple,
-                            unfocusedBorderColor = GlumeBorder,
-                            focusedTextColor = GlumeTextPrimary,
-                            unfocusedTextColor = GlumeTextPrimary
+                            focusedBorderColor = VS_Primary,
+                            unfocusedBorderColor = VS_Outline,
+                            focusedTextColor = VS_OnBackground,
+                            unfocusedTextColor = VS_OnBackground
                         )
                     )
 
@@ -133,28 +133,28 @@ fun SpecialistFindingsDialog(
                     Text(
                         text = "2. Ongoing Care Plan & Recommendations *",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     OutlinedTextField(
                         value = recommendations,
                         onValueChange = { recommendations = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Advise treatment adjustments, medication doses, lifestyle advice, or monitoring frequency...", fontSize = 12.sp, color = GlumeTextSecondary) },
+                        placeholder = { Text("Advise treatment adjustments, medication doses, lifestyle advice, or monitoring frequency...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 3,
                         maxLines = 5,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = GlumePrimaryPurple,
-                            unfocusedBorderColor = GlumeBorder,
-                            focusedTextColor = GlumeTextPrimary,
-                            unfocusedTextColor = GlumeTextPrimary
+                            focusedBorderColor = VS_Primary,
+                            unfocusedBorderColor = VS_Outline,
+                            focusedTextColor = VS_OnBackground,
+                            unfocusedTextColor = VS_OnBackground
                         )
                     )
 
                     // 3. Specialist Follow-Up Needed Toggle
                     Surface(
                         shape = CardShape,
-                        color = GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        color = VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Row(
                             modifier = Modifier
@@ -167,20 +167,20 @@ fun SpecialistFindingsDialog(
                                 Text(
                                     text = "Specialist Follow-Up Required",
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = if (followUpNeeded) "Specialist will re-evaluate patient in future" else "Referring physician handles ongoing primary care",
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             Switch(
                                 checked = followUpNeeded,
                                 onCheckedChange = { followUpNeeded = it },
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = GlumeSuccessMint,
-                                    checkedTrackColor = GlumeSuccessContainer
+                                    checkedThumbColor = VS_Success,
+                                    checkedTrackColor = VS_SuccessContainer
                                 )
                             )
                         }
@@ -189,12 +189,12 @@ fun SpecialistFindingsDialog(
                     errorMessage?.let { err ->
                         Text(
                             text = "⚠️ $err",
-                            style = MaterialTheme.typography.bodySmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold)
+                            style = MaterialTheme.typography.bodySmall.copy(color = VS_Error, fontWeight = FontWeight.Bold)
                         )
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xs))
 
                 // Actions
                 Row(
@@ -205,9 +205,9 @@ fun SpecialistFindingsDialog(
                         onClick = onDismiss,
                         modifier = Modifier.weight(1f).height(44.dp),
                         shape = PillShape,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
-                        Text("Cancel", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                        Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
 
                     Button(
@@ -226,12 +226,12 @@ fun SpecialistFindingsDialog(
                         },
                         modifier = Modifier.weight(1.5f).height(44.dp),
                         shape = PillShape,
-                        colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint)
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Success)
                     ) {
                         Text(
                             text = "Send Findings & Close Loop",
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeBackground
+                            color = VS_Background
                         )
                     }
                 }

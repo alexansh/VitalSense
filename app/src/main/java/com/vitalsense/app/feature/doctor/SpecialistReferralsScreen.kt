@@ -66,7 +66,7 @@ fun SpecialistReferralsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md)
     ) {
         Spacer(modifier = Modifier.height(Spacing.sm))
@@ -82,7 +82,7 @@ fun SpecialistReferralsScreen(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
             ) {
                 IconButton(onClick = onBack) {
-                    Text("←", fontSize = 24.sp, color = GlumeTextPrimary, fontWeight = FontWeight.Bold)
+                    Text("←", fontSize = 24.sp, color = VS_OnBackground, fontWeight = FontWeight.Bold)
                 }
                 Column {
                     Row(
@@ -92,10 +92,10 @@ fun SpecialistReferralsScreen(
                         Text(
                             text = stringResource(R.string.doctorReferralsTitle),
                             style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         if (pendingCount > 0) {
-                            Surface(shape = PillShape, color = GlumeAlertCoral) {
+                            Surface(shape = PillShape, color = VS_Error) {
                                 Text(
                                     text = "$pendingCount NEW",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = Color.White),
@@ -107,7 +107,7 @@ fun SpecialistReferralsScreen(
                     Text(
                         text = "Triage pool & direct referrals for Dr. ${doctor.name} (${doctor.specialty.displayName})",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
             }
@@ -131,15 +131,15 @@ fun SpecialistReferralsScreen(
                     modifier = Modifier
                         .clickable { selectedFilter = key },
                     shape = PillShape,
-                    color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder)
+                    color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline)
                 ) {
                     Text(
                         text = label,
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                         ),
-                        color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextSecondary,
+                        color = if (isSelected) VS_PrimaryContainer else VS_OnSurfaceVariant,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 6.dp)
                     )
                 }
@@ -161,7 +161,7 @@ fun SpecialistReferralsScreen(
                     Text(
                         text = "No referrals in this queue view.",
                         style = MaterialTheme.typography.titleMedium,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
             }
@@ -173,16 +173,16 @@ fun SpecialistReferralsScreen(
             ) {
                 items(filteredReferrals, key = { it.id }) { ref ->
                     val (urgencyBg, urgencyBorder, urgencyText) = when (ref.urgency) {
-                        ReferralUrgency.ROUTINE -> Triple(GlumeSuccessContainer, GlumeSuccessMint, GlumeSuccessMint)
-                        ReferralUrgency.URGENT -> Triple(GlumeWarningContainer, GlumeWarningAmber, GlumeWarningAmber)
-                        ReferralUrgency.EMERGENCY -> Triple(GlumeAlertContainer, GlumeAlertCoral, GlumeAlertCoral)
+                        ReferralUrgency.ROUTINE -> Triple(VS_SuccessContainer, VS_Success, VS_Success)
+                        ReferralUrgency.URGENT -> Triple(VS_WarningContainer, VS_Warning, VS_Warning)
+                        ReferralUrgency.EMERGENCY -> Triple(VS_ErrorContainer, VS_Error, VS_Error)
                     }
 
                     VitalSenseCard(
-                        backgroundColor = GlumeSurfaceCard,
+                        backgroundColor = VS_Surface,
                         border = BorderStroke(
                             if (ref.urgency == ReferralUrgency.EMERGENCY) 2.dp else 1.dp,
-                            if (ref.urgency == ReferralUrgency.EMERGENCY) GlumeAlertCoral else GlumeBorder
+                            if (ref.urgency == ReferralUrgency.EMERGENCY) VS_Error else VS_Outline
                         )
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
@@ -196,12 +196,12 @@ fun SpecialistReferralsScreen(
                                     Text(
                                         text = ref.patientName,
                                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "Referred by Dr. ${ref.referringDoctorName} (${ref.referringDoctorSpecialty})",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
 
@@ -225,11 +225,11 @@ fun SpecialistReferralsScreen(
                                     Surface(
                                         shape = PillShape,
                                         color = when (ref.status) {
-                                            ReferralStatus.COMPLETED -> GlumeSuccessContainer
-                                            ReferralStatus.DECLINED -> GlumeAlertContainer
-                                            ReferralStatus.INFO_REQUESTED -> GlumeWarningContainer
-                                            ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> GlumePrimaryPurpleContainer
-                                            else -> GlumeSurfaceElevated
+                                            ReferralStatus.COMPLETED -> VS_SuccessContainer
+                                            ReferralStatus.DECLINED -> VS_ErrorContainer
+                                            ReferralStatus.INFO_REQUESTED -> VS_WarningContainer
+                                            ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> VS_PrimaryContainer
+                                            else -> VS_SurfaceVariant
                                         }
                                     ) {
                                         Text(
@@ -238,11 +238,11 @@ fun SpecialistReferralsScreen(
                                                 fontSize = 10.sp,
                                                 fontWeight = FontWeight.Bold,
                                                 color = when (ref.status) {
-                                                    ReferralStatus.COMPLETED -> GlumeSuccessMint
-                                                    ReferralStatus.DECLINED -> GlumeAlertCoral
-                                                    ReferralStatus.INFO_REQUESTED -> GlumeWarningAmber
-                                                    ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> GlumePrimaryPurpleLight
-                                                    else -> GlumeTextSecondary
+                                                    ReferralStatus.COMPLETED -> VS_Success
+                                                    ReferralStatus.DECLINED -> VS_Error
+                                                    ReferralStatus.INFO_REQUESTED -> VS_Warning
+                                                    ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> VS_PrimaryContainer
+                                                    else -> VS_OnSurfaceVariant
                                                 }
                                             ),
                                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
@@ -251,20 +251,20 @@ fun SpecialistReferralsScreen(
                                 }
                             }
 
-                            HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = 2.dp))
+                            HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = 2.dp))
 
                             // Clinical Reason
                             Text(
                                 text = "Reason: ${ref.reason}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
 
                             // Clinical Question Front-and-Center
                             Surface(
                                 shape = CardShape,
-                                color = GlumePrimaryPurpleContainer.copy(alpha = 0.35f),
-                                border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.5f)),
+                                color = VS_PrimaryContainer.copy(alpha = 0.35f),
+                                border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.5f)),
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Column(modifier = Modifier.padding(Spacing.xs)) {
@@ -273,14 +273,14 @@ fun SpecialistReferralsScreen(
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 10.sp,
-                                            color = GlumePrimaryPurpleLight
+                                            color = VS_PrimaryContainer
                                         )
                                     )
                                     Text(
                                         text = ref.clinicalQuestion,
                                         style = MaterialTheme.typography.bodySmall.copy(
                                             fontWeight = FontWeight.Bold,
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                     )
                                 }
@@ -292,13 +292,13 @@ fun SpecialistReferralsScreen(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                                 ) {
-                                    Text("📎 Attached Records:", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                    Text("📎 Attached Records:", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                     ref.attachedRecordIds.forEach { recId ->
-                                        Surface(shape = PillShape, color = GlumeSurfaceElevated) {
+                                        Surface(shape = PillShape, color = VS_SurfaceVariant) {
                                             Text(
                                                 text = recId,
                                                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
-                                                color = GlumeTextSecondary,
+                                                color = VS_OnSurfaceVariant,
                                                 modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                             )
                                         }
@@ -310,8 +310,8 @@ fun SpecialistReferralsScreen(
                             if (ref.status == ReferralStatus.COMPLETED) {
                                 Surface(
                                     shape = CardShape,
-                                    color = GlumeSuccessContainer.copy(alpha = 0.3f),
-                                    border = BorderStroke(1.dp, GlumeSuccessMint.copy(alpha = 0.6f)),
+                                    color = VS_SuccessContainer.copy(alpha = 0.3f),
+                                    border = BorderStroke(1.dp, VS_Success.copy(alpha = 0.6f)),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Column(modifier = Modifier.padding(Spacing.xs), verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -324,15 +324,15 @@ fun SpecialistReferralsScreen(
                                                 text = "CLOSED LOOP: SPECIALIST FINDINGS RECORDED",
                                                 style = MaterialTheme.typography.labelSmall.copy(
                                                     fontWeight = FontWeight.Bold,
-                                                    color = GlumeSuccessMint
+                                                    color = VS_Success
                                                 )
                                             )
                                         }
                                         ref.specialistFindings?.let { f ->
-                                            Text(text = "Findings: $f", style = MaterialTheme.typography.bodySmall, color = GlumeTextPrimary)
+                                            Text(text = "Findings: $f", style = MaterialTheme.typography.bodySmall, color = VS_OnBackground)
                                         }
                                         ref.specialistRecommendations?.let { r ->
-                                            Text(text = "Recommendations: $r", style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary)
+                                            Text(text = "Recommendations: $r", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                                         }
                                     }
                                 }
@@ -342,7 +342,7 @@ fun SpecialistReferralsScreen(
                             if (ref.status == ReferralStatus.DECLINED) {
                                 Text(
                                     text = "Declined reason: ${ref.declineReason ?: "Specialist unavailable"}",
-                                    style = MaterialTheme.typography.bodySmall.copy(color = GlumeAlertCoral)
+                                    style = MaterialTheme.typography.bodySmall.copy(color = VS_Error)
                                 )
                             }
 
@@ -350,7 +350,7 @@ fun SpecialistReferralsScreen(
                             if (ref.status == ReferralStatus.INFO_REQUESTED) {
                                 Text(
                                     text = "Inquiry sent to referring doctor: ${ref.infoRequestNote ?: "Additional diagnostic clarity requested"}",
-                                    style = MaterialTheme.typography.bodySmall.copy(color = GlumeWarningAmber)
+                                    style = MaterialTheme.typography.bodySmall.copy(color = VS_Warning)
                                 )
                             }
 
@@ -363,29 +363,29 @@ fun SpecialistReferralsScreen(
                                     ) {
                                         Button(
                                             onClick = { onAcceptReferral(ref.id) },
-                                            colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                                            colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                                             shape = PillShape,
                                             modifier = Modifier.weight(1.2f).height(38.dp)
                                         ) {
-                                            Text("✓ Accept Referral", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = GlumeBackground)
+                                            Text("✓ Accept Referral", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Background)
                                         }
 
                                         OutlinedButton(
                                             onClick = { activeInfoRequestReferral = ref },
                                             shape = PillShape,
-                                            border = BorderStroke(1.dp, GlumeWarningAmber),
+                                            border = BorderStroke(1.dp, VS_Warning),
                                             modifier = Modifier.weight(1f).height(38.dp)
                                         ) {
-                                            Text("❓ Ask Info", style = MaterialTheme.typography.labelSmall, color = GlumeWarningAmber)
+                                            Text("❓ Ask Info", style = MaterialTheme.typography.labelSmall, color = VS_Warning)
                                         }
 
                                         OutlinedButton(
                                             onClick = { activeDeclineReferral = ref },
                                             shape = PillShape,
-                                            border = BorderStroke(1.dp, GlumeAlertCoral),
+                                            border = BorderStroke(1.dp, VS_Error),
                                             modifier = Modifier.weight(0.9f).height(38.dp)
                                         ) {
-                                            Text("✕ Decline", style = MaterialTheme.typography.labelSmall, color = GlumeAlertCoral)
+                                            Text("✕ Decline", style = MaterialTheme.typography.labelSmall, color = VS_Error)
                                         }
                                     }
                                 }
@@ -397,7 +397,7 @@ fun SpecialistReferralsScreen(
                                     ) {
                                         Button(
                                             onClick = { onStartConsultCall(ref) },
-                                            colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                                            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                             shape = PillShape,
                                             modifier = Modifier.weight(1.2f).height(38.dp)
                                         ) {
@@ -406,11 +406,11 @@ fun SpecialistReferralsScreen(
 
                                         Button(
                                             onClick = { activeFindingsReferral = ref },
-                                            colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                                            colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                                             shape = PillShape,
                                             modifier = Modifier.weight(1.2f).height(38.dp)
                                         ) {
-                                            Text("📝 Send Findings Back", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = GlumeBackground)
+                                            Text("📝 Send Findings Back", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_Background)
                                         }
                                     }
                                 }
@@ -431,10 +431,10 @@ fun SpecialistReferralsScreen(
 
         AlertDialog(
             onDismissRequest = { activeDeclineReferral = null },
-            title = { Text("Decline Referral", fontWeight = FontWeight.Bold, color = GlumeTextPrimary) },
+            title = { Text("Decline Referral", fontWeight = FontWeight.Bold, color = VS_OnBackground) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                    Text("Please provide the clinical rationale for declining this referral handoff:", style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary)
+                    Text("Please provide the clinical rationale for declining this referral handoff:", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                     OutlinedTextField(
                         value = declineReason,
                         onValueChange = { declineReason = it },
@@ -442,7 +442,7 @@ fun SpecialistReferralsScreen(
                         placeholder = { Text("e.g. Beyond department scope, bed capacity reached, refer to Oncology instead...", fontSize = 12.sp) },
                         minLines = 2
                     )
-                    Text("Suggested Specialist / Department (Optional):", style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary)
+                    Text("Suggested Specialist / Department (Optional):", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                     OutlinedTextField(
                         value = suggestedReroute,
                         onValueChange = { suggestedReroute = it },
@@ -460,7 +460,7 @@ fun SpecialistReferralsScreen(
                             activeDeclineReferral = null
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                     shape = PillShape
                 ) {
                     Text("Decline & Notify", style = MaterialTheme.typography.labelSmall, color = Color.White)
@@ -468,7 +468,7 @@ fun SpecialistReferralsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { activeDeclineReferral = null }) {
-                    Text("Cancel", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                    Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                 }
             }
         )
@@ -480,10 +480,10 @@ fun SpecialistReferralsScreen(
 
         AlertDialog(
             onDismissRequest = { activeInfoRequestReferral = null },
-            title = { Text("Request More Information", fontWeight = FontWeight.Bold, color = GlumeTextPrimary) },
+            title = { Text("Request More Information", fontWeight = FontWeight.Bold, color = VS_OnBackground) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                    Text("Specify the clinical details or diagnostic tests you need before accepting:", style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary)
+                    Text("Specify the clinical details or diagnostic tests you need before accepting:", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                     OutlinedTextField(
                         value = infoQuestion,
                         onValueChange = { infoQuestion = it },
@@ -501,15 +501,15 @@ fun SpecialistReferralsScreen(
                             activeInfoRequestReferral = null
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeWarningAmber),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Warning),
                     shape = PillShape
                 ) {
-                    Text("Send Request", style = MaterialTheme.typography.labelSmall, color = GlumeBackground)
+                    Text("Send Request", style = MaterialTheme.typography.labelSmall, color = VS_Background)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { activeInfoRequestReferral = null }) {
-                    Text("Cancel", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                    Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                 }
             }
         )

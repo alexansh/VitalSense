@@ -33,12 +33,12 @@ fun DoctorSlotConfigDialog(
                 Text(
                     text = "Configure Clinic & Queue Slots",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "Manage patient capacity and walk-in entry rules for today.",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             }
         },
@@ -78,7 +78,7 @@ fun DoctorSlotConfigDialog(
 
                 Surface(
                     shape = RoundedCornerShape(12.dp),
-                    color = NagarSevaElevatedLight,
+                    color = VS_SurfaceVariant,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -92,12 +92,12 @@ fun DoctorSlotConfigDialog(
                             Text(
                                 text = "Accept Walk-In Queue",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Allow patients without prior booking to check-in directly.",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                         Switch(
@@ -105,7 +105,7 @@ fun DoctorSlotConfigDialog(
                             onCheckedChange = { isWalkInOpen = it },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = Color.White,
-                                checkedTrackColor = NagarSevaPrimary
+                                checkedTrackColor = VS_Primary
                             )
                         )
                     }
@@ -124,10 +124,10 @@ fun DoctorSlotConfigDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = GlumeTextSecondary)
+                Text("Cancel", color = VS_OnSurfaceVariant)
             }
         },
         shape = RoundedCornerShape(18.dp),
-        containerColor = NagarSevaSurfaceLight
+        containerColor = VS_Surface
     )
 }

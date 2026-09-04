@@ -102,9 +102,9 @@ fun CreateReferralDialog(
                 .fillMaxWidth(0.95f)
                 .fillMaxHeight(0.92f),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -126,25 +126,25 @@ fun CreateReferralDialog(
                             Text(
                                 text = "Doctor-to-Doctor Referral",
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                         Text(
                             text = "Patient: $patientName · Ref by Dr. ${currentDoctor.name}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
                         Text(
                             text = "✕",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xs))
 
                 // Scrollable Form
                 Column(
@@ -157,7 +157,7 @@ fun CreateReferralDialog(
                     Text(
                         text = "1. Select Target Medical Specialty *",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -178,10 +178,10 @@ fun CreateReferralDialog(
                                                     .firstOrNull()
                                             },
                                         shape = CardShape,
-                                        color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
+                                        color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
                                         border = BorderStroke(
                                             if (isSelected) 1.5.dp else 1.dp,
-                                            if (isSelected) GlumePrimaryPurple else GlumeBorder
+                                            if (isSelected) VS_Primary else VS_Outline
                                         )
                                     ) {
                                         Text(
@@ -190,7 +190,7 @@ fun CreateReferralDialog(
                                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                                 fontSize = 12.sp
                                             ),
-                                            color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary,
+                                            color = if (isSelected) VS_PrimaryContainer else VS_OnBackground,
                                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
                                         )
                                     }
@@ -206,7 +206,7 @@ fun CreateReferralDialog(
                     Text(
                         text = "2. Routing & Triage Assignment",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     Row(
@@ -218,22 +218,22 @@ fun CreateReferralDialog(
                                 .weight(1f)
                                 .clickable { routeToNamedDoctor = false },
                             shape = CardShape,
-                            color = if (!routeToNamedDoctor) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
+                            color = if (!routeToNamedDoctor) VS_PrimaryContainer else VS_SurfaceVariant,
                             border = BorderStroke(
                                 if (!routeToNamedDoctor) 1.5.dp else 1.dp,
-                                if (!routeToNamedDoctor) GlumePrimaryPurple else GlumeBorder
+                                if (!routeToNamedDoctor) VS_Primary else VS_Outline
                             )
                         ) {
                             Column(modifier = Modifier.padding(Spacing.xs)) {
                                 Text(
                                     text = "🏢 Specialty Queue",
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = if (!routeToNamedDoctor) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                    color = if (!routeToNamedDoctor) VS_PrimaryContainer else VS_OnBackground
                                 )
                                 Text(
                                     text = "Any available ${selectedSpecialty.displayName}",
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                         }
@@ -243,22 +243,22 @@ fun CreateReferralDialog(
                                 .weight(1f)
                                 .clickable { routeToNamedDoctor = true },
                             shape = CardShape,
-                            color = if (routeToNamedDoctor) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
+                            color = if (routeToNamedDoctor) VS_PrimaryContainer else VS_SurfaceVariant,
                             border = BorderStroke(
                                 if (routeToNamedDoctor) 1.5.dp else 1.dp,
-                                if (routeToNamedDoctor) GlumePrimaryPurple else GlumeBorder
+                                if (routeToNamedDoctor) VS_Primary else VS_Outline
                             )
                         ) {
                             Column(modifier = Modifier.padding(Spacing.xs)) {
                                 Text(
                                     text = "👨‍⚕️ Named Specialist",
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = if (routeToNamedDoctor) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                    color = if (routeToNamedDoctor) VS_PrimaryContainer else VS_OnBackground
                                 )
                                 Text(
                                     text = "Direct specific physician handoff",
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                         }
@@ -270,7 +270,7 @@ fun CreateReferralDialog(
                             Text(
                                 text = "No specific named specialist registered for this specialty. Will fallback to department queue.",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeWarningAmber
+                                color = VS_Warning
                             )
                         } else {
                             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -281,8 +281,8 @@ fun CreateReferralDialog(
                                             .fillMaxWidth()
                                             .clickable { selectedSpecialistDoctor = specDoc },
                                         shape = PillShape,
-                                        color = if (isSelected) GlumeSuccessContainer else GlumeSurfaceElevated,
-                                        border = BorderStroke(1.dp, if (isSelected) GlumeSuccessMint else GlumeBorder)
+                                        color = if (isSelected) VS_SuccessContainer else VS_SurfaceVariant,
+                                        border = BorderStroke(1.dp, if (isSelected) VS_Success else VS_Outline)
                                     ) {
                                         Row(
                                             modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 6.dp),
@@ -293,23 +293,23 @@ fun CreateReferralDialog(
                                                 Text(
                                                     text = specDoc.name,
                                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                                    color = if (isSelected) GlumeSuccessMint else GlumeTextPrimary
+                                                    color = if (isSelected) VS_Success else VS_OnBackground
                                                 )
                                                 Text(
                                                     text = "${specDoc.qualification} · ${specDoc.hospitalAffiliation}",
                                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                                                    color = GlumeTextSecondary
+                                                    color = VS_OnSurfaceVariant
                                                 )
                                             }
                                             Surface(
                                                 shape = PillShape,
-                                                color = if (specDoc.availabilityStatus == DoctorAvailabilityStatus.AVAILABLE) GlumeSuccessMint.copy(alpha = 0.2f) else GlumeWarningAmber.copy(alpha = 0.2f)
+                                                color = if (specDoc.availabilityStatus == DoctorAvailabilityStatus.AVAILABLE) VS_Success.copy(alpha = 0.2f) else VS_Warning.copy(alpha = 0.2f)
                                             ) {
                                                 Text(
                                                     text = specDoc.availabilityStatus.displayName,
                                                     style = MaterialTheme.typography.labelSmall.copy(
                                                         fontSize = 9.sp,
-                                                        color = if (specDoc.availabilityStatus == DoctorAvailabilityStatus.AVAILABLE) GlumeSuccessMint else GlumeWarningAmber
+                                                        color = if (specDoc.availabilityStatus == DoctorAvailabilityStatus.AVAILABLE) VS_Success else VS_Warning
                                                     ),
                                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                                 )
@@ -325,7 +325,7 @@ fun CreateReferralDialog(
                     Text(
                         text = "3. Urgency Level *",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     Row(
@@ -336,19 +336,19 @@ fun CreateReferralDialog(
                             val isSelected = selectedUrgency == urgency
                             val (bgColor, borderColor, textColor) = when (urgency) {
                                 ReferralUrgency.ROUTINE -> Triple(
-                                    if (isSelected) GlumeSuccessContainer else GlumeSurfaceElevated,
-                                    if (isSelected) GlumeSuccessMint else GlumeBorder,
-                                    if (isSelected) GlumeSuccessMint else GlumeTextPrimary
+                                    if (isSelected) VS_SuccessContainer else VS_SurfaceVariant,
+                                    if (isSelected) VS_Success else VS_Outline,
+                                    if (isSelected) VS_Success else VS_OnBackground
                                 )
                                 ReferralUrgency.URGENT -> Triple(
-                                    if (isSelected) GlumeWarningContainer else GlumeSurfaceElevated,
-                                    if (isSelected) GlumeWarningAmber else GlumeBorder,
-                                    if (isSelected) GlumeWarningAmber else GlumeTextPrimary
+                                    if (isSelected) VS_WarningContainer else VS_SurfaceVariant,
+                                    if (isSelected) VS_Warning else VS_Outline,
+                                    if (isSelected) VS_Warning else VS_OnBackground
                                 )
                                 ReferralUrgency.EMERGENCY -> Triple(
-                                    if (isSelected) GlumeAlertContainer else GlumeSurfaceElevated,
-                                    if (isSelected) GlumeAlertCoral else GlumeBorder,
-                                    if (isSelected) GlumeAlertCoral else GlumeTextPrimary
+                                    if (isSelected) VS_ErrorContainer else VS_SurfaceVariant,
+                                    if (isSelected) VS_Error else VS_Outline,
+                                    if (isSelected) VS_Error else VS_OnBackground
                                 )
                             }
 
@@ -383,7 +383,7 @@ fun CreateReferralDialog(
                                             ReferralUrgency.EMERGENCY -> "Immediate critical"
                                         },
                                         style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                             }
@@ -393,8 +393,8 @@ fun CreateReferralDialog(
                     // EMERGENCY WARNING BANNER
                     if (showEmergencyWarning || selectedUrgency == ReferralUrgency.EMERGENCY) {
                         VitalSenseCard(
-                            backgroundColor = GlumeAlertContainer,
-                            border = BorderStroke(1.5.dp, GlumeAlertCoral)
+                            backgroundColor = VS_ErrorContainer,
+                            border = BorderStroke(1.5.dp, VS_Error)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                                 Row(
@@ -405,20 +405,20 @@ fun CreateReferralDialog(
                                     Text(
                                         text = "Emergency Warning: Queue Delay Risk",
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeAlertCoral
+                                        color = VS_Error
                                     )
                                 }
                                 Text(
                                     text = "A referral queue is an asynchronous clinical handoff, NOT an acute response mechanism. If this patient has unstable vitals or life-threatening symptoms, please launch an immediate Emergency SOS call in addition to this record.",
                                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Button(
                                     onClick = {
                                         onDismiss()
                                         onEmergencyCallTrigger()
                                     },
-                                    colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+                                    colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
                                     shape = PillShape,
                                     modifier = Modifier.fillMaxWidth().height(36.dp)
                                 ) {
@@ -432,20 +432,20 @@ fun CreateReferralDialog(
                     Text(
                         text = "4. Clinical Reason for Referral *",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     OutlinedTextField(
                         value = reason,
                         onValueChange = { reason = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Describe clinical findings, progression, and why specialist input is required...", fontSize = 12.sp, color = GlumeTextSecondary) },
+                        placeholder = { Text("Describe clinical findings, progression, and why specialist input is required...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 2,
                         maxLines = 4,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = GlumePrimaryPurple,
-                            unfocusedBorderColor = GlumeBorder,
-                            focusedTextColor = GlumeTextPrimary,
-                            unfocusedTextColor = GlumeTextPrimary
+                            focusedBorderColor = VS_Primary,
+                            unfocusedBorderColor = VS_Outline,
+                            focusedTextColor = VS_OnBackground,
+                            unfocusedTextColor = VS_OnBackground
                         )
                     )
 
@@ -453,25 +453,25 @@ fun CreateReferralDialog(
                     Text(
                         text = "5. Specific Clinical Question / Ask *",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = "Clearly specify what you need from the specialist (e.g. 'Confirm diagnosis of stage 2 HTN and advise titration')",
                         style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                     OutlinedTextField(
                         value = clinicalQuestion,
                         onValueChange = { clinicalQuestion = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("e.g. Confirm diagnosis of X, evaluate for surgical intervention, or advise on drug titration...", fontSize = 12.sp, color = GlumeTextSecondary) },
+                        placeholder = { Text("e.g. Confirm diagnosis of X, evaluate for surgical intervention, or advise on drug titration...", fontSize = 12.sp, color = VS_OnSurfaceVariant) },
                         minLines = 2,
                         maxLines = 3,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = GlumePrimaryPurple,
-                            unfocusedBorderColor = GlumeBorder,
-                            focusedTextColor = GlumeTextPrimary,
-                            unfocusedTextColor = GlumeTextPrimary
+                            focusedBorderColor = VS_Primary,
+                            unfocusedBorderColor = VS_Outline,
+                            focusedTextColor = VS_OnBackground,
+                            unfocusedTextColor = VS_OnBackground
                         )
                     )
 
@@ -480,7 +480,7 @@ fun CreateReferralDialog(
                         Text(
                             text = "6. Attach Supporting Records (${selectedRecordIds.size}/${availableRecords.size})",
                             style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             availableRecords.forEach { (recId, label) ->
@@ -496,8 +496,8 @@ fun CreateReferralDialog(
                                             }
                                         },
                                     shape = CardShape,
-                                    color = if (isChecked) GlumePrimaryPurpleContainer.copy(alpha = 0.5f) else GlumeSurfaceElevated,
-                                    border = BorderStroke(1.dp, if (isChecked) GlumePrimaryPurpleLight.copy(alpha = 0.6f) else GlumeBorder)
+                                    color = if (isChecked) VS_PrimaryContainer.copy(alpha = 0.5f) else VS_SurfaceVariant,
+                                    border = BorderStroke(1.dp, if (isChecked) VS_PrimaryContainer.copy(alpha = 0.6f) else VS_Outline)
                                 ) {
                                     Row(
                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
@@ -510,14 +510,14 @@ fun CreateReferralDialog(
                                                 selectedRecordIds = if (checked) selectedRecordIds + recId else selectedRecordIds - recId
                                             },
                                             colors = CheckboxDefaults.colors(
-                                                checkedColor = GlumePrimaryPurple,
-                                                uncheckedColor = GlumeBorder
+                                                checkedColor = VS_Primary,
+                                                uncheckedColor = VS_Outline
                                             )
                                         )
                                         Text(
                                             text = label,
                                             style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                     }
                                 }
@@ -529,12 +529,12 @@ fun CreateReferralDialog(
                     errorMessage?.let { err ->
                         Text(
                             text = "⚠️ $err",
-                            style = MaterialTheme.typography.bodySmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold)
+                            style = MaterialTheme.typography.bodySmall.copy(color = VS_Error, fontWeight = FontWeight.Bold)
                         )
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xs))
 
                 // Action Buttons
                 Row(
@@ -545,9 +545,9 @@ fun CreateReferralDialog(
                         onClick = onDismiss,
                         modifier = Modifier.weight(1f).height(44.dp),
                         shape = PillShape,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
-                        Text("Cancel", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                        Text("Cancel", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
 
                     Button(
@@ -585,9 +585,9 @@ fun CreateReferralDialog(
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = when (selectedUrgency) {
-                                ReferralUrgency.ROUTINE -> GlumePrimaryPurple
-                                ReferralUrgency.URGENT -> GlumeWarningAmber
-                                ReferralUrgency.EMERGENCY -> GlumeAlertCoral
+                                ReferralUrgency.ROUTINE -> VS_Primary
+                                ReferralUrgency.URGENT -> VS_Warning
+                                ReferralUrgency.EMERGENCY -> VS_Error
                             }
                         )
                     ) {

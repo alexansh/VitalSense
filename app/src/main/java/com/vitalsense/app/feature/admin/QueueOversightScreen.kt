@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -51,12 +51,12 @@ fun QueueOversightScreen(
                             Text(
                                 text = if (selectedDoctorSummary != null) "Dr. ${selectedDoctorSummary.doctorName} Queue" else stringResource(R.string.liveQueueTitle),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = if (selectedDoctorSummary != null) "Real-time doctor queue drilldown (Read-Only)" else "Multi-Clinic Patient Wait Time Monitor",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     },
@@ -70,14 +70,14 @@ fun QueueOversightScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",
-                                tint = GlumeTextPrimary
+                                tint = VS_OnBackground
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
                 )
             },
-            containerColor = NagarSevaCanvasLight
+            containerColor = VS_Background
         ) { paddingValues ->
             if (selectedDoctorId != null) {
                 // Doctor Queue Drilldown View (Read-Only)
@@ -93,8 +93,8 @@ fun QueueOversightScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                            border = BorderStroke(1.dp, NagarSevaBorderLight)
+                            colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                            border = BorderStroke(1.dp, VS_Outline)
                         ) {
                             Row(
                                 modifier = Modifier
@@ -107,12 +107,12 @@ fun QueueOversightScreen(
                                     Text(
                                         text = "Current Serving Token",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                     Text(
                                         text = if ((selectedDoctorSummary?.currentToken ?: 0) > 0) "#${selectedDoctorSummary?.currentToken}" else "None",
                                         style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = NagarSevaPrimary
+                                        color = VS_Primary
                                     )
                                 }
 
@@ -120,12 +120,12 @@ fun QueueOversightScreen(
                                     Text(
                                         text = "Waiting in Line",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                     Text(
                                         text = "${selectedDoctorSummary?.waitingCount ?: 0} Patients",
                                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                 }
                             }
@@ -136,7 +136,7 @@ fun QueueOversightScreen(
                         Text(
                             text = "Live Patients in Queue (${selectedDoctorQueue.size})",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     }
 
@@ -145,13 +145,13 @@ fun QueueOversightScreen(
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = RoundedCornerShape(14.dp),
-                                colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight)
+                                colors = CardDefaults.cardColors(containerColor = VS_Surface)
                             ) {
                                 Box(
                                     modifier = Modifier.fillMaxWidth().padding(24.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text("No patients in queue for this doctor today.", color = GlumeTextSecondary)
+                                    Text("No patients in queue for this doctor today.", color = VS_OnSurfaceVariant)
                                 }
                             }
                         }
@@ -183,12 +183,12 @@ fun QueueOversightScreen(
                             Text(
                                 text = "Active Doctors & Clinic Streams (${summaries.size})",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Tap doctor to inspect queue",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -200,8 +200,8 @@ fun QueueOversightScreen(
                                 .fillMaxWidth()
                                 .touchSpring(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                            border = BorderStroke(1.dp, NagarSevaBorderLight),
+                            colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                            border = BorderStroke(1.dp, VS_Outline),
                             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                         ) {
                             Column(
@@ -221,7 +221,7 @@ fun QueueOversightScreen(
                                     ) {
                                         Surface(
                                             shape = CircleShape,
-                                            color = NagarSevaPrimary.copy(alpha = 0.12f),
+                                            color = VS_Primary.copy(alpha = 0.12f),
                                             modifier = Modifier.size(40.dp)
                                         ) {
                                             Box(contentAlignment = Alignment.Center) {
@@ -233,12 +233,12 @@ fun QueueOversightScreen(
                                             Text(
                                                 text = "Dr. ${summary.doctorName}",
                                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                                color = GlumeTextPrimary
+                                                color = VS_OnBackground
                                             )
                                             Text(
                                                 text = if (summary.isQueueOpen) "Clinic Open · Accepting Patients" else "Clinic Closed",
                                                 style = MaterialTheme.typography.labelSmall,
-                                                color = if (summary.isQueueOpen) NagarSevaStatusNormal else GlumeTextSecondary
+                                                color = if (summary.isQueueOpen) VS_Success else VS_OnSurfaceVariant
                                             )
                                         }
                                     }
@@ -246,11 +246,11 @@ fun QueueOversightScreen(
                                     TabularStatusChip(
                                         statusText = if (summary.waitingCount > 5) "HIGH LOAD" else "NORMAL",
                                         containerColor = if (summary.waitingCount > 5) NagarSevaStatusUrgentBg else NagarSevaStatusNormalBg,
-                                        textColor = if (summary.waitingCount > 5) NagarSevaStatusUrgent else NagarSevaStatusNormal
+                                        textColor = if (summary.waitingCount > 5) VS_Error else VS_Success
                                     )
                                 }
 
-                                HorizontalDivider(color = NagarSevaBorderLight)
+                                HorizontalDivider(color = VS_Outline)
 
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -258,29 +258,29 @@ fun QueueOversightScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Column {
-                                        Text("Now Serving", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                        Text("Now Serving", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                         Text(
                                             text = if (summary.currentToken > 0) "#${summary.currentToken}" else "--",
                                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                            color = NagarSevaPrimary
+                                            color = VS_Primary
                                         )
                                     }
 
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text("In Waiting", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                        Text("In Waiting", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                         Text(
                                             text = "${summary.waitingCount}",
                                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                     }
 
                                     Column(horizontalAlignment = Alignment.End) {
-                                        Text("Avg Wait", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                        Text("Avg Wait", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                         Text(
                                             text = "~${(summary.avgWaitSeconds + 59) / 60}m",
                                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                     }
                                 }

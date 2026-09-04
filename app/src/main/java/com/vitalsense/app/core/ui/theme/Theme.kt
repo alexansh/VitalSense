@@ -1,87 +1,79 @@
 package com.vitalsense.app.core.ui.theme
 
+import android.app.Activity
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
-// --- NagarSeva Dark Color Scheme ---
-private val NagarSevaDarkColorScheme = darkColorScheme(
-    primary = NagarSevaPrimary,
-    onPrimary = Color.White,
-    primaryContainer = Color(0xFF312E81),
-    onPrimaryContainer = NagarSevaPrimaryLight,
+/**
+ * VitalSense uses a single, fixed light color scheme intentionally.
+ *
+ * Rationale: this is a field/clinical tool used by ASHA workers and
+ * patients, often in bright outdoor daylight on low-end devices.
+ * Dynamic color (Material You) and dark theme are deliberately NOT
+ * wired here — a consistent, predictable, high-contrast light UI is
+ * more legible outdoors and easier to support across roles than a
+ * theme that changes per device/wallpaper.
+ */
+private val VSLightColorScheme = lightColorScheme(
+    primary = VS_Primary,
+    onPrimary = VS_OnPrimary,
+    primaryContainer = VS_PrimaryContainer,
+    onPrimaryContainer = VS_OnPrimaryContainer,
 
-    secondary = NagarSevaElevatedDark,
-    onSecondary = NagarSevaTextPrimaryDark,
-    secondaryContainer = NagarSevaElevatedDark,
-    onSecondaryContainer = NagarSevaTextSecondaryDark,
+    secondary = VS_Secondary,
+    onSecondary = VS_OnSecondary,
+    secondaryContainer = VS_SecondaryContainer,
+    onSecondaryContainer = VS_OnSecondaryContainer,
 
-    tertiary = NagarSevaStatusNormal,
-    onTertiary = Color.White,
-    tertiaryContainer = Color(0xFF064E3B),
-    onTertiaryContainer = NagarSevaStatusNormal,
+    tertiary = VS_Tertiary,
+    onTertiary = VS_OnTertiary,
+    tertiaryContainer = VS_TertiaryContainer,
+    onTertiaryContainer = VS_OnTertiaryContainer,
 
-    background = NagarSevaCanvasDark,
-    onBackground = NagarSevaTextPrimaryDark,
+    background = VS_Background,
+    onBackground = VS_OnBackground,
 
-    surface = NagarSevaSurfaceDark,
-    onSurface = NagarSevaTextPrimaryDark,
-    surfaceVariant = NagarSevaElevatedDark,
-    onSurfaceVariant = NagarSevaTextSecondaryDark,
+    surface = VS_Surface,
+    onSurface = VS_OnSurface,
+    surfaceVariant = VS_SurfaceVariant,
+    onSurfaceVariant = VS_OnSurfaceVariant,
 
-    error = NagarSevaStatusUrgent,
-    onError = Color.White,
-    errorContainer = Color(0xFF7F1D1D),
-    onErrorContainer = NagarSevaStatusUrgent,
+    outline = VS_Outline,
+    outlineVariant = VS_OutlineVariant,
 
-    outline = NagarSevaBorderDark,
-    outlineVariant = NagarSevaBorderDark
-)
-
-// --- NagarSeva Light Color Scheme (Default) ---
-private val NagarSevaLightColorScheme = lightColorScheme(
-    primary = NagarSevaPrimary,
-    onPrimary = Color.White,
-    primaryContainer = NagarSevaPrimaryContainer,
-    onPrimaryContainer = NagarSevaPrimary,
-
-    secondary = NagarSevaElevatedLight,
-    onSecondary = NagarSevaTextPrimaryLight,
-    secondaryContainer = NagarSevaElevatedLight,
-    onSecondaryContainer = NagarSevaTextSecondaryLight,
-
-    tertiary = NagarSevaStatusNormal,
-    onTertiary = Color.White,
-    tertiaryContainer = NagarSevaStatusNormalContainer,
-    onTertiaryContainer = NagarSevaStatusNormalText,
-
-    background = NagarSevaCanvasLight,
-    onBackground = NagarSevaTextPrimaryLight,
-
-    surface = NagarSevaSurfaceLight,
-    onSurface = NagarSevaTextPrimaryLight,
-    surfaceVariant = NagarSevaElevatedLight,
-    onSurfaceVariant = NagarSevaTextSecondaryLight,
-
-    error = NagarSevaStatusUrgent,
-    onError = Color.White,
-    errorContainer = NagarSevaStatusUrgentContainer,
-    onErrorContainer = NagarSevaStatusUrgentText,
-
-    outline = NagarSevaBorderLight,
-    outlineVariant = NagarSevaBorderLight
+    error = VS_Error,
+    onError = Color(0xFFFFFFFF),
+    errorContainer = VS_ErrorContainer,
+    onErrorContainer = VS_OnErrorContainer
 )
 
 @Composable
 fun VitalSenseTheme(
     language: AppLanguage = AppLanguage.ENGLISH,
-    usePatientLightMode: Boolean = true, // Default to Presentation Light Mode for clarity
+    usePatientLightMode: Boolean = true, // Kept for compatibility but always uses VSLightColorScheme
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (usePatientLightMode) NagarSevaLightColorScheme else NagarSevaDarkColorScheme
+    val colorScheme = VSLightColorScheme
+    val view = LocalView.current
+
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = colorScheme.background.toArgb()
+            window.navigationBarColor = colorScheme.background.toArgb()
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = true
+                isAppearanceLightNavigationBars = true
+            }
+        }
+    }
 
     CompositionLocalProvider(
         LocalSpacing provides VitalSenseSpacing(),
@@ -89,8 +81,8 @@ fun VitalSenseTheme(
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = VitalSenseTypography,
-            shapes = VitalSenseShapes,
+            typography = VSTypography,
+            shapes = VSShapes,
             content = content
         )
     }

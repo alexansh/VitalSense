@@ -111,7 +111,7 @@ fun SensorPairingDialog(
                         currentStep = 2
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     modifier = Modifier.defaultMinSize(minHeight = 44.dp)
                 ) {
                     Text(text = searchSensorBtn, style = MaterialTheme.typography.labelLarge, color = Color.White)
@@ -123,17 +123,17 @@ fun SensorPairingDialog(
                         onDismiss()
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                     modifier = Modifier.defaultMinSize(minHeight = 44.dp)
                 ) {
-                    Text(text = saveRecordBtn, style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold), color = GlumeBackground)
+                    Text(text = saveRecordBtn, style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold), color = VS_Background)
                 }
             }
         },
         dismissButton = {
             if (currentStep != 4) {
                 TextButton(onClick = onDismiss, shape = PillShape) {
-                    Text(text = cancelBtn, color = GlumeTextSecondary, style = MaterialTheme.typography.labelLarge)
+                    Text(text = cancelBtn, color = VS_OnSurfaceVariant, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -157,7 +157,7 @@ fun SensorPairingDialog(
                 Text(
                     text = stepLabel,
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumePrimaryPurpleLight
+                    color = VS_PrimaryContainer
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     for (i in 1..3) {
@@ -165,13 +165,13 @@ fun SensorPairingDialog(
                             modifier = Modifier
                                 .size(10.dp)
                                 .clip(CircleShape)
-                                .background(if (i <= currentStep) GlumePrimaryPurple else GlumeBorder)
+                                .background(if (i <= currentStep) VS_Primary else VS_Outline)
                         )
                     }
                 }
             }
 
-            HorizontalDivider(color = GlumeBorder)
+            HorizontalDivider(color = VS_Outline)
 
             // Step Content
             when (currentStep) {
@@ -192,18 +192,18 @@ fun SensorPairingDialog(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                     ) {
-                        Text(text = step1Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                        Text(text = step1Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         Box(
                             modifier = Modifier
                                 .size(110.dp)
                                 .clip(CardShape)
-                                .background(GlumeSurfaceElevated)
+                                .background(VS_SurfaceVariant)
                                 .padding(Spacing.sm),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(text = "👆📎", fontSize = 48.sp)
                         }
-                        Text(text = step1Desc, style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary, textAlign = TextAlign.Center)
+                        Text(text = step1Desc, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant, textAlign = TextAlign.Center)
                     }
                 }
                 2 -> {
@@ -223,17 +223,17 @@ fun SensorPairingDialog(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                     ) {
-                        Text(text = step2Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                        Text(text = step2Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         Box(
                             modifier = Modifier
                                 .size(110.dp)
                                 .clip(CircleShape)
-                                .background(GlumePrimaryPurpleContainer.copy(alpha = 0.3f)),
+                                .background(VS_PrimaryContainer.copy(alpha = 0.3f)),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator(color = GlumePrimaryPurpleLight, modifier = Modifier.size(54.dp))
+                            CircularProgressIndicator(color = VS_PrimaryContainer, modifier = Modifier.size(54.dp))
                         }
-                        Text(text = step2Desc, style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary, textAlign = TextAlign.Center)
+                        Text(text = step2Desc, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant, textAlign = TextAlign.Center)
                     }
                 }
                 3 -> {
@@ -253,35 +253,35 @@ fun SensorPairingDialog(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                     ) {
-                        Text(text = step3Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                        Text(text = step3Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.md),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Surface(
                                 shape = CardShape,
-                                color = GlumeSurfaceElevated,
-                                border = BorderStroke(1.dp, GlumeBorder),
+                                color = VS_SurfaceVariant,
+                                border = BorderStroke(1.dp, VS_Outline),
                                 modifier = Modifier.padding(Spacing.xs)
                             ) {
                                 Column(modifier = Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = "$liveHeartRate", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = GlumeAlertCoral)
-                                    Text(text = "BPM", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                    Text(text = "$liveHeartRate", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = VS_Error)
+                                    Text(text = "BPM", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                 }
                             }
                             Surface(
                                 shape = CardShape,
-                                color = GlumeSurfaceElevated,
-                                border = BorderStroke(1.dp, GlumeBorder),
+                                color = VS_SurfaceVariant,
+                                border = BorderStroke(1.dp, VS_Outline),
                                 modifier = Modifier.padding(Spacing.xs)
                             ) {
                                 Column(modifier = Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = "$liveSpO2%", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = GlumeSuccessMint)
-                                    Text(text = "SpO2", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                    Text(text = "$liveSpO2%", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = VS_Success)
+                                    Text(text = "SpO2", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                 }
                             }
                         }
-                        Text(text = step3Desc, style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary, textAlign = TextAlign.Center)
+                        Text(text = step3Desc, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant, textAlign = TextAlign.Center)
                     }
                 }
                 4 -> {
@@ -301,8 +301,8 @@ fun SensorPairingDialog(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                     ) {
-                        Text(text = step4Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeSuccessMint)
-                        Text(text = step4Desc, style = MaterialTheme.typography.bodyMedium, color = GlumeTextPrimary, textAlign = TextAlign.Center)
+                        Text(text = step4Title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_Success)
+                        Text(text = step4Desc, style = MaterialTheme.typography.bodyMedium, color = VS_OnBackground, textAlign = TextAlign.Center)
                     }
                 }
             }

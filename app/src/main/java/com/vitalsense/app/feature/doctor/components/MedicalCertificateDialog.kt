@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -54,16 +54,16 @@ fun MedicalCertificateDialog(
                     Text(
                         text = "Issue Medical Certificate",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = "Certified Clinical Leave & Fitness",
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumePrimaryPurpleLight
+                        color = VS_PrimaryContainer
                     )
                 }
                 IconButton(onClick = onDismiss) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = "Close", tint = GlumeTextSecondary)
+                    Icon(imageVector = Icons.Outlined.Close, contentDescription = "Close", tint = VS_OnSurfaceVariant)
                 }
             }
         },
@@ -76,7 +76,7 @@ fun MedicalCertificateDialog(
                     Text(
                         text = "Certificate Type:",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -86,8 +86,8 @@ fun MedicalCertificateDialog(
                             val isSelected = certificateType == type
                             Surface(
                                 shape = RoundedCornerShape(8.dp),
-                                color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                                border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder),
+                                color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                                border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline),
                                 modifier = Modifier
                                     .weight(1f)
                                     .clickable { certificateType = type }
@@ -97,7 +97,7 @@ fun MedicalCertificateDialog(
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                                     ),
-                                    color = if (isSelected) GlumePrimaryPurple else GlumeTextPrimary,
+                                    color = if (isSelected) VS_Primary else VS_OnBackground,
                                     modifier = Modifier.padding(Spacing.sm)
                                 )
                             }
@@ -107,13 +107,13 @@ fun MedicalCertificateDialog(
 
                 item {
                     VitalSenseCard(
-                        backgroundColor = GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        backgroundColor = VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                            Text("Patient: ${condition.patientName} (Age: 45)", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                            Text("Village: ${condition.villageName}", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
-                            Text("Attending Doctor: ${doctor.name} (${doctor.specialty.name})", style = MaterialTheme.typography.labelSmall, color = GlumePrimaryPurpleLight)
+                            Text("Patient: ${condition.patientName} (Age: 45)", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text("Village: ${condition.villageName}", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("Attending Doctor: ${doctor.name} (${doctor.specialty.name})", style = MaterialTheme.typography.labelSmall, color = VS_PrimaryContainer)
                         }
                     }
                 }
@@ -167,8 +167,8 @@ fun MedicalCertificateDialog(
                 item {
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = GlumeSuccessContainer.copy(alpha = 0.3f),
-                        border = BorderStroke(1.dp, GlumeSuccessText.copy(alpha = 0.3f)),
+                        color = VS_SuccessContainer.copy(alpha = 0.3f),
+                        border = BorderStroke(1.dp, VS_OnSuccessContainer.copy(alpha = 0.3f)),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
@@ -177,15 +177,15 @@ fun MedicalCertificateDialog(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.VerifiedUser,
+                                imageVector = Icons.Outlined.VerifiedUser,
                                 contentDescription = null,
-                                tint = GlumeSuccessText,
+                                tint = VS_OnSuccessContainer,
                                 modifier = Modifier.size(20.dp)
                             )
                             Text(
                                 text = "Certificate will be cryptographically stamped with digital verification seal.",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeSuccessText
+                                color = VS_OnSuccessContainer
                             )
                         }
                     }
@@ -226,6 +226,7 @@ fun MedicalCertificateDialog(
                 style = ButtonStyle.SECONDARY
             )
         },
-        containerColor = GlumeBackground
+        containerColor = VS_Background
     )
 }
+

@@ -8,9 +8,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.*
+
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -63,7 +67,7 @@ fun AppointmentsScreen(
                         Text(
                             text = stringResource(R.string.scheduledAppointments),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     },
                     navigationIcon = {
@@ -71,7 +75,7 @@ fun AppointmentsScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",
-                                tint = GlumeTextPrimary
+                                tint = VS_OnBackground
                             )
                         }
                     },
@@ -95,7 +99,7 @@ fun AppointmentsScreen(
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
                 )
             },
-            containerColor = NagarSevaCanvasLight
+            containerColor = VS_Background
         ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier
@@ -117,9 +121,9 @@ fun AppointmentsScreen(
                                 .height(48.dp)
                                 .touchSpring(),
                             shape = RoundedCornerShape(12.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary)
+                            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                         ) {
-                            Icon(Icons.Default.Add, contentDescription = null, tint = Color.White)
+                            Icon(Icons.Outlined.Add, contentDescription = null, tint = Color.White)
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(stringResource(R.string.bookACall), fontWeight = FontWeight.Bold, color = Color.White)
                         }
@@ -131,9 +135,9 @@ fun AppointmentsScreen(
                                 .height(48.dp)
                                 .touchSpring(),
                             shape = RoundedCornerShape(12.dp),
-                            border = BorderStroke(1.5.dp, NagarSevaPrimary)
+                            border = BorderStroke(1.5.dp, VS_Primary)
                         ) {
-                            Text(stringResource(R.string.liveQueueHud), fontWeight = FontWeight.Bold, color = NagarSevaPrimary)
+                            Text(stringResource(R.string.liveQueueHud), fontWeight = FontWeight.Bold, color = VS_Primary)
                         }
                     }
                 }
@@ -143,8 +147,8 @@ fun AppointmentsScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                            border = BorderStroke(1.dp, NagarSevaBorderLight)
+                            colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                            border = BorderStroke(1.dp, VS_Outline)
                         ) {
                             Box(
                                 modifier = Modifier
@@ -160,12 +164,12 @@ fun AppointmentsScreen(
                                     Text(
                                         text = stringResource(R.string.noUpcomingAppointments),
                                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = stringResource(R.string.bookConsultationSubtitle),
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                             }
@@ -181,13 +185,13 @@ fun AppointmentsScreen(
                                 .fillMaxWidth()
                                 .touchSpring(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
+                            colors = CardDefaults.cardColors(containerColor = VS_Surface),
                             border = BorderStroke(
                                 1.5.dp,
                                 when (joinStatus) {
-                                    JoinWindowStatus.JOIN_ACTIVE -> GlumeSuccessMint
-                                    JoinWindowStatus.AFTER_WINDOW_MISSED -> GlumeAlertCoral.copy(alpha = 0.5f)
-                                    JoinWindowStatus.BEFORE_WINDOW -> NagarSevaBorderLight
+                                    JoinWindowStatus.JOIN_ACTIVE -> VS_Success
+                                    JoinWindowStatus.AFTER_WINDOW_MISSED -> VS_Error.copy(alpha = 0.5f)
+                                    JoinWindowStatus.BEFORE_WINDOW -> VS_Outline
                                 }
                             ),
                             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -209,7 +213,7 @@ fun AppointmentsScreen(
                                     ) {
                                         Surface(
                                             shape = CircleShape,
-                                            color = if (isVideo) GlumePrimaryPurpleContainer else GlumeSuccessContainer,
+                                            color = if (isVideo) VS_PrimaryContainer else VS_SuccessContainer,
                                             modifier = Modifier.size(42.dp)
                                         ) {
                                             Box(contentAlignment = Alignment.Center) {
@@ -221,12 +225,12 @@ fun AppointmentsScreen(
                                             Text(
                                                 text = "Dr. ${appt.doctorName}",
                                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                                color = GlumeTextPrimary
+                                                color = VS_OnBackground
                                             )
                                             Text(
                                                 text = "${appt.dateFormatted} · ${appt.timeSlot} · ${if (isVideo) "Video Call" else "Voice Call"}",
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = GlumeTextSecondary
+                                                color = VS_OnSurfaceVariant
                                             )
                                         }
                                     }
@@ -239,13 +243,13 @@ fun AppointmentsScreen(
                                         },
                                         containerColor = when (joinStatus) {
                                             JoinWindowStatus.JOIN_ACTIVE -> NagarSevaStatusNormalBg
-                                            JoinWindowStatus.AFTER_WINDOW_MISSED -> GlumeAlertContainer
+                                            JoinWindowStatus.AFTER_WINDOW_MISSED -> VS_ErrorContainer
                                             JoinWindowStatus.BEFORE_WINDOW -> NagarSevaStatusProgressBg
                                         },
                                         textColor = when (joinStatus) {
-                                            JoinWindowStatus.JOIN_ACTIVE -> NagarSevaStatusNormal
-                                            JoinWindowStatus.AFTER_WINDOW_MISSED -> GlumeAlertCoral
-                                            JoinWindowStatus.BEFORE_WINDOW -> NagarSevaStatusProgress
+                                            JoinWindowStatus.JOIN_ACTIVE -> VS_Success
+                                            JoinWindowStatus.AFTER_WINDOW_MISSED -> VS_Error
+                                            JoinWindowStatus.BEFORE_WINDOW -> VS_Warning
                                         }
                                     )
                                 }
@@ -263,7 +267,7 @@ fun AppointmentsScreen(
                                                 .height(56.dp)
                                                 .touchSpring(),
                                             shape = RoundedCornerShape(12.dp),
-                                            colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint)
+                                            colors = ButtonDefaults.buttonColors(containerColor = VS_Success)
                                         ) {
                                             Text(if (isVideo) "📹" else "🎙️", fontSize = 18.sp)
                                             Spacer(modifier = Modifier.width(8.dp))
@@ -271,7 +275,7 @@ fun AppointmentsScreen(
                                                 text = if (isVideo) "Join Video Consultation Now" else "Join Voice Consultation Now",
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 15.sp,
-                                                color = GlumeBackground
+                                                color = VS_Background
                                             )
                                         }
                                     }
@@ -285,14 +289,14 @@ fun AppointmentsScreen(
                                             Text(
                                                 text = "Room opens 10m before ${appt.timeSlot}",
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = GlumeTextSecondary
+                                                color = VS_OnSurfaceVariant
                                             )
                                             OutlinedButton(
                                                 onClick = { showBookCallDialog = true },
                                                 shape = RoundedCornerShape(8.dp),
                                                 modifier = Modifier.height(38.dp)
                                             ) {
-                                                Text("Reschedule", fontWeight = FontWeight.Bold, color = NagarSevaPrimary)
+                                                Text("Reschedule", fontWeight = FontWeight.Bold, color = VS_Primary)
                                             }
                                         }
                                     }
@@ -306,14 +310,14 @@ fun AppointmentsScreen(
                                             Text(
                                                 text = "Doctor didn't join · Rebook slot?",
                                                 style = MaterialTheme.typography.bodySmall.copy(
-                                                    color = GlumeAlertCoral,
+                                                    color = VS_Error,
                                                     fontWeight = FontWeight.Bold
                                                 )
                                             )
                                             Button(
                                                 onClick = { showBookCallDialog = true },
                                                 shape = RoundedCornerShape(8.dp),
-                                                colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                                                colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                                 modifier = Modifier.height(38.dp)
                                             ) {
                                                 Text("Rebook Call", color = Color.White, fontWeight = FontWeight.Bold)
@@ -345,7 +349,7 @@ fun AppointmentsScreen(
                     Text(
                         text = "Waiting for Doctor to Join…",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                 }
             },
@@ -354,11 +358,11 @@ fun AppointmentsScreen(
                     Text(
                         text = "You are in the waiting room for Dr. ${appt.doctorName}.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Surface(
                         shape = RoundedCornerShape(10.dp),
-                        color = GlumePrimaryPurpleContainer,
+                        color = VS_PrimaryContainer,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(modifier = Modifier.padding(12.dp)) {
@@ -366,20 +370,20 @@ fun AppointmentsScreen(
                                 text = "STATUS: Next in Queue",
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontWeight = FontWeight.Bold,
-                                    color = GlumePrimaryPurpleLight
+                                    color = VS_PrimaryContainer
                                 )
                             )
                             Text(
                                 text = "The doctor is wrapping up their previous patient note and will join momentarily. Please do not close the app.",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                     }
                     Text(
                         text = "Call Type: ${if (appt.callType == CallType.VOICE) "🎙️ Voice Only (Low Bandwidth)" else "📹 Video Consultation"}",
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
             },
@@ -390,10 +394,10 @@ fun AppointmentsScreen(
                         waitingRoomAppt = null
                         activeCallAppt = current
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Enter Consultation Room →", color = GlumeBackground, fontWeight = FontWeight.Bold)
+                    Text("Enter Consultation Room →", color = VS_Background, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -403,7 +407,7 @@ fun AppointmentsScreen(
                         TeleCallingManager.endCall("Patient cancelled waiting")
                     }
                 ) {
-                    Text("Cancel / Leave", color = GlumeAlertCoral)
+                    Text("Cancel / Leave", color = VS_Error)
                 }
             }
         )
@@ -449,10 +453,10 @@ fun AppointmentsScreen(
                     // Video Call Option
                     Surface(
                         shape = RoundedCornerShape(12.dp),
-                        color = if (selectedCallType == CallType.VIDEO) GlumePrimaryPurpleContainer else NagarSevaCanvasLight,
+                        color = if (selectedCallType == CallType.VIDEO) VS_PrimaryContainer else VS_Background,
                         border = BorderStroke(
                             1.5.dp,
-                            if (selectedCallType == CallType.VIDEO) GlumePrimaryPurple else NagarSevaBorderLight
+                            if (selectedCallType == CallType.VIDEO) VS_Primary else VS_Outline
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -465,8 +469,8 @@ fun AppointmentsScreen(
                         ) {
                             Text("📹", fontSize = 24.sp)
                             Column {
-                                Text("Video Call (HD)", fontWeight = FontWeight.Bold, color = GlumeTextPrimary)
-                                Text("Requires 4G / Wi-Fi signal", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                Text("Video Call (HD)", fontWeight = FontWeight.Bold, color = VS_OnBackground)
+                                Text("Requires 4G / Wi-Fi signal", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                             }
                         }
                     }
@@ -474,10 +478,10 @@ fun AppointmentsScreen(
                     // Voice Call Option (Recommended for 2G / rural areas)
                     Surface(
                         shape = RoundedCornerShape(12.dp),
-                        color = if (selectedCallType == CallType.VOICE) GlumeSuccessContainer else NagarSevaCanvasLight,
+                        color = if (selectedCallType == CallType.VOICE) VS_SuccessContainer else VS_Background,
                         border = BorderStroke(
                             1.5.dp,
-                            if (selectedCallType == CallType.VOICE) GlumeSuccessMint else NagarSevaBorderLight
+                            if (selectedCallType == CallType.VOICE) VS_Success else VS_Outline
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -490,13 +494,13 @@ fun AppointmentsScreen(
                         ) {
                             Text("🎙️", fontSize = 24.sp)
                             Column {
-                                Text("Voice Call (Low Bandwidth)", fontWeight = FontWeight.Bold, color = GlumeTextPrimary)
-                                Text("Recommended for 2G / weak village signal", style = MaterialTheme.typography.labelSmall, color = GlumeSuccessMint)
+                                Text("Voice Call (Low Bandwidth)", fontWeight = FontWeight.Bold, color = VS_OnBackground)
+                                Text("Recommended for 2G / weak village signal", style = MaterialTheme.typography.labelSmall, color = VS_Success)
                             }
                         }
                     }
 
-                    Text("Time Slot: Today, $selectedTimeSlot", style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary)
+                    Text("Time Slot: Today, $selectedTimeSlot", style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                 }
             },
             confirmButton = {
@@ -519,7 +523,7 @@ fun AppointmentsScreen(
                         onBookAppointment(newAppt)
                         showBookCallDialog = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text("Confirm Booking ✓", color = Color.White, fontWeight = FontWeight.Bold)
@@ -527,9 +531,10 @@ fun AppointmentsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showBookCallDialog = false }) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             }
         )
     }
 }
+

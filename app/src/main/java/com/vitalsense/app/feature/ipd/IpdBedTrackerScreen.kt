@@ -54,7 +54,7 @@ fun IpdBedTrackerScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.md, bottom = Spacing.xxl)
@@ -69,8 +69,8 @@ fun IpdBedTrackerScreen(
                 Surface(
                     onClick = onBackClick,
                     shape = PillShape,
-                    color = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
@@ -78,20 +78,20 @@ fun IpdBedTrackerScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
-                        Text("←", color = GlumeTextPrimary, fontWeight = FontWeight.Bold)
-                        Text(stringResource(R.string.hospitalClinicalServices), style = MaterialTheme.typography.labelMedium, color = GlumeTextPrimary)
+                        Text("←", color = VS_OnBackground, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.hospitalClinicalServices), style = MaterialTheme.typography.labelMedium, color = VS_OnBackground)
                     }
                 }
 
                 Surface(
                     shape = PillShape,
-                    color = GlumePrimaryPurpleContainer,
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.3f))
+                    color = VS_PrimaryContainer,
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
                         text = "Hospital Care · IPD",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumePrimaryPurpleLight,
+                        color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
                     )
                 }
@@ -101,8 +101,8 @@ fun IpdBedTrackerScreen(
         // 2. Hero Bed Occupancy HUD
         item {
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
-                border = BorderStroke(1.dp, GlumeBorder)
+                backgroundColor = VS_Surface,
+                border = BorderStroke(1.dp, VS_Outline)
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                     Row(
@@ -114,23 +114,23 @@ fun IpdBedTrackerScreen(
                             Text(
                                 text = "🛏️ ${stringResource(R.string.ipdBedTracker)}",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = stringResource(R.string.ipdSubtitle),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
 
                         Surface(
                             shape = PillShape,
-                            color = if (occupancyRate > 80) GlumeAlertContainer else GlumeSuccessContainer
+                            color = if (occupancyRate > 80) VS_ErrorContainer else VS_SuccessContainer
                         ) {
                             Text(
                                 text = "${occupancyRate.toInt()}% ${stringResource(R.string.occupied)}",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = if (occupancyRate > 80) GlumeAlertCoral else GlumeSuccessMint,
+                                color = if (occupancyRate > 80) VS_Error else VS_Success,
                                 modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
                             )
                         }
@@ -143,8 +143,8 @@ fun IpdBedTrackerScreen(
                             .fillMaxWidth()
                             .height(8.dp)
                             .clip(PillShape),
-                        color = if (occupancyRate > 80) GlumeAlertCoral else GlumePrimaryPurple,
-                        trackColor = GlumeSurfaceElevated
+                        color = if (occupancyRate > 80) VS_Error else VS_Primary,
+                        trackColor = VS_SurfaceVariant
                     )
 
                     // Quick Stats Row
@@ -153,16 +153,16 @@ fun IpdBedTrackerScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Total Capacity", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("$totalBeds Beds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                            Text("Total Capacity", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("$totalBeds Beds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
                         Column {
-                            Text("Admitted Patients", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("$occupiedBeds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = GlumeAlertCoral)
+                            Text("Admitted Patients", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("$occupiedBeds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_Error)
                         }
                         Column {
-                            Text("Available Vacant", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("$vacantBeds Beds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = GlumeSuccessMint)
+                            Text("Available Vacant", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("$vacantBeds Beds", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_Success)
                         }
                     }
                 }
@@ -180,13 +180,13 @@ fun IpdBedTrackerScreen(
                     Surface(
                         onClick = { selectedWard = ward },
                         shape = PillShape,
-                        color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurpleVariant else GlumeBorder)
+                        color = if (isSelected) VS_Primary else VS_Surface,
+                        border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline)
                     ) {
                         Text(
                             text = ward,
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = if (isSelected) GlumeTextPrimary else GlumeTextSecondary,
+                            color = if (isSelected) VS_OnBackground else VS_OnSurfaceVariant,
                             modifier = Modifier.padding(horizontal = Spacing.sm, vertical = Spacing.xs)
                         )
                     }
@@ -197,8 +197,8 @@ fun IpdBedTrackerScreen(
         // 4. Bed Cards List
         items(filteredBeds, key = { it.id }) { bed ->
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
-                border = BorderStroke(1.dp, if (bed.isOccupied) GlumeBorder else GlumeSuccessMint.copy(alpha = 0.4f))
+                backgroundColor = VS_Surface,
+                border = BorderStroke(1.dp, if (bed.isOccupied) VS_Outline else VS_Success.copy(alpha = 0.4f))
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                     Row(
@@ -214,46 +214,46 @@ fun IpdBedTrackerScreen(
                                 modifier = Modifier
                                     .size(10.dp)
                                     .clip(CircleShape)
-                                    .background(if (bed.isOccupied) GlumeAlertCoral else GlumeSuccessMint)
+                                    .background(if (bed.isOccupied) VS_Error else VS_Success)
                             )
                             Text(
                                 text = bed.bedNumber,
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "· ${bed.wardName}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
 
                         Surface(
                             shape = PillShape,
-                            color = if (bed.isOccupied) GlumeAlertContainer else GlumeSuccessContainer
+                            color = if (bed.isOccupied) VS_ErrorContainer else VS_SuccessContainer
                         ) {
                             Text(
                                 text = if (bed.isOccupied) "OCCUPIED" else "VACANT",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 10.sp),
-                                color = if (bed.isOccupied) GlumeAlertCoral else GlumeSuccessMint,
+                                color = if (bed.isOccupied) VS_Error else VS_Success,
                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                             )
                         }
                     }
 
                     if (bed.isOccupied) {
-                        HorizontalDivider(color = GlumeBorderSubtle)
+                        HorizontalDivider(color = VS_Outline)
                         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                             Text(
                                 text = "👤 Patient: ${bed.patientName ?: "Admitted Inmate"}",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             if (!bed.diagnosis.isNullOrBlank()) {
                                 Text(
                                     text = "🩺 Diagnosis: ${bed.diagnosis}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             Row(
@@ -263,19 +263,19 @@ fun IpdBedTrackerScreen(
                                 Text(
                                     text = "👨‍⚕️ ${bed.attendingDoctorName ?: "Dr. Rajesh Kumar"}",
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = GlumePrimaryPurpleLight
+                                    color = VS_PrimaryContainer
                                 )
                                 Text(
                                     text = "Admitted: ${bed.admissionDate ?: "Recent"}",
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = GlumeTextTertiary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             if (!bed.nurseInCharge.isNullOrBlank()) {
                                 Text(
                                     text = "👩‍⚕️ Nurse: ${bed.nurseInCharge}",
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                         }
@@ -296,12 +296,12 @@ fun IpdBedTrackerScreen(
                                 )
                             },
                             shape = PillShape,
-                            border = BorderStroke(1.dp, GlumeBorder),
+                            border = BorderStroke(1.dp, VS_Outline),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .defaultMinSize(minHeight = 36.dp)
                         ) {
-                            Text("Clear & Discharge Bed", style = MaterialTheme.typography.labelSmall, color = GlumeAlertCoral)
+                            Text("Clear & Discharge Bed", style = MaterialTheme.typography.labelSmall, color = VS_Error)
                         }
                     } else {
                         // Vacant Bed Action
@@ -309,8 +309,8 @@ fun IpdBedTrackerScreen(
                             onClick = { showAdmitDialogForBed = bed },
                             shape = PillShape,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = GlumePrimaryPurple,
-                                contentColor = GlumeTextPrimary
+                                containerColor = VS_Primary,
+                                contentColor = VS_OnBackground
                             ),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -337,7 +337,7 @@ fun IpdBedTrackerScreen(
                 Text(
                     text = "Admit Patient to ${bedToAdmit.bedNumber}",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             },
             text = {
@@ -345,7 +345,7 @@ fun IpdBedTrackerScreen(
                     Text(
                         text = "Ward: ${bedToAdmit.wardName}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
 
                     VitalSenseTextField(
@@ -394,7 +394,7 @@ fun IpdBedTrackerScreen(
                         showAdmitDialogForBed = null
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     enabled = patientName.isNotBlank()
                 ) {
                     Text("Confirm Admission", style = MaterialTheme.typography.labelSmall)
@@ -402,10 +402,10 @@ fun IpdBedTrackerScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showAdmitDialogForBed = null }) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             },
-            containerColor = GlumeSurfaceCard,
+            containerColor = VS_Surface,
             tonalElevation = 6.dp
         )
     }

@@ -102,7 +102,7 @@ fun LoginScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.md, bottom = Spacing.xxl)
@@ -122,7 +122,7 @@ fun LoginScreen(
                         modifier = Modifier
                             .size(42.dp)
                             .clip(CircleShape)
-                            .background(NagarSevaPrimary),
+                            .background(VS_Primary),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(text = "🫀", fontSize = 20.sp)
@@ -135,17 +135,17 @@ fun LoginScreen(
                             Text(
                                 text = "VitalSense",
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Surface(
                                 shape = PillShape,
-                                color = NagarSevaPrimary.copy(alpha = 0.12f)
+                                color = VS_Primary.copy(alpha = 0.12f)
                             ) {
                                 Text(
                                     text = "सेहतसेतु",
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
-                                        color = NagarSevaPrimary
+                                        color = VS_Primary
                                     ),
                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                 )
@@ -154,7 +154,7 @@ fun LoginScreen(
                         Text(
                             text = stringResource(R.string.tagline),
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
@@ -174,8 +174,8 @@ fun LoginScreen(
                             AudioGuidanceHelper.speak(context, speech, currentLanguage)
                         },
                         shape = PillShape,
-                        color = GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, GlumeBorder),
+                        color = VS_Surface,
+                        border = BorderStroke(1.dp, VS_Outline),
                         modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                     ) {
                         Row(
@@ -187,7 +187,7 @@ fun LoginScreen(
                             Text(
                                 text = if (currentLanguage == AppLanguage.HINDI) "सुनें" else "Listen",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                     }
@@ -196,8 +196,8 @@ fun LoginScreen(
                     Surface(
                         onClick = { showLanguageDialog = true },
                         shape = PillShape,
-                        color = GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, GlumeBorder),
+                        color = VS_Surface,
+                        border = BorderStroke(1.dp, VS_Outline),
                         modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                     ) {
                         Row(
@@ -209,7 +209,7 @@ fun LoginScreen(
                             Text(
                                 text = currentLanguage.nativeName,
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                     }
@@ -246,13 +246,13 @@ fun LoginScreen(
                                     fontWeight = FontWeight.ExtraBold,
                                     fontSize = 24.sp
                                 ),
-                                color = GlumeTextPrimary,
+                                color = VS_OnBackground,
                                 textAlign = TextAlign.Center
                             )
                             Text(
                                 text = stringResource(R.string.selectRoleDesc),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = GlumeTextSecondary,
+                                color = VS_OnSurfaceVariant,
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -267,7 +267,7 @@ fun LoginScreen(
                                 roleTag = stringResource(R.string.patientPortal),
                                 subtitle = if (currentLanguage == AppLanguage.HINDI) "पर्चे, ओपीडी टोकन और अपॉइंटमेंट" else "Prescriptions, OPD tokens & consults",
                                 avatarEmoji = "🧑",
-                                accentColor = NagarSevaPrimaryVariant,
+                                accentColor = VS_Primary,
                                 onClick = {
                                     AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                                     expandedRole = UserRole.PATIENT
@@ -280,7 +280,7 @@ fun LoginScreen(
                                 roleTag = stringResource(R.string.doctorPortal),
                                 subtitle = if (currentLanguage == AppLanguage.HINDI) "मरीज़ कतार, ई-पर्चे और नैदानिक समीक्षा" else "Patient queues, e-prescriptions & review",
                                 avatarEmoji = "👨‍⚕️",
-                                accentColor = NagarSevaPrimary,
+                                accentColor = VS_Primary,
                                 onClick = {
                                     AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                                     expandedRole = UserRole.DOCTOR
@@ -299,7 +299,7 @@ fun LoginScreen(
                                 roleTag = stringResource(R.string.ashaPortal),
                                 subtitle = if (currentLanguage == AppLanguage.HINDI) "घर-घर स्वास्थ्य सर्वे, ऑफलाइन सिंक व SOS" else "Door-to-door vitals, offline sync & SOS",
                                 avatarEmoji = "🩺",
-                                accentColor = NagarSevaStatusProgress,
+                                accentColor = VS_Warning,
                                 onClick = {
                                     AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                                     expandedRole = UserRole.ASHA
@@ -312,7 +312,7 @@ fun LoginScreen(
                                 roleTag = stringResource(R.string.adminPortal),
                                 subtitle = if (currentLanguage == AppLanguage.HINDI) "रोग निगरानी, बिस्तर/OT डेस्क व दवा पुनःपूर्ति" else "Surveillance, bed/OT roster & restock",
                                 avatarEmoji = "🛡️",
-                                accentColor = GlumeAlertCoral,
+                                accentColor = VS_Error,
                                 onClick = {
                                     AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                                     expandedRole = UserRole.ADMIN
@@ -332,8 +332,8 @@ fun LoginScreen(
                         ) {
                             Surface(
                                 shape = PillShape,
-                                color = NagarSevaStatusNormalContainer,
-                                border = BorderStroke(1.dp, NagarSevaStatusNormal.copy(alpha = 0.3f))
+                                color = VS_SuccessContainer,
+                                border = BorderStroke(1.dp, VS_Success.copy(alpha = 0.3f))
                             ) {
                                 Row(
                                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
@@ -344,7 +344,7 @@ fun LoginScreen(
                                     Text(
                                         text = stringResource(R.string.offline),
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = NagarSevaStatusNormalText
+                                        color = VS_OnSuccessContainer
                                     )
                                 }
                             }
@@ -354,8 +354,8 @@ fun LoginScreen(
                                     com.vitalsense.app.core.util.EmergencySosHelper.dialEmergencyCall(context, "108")
                                 },
                                 shape = PillShape,
-                                color = GlumeAlertContainer,
-                                border = BorderStroke(1.dp, GlumeAlertCoral.copy(alpha = 0.4f))
+                                color = VS_ErrorContainer,
+                                border = BorderStroke(1.dp, VS_Error.copy(alpha = 0.4f))
                             ) {
                                 Row(
                                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
@@ -366,7 +366,7 @@ fun LoginScreen(
                                     Text(
                                         text = "108 Ambulance",
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeAlertCoral
+                                        color = VS_Error
                                     )
                                 }
                             }
@@ -399,13 +399,13 @@ fun LoginScreen(
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                         contentDescription = "Back",
-                                        tint = NagarSevaPrimary,
+                                        tint = VS_Primary,
                                         modifier = Modifier.size(16.dp)
                                     )
                                     Text(
                                         text = if (currentLanguage == AppLanguage.HINDI) "← भूमिका बदलें" else "← Change Role",
                                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = NagarSevaPrimary
+                                        color = VS_Primary
                                     )
                                 }
                             }
@@ -413,10 +413,10 @@ fun LoginScreen(
                             Surface(
                                 shape = PillShape,
                                 color = when (activeRole) {
-                                    UserRole.PATIENT -> NagarSevaPrimaryVariant.copy(alpha = 0.12f)
-                                    UserRole.DOCTOR -> NagarSevaPrimary.copy(alpha = 0.12f)
-                                    UserRole.ASHA -> NagarSevaStatusProgress.copy(alpha = 0.12f)
-                                    UserRole.ADMIN -> GlumeAlertCoral.copy(alpha = 0.12f)
+                                    UserRole.PATIENT -> VS_Primary.copy(alpha = 0.12f)
+                                    UserRole.DOCTOR -> VS_Primary.copy(alpha = 0.12f)
+                                    UserRole.ASHA -> VS_Warning.copy(alpha = 0.12f)
+                                    UserRole.ADMIN -> VS_Error.copy(alpha = 0.12f)
                                 }
                             ) {
                                 Text(
@@ -428,10 +428,10 @@ fun LoginScreen(
                                     },
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = when (activeRole) {
-                                        UserRole.PATIENT -> NagarSevaPrimaryVariant
-                                        UserRole.DOCTOR -> NagarSevaPrimary
-                                        UserRole.ASHA -> NagarSevaStatusProgress
-                                        UserRole.ADMIN -> GlumeAlertCoral
+                                        UserRole.PATIENT -> VS_Primary
+                                        UserRole.DOCTOR -> VS_Primary
+                                        UserRole.ASHA -> VS_Warning
+                                        UserRole.ADMIN -> VS_Error
                                     },
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
                                 )
@@ -444,8 +444,8 @@ fun LoginScreen(
                                 .fillMaxWidth()
                                 .shadow(8.dp, shape = RoundedCornerShape(20.dp), spotColor = Color.Black.copy(alpha = 0.08f)),
                             shape = RoundedCornerShape(20.dp),
-                            colors = CardDefaults.cardColors(containerColor = GlumeSurfaceCard),
-                            border = BorderStroke(1.5.dp, GlumeBorder)
+                            colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                            border = BorderStroke(1.5.dp, VS_Outline)
                         ) {
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 // Top Lanyard Hole Accent
@@ -459,7 +459,7 @@ fun LoginScreen(
                                         modifier = Modifier
                                             .size(width = 36.dp, height = 6.dp)
                                             .clip(PillShape)
-                                            .background(GlumeBorder)
+                                            .background(VS_Outline)
                                     )
                                 }
 
@@ -485,7 +485,7 @@ fun LoginScreen(
                                         modifier = Modifier
                                             .width(1.dp)
                                             .fillMaxHeight()
-                                            .background(GlumeBorder)
+                                            .background(VS_Outline)
                                     )
 
                                     // RIGHT COLUMN: Role-Specific Sign-In Options (On the same horizontal level)
@@ -615,8 +615,8 @@ private fun RoleTitleCard(
             .clickable(onClick = onClick)
             .touchSpring(),
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = GlumeSurfaceCard),
-        border = BorderStroke(1.dp, GlumeBorder),
+        colors = CardDefaults.cardColors(containerColor = VS_Surface),
+        border = BorderStroke(1.dp, VS_Outline),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -662,14 +662,14 @@ private fun RoleTitleCard(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary,
+                    color = VS_OnBackground,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -705,10 +705,10 @@ private fun PhysicalCredentialBadge(
     modifier: Modifier = Modifier
 ) {
     val accentColor = when (role) {
-        UserRole.PATIENT -> NagarSevaPrimaryVariant
-        UserRole.DOCTOR -> NagarSevaPrimary
-        UserRole.ASHA -> NagarSevaStatusProgress
-        UserRole.ADMIN -> GlumeAlertCoral
+        UserRole.PATIENT -> VS_Primary
+        UserRole.DOCTOR -> VS_Primary
+        UserRole.ASHA -> VS_Warning
+        UserRole.ADMIN -> VS_Error
     }
 
     val badgeName = when (role) {
@@ -736,8 +736,8 @@ private fun PhysicalCredentialBadge(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp)),
-        color = GlumeSurfaceElevated,
-        border = BorderStroke(1.dp, GlumeBorder)
+        color = VS_SurfaceVariant,
+        border = BorderStroke(1.dp, VS_Outline)
     ) {
         Column(
             modifier = Modifier
@@ -754,7 +754,7 @@ private fun PhysicalCredentialBadge(
                     fontSize = 8.5.sp,
                     letterSpacing = 0.5.sp
                 ),
-                color = GlumeTextSecondary
+                color = VS_OnSurfaceVariant
             )
 
             // Avatar Frame with Verified Badge
@@ -777,7 +777,7 @@ private fun PhysicalCredentialBadge(
                     modifier = Modifier
                         .size(16.dp)
                         .clip(CircleShape)
-                        .background(NagarSevaStatusNormal),
+                        .background(VS_Success),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(text = "✓", color = Color.White, fontSize = 9.sp, fontWeight = FontWeight.Bold)
@@ -792,7 +792,7 @@ private fun PhysicalCredentialBadge(
                 Text(
                     text = badgeName,
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 12.sp),
-                    color = GlumeTextPrimary,
+                    color = VS_OnBackground,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -816,7 +816,7 @@ private fun PhysicalCredentialBadge(
                 Text(
                     text = badgeId,
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp, fontFamily = FontFamily.Monospace),
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -840,14 +840,14 @@ private fun PhysicalCredentialBadge(
                             modifier = Modifier
                                 .width(if (index % 3 == 0) 2.5.dp else 1.2.dp)
                                 .height(16.dp)
-                                .background(GlumeTextSecondary.copy(alpha = 0.6f))
+                                .background(VS_OnSurfaceVariant.copy(alpha = 0.6f))
                         )
                     }
                 }
                 Text(
                     text = "SECURE VERIFIED",
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 7.5.sp, fontWeight = FontWeight.Bold),
-                    color = NagarSevaStatusNormalText
+                    color = VS_OnSuccessContainer
                 )
             }
         }
@@ -877,7 +877,7 @@ private fun PatientSignInOptions(
         Text(
             text = if (isSignUpMode) "Patient Registration" else "Patient Sign In",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, fontSize = 15.sp),
-            color = GlumeTextPrimary
+            color = VS_OnBackground
         )
 
         OutlinedTextField(
@@ -904,7 +904,7 @@ private fun PatientSignInOptions(
         Button(
             onClick = onSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimaryVariant),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
             modifier = Modifier.fillMaxWidth().height(42.dp)
         ) {
             Text(
@@ -918,8 +918,8 @@ private fun PatientSignInOptions(
         OutlinedButton(
             onClick = onGoogleSignIn,
             shape = PillShape,
-            border = BorderStroke(1.dp, GlumeBorder),
-            colors = ButtonDefaults.outlinedButtonColors(containerColor = GlumeSurfaceCard),
+            border = BorderStroke(1.dp, VS_Outline),
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = VS_Surface),
             modifier = Modifier.fillMaxWidth().height(40.dp)
         ) {
             Row(
@@ -930,7 +930,7 @@ private fun PatientSignInOptions(
                 Text(
                     text = "Sign in with Google",
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             }
         }
@@ -939,7 +939,7 @@ private fun PatientSignInOptions(
         Button(
             onClick = onDemoSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaStatusNormal),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
@@ -953,14 +953,14 @@ private fun PatientSignInOptions(
         OutlinedButton(
             onClick = onScanQrClaim,
             shape = PillShape,
-            border = BorderStroke(1.dp, NagarSevaPrimary.copy(alpha = 0.5f)),
+            border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.5f)),
             modifier = Modifier.fillMaxWidth().height(36.dp),
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
         ) {
             Text(
                 text = "🪪 Scan ASHA Card (QR Claim)",
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                color = NagarSevaPrimary
+                color = VS_Primary
             )
         }
 
@@ -973,12 +973,12 @@ private fun PatientSignInOptions(
             Text(
                 text = if (isSignUpMode) "Already have an account? " else "New to VitalSense? ",
                 style = MaterialTheme.typography.labelSmall,
-                color = GlumeTextSecondary
+                color = VS_OnSurfaceVariant
             )
             Text(
                 text = if (isSignUpMode) "Sign In" else "Sign Up",
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                color = NagarSevaPrimaryVariant,
+                color = VS_Primary,
                 modifier = Modifier.clickable(onClick = onToggleSignUp)
             )
         }
@@ -1000,7 +1000,7 @@ private fun DoctorSignInOptions(
         Text(
             text = "Doctor Consultation Desk",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, fontSize = 15.sp),
-            color = GlumeTextPrimary
+            color = VS_OnBackground
         )
 
         OutlinedTextField(
@@ -1027,7 +1027,7 @@ private fun DoctorSignInOptions(
         Button(
             onClick = onSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
             modifier = Modifier.fillMaxWidth().height(42.dp)
         ) {
             Text(
@@ -1041,7 +1041,7 @@ private fun DoctorSignInOptions(
         Button(
             onClick = onDemoSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaStatusNormal),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
@@ -1068,7 +1068,7 @@ private fun AshaSignInOptions(
         Text(
             text = "ASHA Field Worker Desk",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, fontSize = 15.sp),
-            color = GlumeTextPrimary
+            color = VS_OnBackground
         )
 
         OutlinedTextField(
@@ -1095,7 +1095,7 @@ private fun AshaSignInOptions(
         Button(
             onClick = onSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaStatusProgress),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Warning),
             modifier = Modifier.fillMaxWidth().height(42.dp)
         ) {
             Text(
@@ -1109,7 +1109,7 @@ private fun AshaSignInOptions(
         Button(
             onClick = onDemoSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaStatusNormal),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
@@ -1138,7 +1138,7 @@ private fun AdminSignInOptions(
         Text(
             text = if (isSignUpMode) "Request Admin Access" else "District Command Login",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, fontSize = 15.sp),
-            color = GlumeTextPrimary
+            color = VS_OnBackground
         )
 
         OutlinedTextField(
@@ -1165,7 +1165,7 @@ private fun AdminSignInOptions(
         Button(
             onClick = onSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = GlumeAlertCoral),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Error),
             modifier = Modifier.fillMaxWidth().height(42.dp)
         ) {
             Text(
@@ -1179,7 +1179,7 @@ private fun AdminSignInOptions(
         Button(
             onClick = onDemoSignIn,
             shape = PillShape,
-            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaStatusNormal),
+            colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
             modifier = Modifier.fillMaxWidth().height(38.dp)
         ) {
             Text(
@@ -1198,12 +1198,12 @@ private fun AdminSignInOptions(
             Text(
                 text = if (isSignUpMode) "Already have admin access? " else "Need official access? ",
                 style = MaterialTheme.typography.labelSmall,
-                color = GlumeTextSecondary
+                color = VS_OnSurfaceVariant
             )
             Text(
                 text = if (isSignUpMode) "Sign In" else "Request Access",
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                color = GlumeAlertCoral,
+                color = VS_Error,
                 modifier = Modifier.clickable(onClick = onToggleSignUp)
             )
         }

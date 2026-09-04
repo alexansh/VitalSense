@@ -184,7 +184,7 @@ fun CameraCaptureView(
                     modifier = Modifier
                         .size(44.dp)
                         .background(
-                            if (isFlashOn) GlumePrimaryPurple else Color.Black.copy(alpha = 0.5f),
+                            if (isFlashOn) VS_Primary else Color.Black.copy(alpha = 0.5f),
                             CircleShape
                         )
                 ) {
@@ -271,7 +271,7 @@ fun CameraCaptureView(
                 ) {
                     if (isCapturing) {
                         CircularProgressIndicator(
-                            color = GlumePrimaryPurple,
+                            color = VS_Primary,
                             modifier = Modifier.size(32.dp),
                             strokeWidth = 3.dp
                         )
@@ -286,7 +286,7 @@ fun CameraCaptureView(
                     onClick = onLaunchDocumentScanner,
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = GlumePrimaryPurple,
+                        containerColor = VS_Primary,
                         contentColor = Color.White
                     ),
                     contentPadding = PaddingValues(horizontal = Spacing.md, vertical = Spacing.xs)
@@ -329,7 +329,7 @@ private fun DocumentFrameOverlay(modifier: Modifier = Modifier) {
         ) {
             val accentLength = 28.dp
             val accentThickness = 4.dp
-            val accentColor = GlumePrimaryPurple
+            val accentColor = VS_Primary
 
             Box(Modifier.size(accentLength, accentThickness).background(accentColor).align(Alignment.TopStart))
             Box(Modifier.size(accentThickness, accentLength).background(accentColor).align(Alignment.TopStart))
@@ -363,8 +363,8 @@ private fun CameraPermissionRationale(
     ) {
         Card(
             shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = GlumeSurfaceCard),
-            border = BorderStroke(1.dp, GlumeBorder),
+            colors = CardDefaults.cardColors(containerColor = VS_Surface),
+            border = BorderStroke(1.dp, VS_Outline),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -377,27 +377,27 @@ private fun CameraPermissionRationale(
                 Text(
                     text = "Camera Permission Needed",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary,
+                    color = VS_OnBackground,
                     textAlign = TextAlign.Center
                 )
 
                 Text(
                     text = "VitalSense uses your camera to capture prescription documents and extract medicines offline on your device.",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
 
                 if (deniedCount > 1) {
                     Surface(
-                        color = GlumeAlertContainer,
+                        color = VS_ErrorContainer,
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
                             text = "Camera access was declined. Please open device settings to enable camera permissions for VitalSense.",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeAlertText,
+                            color = VS_OnErrorContainer,
                             modifier = Modifier.padding(Spacing.sm),
                             textAlign = TextAlign.Center
                         )
@@ -405,7 +405,7 @@ private fun CameraPermissionRationale(
 
                     Button(
                         onClick = onOpenSettings,
-                        colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                         shape = PillShape,
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -414,7 +414,7 @@ private fun CameraPermissionRationale(
                 } else {
                     Button(
                         onClick = onRequestPermission,
-                        colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                         shape = PillShape,
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -425,14 +425,14 @@ private fun CameraPermissionRationale(
                 OutlinedButton(
                     onClick = onManualEntryFallback,
                     shape = PillShape,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("✍️ Enter Details Manually", color = GlumeTextPrimary)
+                    Text("✍️ Enter Details Manually", color = VS_OnBackground)
                 }
 
                 TextButton(onClick = onClose) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             }
         }

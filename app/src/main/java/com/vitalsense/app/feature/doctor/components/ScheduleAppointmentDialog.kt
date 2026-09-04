@@ -32,9 +32,9 @@ fun ScheduleAppointmentDialog(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -51,26 +51,26 @@ fun ScheduleAppointmentDialog(
                         Text(
                             text = "📅 Schedule New Appointment",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "Propose consultation time to patient",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
-                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
+                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnSurfaceVariant)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 // Select Patient Dropdown
                 Text(
                     text = "Select Patient:",
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
 
                 ExposedDropdownMenuBox(
@@ -87,12 +87,12 @@ fun ScheduleAppointmentDialog(
                             .menuAnchor(),
                         shape = InputShape,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = GlumeSurfaceElevated,
-                            unfocusedContainerColor = GlumeSurfaceCard,
-                            focusedBorderColor = GlumePrimaryPurple,
-                            unfocusedBorderColor = GlumeBorder,
-                            focusedTextColor = GlumeTextPrimary,
-                            unfocusedTextColor = GlumeTextPrimary
+                            focusedContainerColor = VS_SurfaceVariant,
+                            unfocusedContainerColor = VS_Surface,
+                            focusedBorderColor = VS_Primary,
+                            unfocusedBorderColor = VS_Outline,
+                            focusedTextColor = VS_OnBackground,
+                            unfocusedTextColor = VS_OnBackground
                         )
                     )
 
@@ -104,8 +104,8 @@ fun ScheduleAppointmentDialog(
                             DropdownMenuItem(
                                 text = {
                                     Column {
-                                        Text(text = pat.name, fontWeight = FontWeight.Bold, color = GlumeTextPrimary)
-                                        Text(text = "${pat.villageName} · ${pat.phone}", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                                        Text(text = pat.name, fontWeight = FontWeight.Bold, color = VS_OnBackground)
+                                        Text(text = "${pat.villageName} · ${pat.phone}", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                     }
                                 },
                                 onClick = {
@@ -121,7 +121,7 @@ fun ScheduleAppointmentDialog(
                 Text(
                     text = "Select Date:",
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
 
                 Row(
@@ -133,8 +133,8 @@ fun ScheduleAppointmentDialog(
                         Surface(
                             onClick = { selectedDate = date },
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                            border = if (isSelected) BorderStroke(1.5.dp, GlumePrimaryPurple) else BorderStroke(1.dp, GlumeBorder),
+                            color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                            border = if (isSelected) BorderStroke(1.5.dp, VS_Primary) else BorderStroke(1.dp, VS_Outline),
                             modifier = Modifier.weight(1f)
                         ) {
                             Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 8.dp)) {
@@ -142,7 +142,7 @@ fun ScheduleAppointmentDialog(
                                     text = date.split(" ").take(2).joinToString(" "),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                        color = if (isSelected) VS_PrimaryContainer else VS_OnBackground
                                     )
                                 )
                             }
@@ -154,7 +154,7 @@ fun ScheduleAppointmentDialog(
                 Text(
                     text = "Available Time Slot:",
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
 
                 Row(
@@ -166,8 +166,8 @@ fun ScheduleAppointmentDialog(
                         Surface(
                             onClick = { selectedTimeSlot = slot },
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                            border = if (isSelected) BorderStroke(1.5.dp, GlumePrimaryPurple) else BorderStroke(1.dp, GlumeBorder),
+                            color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                            border = if (isSelected) BorderStroke(1.5.dp, VS_Primary) else BorderStroke(1.dp, VS_Outline),
                             modifier = Modifier.weight(1f)
                         ) {
                             Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 8.dp)) {
@@ -175,7 +175,7 @@ fun ScheduleAppointmentDialog(
                                     text = slot,
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                        color = if (isSelected) VS_PrimaryContainer else VS_OnBackground
                                     )
                                 )
                             }
@@ -198,8 +198,8 @@ fun ScheduleAppointmentDialog(
                         .height(48.dp),
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = GlumePrimaryPurple,
-                        contentColor = GlumeTextPrimary
+                        containerColor = VS_Primary,
+                        contentColor = VS_OnBackground
                     ),
                     enabled = selectedPatient != null
                 ) {

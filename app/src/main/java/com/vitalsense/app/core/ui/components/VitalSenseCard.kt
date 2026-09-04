@@ -21,9 +21,9 @@ import com.vitalsense.app.core.ui.util.touchSpring
 @Composable
 fun VitalSenseCard(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = GlumeSurfaceCard,
+    backgroundColor: Color = VS_Surface,
     elevation: Dp = 2.dp,
-    border: BorderStroke? = BorderStroke(1.dp, GlumeBorder),
+    border: BorderStroke? = BorderStroke(1.dp, VS_Outline),
     contentPadding: Dp = Spacing.md,
     onClick: (() -> Unit)? = null,
     content: @Composable () -> Unit
