@@ -371,7 +371,6 @@ interface AppStrings {
     val appointmentReminderTitle: String
     val appointmentReminderBody: String
 
-
     // New Multilingual AppStrings Additions
     val loginEnterBtn: String
     val smartHealthId: String
@@ -864,6 +863,16 @@ interface AppStrings {
     val referredByDoctor: String
     val specialistFindingsDiagnosticAssessment: String
     val specialistRecommendationsCarePlan: String
+
+    // Low Connectivity & Sync
+    val slowNetwork: String
+    val syncing: String
+    val pendingChanges: String
+    val lastSynchronized: String
+    val offlineSosWarning: String
+    val cachedDataFreshness: String
+    val syncComplete: String
+    val manualSync: String
 }
 
 class EnglishAppStrings : AppStrings {
@@ -1205,7 +1214,6 @@ class EnglishAppStrings : AppStrings {
     override val hudMonitoring: String = "Continuous Monitoring"
     override val appointmentReminderTitle: String = "Upcoming Doctor Consultation"
     override val appointmentReminderBody: String = "Your appointment with %1\$s is scheduled in 15 minutes."
-
 
     // New Multilingual EnglishAppStrings Additions
     override val loginEnterBtn: String = "Enter →"
@@ -1699,6 +1707,16 @@ class EnglishAppStrings : AppStrings {
     override val referredByDoctor: String = "Referred by Doctor"
     override val specialistFindingsDiagnosticAssessment: String = "Specialist Diagnostic Findings"
     override val specialistRecommendationsCarePlan: String = "Specialist Recommendations"
+
+    // Low Connectivity & Sync
+    override val slowNetwork: String = "Slow Connection"
+    override val syncing: String = "Syncing changes…"
+    override val pendingChanges: String = "%d pending changes"
+    override val lastSynchronized: String = "Last synchronized: %s"
+    override val offlineSosWarning: String = "⚠️ Device Offline: Direct server dispatch unavailable. Use 1-Tap Fallbacks (108 Call / SMS to ASHA)."
+    override val cachedDataFreshness: String = "Cached offline data (%s)"
+    override val syncComplete: String = "All data synced"
+    override val manualSync: String = "Sync Now"
 }
 val EnglishStrings: AppStrings = EnglishAppStrings()
 
@@ -2041,7 +2059,6 @@ class HindiAppStrings : AppStrings {
     override val hudMonitoring: String = "निरंतर निगरानी"
     override val appointmentReminderTitle: String = "आगामी डॉक्टर परामर्श"
     override val appointmentReminderBody: String = "%1\$s के साथ आपका परामर्श 15 मिनट में शुरू होगा।"
-
 
     // New Multilingual HindiAppStrings Additions
     override val loginEnterBtn: String = "प्रवेश करें →"
@@ -2535,6 +2552,16 @@ class HindiAppStrings : AppStrings {
     override val referredByDoctor: String = "डॉक्टर द्वारा रेफर किया गया"
     override val specialistFindingsDiagnosticAssessment: String = "विशेषज्ञ नैदानिक निष्कर्ष"
     override val specialistRecommendationsCarePlan: String = "विशेषज्ञ उपचार सिफारिशें"
+
+    // Low Connectivity & Sync
+    override val slowNetwork: String = "धीमा नेटवर्क"
+    override val syncing: String = "डेटा सिंक हो रहा है…"
+    override val pendingChanges: String = "%d बदलाव सिंक होने बाकी"
+    override val lastSynchronized: String = "अंतिम सिंक: %s"
+    override val offlineSosWarning: String = "⚠️ डिवाइस ऑफलाइन है: सर्वर अलर्ट उपलब्ध नहीं है। तुरंत 108 कॉल या आशा को SMS भेजें।"
+    override val cachedDataFreshness: String = "कैश किया गया ऑफलाइन डेटा (%s)"
+    override val syncComplete: String = "सभी डेटा सिंक हो गया"
+    override val manualSync: String = "अभी सिंक करें"
 }
 val HindiStrings: AppStrings = HindiAppStrings()
 
@@ -2877,7 +2904,6 @@ class TamilAppStrings : AppStrings {
     override val hudMonitoring: String = "தொடர் கண்காணிப்பு"
     override val appointmentReminderTitle: String = "வரவிருக்கும் மருத்துவர் ஆலோசனை"
     override val appointmentReminderBody: String = "%1\$s உடனான உங்கள் சந்திப்பு 15 நிமிடங்களில் தொடங்குகிறது."
-
 
     // New Multilingual TamilAppStrings Additions
     override val loginEnterBtn: String = "உள்நுழைக →"
@@ -3371,6 +3397,16 @@ class TamilAppStrings : AppStrings {
     override val referredByDoctor: String = "மருத்துவரால் பரிந்துரைக்கப்பட்டது"
     override val specialistFindingsDiagnosticAssessment: String = "சிறப்பு மருத்துவரின் பரிசோதனை முடிவுகள்"
     override val specialistRecommendationsCarePlan: String = "சிறப்பு மருத்துவரின் பரிந்துரைகள்"
+
+    // Low Connectivity & Sync
+    override val slowNetwork: String = "மெதுவான இணைப்பு"
+    override val syncing: String = "ஒத்திசைக்கப்படுகிறது…"
+    override val pendingChanges: String = "%d மாற்றங்கள் நிலுவையில் உள்ளன"
+    override val lastSynchronized: String = "கடைசி ஒத்திசைவு: %s"
+    override val offlineSosWarning: String = "⚠️ சாதனம் ஆஃப்லைனில் உள்ளது: நேரடி சர்வர் எச்சரிக்கை கிடைக்கவில்லை. 108 அழைப்பு அல்லது SMS பயன்படுத்தவும்."
+    override val cachedDataFreshness: String = "கேச் செய்யப்பட்ட ஆஃப்லைன் தரவு (%s)"
+    override val syncComplete: String = "அனைத்து தரவும் ஒத்திசைக்கப்பட்டது"
+    override val manualSync: String = "இப்போது ஒத்திசைக்கவும்"
 }
 val TamilStrings: AppStrings = TamilAppStrings()
 
@@ -3713,7 +3749,6 @@ class MarathiAppStrings : AppStrings {
     override val hudMonitoring: String = "सतत देखरेख"
     override val appointmentReminderTitle: String = "आगामी डॉक्टर सल्लामसलत"
     override val appointmentReminderBody: String = "%1\$s सोबत तुमची भेट 15 मिनिटांत सुरू होईल."
-
 
     // New Multilingual MarathiAppStrings Additions
     override val loginEnterBtn: String = "प्रवेश करा →"
@@ -4207,6 +4242,16 @@ class MarathiAppStrings : AppStrings {
     override val referredByDoctor: String = "डॉक्टरांनी रेफर केले"
     override val specialistFindingsDiagnosticAssessment: String = "तज्ज्ञ डॉक्टरांचे निदान निष्कर्ष"
     override val specialistRecommendationsCarePlan: String = "तज्ज्ञ डॉक्टरांच्या शिफारसी"
+
+    // Low Connectivity & Sync
+    override val slowNetwork: String = "मंद इंटरनेट कनेक्शन"
+    override val syncing: String = "डेटा सिंक होत आहे…"
+    override val pendingChanges: String = "%d बदल सिंक होणे बाकी"
+    override val lastSynchronized: String = "शेवटचे सिंक: %s"
+    override val offlineSosWarning: String = "⚠️ डिव्हाइस ऑफलाइन आहे: थेट सर्व्हर अलर्ट उपलब्ध नाही. त्वरित १०८ कॉल किंवा आशा सेविकेला SMS पाठवा."
+    override val cachedDataFreshness: String = "कॅश केलेला ऑफलाइन डेटा (%s)"
+    override val syncComplete: String = "सर्व डेटा सिंक झाला आहे"
+    override val manualSync: String = "आत्ता सिंक करा"
 }
 val MarathiStrings: AppStrings = MarathiAppStrings()
 

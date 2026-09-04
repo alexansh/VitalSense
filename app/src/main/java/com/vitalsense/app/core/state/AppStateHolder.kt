@@ -3,20 +3,28 @@ package com.vitalsense.app.core.state
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import com.vitalsense.app.core.data.local.VitalSenseDatabase
 import com.vitalsense.app.core.data.local.seed.SeedDataProvider
 import com.vitalsense.app.core.data.model.*
+import com.vitalsense.app.core.network.ConnectivityState
+import com.vitalsense.app.core.network.NetworkMonitor
+import com.vitalsense.app.core.sync.SyncManager
 import com.vitalsense.app.core.ui.theme.AppLanguage
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AppStateHolder @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    val networkMonitor: NetworkMonitor,
+    val syncManager: SyncManager,
+    private val database: VitalSenseDatabase
 ) {
+    private val scope = CoroutineScope(Dispatchers.Main)
     private val prefs by lazy {
         context.getSharedPreferences("vitalsense_prefs", Context.MODE_PRIVATE)
     }
@@ -56,8 +64,12 @@ class AppStateHolder @Inject constructor(
     private val _activeProxyPatient = MutableStateFlow<Patient?>(null)
     val activeProxyPatient: StateFlow<Patient?> = _activeProxyPatient.asStateFlow()
 
-    private val _isOffline = MutableStateFlow(false)
-    val isOffline: StateFlow<Boolean> = _isOffline.asStateFlow()
+    // Real-time network & sync state flows (SIH26133)
+    val connectivityState: StateFlow<ConnectivityState> = networkMonitor.connectivityState
+    val isOffline: StateFlow<Boolean> = networkMonitor.isManualOfflineForced
+    val isSyncing: StateFlow<Boolean> = syncManager.isSyncing
+    val lastSyncTimestamp: StateFlow<Long> = networkMonitor.lastSyncTimestamp
+    val pendingOutboxCount: Flow<Int> = database.vitalSenseDao().getPendingOutboxCount()
 
     fun login(role: UserRole) {
         _currentRole.value = role
@@ -136,6 +148,10 @@ class AppStateHolder @Inject constructor(
     }
 
     fun toggleOffline() {
-        _isOffline.value = !_isOffline.value
+        networkMonitor.toggleManualOffline()
+    }
+
+    fun triggerSync() {
+        syncManager.triggerImmediateSync()
     }
 }

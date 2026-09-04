@@ -814,4 +814,13 @@
     <string name="referredByDoctor">डॉक्टर द्वारा रेफर किया गया</string>
     <string name="specialistFindingsDiagnosticAssessment">विशेषज्ञ नैदानिक निष्कर्ष</string>
     <string name="specialistRecommendationsCarePlan">विशेषज्ञ उपचार सिफारिशें</string>
+    <!-- Low Connectivity & Sync -->
+    <string name="slowNetwork">धीमा नेटवर्क</string>
+    <string name="syncing">डेटा सिंक हो रहा है…</string>
+    <string name="pendingChanges">%d बदलाव सिंक होने बाकी</string>
+    <string name="lastSynchronized">अंतिम सिंक: %s</string>
+    <string name="offlineSosWarning">⚠️ डिवाइस ऑफलाइन है: सर्वर अलर्ट उपलब्ध नहीं है। तुरंत 108 कॉल या आशा को SMS भेजें।</string>
+    <string name="cachedDataFreshness">कैश किया गया ऑफलाइन डेटा (%s)</string>
+    <string name="syncComplete">सभी डेटा सिंक हो गया</string>
+    <string name="manualSync">अभी सिंक करें</string>
 </resources>

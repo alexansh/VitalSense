@@ -77,9 +77,12 @@ fun VitalSenseNavGraph(
     val currentRole by appStateHolder.currentRole.collectAsStateWithLifecycle()
     val activePatient by appStateHolder.activePatient.collectAsStateWithLifecycle()
     val activeAsha by appStateHolder.activeAsha.collectAsStateWithLifecycle()
-    val activeDoctor by appStateHolder.activeDoctor.collectAsStateWithLifecycle()
+    val activeDoctor by doctorViewModel.activeDoctor.collectAsStateWithLifecycle()
     val activeProxyPatient by appStateHolder.activeProxyPatient.collectAsStateWithLifecycle()
     val isOffline by appStateHolder.isOffline.collectAsStateWithLifecycle()
+    val connectivityState by appStateHolder.connectivityState.collectAsStateWithLifecycle()
+    val isSyncing by appStateHolder.isSyncing.collectAsStateWithLifecycle()
+    val pendingOutboxCount by appStateHolder.pendingOutboxCount.collectAsStateWithLifecycle(initialValue = 0)
 
     // Doctor specific scoped streams
     val doctorCases by doctorViewModel.scopedCases.collectAsStateWithLifecycle()
@@ -179,6 +182,12 @@ fun VitalSenseNavGraph(
                                     appStateHolder.switchRole(UserRole.ASHA)
                                 },
                                 isOffline = isOffline,
+                                connectivityState = connectivityState,
+                                isSyncing = isSyncing,
+                                pendingOutboxCount = pendingOutboxCount,
+                                onManualSync = {
+                                    appStateHolder.triggerSync()
+                                },
                                 onToggleOffline = {
                                     appStateHolder.toggleOffline()
                                 },
@@ -342,6 +351,7 @@ fun VitalSenseNavGraph(
                                                             schemes = schemes,
                                                             familyMembers = familyMembers,
                                                             referrals = patientReferrals,
+                                                            isOffline = isOffline,
                                                             language = currentLanguage,
                                                             onCategoryClick = { category ->
                                                                 if (category == ConditionCategory.MENTAL_HEALTH) {

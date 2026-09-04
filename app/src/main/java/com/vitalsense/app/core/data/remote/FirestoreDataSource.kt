@@ -207,6 +207,297 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
+    suspend fun uploadDailyRound(round: DailyRound) {
+        try {
+            val data = hashMapOf(
+                "id" to round.id,
+                "dateFormatted" to round.dateFormatted,
+                "villageName" to round.villageName,
+                "householdName" to round.householdName,
+                "personName" to round.personName,
+                "ashaWorkerId" to round.ashaWorkerId,
+                "purpose" to round.purpose,
+                "isPregnancyChecked" to round.isPregnancyChecked,
+                "isChildHealthChecked" to round.isChildHealthChecked,
+                "isImmunizationChecked" to round.isImmunizationChecked,
+                "isMedicineGiven" to round.isMedicineGiven,
+                "isCounsellingDone" to round.isCounsellingDone,
+                "notes" to round.notes,
+                "status" to round.status
+            )
+            firestore.collection("daily_rounds").document(round.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded daily_round: ${round.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload daily_round: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadImmunizationRecord(record: ImmunizationRecord) {
+        try {
+            val data = hashMapOf(
+                "id" to record.id,
+                "childName" to record.childName,
+                "motherName" to record.motherName,
+                "dobFormatted" to record.dobFormatted,
+                "gender" to record.gender,
+                "villageName" to record.villageName,
+                "ashaWorkerId" to record.ashaWorkerId,
+                "vaccines" to record.vaccines.map {
+                    hashMapOf(
+                        "name" to it.name,
+                        "dueDateFormatted" to it.dueDateFormatted,
+                        "status" to it.status,
+                        "givenDateFormatted" to (it.givenDateFormatted ?: "")
+                    )
+                }
+            )
+            firestore.collection("immunization_records").document(record.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded immunization_record: ${record.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload immunization_record: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadAshaMedicine(medicine: AshaMedicine) {
+        try {
+            val data = hashMapOf(
+                "id" to medicine.id,
+                "ashaWorkerId" to medicine.ashaWorkerId,
+                "medicineName" to medicine.medicineName,
+                "availableQuantity" to medicine.availableQuantity,
+                "unit" to medicine.unit,
+                "minStockQuantity" to medicine.minStockQuantity,
+                "expiryDateFormatted" to medicine.expiryDateFormatted,
+                "lastRestockDateFormatted" to (medicine.lastRestockDateFormatted ?: "")
+            )
+            firestore.collection("asha_medicines").document(medicine.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded asha_medicine: ${medicine.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload asha_medicine: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadDispensaryItem(item: DispensaryItem) {
+        try {
+            val data = hashMapOf(
+                "id" to item.id,
+                "medicineName" to item.medicineName,
+                "category" to item.category,
+                "availableQuantity" to item.availableQuantity,
+                "unit" to item.unit,
+                "reorderThreshold" to item.reorderThreshold,
+                "lastRestockDateFormatted" to (item.lastRestockDateFormatted ?: "")
+            )
+            firestore.collection("dispensary_stock").document(item.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded dispensary_stock: ${item.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload dispensary_stock: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadReferral(referral: Referral) {
+        try {
+            val data = hashMapOf(
+                "id" to referral.id,
+                "patientId" to referral.patientId,
+                "patientName" to referral.patientName,
+                "referringDoctorId" to referral.referringDoctorId,
+                "referringDoctorName" to referral.referringDoctorName,
+                "referringDoctorSpecialty" to referral.referringDoctorSpecialty,
+                "targetDoctorId" to (referral.targetDoctorId ?: ""),
+                "targetDoctorName" to (referral.targetDoctorName ?: ""),
+                "targetSpecialty" to referral.targetSpecialty,
+                "reason" to referral.reason,
+                "clinicalQuestion" to referral.clinicalQuestion,
+                "urgency" to referral.urgency.name,
+                "attachedRecordIds" to referral.attachedRecordIds,
+                "status" to referral.status.name,
+                "declineReason" to (referral.declineReason ?: ""),
+                "suggestedSpecialtyOrDoctor" to (referral.suggestedSpecialtyOrDoctor ?: ""),
+                "infoRequestNote" to (referral.infoRequestNote ?: ""),
+                "specialistFindings" to (referral.specialistFindings ?: ""),
+                "specialistRecommendations" to (referral.specialistRecommendations ?: ""),
+                "specialistFollowUpNeeded" to referral.specialistFollowUpNeeded,
+                "createdAt" to referral.createdAt,
+                "respondedAt" to (referral.respondedAt ?: 0L),
+                "completedAt" to (referral.completedAt ?: 0L)
+            )
+            firestore.collection("referrals").document(referral.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded referral: ${referral.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload referral: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadLabReport(report: LabReport) {
+        try {
+            val data = hashMapOf(
+                "id" to report.id,
+                "patientId" to report.patientId,
+                "patientName" to report.patientName,
+                "testCategory" to report.testCategory,
+                "doctorName" to report.doctorName,
+                "dateFormatted" to report.dateFormatted,
+                "items" to report.items.map {
+                    hashMapOf(
+                        "testName" to it.testName,
+                        "resultValue" to it.resultValue,
+                        "unit" to it.unit,
+                        "referenceRange" to it.referenceRange,
+                        "flag" to it.flag
+                    )
+                },
+                "notes" to report.notes,
+                "status" to report.status
+            )
+            firestore.collection("lab_reports").document(report.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded lab_report: ${report.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload lab_report: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadOpdToken(token: OpdToken) {
+        try {
+            val data = hashMapOf(
+                "id" to token.id,
+                "tokenNumber" to token.tokenNumber,
+                "patientId" to token.patientId,
+                "patientName" to token.patientName,
+                "doctorName" to token.doctorName,
+                "department" to token.department,
+                "cabinNumber" to token.cabinNumber,
+                "currentServingToken" to token.currentServingToken,
+                "estimatedWaitMinutes" to token.estimatedWaitMinutes,
+                "status" to token.status,
+                "dateFormatted" to token.dateFormatted
+            )
+            firestore.collection("opd_tokens").document(token.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded opd_token: ${token.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload opd_token: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadMedicalCertificate(certificate: MedicalCertificate) {
+        try {
+            val data = hashMapOf(
+                "id" to certificate.id,
+                "certificateNumber" to certificate.certificateNumber,
+                "patientId" to certificate.patientId,
+                "patientName" to certificate.patientName,
+                "patientAge" to certificate.patientAge,
+                "patientGender" to certificate.patientGender,
+                "doctorName" to certificate.doctorName,
+                "doctorRegistrationNumber" to certificate.doctorRegistrationNumber,
+                "diagnosis" to certificate.diagnosis,
+                "restStartDate" to certificate.restStartDate,
+                "restEndDate" to certificate.restEndDate,
+                "fitDate" to certificate.fitDate,
+                "certificateType" to certificate.certificateType,
+                "issuedDateFormatted" to certificate.issuedDateFormatted
+            )
+            firestore.collection("medical_certificates").document(certificate.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded medical_certificate: ${certificate.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload medical_certificate: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadExternalReferral(referral: ExternalReferral) {
+        try {
+            val data = hashMapOf(
+                "id" to referral.id,
+                "referralLetterId" to referral.referralLetterId,
+                "patientId" to referral.patientId,
+                "patientName" to referral.patientName,
+                "referringDoctorName" to referral.referringDoctorName,
+                "empanelledHospitalName" to referral.empanelledHospitalName,
+                "specialtyRequired" to referral.specialtyRequired,
+                "clinicalSummary" to referral.clinicalSummary,
+                "isCashlessApproved" to referral.isCashlessApproved,
+                "ambulanceRequisitioned" to referral.ambulanceRequisitioned,
+                "issuedDate" to referral.issuedDate,
+                "status" to referral.status
+            )
+            firestore.collection("external_referrals").document(referral.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded external_referral: ${referral.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload external_referral: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadCallLog(callLog: CallLog) {
+        try {
+            val data = hashMapOf(
+                "id" to callLog.id,
+                "callType" to callLog.callType.name,
+                "callMode" to callLog.callMode,
+                "patientId" to callLog.patientId,
+                "patientName" to callLog.patientName,
+                "doctorId" to callLog.doctorId,
+                "doctorName" to callLog.doctorName,
+                "timestamp" to callLog.timestamp,
+                "durationSeconds" to callLog.durationSeconds,
+                "outcome" to callLog.outcome.name,
+                "outcomeNotes" to (callLog.outcomeNotes ?: "")
+            )
+            firestore.collection("call_logs").document(callLog.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded call_log: ${callLog.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload call_log: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadAuditLog(auditLog: AuditLog) {
+        try {
+            val data = hashMapOf(
+                "id" to auditLog.id,
+                "timestamp" to auditLog.timestamp,
+                "actorId" to auditLog.actorId,
+                "actorRole" to auditLog.actorRole,
+                "action" to auditLog.action,
+                "resourceId" to (auditLog.resourceId ?: ""),
+                "resourceType" to (auditLog.resourceType ?: ""),
+                "details" to (auditLog.details ?: ""),
+                "isSynced" to true
+            )
+            firestore.collection("audit_logs").document(auditLog.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded audit_log: ${auditLog.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload audit_log: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun uploadDiseaseTrend(trend: DiseaseTrendRecord) {
+        try {
+            val data = hashMapOf(
+                "id" to trend.id,
+                "villageName" to trend.villageName,
+                "diseaseName" to trend.diseaseName,
+                "caseCount" to trend.caseCount,
+                "dateFormatted" to trend.dateFormatted,
+                "severity" to (trend.severity ?: "")
+            )
+            firestore.collection("disease_trends").document(trend.id).set(data).await()
+            Log.d(TAG, "✅ Successfully uploaded disease_trend: ${trend.id}")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to upload disease_trend: ${e.message}", e)
+            throw e
+        }
+    }
+
     // --- REAL-TIME LISTENERS (Reads) ---
 
     fun getConditionRecordsStream(): Flow<List<ConditionRecord>> = callbackFlow {

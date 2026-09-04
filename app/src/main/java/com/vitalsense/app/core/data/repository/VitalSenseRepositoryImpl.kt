@@ -6,6 +6,8 @@ import com.vitalsense.app.core.data.local.entity.*
 import com.vitalsense.app.core.data.local.seed.SeedDataProvider
 import com.vitalsense.app.core.data.model.*
 import com.vitalsense.app.core.data.remote.FirestoreDataSource
+import com.vitalsense.app.core.network.NetworkMonitor
+import com.vitalsense.app.core.sync.SyncManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,7 +26,8 @@ import javax.inject.Singleton
 class VitalSenseRepositoryImpl @Inject constructor(
     private val database: VitalSenseDatabase,
     private val firestoreDataSource: FirestoreDataSource,
-    private val syncManager: com.vitalsense.app.core.sync.SyncManager
+    private val syncManager: SyncManager,
+    private val networkMonitor: NetworkMonitor
 ) : VitalSenseRepository {
 
     private val gson = Gson()
@@ -160,7 +163,7 @@ class VitalSenseRepositoryImpl @Inject constructor(
             }
         }
 
-        // 2. Persist to Room SQLite
+        // 2. Persist to Room SQLite & Outbox Queue
         scope.launch {
             dao.insertPatient(
                 PatientEntity(
@@ -171,11 +174,25 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     patient.profilePhotoUrl
                 )
             )
-            // 3. Remote Cloud Firestore sync
+
+            val outboxId = "outbox_patient_${patient.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "PATIENT",
+                    entityId = patient.id,
+                    payloadJson = gson.toJson(patient),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+
+            // 3. Remote Cloud Firestore sync attempt
             try {
                 firestoreDataSource.uploadPatient(patient)
+                dao.deleteOutboxRecord(outboxId)
             } catch (e: Exception) {
-                // Offline: remains saved locally in Room
+                // Offline: remains saved locally in Room; WorkManager flushes upon network return
+                syncManager.triggerImmediateSync()
             }
         }
     }
@@ -616,6 +633,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     item.unit, item.reorderThreshold, item.lastRestockDateFormatted
                 )
             )
+            val outboxId = "outbox_disp_${item.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "DISPENSARY_ITEM",
+                    entityId = item.id,
+                    payloadJson = gson.toJson(item),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadDispensaryItem(item)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 
@@ -638,6 +671,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     record.dateFormatted, record.severity
                 )
             )
+            val outboxId = "outbox_trend_${record.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "DISEASE_TREND",
+                    entityId = record.id,
+                    payloadJson = gson.toJson(record),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadDiseaseTrend(record)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 
@@ -651,6 +700,7 @@ class VitalSenseRepositoryImpl @Inject constructor(
         locationLng: Double?
     ): Boolean {
         android.util.Log.d("VitalSenseFirebase", "🚨 triggerEmergencySos called for patient: ${patient.name}")
+        val isOnline = networkMonitor.isOnline()
         val sosNotice = BroadcastNotice(
             id = "sos_${System.currentTimeMillis()}",
             senderRole = UserRole.PATIENT,
@@ -662,8 +712,43 @@ class VitalSenseRepositoryImpl @Inject constructor(
             timestamp = System.currentTimeMillis(),
             isUrgent = true
         )
-        sendNotice(sosNotice)
-        return true
+
+        // Instant in-memory update
+        _notices.update { listOf(sosNotice) + it }
+
+        // Local Room persistence
+        dao.insertNotice(
+            BroadcastNoticeEntity(
+                sosNotice.id, sosNotice.senderRole, sosNotice.senderName, sosNotice.targetRole,
+                sosNotice.targetVillage, sosNotice.title, sosNotice.message, sosNotice.timestamp,
+                sosNotice.isUrgent
+            )
+        )
+
+        val outboxId = "outbox_sos_${sosNotice.id}"
+        dao.insertOutboxRecord(
+            OutboxEntity(
+                id = outboxId,
+                actionType = "SOS_ALERT",
+                entityId = sosNotice.id,
+                payloadJson = gson.toJson(sosNotice),
+                timestamp = System.currentTimeMillis()
+            )
+        )
+
+        if (isOnline) {
+            return try {
+                firestoreDataSource.uploadNotice(sosNotice)
+                dao.deleteOutboxRecord(outboxId)
+                true
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+                false
+            }
+        } else {
+            // Offline: Enqueued in outbox, returns false to signal UI that server alert is pending
+            return false
+        }
     }
 
     // --- ASHA Features ---
@@ -686,6 +771,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     gson.toJson(record.vaccines)
                 )
             )
+            val outboxId = "outbox_imm_${record.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "IMMUNIZATION_RECORD",
+                    entityId = record.id,
+                    payloadJson = gson.toJson(record),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadImmunizationRecord(record)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 
@@ -710,6 +811,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     round.isCounsellingDone, round.notes, round.status
                 )
             )
+            val outboxId = "outbox_round_${round.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "DAILY_ROUND",
+                    entityId = round.id,
+                    payloadJson = gson.toJson(round),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadDailyRound(round)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 
@@ -732,6 +849,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     medicine.expiryDateFormatted, medicine.lastRestockDateFormatted
                 )
             )
+            val outboxId = "outbox_ashamed_${medicine.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "ASHA_MEDICINE",
+                    entityId = medicine.id,
+                    payloadJson = gson.toJson(medicine),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadAshaMedicine(medicine)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 
@@ -757,6 +890,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     report.doctorName, report.dateFormatted, report.items, report.notes, report.status
                 )
             )
+            val outboxId = "outbox_lab_${report.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "LAB_REPORT",
+                    entityId = report.id,
+                    payloadJson = gson.toJson(report),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadLabReport(report)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 
@@ -783,6 +932,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     token.currentServingToken, token.estimatedWaitMinutes, token.status, token.dateFormatted
                 )
             )
+            val outboxId = "outbox_opd_${token.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "OPD_TOKEN",
+                    entityId = token.id,
+                    payloadJson = gson.toJson(token),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadOpdToken(token)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
 
         // Bridge to live doctor queue HUD
@@ -843,6 +1008,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     certificate.fitDate, certificate.certificateType, certificate.issuedDateFormatted
                 )
             )
+            val outboxId = "outbox_cert_${certificate.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "MEDICAL_CERTIFICATE",
+                    entityId = certificate.id,
+                    payloadJson = gson.toJson(certificate),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadMedicalCertificate(certificate)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 
@@ -947,6 +1128,22 @@ class VitalSenseRepositoryImpl @Inject constructor(
                     status = referral.status
                 )
             )
+            val outboxId = "outbox_extref_${referral.id}"
+            dao.insertOutboxRecord(
+                OutboxEntity(
+                    id = outboxId,
+                    actionType = "EXTERNAL_REFERRAL",
+                    entityId = referral.id,
+                    payloadJson = gson.toJson(referral),
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+            try {
+                firestoreDataSource.uploadExternalReferral(referral)
+                dao.deleteOutboxRecord(outboxId)
+            } catch (e: Exception) {
+                syncManager.triggerImmediateSync()
+            }
         }
     }
 

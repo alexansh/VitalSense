@@ -814,4 +814,14 @@
     <string name="referredByDoctor">Referred by Doctor</string>
     <string name="specialistFindingsDiagnosticAssessment">Specialist Diagnostic Findings</string>
     <string name="specialistRecommendationsCarePlan">Specialist Recommendations</string>
+
+    <!-- Low Connectivity & Sync -->
+    <string name="slowNetwork">Slow Connection</string>
+    <string name="syncing">Syncing changes…</string>
+    <string name="pendingChanges">%d pending changes</string>
+    <string name="lastSynchronized">Last synchronized: %s</string>
+    <string name="offlineSosWarning">⚠️ Device Offline: Direct server dispatch unavailable. Use 1-Tap Fallbacks (108 Call / SMS to ASHA).</string>
+    <string name="cachedDataFreshness">Cached offline data (%s)</string>
+    <string name="syncComplete">All data synced</string>
+    <string name="manualSync">Sync Now</string>
 </resources>

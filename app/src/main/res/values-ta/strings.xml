@@ -814,4 +814,13 @@
     <string name="referredByDoctor">மருத்துவரால் பரிந்துரைக்கப்பட்டது</string>
     <string name="specialistFindingsDiagnosticAssessment">சிறப்பு மருத்துவரின் பரிசோதனை முடிவுகள்</string>
     <string name="specialistRecommendationsCarePlan">சிறப்பு மருத்துவரின் பரிந்துரைகள்</string>
+    <!-- Low Connectivity & Sync -->
+    <string name="slowNetwork">மெதுவான இணைப்பு</string>
+    <string name="syncing">ஒத்திசைக்கப்படுகிறது…</string>
+    <string name="pendingChanges">%d மாற்றங்கள் நிலுவையில் உள்ளன</string>
+    <string name="lastSynchronized">கடைசி ஒத்திசைவு: %s</string>
+    <string name="offlineSosWarning">⚠️ சாதனம் ஆஃப்லைனில் உள்ளது: நேரடி சர்வர் எச்சரிக்கை கிடைக்கவில்லை. 108 அழைப்பு அல்லது SMS பயன்படுத்தவும்.</string>
+    <string name="cachedDataFreshness">கேச் செய்யப்பட்ட ஆஃப்லைன் தரவு (%s)</string>
+    <string name="syncComplete">அனைத்து தரவும் ஒத்திசைக்கப்பட்டது</string>
+    <string name="manualSync">இப்போது ஒத்திசைக்கவும்</string>
 </resources>
