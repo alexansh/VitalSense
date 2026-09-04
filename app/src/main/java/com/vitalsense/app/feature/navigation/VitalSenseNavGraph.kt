@@ -708,6 +708,9 @@ fun VitalSenseNavGraph(
                                                                             isUrgent = true
                                                                         )
                                                                     )
+                                                                },
+                                                                onSendReferral = { referral ->
+                                                                    doctorViewModel.createReferral(referral)
                                                                 }
                                                             )
                                                         }

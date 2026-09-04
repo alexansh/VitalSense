@@ -25,6 +25,7 @@ import com.vitalsense.app.core.call.*
 import com.vitalsense.app.core.data.model.*
 import com.vitalsense.app.core.ui.components.*
 import com.vitalsense.app.core.ui.theme.*
+import com.vitalsense.app.feature.doctor.components.CreateReferralDialog
 import com.vitalsense.app.feature.doctor.components.DashboardAccordionItem
 import com.vitalsense.app.feature.doctor.components.PatientHistoryDialog
 import com.vitalsense.app.feature.doctor.components.ScheduleAppointmentDialog
@@ -58,11 +59,13 @@ fun DoctorHomeScreen(
     referrals: List<Referral> = emptyList(),
     onRemindAdminRestock: (DispensaryItem) -> Unit = {},
     todaysQueue: List<QueueEntry> = emptyList(),
+    onSendReferral: (Referral) -> Unit = {},
     scrollState: LazyListState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() },
     modifier: Modifier = Modifier
 ) {
     var showScheduleDialog by remember { mutableStateOf(false) }
     var selectedPatientForHistory by remember { mutableStateOf<Patient?>(null) }
+    var selectedPatientForReferral by remember { mutableStateOf<Patient?>(null) }
     var activeTeleConsultationPatient by remember { mutableStateOf<String?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var restockToastMessage by remember { mutableStateOf<String?>(null) }
@@ -1100,15 +1103,14 @@ fun DoctorHomeScreen(
 
                     filteredPatients.forEach { pat ->
                         VitalSenseCard {
-                            Row(
+                            Column(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                             ) {
-                                Column(modifier = Modifier.weight(1f)) {
+                                Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = pat.name,
-                                        style = MaterialTheme.typography.titleMedium,
+                                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                                         color = VS_OnBackground
                                     )
                                     Text(
@@ -1118,6 +1120,7 @@ fun DoctorHomeScreen(
                                     )
                                 }
                                 Row(
+                                    modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
@@ -1153,12 +1156,30 @@ fun DoctorHomeScreen(
                                         shape = PillShape,
                                         colors = ButtonDefaults.buttonColors(
                                             containerColor = VS_PrimaryContainer,
-                                            contentColor = VS_PrimaryContainer
+                                            contentColor = VS_OnPrimaryContainer
                                         ),
                                         contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                                         modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                                     ) {
-                                        Text(stringResource(R.string.history), style = MaterialTheme.typography.labelSmall)
+                                        Text(
+                                            text = stringResource(R.string.history),
+                                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                                            color = VS_OnPrimaryContainer
+                                        )
+                                    }
+
+                                    OutlinedButton(
+                                        onClick = { selectedPatientForReferral = pat },
+                                        shape = PillShape,
+                                        border = BorderStroke(1.dp, VS_Primary),
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
+                                        modifier = Modifier.defaultMinSize(minHeight = 36.dp)
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.refer),
+                                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                            color = VS_Primary
+                                        )
                                     }
                                 }
                             }
@@ -1278,6 +1299,40 @@ fun DoctorHomeScreen(
             prescriptions = allPrescriptions,
             appointments = appointments,
             onDismiss = { selectedPatientForHistory = null }
+        )
+    }
+
+    selectedPatientForReferral?.let { targetPatient ->
+        CreateReferralDialog(
+            patient = targetPatient,
+            patientNameFallback = targetPatient.name,
+            currentDoctor = doctor,
+            priorPrescriptions = allPrescriptions.filter { it.patientId == targetPatient.id },
+            allConditions = allConditions.filter { it.patientId == targetPatient.id },
+            onDismiss = { selectedPatientForReferral = null },
+            onSendReferral = { ref ->
+                onSendReferral(ref)
+                selectedPatientForReferral = null
+            },
+            onEmergencyCallTrigger = {
+                val routineAppt = Appointment(
+                    id = "appt_${targetPatient.id}_${System.currentTimeMillis()}",
+                    patientId = targetPatient.id,
+                    patientName = targetPatient.name,
+                    doctorId = doctor.id,
+                    doctorName = doctor.name,
+                    doctorSpecialty = doctor.specialty.displayName,
+                    dateFormatted = "Today",
+                    timeSlot = "Now",
+                    status = "Confirmed",
+                    proposedBy = UserRole.DOCTOR,
+                    callType = CallType.VIDEO,
+                    scheduledTimestamp = System.currentTimeMillis()
+                )
+                TeleCallingManager.startAppointmentCall(routineAppt, isDoctor = true)
+                activeTeleConsultationPatient = targetPatient.name
+                selectedPatientForReferral = null
+            }
         )
     }
 
