@@ -10,7 +10,7 @@
 [![UI Toolkit](https://img.shields.io/badge/UI-Jetpack_Compose_Material_3-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
 [![Architecture](https://img.shields.io/badge/Architecture-Clean_Architecture_+_MVVM-00897B?style=for-the-badge)](./system-design.md)
 [![Offline-First](https://img.shields.io/badge/Offline--First-Room_Outbox_+_WorkManager-FF6D00?style=for-the-badge)](./tech-stack.md)
-[![Latest Release](https://img.shields.io/badge/Release-v1.4.2-brightgreen?style=for-the-badge)](https://github.com/alexansh/VitalSense/releases)
+[![Latest Release](https://img.shields.io/badge/Release-v1.5.0-brightgreen?style=for-the-badge)](https://github.com/alexansh/VitalSense/releases)
 
 </div>
 
@@ -159,12 +159,12 @@ Download the pre-compiled, release-ready APK directly from [GitHub Releases](htt
 
 | Build Flavor | Target File | Direct Action |
 | :--- | :--- | :--- |
-| **Release Build (Optimized)** | `release/VitalSense-v1.4.2-release.apk` | Production-ready, R8-optimized |
-| **Debug Build** | `release/VitalSense-v1.4.2-debug.apk` | Includes debug logs and test seeds |
+| **Release Build (Optimized)** | `release/VitalSense-v1.5.0-release.apk` | Production-ready, R8-optimized |
+| **Debug Build** | `release/VitalSense-v1.5.0-debug.apk` | Includes debug logs and test seeds |
 
 ```bash
 # Install directly via ADB
-adb install -r release/VitalSense-v1.4.2-release.apk
+adb install -r release/VitalSense-v1.5.0-release.apk
 ```
 
 <div align="center">
