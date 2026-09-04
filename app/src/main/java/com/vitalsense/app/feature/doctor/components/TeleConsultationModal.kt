@@ -651,7 +651,7 @@ fun TeleConsultationModal(
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
-                                        imageVector = Icons.Default.CallEnd,
+                                        imageVector = Icons.Outlined.CallEnd,
                                         contentDescription = stringResource(R.string.endCall),
                                         tint = Color.White,
                                         modifier = Modifier.size(32.dp)

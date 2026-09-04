@@ -97,7 +97,7 @@ fun DoctorQueueScreen(
                     actions = {
                         IconButton(onClick = { showSlotConfigDialog = true }) {
                             Icon(
-                                imageVector = Icons.Default.Tune,
+                                imageVector = Icons.Outlined.Tune,
                                 contentDescription = "Configure Slots",
                                 tint = VS_Primary
                             )
@@ -213,7 +213,7 @@ fun DoctorQueueScreen(
                                     )
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.Campaign,
+                                        imageVector = Icons.Outlined.Campaign,
                                         contentDescription = null,
                                         tint = Color.White
                                     )
@@ -236,7 +236,7 @@ fun DoctorQueueScreen(
                                     border = BorderStroke(1.5.dp, VS_Primary)
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.PersonAdd,
+                                        imageVector = Icons.Outlined.PersonAdd,
                                         contentDescription = null,
                                         tint = VS_Primary
                                     )
@@ -317,7 +317,7 @@ fun DoctorQueueScreen(
                                     shape = RoundedCornerShape(12.dp),
                                     colors = ButtonDefaults.buttonColors(containerColor = VS_Success)
                                 ) {
-                                    Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.White)
+                                    Icon(imageVector = Icons.Outlined.Check, contentDescription = null, tint = Color.White)
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
                                         "Complete Consultation",

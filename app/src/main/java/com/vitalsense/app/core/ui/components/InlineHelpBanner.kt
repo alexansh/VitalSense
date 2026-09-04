@@ -44,7 +44,7 @@ fun InlineHelpBanner(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Info,
+                    imageVector = Icons.Outlined.Info,
                     contentDescription = "Help Guide",
                     tint = VS_OnBackground,
                     modifier = Modifier.size(20.dp)
@@ -75,7 +75,7 @@ fun InlineHelpBanner(
                     modifier = Modifier.size(24.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Close,
+                        imageVector = Icons.Outlined.Close,
                         contentDescription = "Dismiss",
                         tint = VS_OnSurfaceVariant,
                         modifier = Modifier.size(16.dp)

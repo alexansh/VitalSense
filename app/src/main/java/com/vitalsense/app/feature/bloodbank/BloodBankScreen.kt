@@ -179,7 +179,7 @@ fun BloodBankScreen(
                 ) {
                     Column(modifier = Modifier.padding(Spacing.sm), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                            Icon(imageVector = Icons.Default.LocalHospital, contentDescription = null, tint = VS_Primary, modifier = Modifier.size(18.dp))
+                            Icon(imageVector = Icons.Outlined.LocalHospital, contentDescription = null, tint = VS_Primary, modifier = Modifier.size(18.dp))
                             Text(
                                 text = "Emergency Transfusion Protocol",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
@@ -280,7 +280,7 @@ fun BloodStockCard(
 
                 IconButton(onClick = onCallHospital) {
                     Icon(
-                        imageVector = Icons.Default.Phone,
+                        imageVector = Icons.Outlined.Phone,
                         contentDescription = stringResource(R.string.callBloodBank),
                         tint = VS_OnSuccessContainer
                     )

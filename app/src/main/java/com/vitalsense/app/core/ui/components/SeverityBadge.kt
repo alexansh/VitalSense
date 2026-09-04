@@ -9,15 +9,15 @@ fun SeverityBadge(
     severity: SeverityLevel,
     modifier: Modifier = Modifier
 ) {
-    val type = when (severity) {
-        SeverityLevel.LOW -> VSPillType.Success
-        SeverityLevel.MODERATE -> VSPillType.Warning
-        SeverityLevel.HIGH -> VSPillType.Error
-        SeverityLevel.SEVERE -> VSPillType.Error
+    val status = when (severity) {
+        SeverityLevel.LOW -> VSStatus.SUCCESS
+        SeverityLevel.MODERATE -> VSStatus.WARNING
+        SeverityLevel.HIGH -> VSStatus.ERROR
+        SeverityLevel.SEVERE -> VSStatus.ERROR
     }
     VSStatusPill(
-        text = severity.displayName,
-        type = type,
+        label = severity.displayName,
+        status = status,
         modifier = modifier
     )
 }

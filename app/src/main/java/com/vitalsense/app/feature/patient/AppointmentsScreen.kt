@@ -123,7 +123,7 @@ fun AppointmentsScreen(
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                         ) {
-                            Icon(Icons.Default.Add, contentDescription = null, tint = Color.White)
+                            Icon(Icons.Outlined.Add, contentDescription = null, tint = Color.White)
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(stringResource(R.string.bookACall), fontWeight = FontWeight.Bold, color = Color.White)
                         }

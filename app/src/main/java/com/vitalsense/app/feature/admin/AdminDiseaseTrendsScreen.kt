@@ -47,7 +47,7 @@ fun AdminDiseaseTrendsScreen(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = "Back",
                             tint = VS_OnBackground
                         )

@@ -102,7 +102,7 @@ fun QueueEntryListItem(
                             )
                             if (entry.priorityFlag) {
                                 Icon(
-                                    imageVector = Icons.Default.Star,
+                                    imageVector = Icons.Outlined.Star,
                                     contentDescription = "Prioritized",
                                     tint = VS_Error,
                                     modifier = Modifier.size(16.dp)

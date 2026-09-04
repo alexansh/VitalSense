@@ -58,7 +58,7 @@ fun DailyRoundsScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = "Log Round")
+                    Icon(Icons.Outlined.Add, contentDescription = "Log Round")
                     Text("Log Visit", fontWeight = FontWeight.Bold)
                 }
             }

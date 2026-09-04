@@ -99,7 +99,7 @@ fun FacilityQualityCard(quality: FacilityQuality) {
                     fontWeight = FontWeight.Bold
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Star, contentDescription = "Rating", tint = com.vitalsense.app.core.ui.theme.VS_Warning)
+                    Icon(Icons.Outlined.Star, contentDescription = "Rating", tint = com.vitalsense.app.core.ui.theme.VS_Warning)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = quality.patientFeedbackScore.toString(),

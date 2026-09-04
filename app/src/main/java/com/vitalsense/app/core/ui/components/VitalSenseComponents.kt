@@ -101,7 +101,8 @@ fun VSStatCard(
 data class VSTimelineStep(
     val title: String,
     val timestamp: String?,
-    val completed: Boolean
+    val completed: Boolean,
+    val description: String? = null
 )
 
 /**
@@ -142,6 +143,14 @@ fun VSTimeline(steps: List<VSTimelineStep>, modifier: Modifier = Modifier) {
                         style = MaterialTheme.typography.bodyMedium,
                         color = VS_OnSurfaceVariant
                     )
+                    step.description?.let { desc ->
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            desc,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = VS_OnSurfaceVariant
+                        )
+                    }
                 }
             }
         }

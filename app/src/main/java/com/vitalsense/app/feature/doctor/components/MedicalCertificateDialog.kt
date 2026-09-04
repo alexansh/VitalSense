@@ -63,7 +63,7 @@ fun MedicalCertificateDialog(
                     )
                 }
                 IconButton(onClick = onDismiss) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = "Close", tint = VS_OnSurfaceVariant)
+                    Icon(imageVector = Icons.Outlined.Close, contentDescription = "Close", tint = VS_OnSurfaceVariant)
                 }
             }
         },
@@ -177,7 +177,7 @@ fun MedicalCertificateDialog(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.VerifiedUser,
+                                imageVector = Icons.Outlined.VerifiedUser,
                                 contentDescription = null,
                                 tint = VS_OnSuccessContainer,
                                 modifier = Modifier.size(20.dp)
