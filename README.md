@@ -183,7 +183,7 @@ VitalSense consolidates the entire primary healthcare pipeline into a single, un
 
 ### Option 1: Direct APK Installation (Recommended for Testing)
 
-Download the pre-compiled, release-ready APK directly from [GitHub Releases](https://github.com/alexansh/VitalSense/releases) or the local `release/` folder:
+Download the pre-compiled APK directly from [GitHub Releases (tag: version)](https://github.com/alexansh/VitalSense/releases/tag/version) or [Direct Download (app-debug.apk)](https://github.com/alexansh/VitalSense/releases/download/version/app-debug.apk):
 
 | Build Flavor | Target File | Direct Action | Size |
 | :--- | :--- | :--- | :--- |

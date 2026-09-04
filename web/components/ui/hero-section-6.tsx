@@ -5,6 +5,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { AnimatedGroup } from "@/components/ui/animated-group"
+import { QrDownloadModal } from "@/components/ui/qr-download-modal"
 import { Volume2, Download, Heart, ShieldCheck } from "lucide-react"
 
 export interface HeroSectionProps {
@@ -107,12 +108,15 @@ export function HeroSection6({ className }: HeroSectionProps) {
           <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
             {/* Single Primary CTA */}
             <Link
-              href="https://github.com/alexansh/VitalSense/releases/latest"
+              href="https://github.com/alexansh/VitalSense/releases/download/version/app-debug.apk"
               className="flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl bg-[#2E9E5B] px-8 text-base font-bold text-white shadow-sm transition hover:bg-[#25834b] active:scale-[0.98] sm:w-auto"
             >
               <Download className="h-5 w-5" />
               <span>📲 फ़ोन में डाउनलोड करें (Download APK)</span>
             </Link>
+
+            {/* Scan QR Modal Button */}
+            <QrDownloadModal />
 
             {/* Secondary Ghost Audio Narrator Button */}
             <button

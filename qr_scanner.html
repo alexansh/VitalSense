@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VitalSense QR Scanner & Instant APK Downloader</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <style>
+    :root {
+      --primary: #2E9E5B;
+      --primary-dark: #1F7340;
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --text: #1C1C1C;
+      --text-muted: #666666;
+      --border: #E5E7EB;
+      --accent: #E8F7EE;
+      --error: #D63B3B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .app-header {
+      text-align: center;
+      margin-bottom: 20px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: var(--primary);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    h1 span {
+      color: var(--primary);
+    }
+
+    .tab-switch {
+      display: flex;
+      background: #E5E7EB;
+      border-radius: 12px;
+      padding: 4px;
+      margin: 18px 0;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--text);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      width: 100%;
+      max-width: 440px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    /* Scanner View */
+    .scanner-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .camera-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      background: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--primary);
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .scan-reticle {
+      position: absolute;
+      width: 65%;
+      height: 65%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+      animation: scanMove 2s infinite ease-in-out;
+    }
+
+    @keyframes scanMove {
+      0% { top: 5%; opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { top: 95%; opacity: 0; }
+    }
+
+    /* Result Banner */
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--accent);
+      border: 1px solid rgba(46, 158, 91, 0.3);
+      width: 100%;
+      text-align: left;
+      display: none;
+    }
+
+    .result-box.active {
+      display: block;
+      animation: popIn 0.3s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .result-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .result-url {
+      font-size: 12px;
+      color: var(--text);
+      word-break: break-all;
+      margin-bottom: 12px;
+      font-family: monospace;
+      background: white;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    /* Action Buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    /* Show QR View */
+    .qr-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .qr-view.active {
+      display: flex;
+    }
+
+    .qr-image {
+      width: 250px;
+      height: 250px;
+      border-radius: 16px;
+      border: 2px dashed var(--primary);
+      padding: 10px;
+      background: white;
+      margin-bottom: 16px;
+    }
+
+    .alert-pill {
+      background: #E8F7EE;
+      border: 1px solid rgba(46, 158, 91, 0.4);
+      color: #1F7340;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-header">
+    <div class="badge">🛡️ SIH 26133 — VitalSense (SehatSetu)</div>
+    <h1>🫀 QR Scanner <span>& Downloader</span></h1>
+    <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">
+      Point your camera at the QR code to start direct APK download immediately
+    </p>
+
+    <div class="tab-switch">
+      <button class="tab-btn active" id="tabScanner" onclick="switchTab('scanner')">📷 Live Camera Scanner</button>
+      <button class="tab-btn" id="tabShowQr" onclick="switchTab('qr')">📲 Display Download QR</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- 1. LIVE CAMERA SCANNER VIEW -->
+    <div class="scanner-view" id="scannerSection">
+      <div class="camera-box">
+        <video id="webcamVideo" playsinline autoplay muted></video>
+        <canvas id="qrCanvas" style="display: none;"></canvas>
+        <div class="scan-reticle">
+          <div class="scan-line"></div>
+        </div>
+      </div>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-title">
+          <span>✅ Download Target Detected:</span>
+        </div>
+        <div class="result-url" id="resultUrlText"></div>
+        <a id="downloadActionBtn" href="https://github.com/alexansh/VitalSense/releases/download/version/app-debug.apk" class="btn btn-primary">
+          📥 Start Direct APK Download
+        </a>
+      </div>
+
+      <button id="cameraToggleBtn" class="btn btn-outline" onclick="toggleCamera()">
+        🔄 Restart Camera
+      </button>
+    </div>
+
+    <!-- 2. STATIC DOWNLOAD QR CODE VIEW -->
+    <div class="qr-view" id="qrSection">
+      <img src="./vitalsense_download_qr.png" alt="VitalSense Download QR" class="qr-image" />
+      <div class="alert-pill">⚡ Instant APK Download upon scan</div>
+      <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 6px;">Scan with Your Mobile Phone</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+        Downloads <strong>app-debug.apk</strong> directly onto your device.
+      </p>
+
+      <a href="https://github.com/alexansh/VitalSense/releases/download/version/app-debug.apk" class="btn btn-primary">
+        📥 Direct Download APK (67 MB)
+      </a>
+      <a href="./download_qr_card.html" target="_blank" class="btn btn-outline">
+        🖨️ Open Printable Card (For Judges)
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const DIRECT_APK_URL = "https://github.com/alexansh/VitalSense/releases/download/version/app-debug.apk";
+    const video = document.getElementById('webcamVideo');
+    const canvas = document.getElementById('qrCanvas');
+    const ctx = canvas.getContext('2d');
+    const resultBox = document.getElementById('resultBox');
+    const resultUrlText = document.getElementById('resultUrlText');
+    const downloadActionBtn = document.getElementById('downloadActionBtn');
+    let stream = null;
+    let isScanning = true;
+
+    function switchTab(tab) {
+      const tabScanner = document.getElementById('tabScanner');
+      const tabShowQr = document.getElementById('tabShowQr');
+      const scannerSection = document.getElementById('scannerSection');
+      const qrSection = document.getElementById('qrSection');
+
+      if (tab === 'scanner') {
+        tabScanner.classList.add('active');
+        tabShowQr.classList.remove('active');
+        scannerSection.style.display = 'flex';
+        qrSection.classList.remove('active');
+        startCamera();
+      } else {
+        tabShowQr.classList.add('active');
+        tabScanner.classList.remove('active');
+        scannerSection.style.display = 'none';
+        qrSection.classList.add('active');
+        stopCamera();
+      }
+    }
+
+    async function startCamera() {
+      try {
+        isScanning = true;
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' }
+        });
+        video.srcObject = stream;
+        video.setAttribute('playsinline', true);
+        video.play();
+        requestAnimationFrame(tick);
+      } catch (err) {
+        console.error('Camera access error:', err);
+        resultBox.classList.add('active');
+        resultBox.style.background = '#FFEAE8';
+        resultBox.style.borderColor = '#D63B3B';
+        resultUrlText.innerText = 'Camera permission required or camera not found. Switch to "Display Download QR" tab.';
+        downloadActionBtn.href = DIRECT_APK_URL;
+        downloadActionBtn.innerText = 'Download APK Directly';
+      }
+    }
+
+    function stopCamera() {
+      isScanning = false;
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    }
+
+    function toggleCamera() {
+      stopCamera();
+      setTimeout(startCamera, 300);
+    }
+
+    function playBeep() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+      } catch(e) {}
+    }
+
+    function tick() {
+      if (!isScanning) return;
+
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: "dontInvert",
+        });
+
+        if (code && code.data) {
+          onQrDetected(code.data);
+          return;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function onQrDetected(data) {
+      playBeep();
+      resultBox.classList.add('active');
+      resultUrlText.innerText = data;
+
+      // Automatically trigger download or link
+      downloadActionBtn.href = data;
+      downloadActionBtn.innerHTML = '📥 Download VitalSense APK Now';
+      
+      // Auto-trigger navigation/download
+      setTimeout(() => {
+        window.location.href = data;
+      }, 800);
+    }
+
+    startCamera();
+  </script>
+
+</body>
+</html>
