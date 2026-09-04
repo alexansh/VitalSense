@@ -64,13 +64,13 @@ fun AshaQrClaimDialog(
                         onDismiss()
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumeSuccessMint),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Success),
                     modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 44.dp)
                 ) {
                     Text(
                         text = if (language == AppLanguage.HINDI) "✓ प्रोफ़ाइल से जुड़ें (Claim Profile)" else "✓ Claim & Enter Profile",
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeBackground
+                        color = VS_Background
                     )
                 }
             }
@@ -79,7 +79,7 @@ fun AshaQrClaimDialog(
             TextButton(onClick = onDismiss, shape = PillShape) {
                 Text(
                     text = if (language == AppLanguage.HINDI) "रद्द करें" else "Cancel",
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     style = MaterialTheme.typography.labelLarge
                 )
             }
@@ -96,7 +96,7 @@ fun AshaQrClaimDialog(
                     modifier = Modifier
                         .size(160.dp)
                         .clip(CardShape)
-                        .background(GlumeSurfaceElevated)
+                        .background(VS_SurfaceVariant)
                         .padding(Spacing.sm),
                     contentAlignment = Alignment.Center
                 ) {
@@ -109,7 +109,7 @@ fun AshaQrClaimDialog(
                         Text(
                             text = "Scanning ASHA QR...",
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumePrimaryPurpleLight
+                            color = VS_PrimaryContainer
                         )
                     }
                 }
@@ -117,14 +117,14 @@ fun AshaQrClaimDialog(
                 Text(
                     text = if (language == AppLanguage.HINDI) "आशा कार्यकर्ता द्वारा दिया गया स्वास्थ्य कार्ड स्कैन करें। किसी पासवर्ड की आवश्यकता नहीं है।" else "Scan the physical health card issued by your village ASHA worker. Zero passwords required.",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             } else if (claimedPatient != null) {
                 // Verified Patient Identity
                 val patient = claimedPatient!!
                 Surface(
                     shape = PillShape,
-                    color = GlumeSuccessContainer,
+                    color = VS_SuccessContainer,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -132,34 +132,34 @@ fun AshaQrClaimDialog(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Text("✓ ", color = GlumeSuccessMint, fontWeight = FontWeight.Bold)
+                        Text("✓ ", color = VS_Success, fontWeight = FontWeight.Bold)
                         Text(
                             text = if (language == AppLanguage.HINDI) "मरीज़ पहचान सत्यापित!" else "Patient Identity Verified!",
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeSuccessMint
+                            color = VS_Success
                         )
                     }
                 }
 
                 VitalSenseCard(
-                    backgroundColor = GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, GlumeSuccessMint.copy(alpha = 0.4f))
+                    backgroundColor = VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, VS_Success.copy(alpha = 0.4f))
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text(
                             text = patient.name,
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "गांव:  · आयु:  ()",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                         Text(
                             text = "आशा कार्यकर्ता: ",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumePrimaryPurpleLight
+                            color = VS_PrimaryContainer
                         )
                     }
                 }

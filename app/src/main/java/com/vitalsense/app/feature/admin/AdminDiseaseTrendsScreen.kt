@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -43,22 +43,22 @@ fun AdminDiseaseTrendsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Disease Trends", color = GlumeTextPrimary) },
+                title = { Text("Disease Trends", color = VS_OnBackground) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = "Back",
-                            tint = GlumeTextPrimary
+                            tint = VS_OnBackground
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = GlumeBackground
+                    containerColor = VS_Background
                 )
             )
         },
-        containerColor = GlumeBackground,
+        containerColor = VS_Background,
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
         LazyColumn(
@@ -72,7 +72,7 @@ fun AdminDiseaseTrendsScreen(
                 Text(
                     text = "Village Selection",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary,
+                    color = VS_OnBackground,
                     modifier = Modifier.padding(bottom = Spacing.sm, top = Spacing.sm)
                 )
 
@@ -120,7 +120,7 @@ fun AdminDiseaseTrendsScreen(
                         Text(
                             text = "Outbreak Trends (Total Cases)",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary,
+                            color = VS_OnBackground,
                             modifier = Modifier.padding(bottom = Spacing.md)
                         )
                         VitalSenseCard {
@@ -136,7 +136,7 @@ fun AdminDiseaseTrendsScreen(
                         VitalSenseCard {
                             Text(
                                 text = "No trend data available for this village.",
-                                color = GlumeTextSecondary,
+                                color = VS_OnSurfaceVariant,
                                 modifier = Modifier.padding(Spacing.md)
                             )
                         }
@@ -173,8 +173,8 @@ fun DiseaseTrendLineChart(
     val maxCases = aggregated.maxOf { it.value }.toFloat().coerceAtLeast(10f)
     val pointCount = aggregated.size
 
-    val lineColor = GlumePrimaryPurple
-    val textColor = GlumeTextSecondary.copy(alpha = 0.6f)
+    val lineColor = VS_Primary
+    val textColor = VS_OnSurfaceVariant.copy(alpha = 0.6f)
 
     Canvas(modifier = modifier) {
         val width = size.width
@@ -256,7 +256,7 @@ fun ManualEntrySection(
     Text(
         text = "Record New Data",
         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-        color = GlumeTextPrimary,
+        color = VS_OnBackground,
         modifier = Modifier.padding(bottom = Spacing.sm)
     )
 

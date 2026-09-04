@@ -47,9 +47,9 @@ fun PatientHistoryDialog(
                 .fillMaxWidth()
                 .wrapContentHeight(),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -68,25 +68,25 @@ fun PatientHistoryDialog(
                         Text(
                             text = "📋 Medical History & Records",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "Patient: ${patient.name} (${patient.age}y / ${patient.gender})",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
-                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
+                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnSurfaceVariant)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 // 2. Patient Demographics & Health Profile Card
                 VitalSenseCard(
-                    backgroundColor = GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, GlumeBorder)
+                    backgroundColor = VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, VS_Outline)
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Row(
@@ -97,7 +97,7 @@ fun PatientHistoryDialog(
                             Text(
                                 text = "Village: ${patient.villageName}",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             SeverityBadge(severity = patient.currentRiskLevel)
                         }
@@ -105,12 +105,12 @@ fun PatientHistoryDialog(
                         Text(
                             text = "Last Condition: ${patient.lastCondition} · Last Visit: ${patient.lastVisitDate}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                         Text(
                             text = "Assigned ASHA: ${patient.ashaWorkerName} · Emergency: ${patient.emergencyContact}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumePrimaryPurpleLight
+                            color = VS_PrimaryContainer
                         )
                     }
                 }
@@ -118,7 +118,7 @@ fun PatientHistoryDialog(
                 TabRow(
                     selectedTabIndex = selectedTab,
                     containerColor = Color.Transparent,
-                    contentColor = GlumePrimaryPurple
+                    contentColor = VS_Primary
                 ) {
                     Tab(
                         selected = selectedTab == 0,
@@ -137,14 +137,14 @@ fun PatientHistoryDialog(
                     Text(
                     text = "Condition Submissions (${patientConditions.size})",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
 
                 if (patientConditions.isEmpty()) {
                     Text(
                         text = "No condition records logged for this patient yet.",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 } else {
                     patientConditions.forEach { record ->
@@ -158,7 +158,7 @@ fun PatientHistoryDialog(
                                     Text(
                                         text = "${record.category.displayName} (${dateFormat.format(Date(record.timestamp))})",
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     SeverityBadge(severity = record.severity)
                                 }
@@ -166,12 +166,12 @@ fun PatientHistoryDialog(
                                 Text(
                                     text = "Symptoms: ${record.notes}",
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
 
                                 if (record.doctorResponse != null) {
                                     Surface(
-                                        color = GlumePrimaryPurpleContainer,
+                                        color = VS_PrimaryContainer,
                                         shape = CardShape,
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
@@ -179,7 +179,7 @@ fun PatientHistoryDialog(
                                             Text(
                                                 text = "Doctor Advice: ${record.doctorResponse}",
                                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
-                                                color = GlumePrimaryPurpleLight
+                                                color = VS_PrimaryContainer
                                             )
                                         }
                                     }
@@ -193,14 +193,14 @@ fun PatientHistoryDialog(
                 Text(
                     text = "Prescriptions on File (${patientPrescriptions.size})",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
 
                 if (patientPrescriptions.isEmpty()) {
                     Text(
                         text = "No prior prescriptions uploaded or issued.",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 } else {
                     patientPrescriptions.forEach { rx ->
@@ -214,13 +214,13 @@ fun PatientHistoryDialog(
                                     Text(
                                         text = "By ${rx.doctorName} (${rx.dateFormatted})",
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     if (rx.isOcrExtracted) {
-                                        Surface(shape = PillShape, color = GlumeSuccessContainer) {
+                                        Surface(shape = PillShape, color = VS_SuccessContainer) {
                                             Text(
                                                 text = "AI Digitized",
-                                                style = MaterialTheme.typography.labelSmall.copy(color = GlumeSuccessText, fontWeight = FontWeight.Bold),
+                                                style = MaterialTheme.typography.labelSmall.copy(color = VS_OnSuccessContainer, fontWeight = FontWeight.Bold),
                                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                             )
                                         }
@@ -231,7 +231,7 @@ fun PatientHistoryDialog(
                                     Text(
                                         text = "• ${med.name} (${med.dosage}) - ${med.frequency} for ${med.duration}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                 }
 
@@ -239,7 +239,7 @@ fun PatientHistoryDialog(
                                     Text(
                                         text = "Note: ${rx.instructions}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                             }
@@ -252,7 +252,7 @@ fun PatientHistoryDialog(
                     Text(
                         text = "Appointments History (${patientAppointments.size})",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     patientAppointments.forEach { appt ->
@@ -266,23 +266,23 @@ fun PatientHistoryDialog(
                                     Text(
                                         text = "${appt.dateFormatted} at ${appt.timeSlot}",
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "Status: ${appt.status}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                                 Surface(
                                     shape = PillShape,
-                                    color = if (appt.status.contains("Pending", true)) GlumeWarningContainer else GlumeSuccessContainer
+                                    color = if (appt.status.contains("Pending", true)) VS_WarningContainer else VS_SuccessContainer
                                 ) {
                                     Text(
                                         text = appt.status,
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = FontWeight.Bold,
-                                            color = if (appt.status.contains("Pending", true)) GlumeWarningAmber else GlumeSuccessText
+                                            color = if (appt.status.contains("Pending", true)) VS_Warning else VS_OnSuccessContainer
                                         ),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
@@ -297,41 +297,18 @@ fun PatientHistoryDialog(
                         Text(
                             text = stringResource(R.string.noMedicalHistory),
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     } else {
-                        medicalHistory.sortedByDescending { it.timestamp }.forEach { entry ->
-                            VitalSenseCard {
-                                Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = entry.title,
-                                            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary
-                                        )
-                                        Text(
-                                            text = entry.dateFormatted,
-                                            style = MaterialTheme.typography.labelSmall,
-                                            color = GlumeTextSecondary
-                                        )
-                                    }
-                                    Text(
-                                        text = entry.details,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextPrimary
-                                    )
-                                    Text(
-                                        text = "By ${entry.doctorName}",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
-                                    )
-                                }
-                            }
+                        val steps = medicalHistory.sortedByDescending { it.timestamp }.map { entry ->
+                            com.vitalsense.app.core.ui.components.VSTimelineStep(
+                                title = entry.title,
+                                timestamp = entry.dateFormatted,
+                                description = "${entry.details}\nBy ${entry.doctorName}",
+                                completed = true
+                            )
                         }
+                        com.vitalsense.app.core.ui.components.VSTimeline(steps = steps, modifier = Modifier.fillMaxWidth())
                     }
                 }
 

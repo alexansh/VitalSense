@@ -60,9 +60,9 @@ fun DashboardAccordionItem(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = GlumeSurfaceCard,
+        color = VS_Surface,
         shadowElevation = 1.dp,
-        border = BorderStroke(1.dp, GlumeBorder)
+        border = BorderStroke(1.dp, VS_Outline)
     ) {
         Column {
             // Header row — always visible, clickable to toggle
@@ -102,12 +102,12 @@ fun DashboardAccordionItem(
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold
                         ),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = subtitle,
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary,
+                        color = VS_OnSurfaceVariant,
                         lineHeight = 16.sp
                     )
                 }
@@ -117,7 +117,7 @@ fun DashboardAccordionItem(
                     text = "⌄",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     modifier = Modifier.rotate(chevronRotation)
                 )
             }

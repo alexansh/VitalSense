@@ -28,8 +28,8 @@ fun TabularCard(
     title: String? = null,
     subtitle: String? = null,
     headerTrailing: @Composable (() -> Unit)? = null,
-    backgroundColor: Color = NagarSevaSurfaceLight,
-    borderColor: Color = NagarSevaBorderLight,
+    backgroundColor: Color = VS_Surface,
+    borderColor: Color = VS_Outline,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
@@ -52,13 +52,13 @@ fun TabularCard(
                         Text(
                             text = title,
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         if (subtitle != null) {
                             Text(
                                 text = subtitle,
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -78,7 +78,7 @@ fun TabularHeaderRow(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        color = GlumeBorder.copy(alpha = 0.35f),
+        color = VS_Outline.copy(alpha = 0.35f),
         shape = RoundedCornerShape(8.dp),
         modifier = modifier
             .fillMaxWidth()
@@ -98,7 +98,7 @@ fun TabularHeaderRow(
                         letterSpacing = 0.5.sp,
                         fontSize = 11.sp
                     ),
-                    color = GlumeTextSecondary,
+                    color = VS_OnSurfaceVariant,
                     modifier = Modifier.weight(weight),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -116,7 +116,7 @@ fun TabularDataRow(
     verticalPadding: Dp = 10.dp,
     content: @Composable RowScope.() -> Unit
 ) {
-    val rowBg = if (isEven) GlumeBackground.copy(alpha = 0.5f) else Color.Transparent
+    val rowBg = if (isEven) VS_Background.copy(alpha = 0.5f) else Color.Transparent
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -135,7 +135,7 @@ fun TabularDataRow(
 fun TabularStatusChip(
     statusText: String,
     containerColor: Color = NagarSevaStatusNormalBg,
-    textColor: Color = NagarSevaStatusNormal,
+    textColor: Color = VS_Success,
     modifier: Modifier = Modifier
 ) {
     Surface(

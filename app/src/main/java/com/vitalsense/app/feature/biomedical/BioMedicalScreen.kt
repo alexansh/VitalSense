@@ -49,7 +49,7 @@ fun BioMedicalScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.md, bottom = Spacing.xxl)
@@ -64,8 +64,8 @@ fun BioMedicalScreen(
                 Surface(
                     onClick = onBackClick,
                     shape = PillShape,
-                    color = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
@@ -73,20 +73,20 @@ fun BioMedicalScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
-                        Text("←", color = GlumeTextPrimary, fontWeight = FontWeight.Bold)
-                        Text(stringResource(R.string.hospitalClinicalServices), style = MaterialTheme.typography.labelMedium, color = GlumeTextPrimary)
+                        Text("←", color = VS_OnBackground, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.hospitalClinicalServices), style = MaterialTheme.typography.labelMedium, color = VS_OnBackground)
                     }
                 }
 
                 Surface(
                     shape = PillShape,
-                    color = GlumePrimaryPurpleContainer,
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.3f))
+                    color = VS_PrimaryContainer,
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
                         text = "Hospital Care · BME",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumePrimaryPurpleLight,
+                        color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
                     )
                 }
@@ -96,8 +96,8 @@ fun BioMedicalScreen(
         // 2. Hero Bio-Medical HUD
         item {
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
-                border = BorderStroke(1.dp, GlumeBorder)
+                backgroundColor = VS_Surface,
+                border = BorderStroke(1.dp, VS_Outline)
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                     Row(
@@ -109,45 +109,45 @@ fun BioMedicalScreen(
                             Text(
                                 text = "⚡ ${stringResource(R.string.bioMedicalTracker)}",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = stringResource(R.string.bioMedicalSubtitle),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
 
                         Surface(
                             shape = PillShape,
-                            color = GlumeSuccessContainer
+                            color = VS_SuccessContainer
                         ) {
                             Text(
                                 text = "$operationalCount / ${equipmentList.size} Active",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeSuccessMint,
+                                color = VS_Success,
                                 modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
                             )
                         }
                     }
 
-                    HorizontalDivider(color = GlumeBorderSubtle)
+                    HorizontalDivider(color = VS_Outline)
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text(stringResource(R.string.operational), style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("$operationalCount Units", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = GlumeSuccessMint)
+                            Text(stringResource(R.string.operational), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("$operationalCount Units", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_Success)
                         }
                         Column {
-                            Text("Maintenance / Due", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("$attentionCount Units", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = if (attentionCount > 0) GlumeAlertCoral else GlumeSuccessMint)
+                            Text("Maintenance / Due", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("$attentionCount Units", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = if (attentionCount > 0) VS_Error else VS_Success)
                         }
                         Column {
-                            Text("BME Engineering", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("24x7 On-Call", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = GlumePrimaryPurpleLight)
+                            Text("BME Engineering", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("24x7 On-Call", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_PrimaryContainer)
                         }
                     }
                 }
@@ -165,13 +165,13 @@ fun BioMedicalScreen(
                     Surface(
                         onClick = { selectedFilter = filter },
                         shape = PillShape,
-                        color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurpleVariant else GlumeBorder)
+                        color = if (isSelected) VS_Primary else VS_Surface,
+                        border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline)
                     ) {
                         Text(
                             text = filter.replace("_", " "),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = if (isSelected) GlumeTextPrimary else GlumeTextSecondary,
+                            color = if (isSelected) VS_OnBackground else VS_OnSurfaceVariant,
                             modifier = Modifier.padding(horizontal = Spacing.sm, vertical = Spacing.xs)
                         )
                     }
@@ -185,13 +185,13 @@ fun BioMedicalScreen(
             val isCalibrationDue = equip.status == "CALIBRATION_DUE"
 
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
+                backgroundColor = VS_Surface,
                 border = BorderStroke(
                     1.dp,
                     when {
-                        isOperational -> GlumeBorder
-                        isCalibrationDue -> GlumeWarningAmber.copy(alpha = 0.5f)
-                        else -> GlumeAlertCoral.copy(alpha = 0.5f)
+                        isOperational -> VS_Outline
+                        isCalibrationDue -> VS_Warning.copy(alpha = 0.5f)
+                        else -> VS_Error.copy(alpha = 0.5f)
                     }
                 )
             ) {
@@ -203,12 +203,12 @@ fun BioMedicalScreen(
                     ) {
                         Surface(
                             shape = PillShape,
-                            color = GlumeSurfaceElevated
+                            color = VS_SurfaceVariant
                         ) {
                             Text(
                                 text = equip.assetCode,
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary,
+                                color = VS_OnBackground,
                                 modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 2.dp)
                             )
                         }
@@ -216,18 +216,18 @@ fun BioMedicalScreen(
                         Surface(
                             shape = PillShape,
                             color = when {
-                                isOperational -> GlumeSuccessContainer
-                                isCalibrationDue -> GlumeWarningContainer
-                                else -> GlumeAlertContainer
+                                isOperational -> VS_SuccessContainer
+                                isCalibrationDue -> VS_WarningContainer
+                                else -> VS_ErrorContainer
                             }
                         ) {
                             Text(
                                 text = equip.status.replace("_", " "),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 10.sp),
                                 color = when {
-                                    isOperational -> GlumeSuccessMint
-                                    isCalibrationDue -> GlumeWarningAmber
-                                    else -> GlumeAlertCoral
+                                    isOperational -> VS_Success
+                                    isCalibrationDue -> VS_Warning
+                                    else -> VS_Error
                                 },
                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                             )
@@ -237,28 +237,28 @@ fun BioMedicalScreen(
                     Text(
                         text = equip.name,
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     Text(
                         text = "Department: ${equip.department} · Location: ${equip.location}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
 
-                    HorizontalDivider(color = GlumeBorderSubtle)
+                    HorizontalDivider(color = VS_Outline)
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Last Serviced", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text(equip.lastServiceDate, style = MaterialTheme.typography.bodySmall, color = GlumeTextSecondary)
+                            Text("Last Serviced", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(equip.lastServiceDate, style = MaterialTheme.typography.bodySmall, color = VS_OnSurfaceVariant)
                         }
                         Column {
-                            Text("Next Due Date", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text(equip.nextServiceDue, style = MaterialTheme.typography.bodySmall, color = if (isCalibrationDue) GlumeWarningAmber else GlumeTextPrimary)
+                            Text("Next Due Date", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(equip.nextServiceDue, style = MaterialTheme.typography.bodySmall, color = if (isCalibrationDue) VS_Warning else VS_OnBackground)
                         }
                     }
 
@@ -270,17 +270,17 @@ fun BioMedicalScreen(
                         Text(
                             text = "In-Charge: ${equip.inChargeContact}",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumePrimaryPurpleLight
+                            color = VS_PrimaryContainer
                         )
 
                         OutlinedButton(
                             onClick = { selectedEquipmentForMaint = equip },
                             shape = PillShape,
-                            border = BorderStroke(1.dp, GlumeBorder),
+                            border = BorderStroke(1.dp, VS_Outline),
                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = 2.dp),
                             modifier = Modifier.defaultMinSize(minHeight = 30.dp)
                         ) {
-                            Text("Update Status", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                            Text("Update Status", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                         }
                     }
                 }
@@ -298,27 +298,27 @@ fun BioMedicalScreen(
                 Text(
                     text = "Update ${equip.assetCode}",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
-                    Text(equip.name, style = MaterialTheme.typography.bodyMedium, color = GlumeTextPrimary)
+                    Text(equip.name, style = MaterialTheme.typography.bodyMedium, color = VS_OnBackground)
 
-                    Text("Select Operational Status:", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                    Text("Select Operational Status:", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
 
                     listOf("OPERATIONAL", "CALIBRATION_DUE", "UNDER_MAINTENANCE").forEach { opt ->
                         Surface(
                             onClick = { status = opt },
                             shape = PillShape,
-                            color = if (status == opt) GlumePrimaryPurple else GlumeSurfaceCard,
-                            border = BorderStroke(1.dp, if (status == opt) GlumePrimaryPurpleVariant else GlumeBorder),
+                            color = if (status == opt) VS_Primary else VS_Surface,
+                            border = BorderStroke(1.dp, if (status == opt) VS_Primary else VS_Outline),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
                                 text = opt.replace("_", " "),
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                                color = if (status == opt) GlumeTextPrimary else GlumeTextSecondary,
+                                color = if (status == opt) VS_OnBackground else VS_OnSurfaceVariant,
                                 modifier = Modifier.padding(horizontal = Spacing.md, vertical = Spacing.xs)
                             )
                         }
@@ -332,17 +332,17 @@ fun BioMedicalScreen(
                         selectedEquipmentForMaint = null
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple)
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                 ) {
                     Text("Save Status", style = MaterialTheme.typography.labelSmall)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { selectedEquipmentForMaint = null }) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             },
-            containerColor = GlumeSurfaceCard,
+            containerColor = VS_Surface,
             tonalElevation = 6.dp
         )
     }

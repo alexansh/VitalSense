@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,22 +31,22 @@ fun AdminDispensaryRestockScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Dispensary Restock", color = GlumeTextPrimary) },
+                title = { Text("Dispensary Restock", color = VS_OnBackground) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = "Back",
-                            tint = GlumeTextPrimary
+                            tint = VS_OnBackground
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = GlumeBackground
+                    containerColor = VS_Background
                 )
             )
         },
-        containerColor = GlumeBackground,
+        containerColor = VS_Background,
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
         val context = androidx.compose.ui.platform.LocalContext.current
@@ -59,7 +59,7 @@ fun AdminDispensaryRestockScreen(
             Text(
                 text = "Manage Inventory",
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary,
+                color = VS_OnBackground,
                 modifier = Modifier.padding(bottom = Spacing.sm, top = Spacing.sm)
             )
 
@@ -107,18 +107,18 @@ fun DispensaryRestockCard(
                     Text(
                         text = item.medicineName,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                     Text(
                         text = "${item.category} • Minimum: ${item.reorderThreshold} ${item.unit}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                     item.lastRestockDateFormatted?.let { date ->
                         Text(
                             text = "Last Restocked: $date",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary,
+                            color = VS_OnSurfaceVariant,
                             modifier = Modifier.padding(top = 2.dp)
                         )
                     }
@@ -129,18 +129,18 @@ fun DispensaryRestockCard(
                         text = "${item.availableQuantity} ${item.unit}",
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold,
-                            color = if (item.isLowStock) GlumeAlertCoral else GlumePrimaryPurple
+                            color = if (item.isLowStock) VS_Error else VS_Primary
                         )
                     )
                     if (item.isLowStock) {
                         Surface(
                             shape = PillShape,
-                            color = GlumeAlertContainer,
+                            color = VS_ErrorContainer,
                             modifier = Modifier.padding(top = 4.dp)
                         ) {
                             Text(
                                 text = "LOW STOCK",
-                                style = MaterialTheme.typography.labelSmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold),
+                                style = MaterialTheme.typography.labelSmall.copy(color = VS_Error, fontWeight = FontWeight.Bold),
                                 modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 2.dp)
                             )
                         }

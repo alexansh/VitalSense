@@ -6,99 +6,73 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-val VitalSenseTypography = Typography(
+/**
+ * Typography — default system sans-serif, generous line-height for
+ * low-literacy / accessibility contexts. Avoid condensed or decorative
+ * fonts. If a custom font is added later (e.g. Inter, Noto Sans for
+ * regional language support), swap FontFamily.Default below — nothing
+ * else needs to change.
+ */
+private val VS_FontFamily = FontFamily.Default
+
+val VSTypography = Typography(
     displayLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 28.sp,
-        lineHeight = 34.sp,
-        letterSpacing = (-0.5).sp,
-        color = GlumeTextPrimary
-    ),
-    displayMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
-        lineHeight = 30.sp,
-        letterSpacing = (-0.3).sp,
-        color = GlumeTextPrimary
+        fontFamily = VS_FontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 34.sp,
+        lineHeight = 42.sp,
+        letterSpacing = 0.sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        lineHeight = 26.sp,
-        color = GlumeTextPrimary
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = VS_FontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 17.sp,
-        lineHeight = 23.sp,
-        color = GlumeTextPrimary
+        fontSize = 24.sp,
+        lineHeight = 30.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = VS_FontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
-        lineHeight = 22.sp,
-        color = GlumeTextPrimary
+        fontSize = 20.sp,
+        lineHeight = 26.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 15.sp,
-        lineHeight = 20.sp,
-        color = GlumeTextPrimary
-    ),
-    titleSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = VS_FontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 19.sp,
-        color = GlumeTextPrimary
+        fontSize = 16.sp,
+        lineHeight = 22.sp
     ),
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = VS_FontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 15.sp,
-        lineHeight = 22.sp,
-        color = GlumeTextPrimary
+        fontSize = 16.sp,
+        lineHeight = 24.sp
     ),
     bodyMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = VS_FontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 20.sp,
-        color = GlumeTextSecondary
-    ),
-    bodySmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        color = GlumeTextSecondary
+        lineHeight = 20.sp
     ),
     labelLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
+        fontFamily = VS_FontFamily,
+        fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        lineHeight = 18.sp,
-        letterSpacing = 0.2.sp,
-        color = GlumeTextPrimary
+        lineHeight = 20.sp
     ),
     labelMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
+        fontFamily = VS_FontFamily,
+        fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
-        lineHeight = 16.sp,
-        color = GlumeTextSecondary
+        lineHeight = 16.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = VS_FontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 11.sp,
-        lineHeight = 14.sp,
-        color = GlumeTextSecondary
+        lineHeight = 14.sp
     )
 )
+
+
+val VitalSenseTypography = VSTypography
+

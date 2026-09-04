@@ -74,9 +74,9 @@ fun PrescriptionOcrDialog(
                 .fillMaxWidth()
                 .fillMaxHeight(0.88f),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -95,37 +95,37 @@ fun PrescriptionOcrDialog(
                         Text(
                             text = "📷 AI Prescription Digitizer",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "On-Device ML Kit OCR for ${patient.name}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                     IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
-                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
+                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnSurfaceVariant)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 // Instruction Callout
                 Surface(
-                    color = GlumePrimaryPurpleContainer,
+                    color = VS_PrimaryContainer,
                     shape = CardShape,
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.4f))
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.4f))
                 ) {
                     Column(modifier = Modifier.padding(Spacing.md), verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text(
                             text = "⚡ Zero-Cloud Offline Inference",
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumePrimaryPurpleLight
+                            color = VS_PrimaryContainer
                         )
                         Text(
                             text = "Select a prescription photo to extract clinical entities locally on device without network latency.",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                     }
                 }
@@ -134,7 +134,7 @@ fun PrescriptionOcrDialog(
                 Text(
                     text = "Simulate Camera Capture / Rx Scan:",
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
 
                 Row(
@@ -145,25 +145,25 @@ fun PrescriptionOcrDialog(
                         onClick = { processSamplePrescription("Fever") },
                         modifier = Modifier.weight(1f),
                         shape = PillShape,
-                        colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple)
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                     ) {
-                        Text("🌡️ Fever Rx", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                        Text("🌡️ Fever Rx", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
                     Button(
                         onClick = { processSamplePrescription("Maternal") },
                         modifier = Modifier.weight(1f),
                         shape = PillShape,
-                        colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple)
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                     ) {
-                        Text("🤰 Maternal", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                        Text("🤰 Maternal", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
                     Button(
                         onClick = { processSamplePrescription("Infection") },
                         modifier = Modifier.weight(1f),
                         shape = PillShape,
-                        colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple)
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                     ) {
-                        Text("💊 Infection", style = MaterialTheme.typography.labelSmall, color = GlumeTextPrimary)
+                        Text("💊 Infection", style = MaterialTheme.typography.labelSmall, color = VS_OnBackground)
                     }
                 }
 
@@ -175,7 +175,7 @@ fun PrescriptionOcrDialog(
                             .padding(Spacing.lg),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator(color = GlumePrimaryPurple)
+                        CircularProgressIndicator(color = VS_Primary)
                     }
                 }
 
@@ -184,23 +184,23 @@ fun PrescriptionOcrDialog(
                     Text(
                         text = "Extracted Clinical Entities:",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     VitalSenseCard(
-                        backgroundColor = GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        backgroundColor = VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                             Text(
                                 text = "RAW OCR TEXT STREAM",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                             Text(
                                 text = recognizedRawText,
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                         }
                     }
@@ -208,7 +208,7 @@ fun PrescriptionOcrDialog(
                     Text(
                         text = "Parsed Medicine Schedule (${extractedMedicines.size} Detected):",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     extractedMedicines.forEach { med ->
@@ -222,21 +222,21 @@ fun PrescriptionOcrDialog(
                                     Text(
                                         text = med.name,
                                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "Dosage: ${med.dosage} · ${med.frequency}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                                 Surface(
                                     shape = PillShape,
-                                    color = GlumeSuccessContainer
+                                    color = VS_SuccessContainer
                                 ) {
                                     Text(
                                         text = med.duration,
-                                        style = MaterialTheme.typography.labelSmall.copy(color = GlumeSuccessText, fontWeight = FontWeight.Bold),
+                                        style = MaterialTheme.typography.labelSmall.copy(color = VS_OnSuccessContainer, fontWeight = FontWeight.Bold),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
                                 }
@@ -248,16 +248,16 @@ fun PrescriptionOcrDialog(
                     OutlinedTextField(
                         value = instructionsText,
                         onValueChange = { instructionsText = it },
-                        label = { Text("Clinical Instructions & Notes", color = GlumeTextSecondary) },
+                        label = { Text("Clinical Instructions & Notes", color = VS_OnSurfaceVariant) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = InputShape,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = GlumeSurfaceElevated,
-                            unfocusedContainerColor = GlumeSurfaceCard,
-                            focusedBorderColor = GlumePrimaryPurple,
-                            unfocusedBorderColor = GlumeBorder,
-                            focusedTextColor = GlumeTextPrimary,
-                            unfocusedTextColor = GlumeTextPrimary
+                            focusedContainerColor = VS_SurfaceVariant,
+                            unfocusedContainerColor = VS_Surface,
+                            focusedBorderColor = VS_Primary,
+                            unfocusedBorderColor = VS_Outline,
+                            focusedTextColor = VS_OnBackground,
+                            unfocusedTextColor = VS_OnBackground
                         )
                     )
 
@@ -285,8 +285,8 @@ fun PrescriptionOcrDialog(
                             .height(48.dp),
                         shape = PillShape,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = GlumePrimaryPurple,
-                            contentColor = GlumeTextPrimary
+                            containerColor = VS_Primary,
+                            contentColor = VS_OnBackground
                         )
                     ) {
                         Text(

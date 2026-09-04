@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -76,12 +76,12 @@ fun DoctorQueueScreen(
                             Text(
                                 text = stringResource(R.string.liveQueueTitle),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Dr. ${doctor.name} · ${doctor.specialty}",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     },
@@ -90,23 +90,23 @@ fun DoctorQueueScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",
-                                tint = GlumeTextPrimary
+                                tint = VS_OnBackground
                             )
                         }
                     },
                     actions = {
                         IconButton(onClick = { showSlotConfigDialog = true }) {
                             Icon(
-                                imageVector = Icons.Default.Tune,
+                                imageVector = Icons.Outlined.Tune,
                                 contentDescription = "Configure Slots",
-                                tint = NagarSevaPrimary
+                                tint = VS_Primary
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
                 )
             },
-            containerColor = NagarSevaCanvasLight
+            containerColor = VS_Background
         ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier
@@ -121,8 +121,8 @@ fun DoctorQueueScreen(
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(20.dp),
-                        colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                        border = BorderStroke(1.dp, NagarSevaBorderLight),
+                        colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                        border = BorderStroke(1.dp, VS_Outline),
                         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
                         Column(
@@ -145,21 +145,21 @@ fun DoctorQueueScreen(
                                         modifier = Modifier
                                             .size(10.dp)
                                             .background(
-                                                if (slotConfig?.isWalkInOpen != false) NagarSevaStatusNormal else NagarSevaStatusUrgent,
+                                                if (slotConfig?.isWalkInOpen != false) VS_Success else VS_Error,
                                                 CircleShape
                                             )
                                     )
                                     Text(
                                         text = if (slotConfig?.isWalkInOpen != false) "Queue Open" else "Walk-Ins Closed",
                                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = if (slotConfig?.isWalkInOpen != false) NagarSevaStatusNormal else NagarSevaStatusUrgent
+                                        color = if (slotConfig?.isWalkInOpen != false) VS_Success else VS_Error
                                     )
                                 }
 
                                 Text(
                                     text = "Completed: $completedCount",
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
 
@@ -171,7 +171,7 @@ fun DoctorQueueScreen(
                                         letterSpacing = 1.sp,
                                         fontWeight = FontWeight.Bold
                                     ),
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
@@ -180,7 +180,7 @@ fun DoctorQueueScreen(
                                         fontWeight = FontWeight.ExtraBold,
                                         fontSize = 54.sp
                                     ),
-                                    color = if (currentServingToken > 0) NagarSevaPrimary else GlumeTextSecondary
+                                    color = if (currentServingToken > 0) VS_Primary else VS_OnSurfaceVariant
                                 )
                                 Text(
                                     text = when {
@@ -189,7 +189,7 @@ fun DoctorQueueScreen(
                                         else -> "No patient currently called"
                                     },
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
-                                    color = GlumeTextPrimary,
+                                    color = VS_OnBackground,
                                     textAlign = TextAlign.Center
                                 )
                             }
@@ -208,12 +208,12 @@ fun DoctorQueueScreen(
                                         .touchSpring(),
                                     shape = RoundedCornerShape(14.dp),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = NagarSevaPrimary,
-                                        disabledContainerColor = NagarSevaPrimary.copy(alpha = 0.4f)
+                                        containerColor = VS_Primary,
+                                        disabledContainerColor = VS_Primary.copy(alpha = 0.4f)
                                     )
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.Campaign,
+                                        imageVector = Icons.Outlined.Campaign,
                                         contentDescription = null,
                                         tint = Color.White
                                     )
@@ -233,19 +233,19 @@ fun DoctorQueueScreen(
                                         .height(52.dp)
                                         .touchSpring(),
                                     shape = RoundedCornerShape(14.dp),
-                                    border = BorderStroke(1.5.dp, NagarSevaPrimary)
+                                    border = BorderStroke(1.5.dp, VS_Primary)
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.PersonAdd,
+                                        imageVector = Icons.Outlined.PersonAdd,
                                         contentDescription = null,
-                                        tint = NagarSevaPrimary
+                                        tint = VS_Primary
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
                                         text = "Walk-In",
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp,
-                                        color = NagarSevaPrimary
+                                        color = VS_Primary
                                     )
                                 }
                             }
@@ -260,7 +260,7 @@ fun DoctorQueueScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(18.dp),
                             colors = CardDefaults.cardColors(containerColor = Color(0xFFF0FDF4)),
-                            border = BorderStroke(1.5.dp, NagarSevaStatusNormal.copy(alpha = 0.5f))
+                            border = BorderStroke(1.5.dp, VS_Success.copy(alpha = 0.5f))
                         ) {
                             Column(
                                 modifier = Modifier.padding(16.dp),
@@ -280,12 +280,12 @@ fun DoctorQueueScreen(
                                             Text(
                                                 text = "Active Consultation",
                                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                color = NagarSevaStatusNormal
+                                                color = VS_Success
                                             )
                                             Text(
                                                 text = "${activeConsultation.patientName} (Token #${activeConsultation.tokenNumber})",
                                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                                color = GlumeTextPrimary
+                                                color = VS_OnBackground
                                             )
                                         }
                                     }
@@ -293,7 +293,7 @@ fun DoctorQueueScreen(
                                     TabularStatusChip(
                                         statusText = "IN ROOM",
                                         containerColor = NagarSevaStatusNormalBg,
-                                        textColor = NagarSevaStatusNormal
+                                        textColor = VS_Success
                                     )
                                 }
 
@@ -315,9 +315,9 @@ fun DoctorQueueScreen(
                                         .height(44.dp)
                                         .touchSpring(),
                                     shape = RoundedCornerShape(12.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = NagarSevaStatusNormal)
+                                    colors = ButtonDefaults.buttonColors(containerColor = VS_Success)
                                 ) {
-                                    Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.White)
+                                    Icon(imageVector = Icons.Outlined.Check, contentDescription = null, tint = Color.White)
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
                                         "Complete Consultation",
@@ -340,12 +340,12 @@ fun DoctorQueueScreen(
                         Text(
                             text = "Waiting in Queue (${waitingEntries.size})",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "Ordered by Check-In",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
@@ -355,8 +355,8 @@ fun DoctorQueueScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(14.dp),
-                            colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                            border = BorderStroke(1.dp, NagarSevaBorderLight)
+                            colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                            border = BorderStroke(1.dp, VS_Outline)
                         ) {
                             Box(
                                 modifier = Modifier
@@ -372,12 +372,12 @@ fun DoctorQueueScreen(
                                     Text(
                                         text = "Queue is all caught up!",
                                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "No patients are currently waiting.",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                             }
@@ -450,7 +450,7 @@ private fun WalkInPatientPickerDialog(
             Text(
                 text = "Select Walk-In Patient",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
         },
         text = {
@@ -475,8 +475,8 @@ private fun WalkInPatientPickerDialog(
                         Surface(
                             onClick = { onSelectPatient(patient) },
                             shape = RoundedCornerShape(10.dp),
-                            color = NagarSevaElevatedLight,
-                            border = BorderStroke(1.dp, NagarSevaBorderLight),
+                            color = VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, VS_Outline),
                             modifier = Modifier.fillMaxWidth().touchSpring()
                         ) {
                             Row(
@@ -490,15 +490,15 @@ private fun WalkInPatientPickerDialog(
                                     Text(
                                         text = patient.name,
                                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "Age: ${patient.age} · ${patient.villageName}",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
-                                Text("Select →", fontSize = 12.sp, color = NagarSevaPrimary, fontWeight = FontWeight.Bold)
+                                Text("Select →", fontSize = 12.sp, color = VS_Primary, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -508,10 +508,10 @@ private fun WalkInPatientPickerDialog(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = GlumeTextSecondary)
+                Text("Cancel", color = VS_OnSurfaceVariant)
             }
         },
         shape = RoundedCornerShape(18.dp),
-        containerColor = NagarSevaSurfaceLight
+        containerColor = VS_Surface
     )
 }

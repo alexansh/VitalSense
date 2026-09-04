@@ -98,9 +98,9 @@ fun FindMedicineNearbySheet(
                 .fillMaxWidth(0.96f)
                 .fillMaxHeight(0.94f),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -117,12 +117,12 @@ fun FindMedicineNearbySheet(
                         Text(
                             text = "📍 Find Medicine Nearby",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "$currentMedicineName · Near ${patient.villageName}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
 
@@ -152,18 +152,18 @@ fun FindMedicineNearbySheet(
                     }
 
                     IconButton(onClick = onDismiss) {
-                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
+                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnSurfaceVariant)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xs))
 
                 // Availability Summary Banner
                 if (!isLoading) {
                     if (inStockCount > 0) {
                         Surface(
                             shape = PillShape,
-                            color = GlumeSuccessContainer,
+                            color = VS_SuccessContainer,
                             modifier = Modifier.padding(bottom = Spacing.xs)
                         ) {
                             Row(
@@ -175,14 +175,14 @@ fun FindMedicineNearbySheet(
                                 Text(
                                     text = "Likely available at $inStockCount nearby pharmacies",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeSuccessText
+                                    color = VS_OnSuccessContainer
                                 )
                             }
                         }
                     } else {
                         Surface(
                             shape = PillShape,
-                            color = GlumeAlertContainer,
+                            color = VS_ErrorContainer,
                             modifier = Modifier.padding(bottom = Spacing.xs)
                         ) {
                             Row(
@@ -194,7 +194,7 @@ fun FindMedicineNearbySheet(
                                 Text(
                                     text = "Not found in stock nearby — Doctor's alternative suggested",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeAlertText
+                                    color = VS_OnErrorContainer
                                 )
                             }
                         }
@@ -207,7 +207,7 @@ fun FindMedicineNearbySheet(
                         .fillMaxWidth()
                         .height(240.dp)
                         .clip(InputShape)
-                        .background(GlumeSurfaceElevated)
+                        .background(VS_SurfaceVariant)
                 ) {
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
@@ -249,17 +249,17 @@ fun FindMedicineNearbySheet(
                             .align(Alignment.TopEnd)
                             .padding(8.dp),
                         shape = PillShape,
-                        color = GlumeSurfaceCard.copy(alpha = 0.9f),
-                        border = BorderStroke(1.dp, GlumeBorder)
+                        color = VS_Surface.copy(alpha = 0.9f),
+                        border = BorderStroke(1.dp, VS_Outline)
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = "🟢 Likely In-Stock", style = MaterialTheme.typography.labelSmall, color = GlumeSuccessText)
-                            Text(text = "•", color = GlumeTextTertiary)
-                            Text(text = "🔴 Out", style = MaterialTheme.typography.labelSmall, color = GlumeAlertText)
+                            Text(text = "🟢 Likely In-Stock", style = MaterialTheme.typography.labelSmall, color = VS_OnSuccessContainer)
+                            Text(text = "•", color = VS_OnSurfaceVariant)
+                            Text(text = "🔴 Out", style = MaterialTheme.typography.labelSmall, color = VS_OnErrorContainer)
                         }
                     }
                 }
@@ -269,8 +269,8 @@ fun FindMedicineNearbySheet(
                 // Selected Store Spotlight Card (with Call to Confirm)
                 selectedStore?.let { store ->
                     VitalSenseCard(
-                        backgroundColor = if (store.inStock) GlumeSurfaceElevated else GlumeAlertContainer,
-                        border = BorderStroke(1.dp, if (store.inStock) GlumeBorder else GlumeAlertCoral)
+                        backgroundColor = if (store.inStock) VS_SurfaceVariant else VS_ErrorContainer,
+                        border = BorderStroke(1.dp, if (store.inStock) VS_Outline else VS_Error)
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -281,17 +281,17 @@ fun FindMedicineNearbySheet(
                                 Text(
                                     text = store.storeName,
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "${(store.distanceMeters / 1000).formatDistance()} away · ${store.address}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                                 Text(
                                     text = if (store.inStock) "✓ Likely available (simulated)" else "✕ Out of stock nearby",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = if (store.inStock) GlumeSuccessText else GlumeAlertText
+                                    color = if (store.inStock) VS_OnSuccessContainer else VS_OnErrorContainer
                                 )
                             }
 
@@ -305,14 +305,14 @@ fun FindMedicineNearbySheet(
                                     },
                                     shape = PillShape,
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = if (store.inStock) GlumePrimaryPurple else GlumeAlertCoral
+                                        containerColor = if (store.inStock) VS_Primary else VS_Error
                                     ),
                                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                 ) {
                                     Text(
                                         text = "📞 Call",
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                 }
                             }
@@ -324,20 +324,20 @@ fun FindMedicineNearbySheet(
                 if (inStockCount == 0 && candidateAlternatives.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(Spacing.xs))
                     VitalSenseCard(
-                        backgroundColor = GlumePrimaryPurple.copy(alpha = 0.15f),
-                        border = BorderStroke(1.dp, GlumePrimaryPurple)
+                        backgroundColor = VS_Primary.copy(alpha = 0.15f),
+                        border = BorderStroke(1.dp, VS_Primary)
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text(
                                 text = "💡 Doctor's Suggested Alternative Available",
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                             val firstAlt = candidateAlternatives.first()
                             Text(
                                 text = "Your doctor or health system suggested '${firstAlt.name}' (${firstAlt.genericName}) as a clinically interchangeable substitute for ${firstAlt.commonUseDescription}.",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Button(
                                 onClick = {
@@ -345,13 +345,13 @@ fun FindMedicineNearbySheet(
                                     currentMedicineId = firstAlt.id
                                 },
                                 shape = PillShape,
-                                colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                                colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                 modifier = Modifier.align(Alignment.End)
                             ) {
                                 Text(
                                     text = "Check '${firstAlt.name}' Nearby →",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                             }
                         }
@@ -364,7 +364,7 @@ fun FindMedicineNearbySheet(
                 Text(
                     text = "Nearby Medical Stores (${stores.size})",
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
 
                 LazyColumn(
@@ -379,9 +379,9 @@ fun FindMedicineNearbySheet(
                                 .clickable { selectedStore = store },
                             shape = InputShape,
                             colors = CardDefaults.cardColors(
-                                containerColor = if (isSelected) GlumeSurfaceElevated else GlumeSurfaceCard
+                                containerColor = if (isSelected) VS_SurfaceVariant else VS_Surface
                             ),
-                            border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder)
+                            border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline)
                         ) {
                             Row(
                                 modifier = Modifier
@@ -394,23 +394,23 @@ fun FindMedicineNearbySheet(
                                     Text(
                                         text = store.storeName,
                                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "${(store.distanceMeters / 1000).formatDistance()} · ${store.address}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
 
                                 Surface(
                                     shape = PillShape,
-                                    color = if (store.inStock) GlumeSuccessContainer else GlumeAlertContainer
+                                    color = if (store.inStock) VS_SuccessContainer else VS_ErrorContainer
                                 ) {
                                     Text(
                                         text = if (store.inStock) "Likely Available" else "Out of Stock",
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = if (store.inStock) GlumeSuccessText else GlumeAlertText,
+                                        color = if (store.inStock) VS_OnSuccessContainer else VS_OnErrorContainer,
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
                                 }
@@ -423,7 +423,7 @@ fun FindMedicineNearbySheet(
                 Text(
                     text = "Notice: Pharmacy stock is estimated from chain data and deterministic modeling. Please call to confirm before traveling.",
                     style = MaterialTheme.typography.labelSmall,
-                    color = GlumeTextTertiary,
+                    color = VS_OnSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp)
                 )
             }

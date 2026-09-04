@@ -39,8 +39,8 @@ fun RegisterPatientDialog(
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(20.dp),
-            color = GlumeSurfaceCard,
-            border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.6f)),
+            color = VS_Surface,
+            border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.6f)),
             shadowElevation = 12.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -64,7 +64,7 @@ fun RegisterPatientDialog(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(36.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -75,27 +75,27 @@ fun RegisterPatientDialog(
                             Text(
                                 text = "Register New Villager",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "ASHA: ${asha.name} (${asha.ashaUniqueId})",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
 
                     IconButton(onClick = onDismiss, modifier = Modifier.size(32.dp)) {
-                        Text("✕", color = GlumeTextSecondary, fontWeight = FontWeight.Bold)
+                        Text("✕", color = VS_OnSurfaceVariant, fontWeight = FontWeight.Bold)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 if (errorMessage.isNotBlank()) {
                     Text(
                         text = errorMessage,
-                        style = MaterialTheme.typography.bodySmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold)
+                        style = MaterialTheme.typography.bodySmall.copy(color = VS_Error, fontWeight = FontWeight.Bold)
                     )
                 }
 
@@ -128,7 +128,7 @@ fun RegisterPatientDialog(
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp
                             ),
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Row(
@@ -139,8 +139,8 @@ fun RegisterPatientDialog(
                                 val isSelected = gender == g
                                 Surface(
                                     shape = PillShape,
-                                    color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceElevated,
-                                    border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurpleLight else GlumeBorder),
+                                    color = if (isSelected) VS_Primary else VS_SurfaceVariant,
+                                    border = BorderStroke(1.dp, if (isSelected) VS_PrimaryContainer else VS_Outline),
                                     modifier = Modifier
                                         .weight(1f)
                                         .clickable { gender = g }
@@ -149,7 +149,7 @@ fun RegisterPatientDialog(
                                         Text(
                                             text = g,
                                             style = MaterialTheme.typography.labelSmall.copy(
-                                                color = if (isSelected) Color.White else GlumeTextPrimary,
+                                                color = if (isSelected) Color.White else VS_OnBackground,
                                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                                             )
                                         )
@@ -190,7 +190,7 @@ fun RegisterPatientDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -200,14 +200,14 @@ fun RegisterPatientDialog(
                         val isSelected = village == v
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurpleLight else GlumeBorder),
+                            color = if (isSelected) VS_Primary else VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, if (isSelected) VS_PrimaryContainer else VS_Outline),
                             modifier = Modifier.clickable { village = v }
                         ) {
                             Text(
                                 text = "🏡 $v",
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    color = if (isSelected) Color.White else GlumeTextPrimary,
+                                    color = if (isSelected) Color.White else VS_OnBackground,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                                 ),
                                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
@@ -231,7 +231,7 @@ fun RegisterPatientDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -240,15 +240,15 @@ fun RegisterPatientDialog(
                     SeverityLevel.values().forEach { sev ->
                         val isSelected = sev == selectedRiskLevel
                         val sevColor = when (sev) {
-                            SeverityLevel.LOW -> GlumeSuccessMint
-                            SeverityLevel.MODERATE -> GlumeWarningAmber
-                            SeverityLevel.HIGH -> GlumeAlertCoral.copy(alpha = 0.8f)
-                            SeverityLevel.SEVERE -> GlumeAlertCoral
+                            SeverityLevel.LOW -> VS_Success
+                            SeverityLevel.MODERATE -> VS_Warning
+                            SeverityLevel.HIGH -> VS_Error.copy(alpha = 0.8f)
+                            SeverityLevel.SEVERE -> VS_Error
                         }
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) sevColor.copy(alpha = 0.25f) else GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, if (isSelected) sevColor else GlumeBorder),
+                            color = if (isSelected) sevColor.copy(alpha = 0.25f) else VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, if (isSelected) sevColor else VS_Outline),
                             modifier = Modifier
                                 .weight(1f)
                                 .clickable { selectedRiskLevel = sev }
@@ -259,7 +259,7 @@ fun RegisterPatientDialog(
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontSize = 10.sp,
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isSelected) sevColor else GlumeTextSecondary
+                                        color = if (isSelected) sevColor else VS_OnSurfaceVariant
                                     )
                                 )
                             }
@@ -301,7 +301,7 @@ fun RegisterPatientDialog(
                     },
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = GlumePrimaryPurple,
+                        containerColor = VS_Primary,
                         contentColor = Color.White
                     ),
                     modifier = Modifier

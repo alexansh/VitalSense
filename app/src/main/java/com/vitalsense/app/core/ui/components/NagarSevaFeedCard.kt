@@ -31,9 +31,9 @@ fun NagarSevaFeedCard(
     locationTag: String,
     timeBadge: String,
     statusText: String,
-    statusBgColor: Color = GlumeSuccessContainer,
-    statusTextColor: Color = GlumeSuccessMint,
-    categoryBgColor: Color = GlumePrimaryPurpleContainer,
+    statusBgColor: Color = VS_SuccessContainer,
+    statusTextColor: Color = VS_Success,
+    categoryBgColor: Color = VS_PrimaryContainer,
     subtitle: String? = null,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
@@ -73,7 +73,7 @@ fun NagarSevaFeedCard(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary,
+                        color = VS_OnBackground,
                         modifier = Modifier.weight(1f, fill = false),
                         maxLines = 2
                     )
@@ -99,7 +99,7 @@ fun NagarSevaFeedCard(
                     Text(
                         text = subtitle,
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary,
+                        color = VS_OnSurfaceVariant,
                         maxLines = 2
                     )
                 }
@@ -112,7 +112,7 @@ fun NagarSevaFeedCard(
                 ) {
                     Surface(
                         shape = PillShape,
-                        color = GlumeSurfaceElevated
+                        color = VS_SurfaceVariant
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
@@ -124,7 +124,7 @@ fun NagarSevaFeedCard(
                                 text = locationTag,
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontSize = 11.sp,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             )
                         }
@@ -139,7 +139,7 @@ fun NagarSevaFeedCard(
                             text = timeBadge,
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontSize = 11.sp,
-                                color = GlumeTextTertiary
+                                color = VS_OnSurfaceVariant
                             )
                         )
                     }

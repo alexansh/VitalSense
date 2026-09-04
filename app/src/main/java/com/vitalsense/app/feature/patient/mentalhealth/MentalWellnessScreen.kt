@@ -33,7 +33,7 @@ fun MentalWellnessScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(WarmCreamBackground)
+            .background(VS_Background)
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(top = 12.dp, bottom = 32.dp)
@@ -42,24 +42,24 @@ fun MentalWellnessScreen(
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TextButton(onClick = onBack) {
-                    Text("← Back", color = TextPrimaryNearBlack, fontWeight = FontWeight.Bold)
+                    Text("← Back", color = VS_OnBackground, fontWeight = FontWeight.Bold)
                 }
             }
             Text(
                 text = "Mental Wellness",
                 style = MaterialTheme.typography.displayMedium.copy(fontSize = 24.sp),
-                color = TextPrimaryNearBlack
+                color = VS_OnBackground
             )
             Text(
                 text = "Take a moment for yourself, ${patient.name.split(" ").first()}.",
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextSecondaryMuted
+                color = VS_OnSurfaceVariant
             )
         }
 
         // Mood Check-in
         item {
-            VitalSenseCard(backgroundColor = LavenderSecondary.copy(alpha = 0.3f)) {
+            VitalSenseCard(backgroundColor = VS_PrimaryContainer.copy(alpha = 0.3f)) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
                         text = "How are you feeling today?",
@@ -114,7 +114,7 @@ fun MentalWellnessScreen(
 
         // Breathing Exercise
         item {
-            VitalSenseCard(backgroundColor = SurfaceWhite) {
+            VitalSenseCard(backgroundColor = VS_Surface) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -127,17 +127,17 @@ fun MentalWellnessScreen(
                     Text(
                         text = "Breathe in for 4 seconds, hold for 4, exhale for 4.",
                         style = MaterialTheme.typography.bodySmall,
-                        color = TextSecondaryMuted
+                        color = VS_OnSurfaceVariant
                     )
                     
                     Box(
                         modifier = Modifier
                             .size(120.dp)
                             .clip(CircleShape)
-                            .background(LavenderSecondary),
+                            .background(VS_PrimaryContainer),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("Tap to Start", color = SurfaceWhite, fontWeight = FontWeight.Bold)
+                        Text("Tap to Start", color = VS_Surface, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -155,7 +155,7 @@ fun MoodSelector(emoji: String, label: String, isSelected: Boolean, onClick: () 
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape)
-                .background(if (isSelected) LimePrimary else SurfaceWhite),
+                .background(if (isSelected) VS_Primary else VS_Surface),
             contentAlignment = Alignment.Center
         ) {
             Text(text = emoji, fontSize = 24.sp)

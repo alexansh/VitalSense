@@ -38,7 +38,7 @@ fun ExternalReferralScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.md, bottom = Spacing.xxl)
@@ -53,8 +53,8 @@ fun ExternalReferralScreen(
                 Surface(
                     onClick = onBackClick,
                     shape = PillShape,
-                    color = GlumeSurfaceCard,
-                    border = BorderStroke(1.dp, GlumeBorder),
+                    color = VS_Surface,
+                    border = BorderStroke(1.dp, VS_Outline),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
@@ -62,20 +62,20 @@ fun ExternalReferralScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
-                        Text("←", color = GlumeTextPrimary, fontWeight = FontWeight.Bold)
-                        Text("Hospital Desk", style = MaterialTheme.typography.labelMedium, color = GlumeTextPrimary)
+                        Text("←", color = VS_OnBackground, fontWeight = FontWeight.Bold)
+                        Text("Hospital Desk", style = MaterialTheme.typography.labelMedium, color = VS_OnBackground)
                     }
                 }
 
                 Surface(
                     shape = PillShape,
-                    color = GlumePrimaryPurpleContainer,
-                    border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.3f))
+                    color = VS_PrimaryContainer,
+                    border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.3f))
                 ) {
                     Text(
                         text = "Hospital Network · External Referrals",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumePrimaryPurpleLight,
+                        color = VS_PrimaryContainer,
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 4.dp)
                     )
                 }
@@ -85,8 +85,8 @@ fun ExternalReferralScreen(
         // 2. Hero HUD
         item {
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
-                border = BorderStroke(1.dp, GlumeBorder)
+                backgroundColor = VS_Surface,
+                border = BorderStroke(1.dp, VS_Outline)
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                     Row(
@@ -98,12 +98,12 @@ fun ExternalReferralScreen(
                             Text(
                                 text = "🏛️ Super-Specialty External Referrals",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Empanelled Apex Hospitals & Cashless Requisition Desk",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
 
@@ -111,8 +111,8 @@ fun ExternalReferralScreen(
                             onClick = { showIssueDialog = true },
                             shape = PillShape,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = GlumePrimaryPurple,
-                                contentColor = GlumeTextPrimary
+                                containerColor = VS_Primary,
+                                contentColor = VS_OnBackground
                             ),
                             contentPadding = PaddingValues(horizontal = Spacing.sm, vertical = Spacing.xxs),
                             modifier = Modifier.defaultMinSize(minHeight = 36.dp)
@@ -121,19 +121,19 @@ fun ExternalReferralScreen(
                         }
                     }
 
-                    HorizontalDivider(color = GlumeBorderSubtle)
+                    HorizontalDivider(color = VS_Outline)
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Active Referral Passes", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("${referrals.size} Active", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                            Text("Active Referral Passes", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("${referrals.size} Active", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
                         Column {
-                            Text("Tie-up Network", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text("AIIMS, Central Rly, KGMU", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = GlumePrimaryPurpleLight)
+                            Text("Tie-up Network", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text("AIIMS, Central Rly, KGMU", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_PrimaryContainer)
                         }
                     }
                 }
@@ -143,8 +143,8 @@ fun ExternalReferralScreen(
         // 3. Referral Passes List
         items(referrals, key = { it.id }) { ref ->
             VitalSenseCard(
-                backgroundColor = GlumeSurfaceCard,
-                border = BorderStroke(1.dp, GlumeBorder)
+                backgroundColor = VS_Surface,
+                border = BorderStroke(1.dp, VS_Outline)
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                     Row(
@@ -158,31 +158,31 @@ fun ExternalReferralScreen(
                         ) {
                             Surface(
                                 shape = PillShape,
-                                color = GlumePrimaryPurpleContainer
+                                color = VS_PrimaryContainer
                             ) {
                                 Text(
                                     text = ref.referralLetterId,
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumePrimaryPurpleLight,
+                                    color = VS_PrimaryContainer,
                                     modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 2.dp)
                                 )
                             }
                             Text(
                                 text = "· Issued ${ref.issuedDate}",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
 
                         if (ref.isCashlessApproved) {
                             Surface(
                                 shape = PillShape,
-                                color = GlumeSuccessContainer
+                                color = VS_SuccessContainer
                             ) {
                                 Text(
                                     text = "✓ CASHLESS APPROVED",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 10.sp),
-                                    color = GlumeSuccessMint,
+                                    color = VS_Success,
                                     modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                 )
                             }
@@ -192,22 +192,22 @@ fun ExternalReferralScreen(
                     Text(
                         text = "🏥 ${ref.empanelledHospitalName}",
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
 
                     Text(
                         text = "Specialty: ${ref.specialtyRequired}",
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
-                        color = GlumePrimaryPurpleLight
+                        color = VS_PrimaryContainer
                     )
 
                     Text(
                         text = "Clinical Summary: ${ref.clinicalSummary}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
 
-                    HorizontalDivider(color = GlumeBorderSubtle)
+                    HorizontalDivider(color = VS_Outline)
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -215,19 +215,19 @@ fun ExternalReferralScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column {
-                            Text("Beneficiary Patient", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                            Text(ref.patientName, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                            Text("Beneficiary Patient", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                            Text(ref.patientName, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                         }
 
                         if (ref.ambulanceRequisitioned) {
                             Surface(
                                 shape = PillShape,
-                                color = GlumeAlertContainer
+                                color = VS_ErrorContainer
                             ) {
                                 Text(
                                     text = "🚑 Ambulance Requisitioned",
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                                    color = GlumeAlertCoral,
+                                    color = VS_Error,
                                     modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                 )
                             }
@@ -252,7 +252,7 @@ fun ExternalReferralScreen(
                 Text(
                     text = "Issue Super-Specialty Referral Voucher",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             },
             text = {
@@ -295,14 +295,14 @@ fun ExternalReferralScreen(
                         Text(
                             text = "Requisition Emergency Transport / Ambulance",
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Switch(
                             checked = ambulanceNeeded,
                             onCheckedChange = { ambulanceNeeded = it },
                             colors = SwitchDefaults.colors(
-                                checkedThumbColor = GlumeTextPrimary,
-                                checkedTrackColor = GlumePrimaryPurple
+                                checkedThumbColor = VS_OnBackground,
+                                checkedTrackColor = VS_Primary
                             )
                         )
                     }
@@ -331,7 +331,7 @@ fun ExternalReferralScreen(
                         showIssueDialog = false
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                     enabled = patientName.isNotBlank()
                 ) {
                     Text("Issue & Sign Voucher", style = MaterialTheme.typography.labelSmall)
@@ -339,10 +339,10 @@ fun ExternalReferralScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showIssueDialog = false }) {
-                    Text("Cancel", color = GlumeTextSecondary)
+                    Text("Cancel", color = VS_OnSurfaceVariant)
                 }
             },
-            containerColor = GlumeSurfaceCard,
+            containerColor = VS_Surface,
             tonalElevation = 6.dp
         )
     }

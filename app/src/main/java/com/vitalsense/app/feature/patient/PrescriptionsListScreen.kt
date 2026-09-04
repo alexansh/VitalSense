@@ -48,7 +48,7 @@ fun PrescriptionsListScreen(
             Text(
                 text = "My Prescriptions",
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
         }
 
@@ -58,7 +58,7 @@ fun PrescriptionsListScreen(
                     Text(
                         text = "No prescriptions found.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
             }
@@ -75,31 +75,31 @@ fun PrescriptionsListScreen(
                                 Text(
                                     text = rx.doctorName,
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "${rx.doctorSpecialty} · ${rx.dateFormatted}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             if (rx.isOcrExtracted) {
-                                Surface(shape = PillShape, color = GlumeSuccessContainer) {
+                                Surface(shape = PillShape, color = VS_SuccessContainer) {
                                     Text(
                                         text = "AI Scanned",
-                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = GlumeSuccessText),
+                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = VS_OnSuccessContainer),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
                                 }
                             }
                         }
 
-                        HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = 4.dp))
+                        HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = 4.dp))
 
                         Text(
                             text = "Prescribed Medicines:",
                             style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
 
                         rx.medicines.forEach { med ->
@@ -114,18 +114,18 @@ fun PrescriptionsListScreen(
                                     Text(
                                         text = "• ${med.name} (${med.dosage})",
                                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "${med.frequency} · ${med.duration}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                     if (med.hasAlternativeAvailable) {
                                         Text(
                                             text = "💡 Doctor suggested alternative available",
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeAlertCoral
+                                            color = VS_Error
                                         )
                                     }
                                 }
@@ -134,13 +134,13 @@ fun PrescriptionsListScreen(
                                     onClick = { selectedMedicineForNearby = med },
                                     modifier = Modifier.height(34.dp),
                                     shape = PillShape,
-                                    border = BorderStroke(1.dp, NagarSevaPrimary),
+                                    border = BorderStroke(1.dp, VS_Primary),
                                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp)
                                 ) {
                                     Text(
                                         text = "📍 Find nearby",
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = NagarSevaPrimary
+                                        color = VS_Primary
                                     )
                                 }
                             }
@@ -150,7 +150,7 @@ fun PrescriptionsListScreen(
                             Text(
                                 text = "Instructions: ${rx.instructions}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }

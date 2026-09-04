@@ -10,8 +10,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.*
+
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -54,12 +58,12 @@ fun OpdQueueScreen(
                         Text(
                             text = stringResource(R.string.opdLiveQueueAndTokens),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = stringResource(R.string.opdSubtitle),
                             style = MaterialTheme.typography.labelSmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 },
@@ -68,7 +72,7 @@ fun OpdQueueScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.exit),
-                            tint = GlumeTextPrimary
+                            tint = VS_OnBackground
                         )
                     }
                 },
@@ -77,14 +81,14 @@ fun OpdQueueScreen(
                         Icon(
                             imageVector = Icons.Default.ConfirmationNumber,
                             contentDescription = stringResource(R.string.bookOpdToken),
-                            tint = GlumePrimaryPurple
+                            tint = VS_Primary
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = GlumeBackground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = VS_Background)
             )
         },
-        containerColor = GlumeBackground,
+        containerColor = VS_Background,
         modifier = modifier.fillMaxSize()
     ) { paddingValues ->
         LazyColumn(
@@ -108,7 +112,7 @@ fun OpdQueueScreen(
                 Text(
                     text = "Hospital Departments Live Board",
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumePrimaryPurpleLight
+                    color = VS_PrimaryContainer
                 )
             }
 
@@ -150,7 +154,7 @@ fun OpdQueueScreen(
                 Text(
                     text = stringResource(R.string.yourActiveTokens),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumePrimaryPurpleLight
+                    color = VS_PrimaryContainer
                 )
             }
 
@@ -159,7 +163,7 @@ fun OpdQueueScreen(
                     Text(
                         text = stringResource(R.string.noActiveTokens),
                         style = MaterialTheme.typography.bodySmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                 }
             } else {
@@ -194,8 +198,8 @@ fun ActiveTokenCard(
 
     VitalSenseCard(
         modifier = modifier.fillMaxWidth(),
-        backgroundColor = GlumeSurfaceElevated,
-        border = BorderStroke(2.dp, GlumePrimaryPurple)
+        backgroundColor = VS_SurfaceVariant,
+        border = BorderStroke(2.dp, VS_Primary)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
             Row(
@@ -205,7 +209,7 @@ fun ActiveTokenCard(
             ) {
                 Surface(
                     shape = PillShape,
-                    color = GlumePrimaryPurpleContainer
+                    color = VS_PrimaryContainer
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -216,14 +220,14 @@ fun ActiveTokenCard(
                             modifier = Modifier
                                 .size(8.dp)
                                 .clip(CircleShape)
-                                .background(GlumeSuccessText)
+                                .background(VS_OnSuccessContainer)
                         )
                         Text(
                             text = "LIVE OPD QUEUE",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
-                                color = GlumePrimaryPurple
+                                color = VS_Primary
                             )
                         )
                     }
@@ -231,13 +235,13 @@ fun ActiveTokenCard(
 
                 Surface(
                     shape = PillShape,
-                    color = if (token.status == "Serving") GlumeSuccessContainer else GlumeWarningContainer
+                    color = if (token.status == "Serving") VS_SuccessContainer else VS_WarningContainer
                 ) {
                     Text(
                         text = token.status,
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold,
-                            color = if (token.status == "Serving") GlumeSuccessText else GlumeWarningText
+                            color = if (token.status == "Serving") VS_OnSuccessContainer else VS_OnWarningContainer
                         ),
                         modifier = Modifier.padding(horizontal = Spacing.sm, vertical = 2.dp)
                     )
@@ -253,12 +257,12 @@ fun ActiveTokenCard(
                     Text(
                         text = "Your Token Number",
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                     Text(
                         text = token.tokenNumber,
                         style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Black),
-                        color = GlumePrimaryPurpleLight
+                        color = VS_PrimaryContainer
                     )
                 }
 
@@ -266,33 +270,33 @@ fun ActiveTokenCard(
                     Text(
                         text = "Currently Serving",
                         style = MaterialTheme.typography.labelSmall,
-                        color = GlumeTextSecondary
+                        color = VS_OnSurfaceVariant
                     )
                     Text(
                         text = token.currentServingToken,
                         style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GlumeSuccessText
+                        color = VS_OnSuccessContainer
                     )
                 }
             }
 
-            HorizontalDivider(color = GlumeBorder.copy(alpha = 0.5f))
+            HorizontalDivider(color = VS_Outline.copy(alpha = 0.5f))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Department", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                    Text(token.department, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                    Text("Department", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(token.department, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                 }
                 Column {
-                    Text("Room / Cabin", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                    Text(token.cabinNumber, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
+                    Text("Room / Cabin", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(token.cabinNumber, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text("Est. Wait Time", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                    Text("~${token.estimatedWaitMinutes} mins", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeWarningText)
+                    Text("Est. Wait Time", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text("~${token.estimatedWaitMinutes} mins", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnWarningContainer)
                 }
             }
 
@@ -327,8 +331,8 @@ fun NoActiveTokenCard(
 ) {
     VitalSenseCard(
         modifier = modifier.fillMaxWidth(),
-        backgroundColor = GlumeSurfaceElevated,
-        border = BorderStroke(1.dp, GlumeBorder)
+        backgroundColor = VS_SurfaceVariant,
+        border = BorderStroke(1.dp, VS_Outline)
     ) {
         Column(
             modifier = Modifier.padding(Spacing.sm),
@@ -339,17 +343,17 @@ fun NoActiveTokenCard(
                 imageVector = Icons.Default.ConfirmationNumber,
                 contentDescription = null,
                 modifier = Modifier.size(40.dp),
-                tint = GlumePrimaryPurple
+                tint = VS_Primary
             )
             Text(
                 text = "No Active OPD Token",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
             Text(
                 text = "Self check-in or generate a digital queue slip to visit PHC / District Hospital doctors without physical lines.",
                 style = MaterialTheme.typography.bodySmall,
-                color = GlumeTextSecondary
+                color = VS_OnSurfaceVariant
             )
             VitalSenseButton(
                 text = "🎟️ Book OPD Token Now",
@@ -370,8 +374,8 @@ fun DepartmentQueueRow(
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
-        color = GlumeSurfaceElevated,
-        border = BorderStroke(1.dp, GlumeBorder),
+        color = VS_SurfaceVariant,
+        border = BorderStroke(1.dp, VS_Outline),
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -382,15 +386,15 @@ fun DepartmentQueueRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(department, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                Text("$doctor · $room", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                Text(department, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                Text("$doctor · $room", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
             }
             Column(horizontalAlignment = Alignment.End) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("Serving:", style = MaterialTheme.typography.labelSmall, color = GlumeTextTertiary)
-                    Text(currentServing, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = GlumeSuccessText)
+                    Text("Serving:", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
+                    Text(currentServing, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), color = VS_OnSuccessContainer)
                 }
-                Text("Queue: $totalQueue", style = MaterialTheme.typography.labelSmall, color = GlumeTextSecondary)
+                Text("Queue: $totalQueue", style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
             }
         }
     }
@@ -400,8 +404,8 @@ fun DepartmentQueueRow(
 fun PastTokenCard(token: OpdToken) {
     VitalSenseCard(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = GlumeSurfaceElevated,
-        border = BorderStroke(1.dp, GlumeBorder)
+        backgroundColor = VS_SurfaceVariant,
+        border = BorderStroke(1.dp, VS_Outline)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -412,18 +416,18 @@ fun PastTokenCard(token: OpdToken) {
                 Text(
                     text = "${token.tokenNumber} · ${token.department}",
                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "${token.doctorName} · ${token.dateFormatted}",
                     style = MaterialTheme.typography.labelSmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             }
-            Surface(shape = PillShape, color = GlumeSuccessContainer) {
+            Surface(shape = PillShape, color = VS_SuccessContainer) {
                 Text(
                     text = token.status,
-                    style = MaterialTheme.typography.labelSmall.copy(color = GlumeSuccessText, fontWeight = FontWeight.Bold),
+                    style = MaterialTheme.typography.labelSmall.copy(color = VS_OnSuccessContainer, fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                 )
             }
@@ -453,7 +457,7 @@ fun BookOpdTokenDialog(
             Text(
                 text = stringResource(R.string.bookHospitalOpdToken),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
         },
         text = {
@@ -461,15 +465,15 @@ fun BookOpdTokenDialog(
                 Text(
                     text = stringResource(R.string.selectDepartment),
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 departments.forEach { (dept, doc) ->
                     val isSelected = selectedDept == dept
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                        border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else GlumeBorder),
+                        color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                        border = BorderStroke(1.dp, if (isSelected) VS_Primary else VS_Outline),
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
@@ -493,12 +497,12 @@ fun BookOpdTokenDialog(
                                 Text(
                                     text = dept,
                                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "Consultant: $doc",
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                         }
@@ -542,6 +546,7 @@ fun BookOpdTokenDialog(
                 style = ButtonStyle.SECONDARY
             )
         },
-        containerColor = GlumeBackground
+        containerColor = VS_Background
     )
 }
+

@@ -41,8 +41,8 @@ fun SendNoticeDialog(
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(20.dp),
-            color = GlumeSurfaceCard,
-            border = BorderStroke(1.dp, GlumePrimaryPurple.copy(alpha = 0.6f)),
+            color = VS_Surface,
+            border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.6f)),
             shadowElevation = 12.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -66,7 +66,7 @@ fun SendNoticeDialog(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.size(36.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -77,27 +77,27 @@ fun SendNoticeDialog(
                             Text(
                                 text = "Broadcast Village Advisory",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "By ASHA: ${asha.name}",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
 
                     IconButton(onClick = onDismiss, modifier = Modifier.size(32.dp)) {
-                        Text("✕", color = GlumeTextSecondary, fontWeight = FontWeight.Bold)
+                        Text("✕", color = VS_OnSurfaceVariant, fontWeight = FontWeight.Bold)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 if (errorMessage.isNotBlank()) {
                     Text(
                         text = errorMessage,
-                        style = MaterialTheme.typography.bodySmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold)
+                        style = MaterialTheme.typography.bodySmall.copy(color = VS_Error, fontWeight = FontWeight.Bold)
                     )
                 }
 
@@ -108,15 +108,15 @@ fun SendNoticeDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     quickNoticeTemplates.forEach { template ->
                         Surface(
                             shape = RoundedCornerShape(8.dp),
-                            color = GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, GlumeBorder),
+                            color = VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, VS_Outline),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
@@ -127,7 +127,7 @@ fun SendNoticeDialog(
                         ) {
                             Text(
                                 text = template,
-                                style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = GlumeTextPrimary),
+                                style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, color = VS_OnBackground),
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)
                             )
                         }
@@ -157,7 +157,7 @@ fun SendNoticeDialog(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
                     ),
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -167,14 +167,14 @@ fun SendNoticeDialog(
                         val isSelected = selectedVillage == v
                         Surface(
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurple else GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurpleLight else GlumeBorder),
+                            color = if (isSelected) VS_Primary else VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, if (isSelected) VS_PrimaryContainer else VS_Outline),
                             modifier = Modifier.clickable { selectedVillage = v }
                         ) {
                             Text(
                                 text = v,
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    color = if (isSelected) Color.White else GlumeTextPrimary,
+                                    color = if (isSelected) Color.White else VS_OnBackground,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                                 ),
                                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
@@ -198,7 +198,7 @@ fun SendNoticeDialog(
                             text = if (isUrgent) "High Priority Urgent Broadcast" else "Standard Village Notice",
                             style = MaterialTheme.typography.bodySmall.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = if (isUrgent) GlumeAlertCoral else GlumeTextPrimary
+                                color = if (isUrgent) VS_Error else VS_OnBackground
                             )
                         )
                     }
@@ -208,8 +208,8 @@ fun SendNoticeDialog(
                         onCheckedChange = { isUrgent = it },
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = Color.White,
-                            checkedTrackColor = GlumeAlertCoral,
-                            uncheckedTrackColor = GlumeSurfaceElevated
+                            checkedTrackColor = VS_Error,
+                            uncheckedTrackColor = VS_SurfaceVariant
                         )
                     )
                 }
@@ -244,7 +244,7 @@ fun SendNoticeDialog(
                     },
                     shape = PillShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isUrgent) GlumeAlertCoral else GlumePrimaryPurple,
+                        containerColor = if (isUrgent) VS_Error else VS_Primary,
                         contentColor = Color.White
                     ),
                     modifier = Modifier

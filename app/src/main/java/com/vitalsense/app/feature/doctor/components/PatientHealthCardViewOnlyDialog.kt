@@ -29,9 +29,9 @@ fun PatientHealthCardViewOnlyDialog(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 8.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(
                 modifier = Modifier
@@ -49,32 +49,32 @@ fun PatientHealthCardViewOnlyDialog(
                         Text(
                             text = "🪪 Patient Health Card",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Surface(
                             shape = PillShape,
-                            color = GlumePrimaryPurpleContainer,
+                            color = VS_PrimaryContainer,
                             modifier = Modifier.padding(top = 2.dp)
                         ) {
                             Text(
                                 text = "🔒 VIEW-ONLY ACCESS (§3 PRD Rule)",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp),
-                                color = GlumePrimaryPurpleLight
+                                color = VS_PrimaryContainer
                             )
                         }
                     }
                     IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
-                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
+                        Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnSurfaceVariant)
                     }
                 }
 
-                HorizontalDivider(color = GlumeBorder)
+                HorizontalDivider(color = VS_Outline)
 
                 // Demographic Card
                 VitalSenseCard(
-                    backgroundColor = GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, GlumeBorder)
+                    backgroundColor = VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, VS_Outline)
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Row(
@@ -86,52 +86,52 @@ fun PatientHealthCardViewOnlyDialog(
                                 Text(
                                     text = patient.name,
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = "Age: ${patient.age} yrs · Gender: ${patient.gender} · Village: ${patient.villageName}",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             SeverityBadge(severity = patient.currentRiskLevel)
                         }
 
-                        HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xxs))
+                        HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xxs))
 
                         Text(
                             text = "📞 Contact: ${patient.phone}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "🚨 Emergency Contact: ${patient.emergencyContact}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = "🤝 Assigned ASHA: ${patient.ashaWorkerName}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = GlumeTextSecondary
+                            color = VS_OnSurfaceVariant
                         )
                     }
                 }
 
                 // Clinical History Card
                 VitalSenseCard(
-                    backgroundColor = GlumeSurfaceElevated,
-                    border = BorderStroke(1.dp, GlumeBorder)
+                    backgroundColor = VS_SurfaceVariant,
+                    border = BorderStroke(1.dp, VS_Outline)
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                         Text(
                             text = "📋 Latest Reported Condition",
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Text(
                             text = patient.lastCondition,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Row(
                             modifier = Modifier.padding(top = Spacing.xxs),
@@ -140,12 +140,12 @@ fun PatientHealthCardViewOnlyDialog(
                             Text(
                                 text = "Last Checkup: ${patient.lastVisitDate}",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                             Text(
                                 text = "Next Appt: ${patient.nextAppointmentDate ?: "None"}",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }

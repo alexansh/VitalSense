@@ -79,7 +79,7 @@ fun AdminHomeScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GlumeBackground)
+            .background(VS_Background)
             .padding(horizontal = Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
         contentPadding = PaddingValues(top = Spacing.sm, bottom = Spacing.xxl)
@@ -93,12 +93,12 @@ fun AdminHomeScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp
                     ),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "Surveillance Region: Rampur District, UP (Pop: $totalPopulation)",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
             }
         }
@@ -111,8 +111,8 @@ fun AdminHomeScreen(
                         .fillMaxWidth()
                         .touchSpring(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = NagarSevaStatusProgressContainer),
-                    border = BorderStroke(1.5.dp, NagarSevaStatusProgress.copy(alpha = 0.5f)),
+                    colors = CardDefaults.cardColors(containerColor = VS_WarningContainer),
+                    border = BorderStroke(1.5.dp, VS_Warning.copy(alpha = 0.5f)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     Column(
@@ -136,16 +136,16 @@ fun AdminHomeScreen(
                                     Text(
                                         text = "Doctor Restock Reminders (${doctorRestockReminders.size})",
                                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
                                     Text(
                                         text = "Doctors have flagged low dispensary medicines",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextSecondary
+                                        color = VS_OnSurfaceVariant
                                     )
                                 }
                             }
-                            Surface(shape = PillShape, color = NagarSevaStatusProgress) {
+                            Surface(shape = PillShape, color = VS_Warning) {
                                 Text(
                                     text = "RESTOCK",
                                     style = MaterialTheme.typography.labelSmall.copy(
@@ -161,8 +161,8 @@ fun AdminHomeScreen(
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = RoundedCornerShape(12.dp),
-                                colors = CardDefaults.cardColors(containerColor = GlumeSurfaceCard),
-                                border = BorderStroke(1.dp, GlumeBorder)
+                                colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                                border = BorderStroke(1.dp, VS_Outline)
                             ) {
                                 Column(
                                     modifier = Modifier
@@ -178,19 +178,19 @@ fun AdminHomeScreen(
                                         Text(
                                             text = reminder.title,
                                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                            color = GlumeTextPrimary,
+                                            color = VS_OnBackground,
                                             modifier = Modifier.weight(1f)
                                         )
                                         Text(
                                             text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date(reminder.timestamp)),
                                             style = MaterialTheme.typography.labelSmall,
-                                            color = GlumeTextSecondary
+                                            color = VS_OnSurfaceVariant
                                         )
                                     }
                                     Text(
                                         text = reminder.message,
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = GlumeTextPrimary
+                                        color = VS_OnBackground
                                     )
 
                                     Row(
@@ -201,7 +201,7 @@ fun AdminHomeScreen(
                                         Button(
                                             onClick = onNavigateToDispensary,
                                             shape = PillShape,
-                                            colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                                            colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                         ) {
                                             Text(
@@ -219,14 +219,14 @@ fun AdminHomeScreen(
                                                 AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                                             },
                                             shape = PillShape,
-                                            border = BorderStroke(1.dp, GlumeBorder),
+                                            border = BorderStroke(1.dp, VS_Outline),
                                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                         ) {
                                             Text(
                                                 text = "✕ Dismiss Reminder",
                                                 fontSize = 12.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = GlumeTextSecondary
+                                                color = VS_OnSurfaceVariant
                                             )
                                         }
                                     }
@@ -250,7 +250,7 @@ fun AdminHomeScreen(
                     icon = "🚨",
                     modifier = Modifier.weight(1f),
                     badgeText = if (totalActiveCases > 0) "Active" else null,
-                    badgeColor = GlumeAlertCoral
+                    badgeColor = VS_Error
                 )
                 GlumeStatCard(
                     label = stringResource(R.string.assignedVillages),
@@ -258,7 +258,7 @@ fun AdminHomeScreen(
                     icon = "🏡",
                     modifier = Modifier.weight(1f),
                     badgeText = "Villages",
-                    badgeColor = GlumePrimaryPurple
+                    badgeColor = VS_Primary
                 )
                 GlumeStatCard(
                     label = stringResource(R.string.outbreakSurveillance),
@@ -266,7 +266,7 @@ fun AdminHomeScreen(
                     icon = "⚠️",
                     modifier = Modifier.weight(1f),
                     badgeText = if (outbreakCount > 0) "Clusters" else "Safe",
-                    badgeColor = if (outbreakCount > 0) GlumeAlertCoral else GlumeSuccessMint
+                    badgeColor = if (outbreakCount > 0) VS_Error else VS_Success
                 )
             }
         }
@@ -276,7 +276,7 @@ fun AdminHomeScreen(
             Text(
                 text = "🗺️ ${stringResource(R.string.outbreakSurveillance)}",
                 style = MaterialTheme.typography.headlineMedium,
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
         }
 
@@ -300,7 +300,7 @@ fun AdminHomeScreen(
             Text(
                 text = "Village Health Telemetry (${villages.size})",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = GlumeTextPrimary
+                color = VS_OnBackground
             )
         }
 
@@ -310,8 +310,8 @@ fun AdminHomeScreen(
             val riskLevel = if (village.highRiskCount > 2) SeverityLevel.SEVERE else if (village.highRiskCount > 0) SeverityLevel.HIGH else if (village.activeCases > 5) SeverityLevel.MODERATE else SeverityLevel.LOW
 
             VitalSenseCard(
-                backgroundColor = if (isSelected) GlumeSurfaceElevated else if (isHighRisk) GlumeAlertContainer else GlumeSurfaceCard,
-                border = BorderStroke(1.dp, if (isSelected) GlumePrimaryPurple else if (isHighRisk) GlumeAlertCoral.copy(alpha = 0.4f) else GlumeBorder)
+                backgroundColor = if (isSelected) VS_SurfaceVariant else if (isHighRisk) VS_ErrorContainer else VS_Surface,
+                border = BorderStroke(1.dp, if (isSelected) VS_Primary else if (isHighRisk) VS_Error.copy(alpha = 0.4f) else VS_Outline)
             ) {
                 Column(
                     modifier = Modifier
@@ -332,10 +332,10 @@ fun AdminHomeScreen(
                                 Text(
                                     text = village.name,
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 if (isSelected) {
-                                    Surface(shape = PillShape, color = GlumePrimaryPurple) {
+                                    Surface(shape = PillShape, color = VS_Primary) {
                                         Text(
                                             text = "PINNED ON MAP 📍",
                                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = Color.White),
@@ -347,7 +347,7 @@ fun AdminHomeScreen(
                             Text(
                                 text = "Population: ${village.population} · Active Cases: ${village.activeCases} · High Risk: ${village.highRiskCount}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                         SeverityBadge(severity = riskLevel)
@@ -362,12 +362,12 @@ fun AdminHomeScreen(
                             .height(6.dp)
                             .clip(PillShape),
                         color = when (riskLevel) {
-                            SeverityLevel.SEVERE -> GlumeAlertCoral
-                            SeverityLevel.HIGH -> GlumeAlertCoral
-                            SeverityLevel.MODERATE -> GlumeWarningAmber
-                            SeverityLevel.LOW -> GlumeSuccessMint
+                            SeverityLevel.SEVERE -> VS_Error
+                            SeverityLevel.HIGH -> VS_Error
+                            SeverityLevel.MODERATE -> VS_Warning
+                            SeverityLevel.LOW -> VS_Success
                         },
-                        trackColor = GlumeSurfaceElevated,
+                        trackColor = VS_SurfaceVariant,
                     )
                 }
             }
@@ -414,12 +414,12 @@ fun AdminHomeScreen(
                 Text(
                     text = "Hospital Operations & Care Desk",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
                 Text(
                     text = "Real-time in-patient wards, surgical suites, tertiary referrals, and critical biomedical assets.",
                     style = MaterialTheme.typography.bodySmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 Row(
@@ -428,27 +428,27 @@ fun AdminHomeScreen(
                 ) {
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, GlumeBorder),
+                        backgroundColor = VS_Surface,
+                        border = BorderStroke(1.dp, VS_Outline),
                         onClick = onNavigateToIpdBeds
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("🛏️", fontSize = 22.sp)
-                            Text("IPD Wards & Beds", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                            Text("Occupancy & Admission", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = GlumeTextSecondary)
+                            Text("IPD Wards & Beds", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text("Occupancy & Admission", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
 
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, GlumeBorder),
+                        backgroundColor = VS_Surface,
+                        border = BorderStroke(1.dp, VS_Outline),
                         onClick = onNavigateToOtScheduler
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("🔪", fontSize = 22.sp)
-                            Text("OT Surgery Desk", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                            Text("PAC & Surgeon Roster", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = GlumeTextSecondary)
+                            Text("OT Surgery Desk", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text("PAC & Surgeon Roster", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -459,27 +459,27 @@ fun AdminHomeScreen(
                 ) {
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, GlumeBorder),
+                        backgroundColor = VS_Surface,
+                        border = BorderStroke(1.dp, VS_Outline),
                         onClick = onNavigateToExternalReferrals
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("🏛️", fontSize = 22.sp)
-                            Text("External Referrals", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                            Text("AIIMS & Cashless Desk", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = GlumeTextSecondary)
+                            Text("External Referrals", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text("AIIMS & Cashless Desk", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
 
                     VitalSenseCard(
                         modifier = Modifier.weight(1f),
-                        backgroundColor = GlumeSurfaceCard,
-                        border = BorderStroke(1.dp, GlumeBorder),
+                        backgroundColor = VS_Surface,
+                        border = BorderStroke(1.dp, VS_Outline),
                         onClick = onNavigateToBioMedical
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxs)) {
                             Text("⚡", fontSize = 22.sp)
-                            Text("Bio-Medical Registry", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = GlumeTextPrimary)
-                            Text("Oxygen & Equipment", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = GlumeTextSecondary)
+                            Text("Bio-Medical Registry", style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = VS_OnBackground)
+                            Text("Oxygen & Equipment", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp), color = VS_OnSurfaceVariant)
                         }
                     }
                 }
@@ -493,8 +493,8 @@ fun AdminHomeScreen(
                     .fillMaxWidth()
                     .touchSpring(),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = NagarSevaSurfaceLight),
-                border = BorderStroke(1.5.dp, NagarSevaPrimary.copy(alpha = 0.3f)),
+                colors = CardDefaults.cardColors(containerColor = VS_Surface),
+                border = BorderStroke(1.5.dp, VS_Primary.copy(alpha = 0.3f)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Row(
@@ -511,7 +511,7 @@ fun AdminHomeScreen(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = NagarSevaPrimary.copy(alpha = 0.12f),
+                            color = VS_Primary.copy(alpha = 0.12f),
                             modifier = Modifier.size(44.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -522,12 +522,12 @@ fun AdminHomeScreen(
                             Text(
                                 text = "Live Clinic Queue Oversight",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Monitor doctor queues, wait times and clinic load",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -535,7 +535,7 @@ fun AdminHomeScreen(
                     Button(
                         onClick = onNavigateToQueueOversight,
                         shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
                     ) {
                         Text("Monitor", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -569,7 +569,7 @@ fun AdminHomeScreen(
                     ) {
                         Surface(
                             shape = RoundedCornerShape(12.dp),
-                            color = GlumePrimaryPurpleLight.copy(alpha = 0.15f),
+                            color = VS_PrimaryContainer.copy(alpha = 0.15f),
                             modifier = Modifier.size(48.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -580,12 +580,12 @@ fun AdminHomeScreen(
                             Text(
                                 text = "Facility Quality Metrics",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Monitor PHC/CHC infrastructure and feedback",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                     }
@@ -593,7 +593,7 @@ fun AdminHomeScreen(
                     Button(
                         onClick = onNavigateToFacilityQuality,
                         shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = NagarSevaPrimary),
+                        colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
                     ) {
                         Text("View", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -621,7 +621,7 @@ fun AdminHomeScreen(
                 Text(
                     text = "Dispatched Health Directives (${adminIssuedDirectives.size})",
                     style = MaterialTheme.typography.headlineMedium,
-                    color = GlumeTextPrimary
+                    color = VS_OnBackground
                 )
             }
 
@@ -636,14 +636,14 @@ fun AdminHomeScreen(
                             Text(
                                 text = directive.title,
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
-                            Surface(shape = PillShape, color = GlumeSuccessContainer) {
+                            Surface(shape = PillShape, color = VS_SuccessContainer) {
                                 Text(
                                     text = "DISPATCHED",
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
-                                        color = GlumeSuccessText
+                                        color = VS_OnSuccessContainer
                                     ),
                                     modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                 )
@@ -652,7 +652,7 @@ fun AdminHomeScreen(
                         Text(
                             text = directive.message,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -662,7 +662,7 @@ fun AdminHomeScreen(
                             Text(
                                 text = "Target: ${directive.targetVillage ?: "All Villages"} · Sender: ${directive.senderName}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary,
+                                color = VS_OnSurfaceVariant,
                                 modifier = Modifier.weight(1f)
                             )
                             TextButton(
@@ -676,7 +676,7 @@ fun AdminHomeScreen(
                                 Text(
                                     text = "✕ Dismiss",
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = NagarSevaPrimary
+                                    color = VS_Primary
                                 )
                             }
                         }
@@ -696,7 +696,7 @@ fun AdminHomeScreen(
                     Text(
                         text = "Dispensary Low Stock Alerts",
                         style = MaterialTheme.typography.headlineMedium,
-                        color = GlumeTextPrimary
+                        color = VS_OnBackground
                     )
                 }
             }
@@ -714,12 +714,12 @@ fun AdminHomeScreen(
                                 Text(
                                     text = item.medicineName,
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                    color = GlumeTextPrimary
+                                    color = VS_OnBackground
                                 )
                                 Text(
                                     text = item.category,
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = GlumeTextSecondary
+                                    color = VS_OnSurfaceVariant
                                 )
                             }
                             Row(
@@ -730,13 +730,13 @@ fun AdminHomeScreen(
                                     text = "${item.availableQuantity} ${item.unit}",
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         fontWeight = FontWeight.Bold,
-                                        color = GlumeAlertCoral
+                                        color = VS_Error
                                     )
                                 )
-                                Surface(shape = PillShape, color = GlumeAlertContainer) {
+                                Surface(shape = PillShape, color = VS_ErrorContainer) {
                                     Text(
                                         text = "LOW",
-                                        style = MaterialTheme.typography.labelSmall.copy(color = GlumeAlertCoral, fontWeight = FontWeight.Bold),
+                                        style = MaterialTheme.typography.labelSmall.copy(color = VS_Error, fontWeight = FontWeight.Bold),
                                         modifier = Modifier.padding(horizontal = Spacing.xs, vertical = 2.dp)
                                     )
                                 }
@@ -746,7 +746,7 @@ fun AdminHomeScreen(
                 }
             } else {
                 item {
-                    Text("All stock is above reorder thresholds.", color = GlumeTextSecondary)
+                    Text("All stock is above reorder thresholds.", color = VS_OnSurfaceVariant)
                 }
             }
         }
@@ -774,9 +774,9 @@ fun AdminHomeScreen(
                         }
                     },
                     shape = PillShape,
-                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple)
+                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary)
                 ) {
-                    Text("Broadcast Now", color = GlumeTextPrimary, style = MaterialTheme.typography.labelLarge)
+                    Text("Broadcast Now", color = VS_OnBackground, style = MaterialTheme.typography.labelLarge)
                 }
             },
             dismissButton = {
@@ -784,7 +784,7 @@ fun AdminHomeScreen(
                     onClick = { showBroadcastDialog = false },
                     shape = PillShape
                 ) {
-                    Text(stringResource(R.string.cancel), color = GlumeTextSecondary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.cancel), color = VS_OnSurfaceVariant, style = MaterialTheme.typography.labelLarge)
                 }
             }
         ) {
@@ -812,7 +812,7 @@ fun AdminHomeScreen(
                 Text(
                     text = "Target Village / Audience",
                     style = MaterialTheme.typography.labelSmall,
-                    color = GlumeTextSecondary
+                    color = VS_OnSurfaceVariant
                 )
 
                 Row(
@@ -825,14 +825,14 @@ fun AdminHomeScreen(
                         Surface(
                             onClick = { selectedVillageName = vName },
                             shape = PillShape,
-                            color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceCard,
-                            border = if (isSelected) BorderStroke(1.5.dp, GlumePrimaryPurple) else BorderStroke(1.dp, GlumeBorder)
+                            color = if (isSelected) VS_PrimaryContainer else VS_Surface,
+                            border = if (isSelected) BorderStroke(1.5.dp, VS_Primary) else BorderStroke(1.dp, VS_Outline)
                         ) {
                             Text(
                                 text = vName,
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                    color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                    color = if (isSelected) VS_PrimaryContainer else VS_OnBackground
                                 ),
                                 modifier = Modifier.padding(horizontal = Spacing.sm, vertical = Spacing.xs)
                             )

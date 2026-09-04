@@ -41,8 +41,8 @@ fun FloatingBottomNavBar(
 ) {
     Surface(
         shape = RoundedCornerShape(28.dp),
-        color = GlumeSurfaceCard,
-        border = BorderStroke(1.dp, GlumeBorder),
+        color = VS_Surface,
+        border = BorderStroke(1.dp, VS_Outline),
         shadowElevation = 8.dp,
         modifier = modifier
             .fillMaxWidth()
@@ -58,11 +58,11 @@ fun FloatingBottomNavBar(
             items.forEach { item ->
                 val isSelected = item.id == selectedItemId
                 val containerColor by animateColorAsState(
-                    targetValue = if (isSelected) GlumePrimaryPurpleContainer else Color.Transparent,
+                    targetValue = if (isSelected) VS_PrimaryContainer else Color.Transparent,
                     label = "NavContainerColor"
                 )
                 val contentColor by animateColorAsState(
-                    targetValue = if (isSelected) GlumePrimaryPurple else GlumeTextSecondary,
+                    targetValue = if (isSelected) VS_Primary else VS_OnSurfaceVariant,
                     label = "NavContentColor"
                 )
 
@@ -84,7 +84,7 @@ fun FloatingBottomNavBar(
                                     modifier = Modifier
                                         .size(8.dp)
                                         .clip(CircleShape)
-                                        .background(GlumeAlertCoral)
+                                        .background(VS_Error)
                                 )
                             }
                         }

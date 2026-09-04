@@ -127,9 +127,9 @@ fun PrescriptionUploadDialog(
                 .fillMaxWidth(0.95f)
                 .fillMaxHeight(0.92f),
             shape = DialogShape,
-            color = GlumeSurfaceCard,
+            color = VS_Surface,
             shadowElevation = 10.dp,
-            border = BorderStroke(1.dp, GlumeBorder)
+            border = BorderStroke(1.dp, VS_Outline)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 // Header (shown on Manual Tab and OCR Result Tab, or when not in full camera mode)
@@ -145,16 +145,16 @@ fun PrescriptionUploadDialog(
                             Text(
                                 text = if (isAshaProxy) "Upload Prescription (for ${patient.name})" else stringResource(R.string.uploadPrescriptionTitle),
                                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             Text(
                                 text = "Digitize paper prescription via camera OCR or manual entry",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = GlumeTextSecondary
+                                color = VS_OnSurfaceVariant
                             )
                         }
                         IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
-                            Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = GlumeTextSecondary)
+                            Text(text = "✕", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), color = VS_OnSurfaceVariant)
                         }
                     }
 
@@ -171,8 +171,8 @@ fun PrescriptionUploadDialog(
                             Surface(
                                 onClick = { selectedTab = index },
                                 shape = PillShape,
-                                color = if (isSelected) GlumePrimaryPurpleContainer else GlumeSurfaceElevated,
-                                border = if (isSelected) BorderStroke(1.5.dp, GlumePrimaryPurple) else BorderStroke(1.dp, GlumeBorder),
+                                color = if (isSelected) VS_PrimaryContainer else VS_SurfaceVariant,
+                                border = if (isSelected) BorderStroke(1.5.dp, VS_Primary) else BorderStroke(1.dp, VS_Outline),
                                 modifier = Modifier
                                     .weight(1f)
                                     .defaultMinSize(minHeight = 40.dp)
@@ -182,7 +182,7 @@ fun PrescriptionUploadDialog(
                                         text = title,
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                            color = if (isSelected) GlumePrimaryPurpleLight else GlumeTextPrimary
+                                            color = if (isSelected) VS_PrimaryContainer else VS_OnBackground
                                         )
                                     )
                                 }
@@ -190,7 +190,7 @@ fun PrescriptionUploadDialog(
                         }
                     }
 
-                    HorizontalDivider(color = GlumeBorder, modifier = Modifier.padding(vertical = Spacing.xs))
+                    HorizontalDivider(color = VS_Outline, modifier = Modifier.padding(vertical = Spacing.xs))
                 }
 
                 // Tab 0: Camera / AI Scan Flow
@@ -273,12 +273,12 @@ fun PrescriptionUploadDialog(
                         Text(
                             text = "Add Prescribed Medicines",
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                            color = GlumeTextPrimary
+                            color = VS_OnBackground
                         )
 
                         VitalSenseCard(
-                            backgroundColor = GlumeSurfaceElevated,
-                            border = BorderStroke(1.dp, GlumeBorder)
+                            backgroundColor = VS_SurfaceVariant,
+                            border = BorderStroke(1.dp, VS_Outline)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                                 VitalSenseTextField(
@@ -333,7 +333,7 @@ fun PrescriptionUploadDialog(
                                         }
                                     },
                                     shape = PillShape,
-                                    colors = ButtonDefaults.buttonColors(containerColor = GlumePrimaryPurple),
+                                    colors = ButtonDefaults.buttonColors(containerColor = VS_Primary),
                                     modifier = Modifier.align(Alignment.End),
                                     enabled = currentMedName.isNotBlank()
                                 ) {
@@ -347,13 +347,13 @@ fun PrescriptionUploadDialog(
                             Text(
                                 text = "Medicines to Include (${manualMedicines.size})",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                color = GlumeTextPrimary
+                                color = VS_OnBackground
                             )
                             manualMedicines.forEachIndexed { index, med ->
                                 Surface(
                                     shape = PillShape,
-                                    color = GlumeSurfaceElevated,
-                                    border = BorderStroke(1.dp, GlumeBorder),
+                                    color = VS_SurfaceVariant,
+                                    border = BorderStroke(1.dp, VS_Outline),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Row(
@@ -364,10 +364,10 @@ fun PrescriptionUploadDialog(
                                         Text(
                                             text = "${med.name} (${med.dosage}) - ${med.frequency} · ${med.duration}",
                                             style = MaterialTheme.typography.bodySmall,
-                                            color = GlumeTextPrimary
+                                            color = VS_OnBackground
                                         )
                                         IconButton(onClick = { manualMedicines.removeAt(index) }, modifier = Modifier.size(24.dp)) {
-                                            Text(text = "✕", color = GlumeAlertCoral, fontSize = 12.sp)
+                                            Text(text = "✕", color = VS_Error, fontSize = 12.sp)
                                         }
                                     }
                                 }
