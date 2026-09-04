@@ -1,7 +1,11 @@
 package com.vitalsense.app.core.ui.theme
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.res.AssetManager
 import android.content.res.Configuration
+import android.content.res.Resources
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -90,7 +94,9 @@ fun VitalSenseTheme(
         }
     }
     val localizedContext = remember(context, localizedConfiguration) {
-        context.createConfigurationContext(localizedConfiguration)
+        val base = if (context is LocalizedContextWrapper) context.baseContext else context
+        val confContext = base.createConfigurationContext(localizedConfiguration)
+        LocalizedContextWrapper(base = base, localizedContext = confContext)
     }
 
     CompositionLocalProvider(
@@ -106,4 +112,12 @@ fun VitalSenseTheme(
             content = content
         )
     }
+}
+
+private class LocalizedContextWrapper(
+    base: Context,
+    private val localizedContext: Context
+) : ContextWrapper(base) {
+    override fun getResources(): Resources = localizedContext.resources
+    override fun getAssets(): AssetManager = localizedContext.assets
 }

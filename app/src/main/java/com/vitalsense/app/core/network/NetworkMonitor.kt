@@ -47,9 +47,6 @@ class NetworkMonitor @Inject constructor(
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
 
-    private val _connectivityState = MutableStateFlow(determineInitialState())
-    val connectivityState: StateFlow<ConnectivityState> = _connectivityState.asStateFlow()
-
     private val _isManualOfflineForced = MutableStateFlow(false)
     val isManualOfflineForced: StateFlow<Boolean> = _isManualOfflineForced.asStateFlow()
 
@@ -59,9 +56,15 @@ class NetworkMonitor @Inject constructor(
     private val _activeNetworkType = MutableStateFlow("UNKNOWN")
     val activeNetworkType: StateFlow<String> = _activeNetworkType.asStateFlow()
 
+    private val _connectivityState = MutableStateFlow(ConnectivityState.ONLINE)
+    val connectivityState: StateFlow<ConnectivityState> = _connectivityState.asStateFlow()
+
     private var onNetworkRestoredCallback: (() -> Unit)? = null
 
     init {
+        try {
+            _connectivityState.value = determineInitialState()
+        } catch (_: Exception) {}
         registerNetworkCallback()
     }
 
