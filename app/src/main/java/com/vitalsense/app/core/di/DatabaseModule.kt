@@ -5,6 +5,8 @@ import com.vitalsense.app.core.data.local.VitalSenseDatabase
 import com.vitalsense.app.core.data.repository.VitalSenseRepository
 import com.vitalsense.app.core.data.repository.VitalSenseRepositoryImpl
 import com.vitalsense.app.core.data.remote.FirestoreDataSource
+import com.vitalsense.app.core.network.NetworkMonitor
+import com.vitalsense.app.core.sync.SyncManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,9 +31,10 @@ object DatabaseModule {
     fun provideVitalSenseRepository(
         database: VitalSenseDatabase,
         firestoreDataSource: FirestoreDataSource,
-        syncManager: com.vitalsense.app.core.sync.SyncManager
+        syncManager: SyncManager,
+        networkMonitor: NetworkMonitor
     ): VitalSenseRepository {
-        return VitalSenseRepositoryImpl(database, firestoreDataSource, syncManager)
+        return VitalSenseRepositoryImpl(database, firestoreDataSource, syncManager, networkMonitor)
     }
 
     @Provides

@@ -43,6 +43,16 @@ class LocalizationTest {
             assertTrue("liveQueueTitle must not be blank in ${lang.name}", strings.liveQueueTitle.isNotBlank())
             assertTrue("triageBreakdownTitle must not be blank in ${lang.name}", strings.triageBreakdownTitle.isNotBlank())
             assertTrue("medicalHistoryTitle must not be blank in ${lang.name}", strings.medicalHistoryTitle.isNotBlank())
+
+            // Low connectivity & Sync strings
+            assertTrue("slowNetwork must not be blank in ${lang.name}", strings.slowNetwork.isNotBlank())
+            assertTrue("syncing must not be blank in ${lang.name}", strings.syncing.isNotBlank())
+            assertTrue("pendingChanges must not be blank in ${lang.name}", strings.pendingChanges.isNotBlank())
+            assertTrue("lastSynchronized must not be blank in ${lang.name}", strings.lastSynchronized.isNotBlank())
+            assertTrue("offlineSosWarning must not be blank in ${lang.name}", strings.offlineSosWarning.isNotBlank())
+            assertTrue("cachedDataFreshness must not be blank in ${lang.name}", strings.cachedDataFreshness.isNotBlank())
+            assertTrue("syncComplete must not be blank in ${lang.name}", strings.syncComplete.isNotBlank())
+            assertTrue("manualSync must not be blank in ${lang.name}", strings.manualSync.isNotBlank())
         }
     }
 

@@ -143,17 +143,29 @@ interface VitalSenseDao {
     suspend fun insertAshaMedicine(medicine: AshaMedicineEntity)
 
     // --- Outbox Queue (Offline-First Sync) ---
-    @Query("SELECT * FROM outbox_records ORDER BY timestamp ASC")
+    @Query("SELECT * FROM outbox_records WHERE syncStatus != 'SYNCED' ORDER BY timestamp ASC")
     suspend fun getPendingOutboxRecords(): List<OutboxEntity>
 
-    @Query("SELECT COUNT(*) FROM outbox_records")
+    @Query("SELECT COUNT(*) FROM outbox_records WHERE syncStatus != 'SYNCED'")
     fun getPendingOutboxCount(): Flow<Int>
+
+    @Query("SELECT * FROM outbox_records WHERE id = :id LIMIT 1")
+    suspend fun getOutboxRecordById(id: String): OutboxEntity?
+
+    @Query("SELECT * FROM outbox_records ORDER BY timestamp ASC")
+    fun getAllOutboxRecords(): Flow<List<OutboxEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOutboxRecord(outbox: OutboxEntity)
 
+    @Query("UPDATE outbox_records SET syncStatus = :status, lastAttemptAt = :attemptAt, errorMessage = :error, retryCount = retryCount + 1 WHERE id = :id")
+    suspend fun updateOutboxStatus(id: String, status: String, attemptAt: Long, error: String?)
+
     @Query("DELETE FROM outbox_records WHERE id = :id")
     suspend fun deleteOutboxRecord(id: String)
+
+    @Query("DELETE FROM outbox_records WHERE entityId = :entityId")
+    suspend fun deleteOutboxRecordsForEntity(entityId: String)
 
     // --- Disease Trend Records ---
     @Query("SELECT * FROM disease_trend_records ORDER BY dateFormatted ASC")

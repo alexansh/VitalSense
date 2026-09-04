@@ -52,6 +52,7 @@ fun PatientHomeScreen(
     onNavigateToLiveQueue: () -> Unit = {},
     referrals: List<com.vitalsense.app.core.data.model.Referral> = emptyList(),
     scrollState: LazyListState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() },
+    isOffline: Boolean = false,
     language: AppLanguage = AppLanguage.ENGLISH,
     modifier: Modifier = Modifier
 ) {
@@ -942,6 +943,7 @@ fun PatientHomeScreen(
     if (showSmartEmergencyDialog) {
         SmartEmergencyDialog(
             patient = patient,
+            isOffline = isOffline,
             language = language,
             onDismiss = { showSmartEmergencyDialog = false },
             onSosDispatched = {

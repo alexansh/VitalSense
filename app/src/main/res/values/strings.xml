@@ -321,5 +321,13 @@
     <string name="hudStatusCritical">Critical</string>
     <string name="hudMonitoring">Continuous Monitoring</string>
     <string name="appointmentReminderTitle">Upcoming Doctor Consultation</string>
-    <string name="appointmentReminderBody">Your appointment with %1\$s is scheduled in 15 minutes.</string>
+    <string name="appointmentReminderBody">Your appointment with %1$s is scheduled in 15 minutes.</string>
+    <string name="slowNetwork">Slow Connection</string>
+    <string name="syncing">Syncing changes…</string>
+    <string name="pendingChanges">%d pending changes</string>
+    <string name="lastSynchronized">Last synchronized: %s</string>
+    <string name="offlineSosWarning">⚠️ Device Offline: Direct server dispatch unavailable. Use 1-Tap Fallbacks (108 Call / SMS to ASHA).</string>
+    <string name="cachedDataFreshness">Cached offline data (%s)</string>
+    <string name="syncComplete">All data synced</string>
+    <string name="manualSync">Sync Now</string>
 </resources>

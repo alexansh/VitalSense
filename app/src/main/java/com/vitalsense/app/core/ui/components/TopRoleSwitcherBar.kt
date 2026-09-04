@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vitalsense.app.core.data.model.Patient
 import com.vitalsense.app.core.data.model.UserRole
+import com.vitalsense.app.core.network.ConnectivityState
 import com.vitalsense.app.core.ui.theme.*
 import com.vitalsense.app.R
 import androidx.compose.ui.res.stringResource
@@ -31,6 +32,10 @@ fun TopRoleSwitcherBar(
     activeProxyPatient: Patient? = null,
     onExitProxy: () -> Unit = {},
     isOffline: Boolean = false,
+    connectivityState: ConnectivityState = ConnectivityState.ONLINE,
+    isSyncing: Boolean = false,
+    pendingOutboxCount: Int = 0,
+    onManualSync: () -> Unit = {},
     onToggleOffline: () -> Unit = {},
     currentLanguage: AppLanguage = AppLanguage.ENGLISH,
     onToggleLanguage: () -> Unit = {},
@@ -115,11 +120,59 @@ fun TopRoleSwitcherBar(
                     }
                 }
 
-            // Right Actions: Language Toggle, Connectivity Pill & Logout
+            // Right Actions: Sync Status, Connectivity Pill, Language & Logout
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
             ) {
+                // Syncing Active Spinner / Pending Changes Badge
+                if (isSyncing) {
+                    Surface(
+                        shape = PillShape,
+                        color = VS_PrimaryContainer,
+                        border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.4f)),
+                        modifier = Modifier.defaultMinSize(minHeight = 32.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(12.dp),
+                                strokeWidth = 2.dp,
+                                color = VS_Primary
+                            )
+                            Text(
+                                text = stringResource(R.string.syncing),
+                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.SemiBold),
+                                color = VS_Primary
+                            )
+                        }
+                    }
+                } else if (pendingOutboxCount > 0) {
+                    Surface(
+                        onClick = onManualSync,
+                        shape = PillShape,
+                        color = Color(0xFFFFF8E1), // Warm amber background
+                        border = BorderStroke(1.dp, Color(0xFFFFB300)),
+                        modifier = Modifier.defaultMinSize(minHeight = 32.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(text = "🔄", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp))
+                            Text(
+                                text = "$pendingOutboxCount",
+                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold),
+                                color = Color(0xFFE65100)
+                            )
+                        }
+                    }
+                }
+
                 // Global Language Switcher Pill
                 Surface(
                     onClick = { showLanguageDialog = true },
@@ -129,7 +182,7 @@ fun TopRoleSwitcherBar(
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
@@ -142,16 +195,45 @@ fun TopRoleSwitcherBar(
                     }
                 }
 
-                // Connectivity Mode Pill
+                // Connectivity Mode Pill (Displays Online, Slow, or Offline)
+                val effectiveOffline = isOffline || connectivityState == ConnectivityState.OFFLINE
+                val isSlow = !effectiveOffline && connectivityState == ConnectivityState.SLOW_NETWORK
+
+                val pillBgColor = when {
+                    effectiveOffline -> VS_SurfaceVariant
+                    isSlow -> Color(0xFFFFF3CD)
+                    else -> VS_SuccessContainer
+                }
+                val pillBorderColor = when {
+                    effectiveOffline -> VS_Outline
+                    isSlow -> Color(0xFFFFC107).copy(alpha = 0.6f)
+                    else -> VS_Success.copy(alpha = 0.4f)
+                }
+                val dotColor = when {
+                    effectiveOffline -> VS_OnSurfaceVariant
+                    isSlow -> Color(0xFFFF9800)
+                    else -> VS_Success
+                }
+                val textColor = when {
+                    effectiveOffline -> VS_OnSurfaceVariant
+                    isSlow -> Color(0xFF856404)
+                    else -> VS_OnSuccessContainer
+                }
+                val statusLabel = when {
+                    effectiveOffline -> stringResource(R.string.offline)
+                    isSlow -> stringResource(R.string.slowNetwork)
+                    else -> stringResource(R.string.online)
+                }
+
                 Surface(
                     onClick = onToggleOffline,
                     shape = PillShape,
-                    color = if (isOffline) VS_SurfaceVariant else VS_SuccessContainer,
-                    border = BorderStroke(1.dp, if (isOffline) VS_Outline else VS_Success.copy(alpha = 0.4f)),
+                    color = pillBgColor,
+                    border = BorderStroke(1.dp, pillBorderColor),
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
@@ -159,12 +241,12 @@ fun TopRoleSwitcherBar(
                             modifier = Modifier
                                 .size(8.dp)
                                 .clip(CircleShape)
-                                .background(if (isOffline) VS_OnSurfaceVariant else VS_Success)
+                                .background(dotColor)
                         )
                         Text(
-                            text = if (isOffline) stringResource(R.string.offline) else stringResource(R.string.online),
+                            text = statusLabel,
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = if (isOffline) VS_OnSurfaceVariant else VS_OnSuccessContainer
+                            color = textColor
                         )
                     }
                 }
@@ -178,7 +260,7 @@ fun TopRoleSwitcherBar(
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
