@@ -208,7 +208,7 @@ fun ReferralStatusCard(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "${referral.targetSpecialty} • Dr. ${referral.referringDoctorName}",
+                            text = "${referral.targetSpecialty} • Dr. ${referral.referringUserName}",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
