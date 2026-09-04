@@ -298,7 +298,7 @@ interface VitalSenseDao {
     @Query("SELECT * FROM referrals WHERE patientId = :patientId ORDER BY createdAt DESC")
     fun getReferralsForPatient(patientId: String): Flow<List<ReferralEntity>>
 
-    @Query("SELECT * FROM referrals WHERE referringDoctorId = :doctorId ORDER BY createdAt DESC")
+    @Query("SELECT * FROM referrals WHERE referringUserId = :doctorId ORDER BY createdAt DESC")
     fun getReferralsByReferringDoctor(doctorId: String): Flow<List<ReferralEntity>>
 
     @Query("SELECT * FROM referrals WHERE targetDoctorId = :doctorId OR (targetDoctorId IS NULL AND targetSpecialty = :specialty) ORDER BY CASE urgency WHEN 'EMERGENCY' THEN 1 WHEN 'URGENT' THEN 2 ELSE 3 END, createdAt DESC")
