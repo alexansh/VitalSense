@@ -39,6 +39,10 @@ class AppStateHolder @Inject constructor(
     val currentLanguage: StateFlow<AppLanguage>
 
     init {
+        val savedRoleName = prefs?.getString("selected_role", UserRole.PATIENT.name)
+        val initialRole = try { UserRole.valueOf(savedRoleName ?: UserRole.PATIENT.name) } catch (_: Exception) { UserRole.PATIENT }
+        _currentRole.value = initialRole
+
         val savedLangCode = prefs?.getString("selected_language", AppLanguage.ENGLISH.code)
         val initialLang = AppLanguage.values().firstOrNull { it.code == savedLangCode } ?: AppLanguage.ENGLISH
         _currentLanguage = MutableStateFlow(initialLang)
@@ -72,29 +76,34 @@ class AppStateHolder @Inject constructor(
     val pendingOutboxCount: Flow<Int> = database.vitalSenseDao().getPendingOutboxCount()
 
     fun login(role: UserRole) {
+        prefs?.edit()?.putString("selected_role", role.name)?.apply()
         _currentRole.value = role
         _isLoggedIn.value = true
     }
 
     fun loginAsPatient(patient: Patient) {
+        prefs?.edit()?.putString("selected_role", UserRole.PATIENT.name)?.apply()
         _activePatient.value = patient
         _currentRole.value = UserRole.PATIENT
         _isLoggedIn.value = true
     }
 
     fun loginAsAsha(asha: AshaWorker) {
+        prefs?.edit()?.putString("selected_role", UserRole.ASHA.name)?.apply()
         _activeAsha.value = asha
         _currentRole.value = UserRole.ASHA
         _isLoggedIn.value = true
     }
 
     fun loginAsDoctor(doctor: Doctor) {
+        prefs?.edit()?.putString("selected_role", UserRole.DOCTOR.name)?.apply()
         _activeDoctor.value = doctor
         _currentRole.value = UserRole.DOCTOR
         _isLoggedIn.value = true
     }
 
     fun loginAsAdmin() {
+        prefs?.edit()?.putString("selected_role", UserRole.ADMIN.name)?.apply()
         _currentRole.value = UserRole.ADMIN
         _isLoggedIn.value = true
     }
@@ -105,6 +114,7 @@ class AppStateHolder @Inject constructor(
     }
 
     fun switchRole(newRole: UserRole) {
+        prefs?.edit()?.putString("selected_role", newRole.name)?.apply()
         _currentRole.value = newRole
     }
 

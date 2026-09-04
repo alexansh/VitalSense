@@ -419,6 +419,7 @@ fun AppointmentsScreen(
             patientName = appt.patientName,
             doctorName = appt.doctorName,
             specialty = appt.doctorSpecialty,
+            isDoctorViewer = false,
             onDismiss = {
                 activeCallAppt = null
                 TeleCallingManager.endCall("Patient ended consultation")

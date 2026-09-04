@@ -1286,6 +1286,7 @@ fun DoctorHomeScreen(
             patientName = patName,
             doctorName = doctor.name,
             specialty = doctor.specialty.displayName,
+            isDoctorViewer = true,
             onDismiss = {
                 activeTeleConsultationPatient = null
                 TeleCallingManager.endCall("Doctor dismissed call modal")

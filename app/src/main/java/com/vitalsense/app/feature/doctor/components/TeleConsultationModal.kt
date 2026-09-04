@@ -34,6 +34,7 @@ import kotlinx.coroutines.delay
 import com.vitalsense.app.R
 import androidx.compose.ui.res.stringResource
 import android.Manifest
+import android.content.Context
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -60,9 +61,23 @@ fun TeleConsultationModal(
     specialty: String = "General Physician",
     villageName: String = "Sundarpura",
     patientAge: Int = 34,
+    isDoctorViewer: Boolean = false,
     onDismiss: () -> Unit,
     onEndCall: (consultationNotes: String) -> Unit
 ) {
+    val context = LocalContext.current
+    val isDoctor = remember(isDoctorViewer) {
+        if (isDoctorViewer) true
+        else {
+            val prefs = context.getSharedPreferences("vitalsense_prefs", Context.MODE_PRIVATE)
+            prefs.getString("selected_role", "PATIENT") == "DOCTOR"
+        }
+    }
+
+    // By default: Patient is always in the bigger face area, and Doctor is in the bottom-right small area
+    var isSwapped by remember { mutableStateOf(false) }
+    val showPatientInBigArea = !isSwapped
+
     var isMuted by remember { mutableStateOf(false) }
     var isCameraOff by remember { mutableStateOf(false) }
     var isLowBandwidthMode by remember { mutableStateOf(false) }
@@ -210,7 +225,7 @@ fun TeleConsultationModal(
             color = VS_Background
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
-                // 1. Video Simulation Canvas
+                // 1. BIGGER FACE AREA (Default: Patient)
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -225,84 +240,260 @@ fun TeleConsultationModal(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (isLowBandwidthMode) {
-                        // Ultra-low bandwidth audio-only visualizer
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(Spacing.sm)
-                        ) {
-                            Surface(
-                                shape = CircleShape,
-                                color = VS_PrimaryContainer,
-                                border = BorderStroke(2.dp, VS_Primary),
-                                modifier = Modifier.size(110.dp)
+                    if (showPatientInBigArea) {
+                        // PATIENT IS IN THE BIGGER FACE AREA
+                        if (isLowBandwidthMode) {
+                            // Ultra-low bandwidth audio-only visualizer
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(Spacing.sm)
                             ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    Text("👤", fontSize = 54.sp)
+                                Surface(
+                                    shape = CircleShape,
+                                    color = VS_PrimaryContainer,
+                                    border = BorderStroke(2.dp, VS_Primary),
+                                    modifier = Modifier.size(110.dp)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Text("👩🏽‍🌾", fontSize = 54.sp)
+                                    }
                                 }
-                            }
-                            Text(
-                                text = patientName,
-                                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                                color = VS_OnBackground
-                            )
-                            Text(
-                                text = stringResource(R.string.ultraLowBandwidthMode),
-                                style = MaterialTheme.typography.bodySmall.copy(color = VS_Success, fontWeight = FontWeight.Bold)
-                            )
-
-                            // Live Audio Bars
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.height(30.dp)
-                            ) {
-                                val dynamicWave = if (audioGranted && !isMuted && isSpeaking) micLevel else waveAnim1
-                                listOf(dynamicWave, waveAnim2, waveAnim3, waveAnim2, dynamicWave).forEach { heightFraction ->
-                                    Box(
-                                        modifier = Modifier
-                                            .width(5.dp)
-                                            .fillMaxHeight(heightFraction)
-                                            .clip(CircleShape)
-                                            .background(VS_Success)
-                                    )
-                                }
-                            }
-                        }
-                    } else {
-                        // Simulated Remote Patient Video Feed
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(Spacing.md)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(160.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        Brush.radialGradient(
-                                            colors = listOf(
-                                                VS_PrimaryContainer,
-                                                VS_SurfaceVariant
-                                            )
-                                        )
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text("👩🏽‍🌾", fontSize = 82.sp)
-                            }
-
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
                                     text = "$patientName ($patientAge yrs)",
                                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                                     color = VS_OnBackground
                                 )
                                 Text(
-                                    text = stringResource(R.string.connectedPhcTeleKiosk),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = VS_OnSurfaceVariant
+                                    text = stringResource(R.string.ultraLowBandwidthMode),
+                                    style = MaterialTheme.typography.bodySmall.copy(color = VS_Success, fontWeight = FontWeight.Bold)
                                 )
+
+                                // Live Audio Bars
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.height(30.dp)
+                                ) {
+                                    val dynamicWave = if (audioGranted && !isMuted && isSpeaking) micLevel else waveAnim1
+                                    listOf(dynamicWave, waveAnim2, waveAnim3, waveAnim2, dynamicWave).forEach { heightFraction ->
+                                        Box(
+                                            modifier = Modifier
+                                                .width(5.dp)
+                                                .fillMaxHeight(heightFraction)
+                                                .clip(CircleShape)
+                                                .background(VS_Success)
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                            if (!isDoctor) {
+                                // Viewer is Patient: Patient is holding the device -> Patient's live camera on the big screen!
+                                if (!isCameraOff && cameraGranted) {
+                                    Box(modifier = Modifier.fillMaxSize()) {
+                                        CameraPreview(modifier = Modifier.fillMaxSize())
+
+                                        // Subtle top gradient for HUD controls
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(130.dp)
+                                                .background(
+                                                    Brush.verticalGradient(
+                                                        listOf(Color(0xBB000000), Color.Transparent)
+                                                    )
+                                                )
+                                        )
+
+                                        // Subtle bottom gradient for bottom controls
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .align(Alignment.BottomCenter)
+                                                .height(160.dp)
+                                                .background(
+                                                    Brush.verticalGradient(
+                                                        listOf(Color.Transparent, Color(0xDD000000))
+                                                    )
+                                                )
+                                        )
+
+                                        // Patient Identifier Tag on big screen
+                                        Surface(
+                                            shape = PillShape,
+                                            color = Color(0x99000000),
+                                            border = BorderStroke(1.dp, Color(0x44FFFFFF)),
+                                            modifier = Modifier
+                                                .align(Alignment.BottomStart)
+                                                .padding(start = Spacing.md, bottom = 140.dp)
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                            ) {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(8.dp)
+                                                        .clip(CircleShape)
+                                                        .background(VS_Success)
+                                                )
+                                                Text(
+                                                    text = "$patientName ($patientAge yrs) • Patient (You)",
+                                                    style = MaterialTheme.typography.labelSmall.copy(
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = Color.White
+                                                    )
+                                                )
+                                                if (isMuted) {
+                                                    Text("🔇", fontSize = 10.sp)
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (isCameraOff) {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(Spacing.md)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(150.dp)
+                                                .clip(CircleShape)
+                                                .background(Color(0xFF232336)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text("👩🏽‍🌾", fontSize = 76.sp)
+                                        }
+                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                            Text(
+                                                text = "$patientName ($patientAge yrs)",
+                                                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                                                color = VS_OnBackground
+                                            )
+                                            Text(
+                                                text = stringResource(R.string.camOffLabel),
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = VS_OnSurfaceVariant
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    // Camera permission not yet granted
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(Spacing.md),
+                                        modifier = Modifier.clickable {
+                                            permissionState.launchMultiplePermissionRequest()
+                                        }
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(150.dp)
+                                                .clip(CircleShape)
+                                                .background(VS_PrimaryContainer),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text("👩🏽‍🌾", fontSize = 76.sp)
+                                        }
+                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                            Text(
+                                                text = "$patientName ($patientAge yrs)",
+                                                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                                                color = VS_OnBackground
+                                            )
+                                            Text(
+                                                text = stringResource(R.string.tapToEnableCam),
+                                                style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                                                color = VS_Primary
+                                            )
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Viewer is Doctor: Patient is remote at Rural PHC tele-kiosk!
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(Spacing.md)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(160.dp)
+                                            .clip(CircleShape)
+                                            .background(
+                                                Brush.radialGradient(
+                                                    colors = listOf(
+                                                        VS_PrimaryContainer,
+                                                        VS_SurfaceVariant
+                                                    )
+                                                )
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text("👩🏽‍🌾", fontSize = 82.sp)
+                                    }
+
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(
+                                            text = "$patientName ($patientAge yrs)",
+                                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                                            color = VS_OnBackground
+                                        )
+                                        Text(
+                                            text = stringResource(R.string.connectedPhcTeleKiosk),
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = VS_OnSurfaceVariant
+                                        )
+                                    }
+                                }
+
+                                // Patient remote tag
+                                Surface(
+                                    shape = PillShape,
+                                    color = Color(0x99000000),
+                                    border = BorderStroke(1.dp, Color(0x44FFFFFF)),
+                                    modifier = Modifier
+                                        .align(Alignment.BottomStart)
+                                        .padding(start = Spacing.md, bottom = 140.dp)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(8.dp)
+                                                .clip(CircleShape)
+                                                .background(VS_Success)
+                                        )
+                                        Text(
+                                            text = "Rural PHC Tele-Kiosk (Patient)",
+                                            style = MaterialTheme.typography.labelSmall.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.White
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        // DOCTOR IN BIG AREA (If user explicitly tapped PiP to swap)
+                        if (isDoctor) {
+                            if (!isCameraOff && cameraGranted) {
+                                CameraPreview(modifier = Modifier.fillMaxSize())
+                            } else {
+                                Text("👨‍⚕️", fontSize = 82.sp)
+                            }
+                        } else {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(Spacing.md)
+                            ) {
+                                Text("👨‍⚕️", fontSize = 82.sp)
+                                Text(doctorName, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold), color = Color.White)
+                                Text(specialty, style = MaterialTheme.typography.bodyMedium, color = VS_OnSurfaceVariant)
                             }
                         }
                     }
@@ -479,48 +670,166 @@ fun TeleConsultationModal(
                     }
                 }
 
-                // 4. Picture-in-Picture (PiP) Floating Doctor View
+                // 4. Picture-in-Picture (PiP) Floating Face Area (Default: DOCTOR)
                 Surface(
                     shape = RoundedCornerShape(14.dp),
-                    color = if (isCameraOff) VS_SurfaceVariant else Color(0xFF28283C),
-                    border = BorderStroke(1.5.dp, VS_Primary),
+                    color = Color(0xFF1E2235),
+                    border = BorderStroke(
+                        1.5.dp,
+                        if (isSpeaking && !isMuted) VS_Success else VS_Primary
+                    ),
                     shadowElevation = 8.dp,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(end = Spacing.md, bottom = 135.dp)
-                        .size(width = 100.dp, height = 140.dp)
+                        .size(width = 110.dp, height = 150.dp)
+                        .clickable { isSwapped = !isSwapped }
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        if (isCameraOff) {
-                            Text(stringResource(R.string.camOffLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
-                        } else {
-                            if (cameraGranted) {
-                                CameraPreview(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp)))
-                            } else {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(2.dp),
-                                    modifier = Modifier.clickable {
-                                        permissionState.launchMultiplePermissionRequest()
-                                    }
-                                ) {
-                                    Text("👨‍⚕️", fontSize = 42.sp)
-                                    Text(
-                                        text = stringResource(R.string.tapToEnableCam),
-                                        style = MaterialTheme.typography.labelSmall.copy(
-                                            fontSize = 9.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = VS_PrimaryContainer
+                        if (showPatientInBigArea) {
+                            // DOCTOR IS IN THE BOTTOM RIGHT SMALL FACE AREA!
+                            if (isDoctor) {
+                                // Doctor is local user on this phone -> Doctor's camera in PiP!
+                                if (isCameraOff) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text("👨‍⚕️", fontSize = 32.sp)
+                                        Text(
+                                            text = stringResource(R.string.camOffLabel),
+                                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+                                            color = VS_OnSurfaceVariant
                                         )
-                                    )
+                                    }
+                                } else if (cameraGranted) {
+                                    Box(modifier = Modifier.fillMaxSize()) {
+                                        CameraPreview(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp)))
+                                        Surface(
+                                            shape = RoundedCornerShape(topStart = 8.dp),
+                                            color = Color(0xBB000000),
+                                            modifier = Modifier.align(Alignment.BottomEnd)
+                                        ) {
+                                            Text(
+                                                text = "👨‍⚕️ Dr (You)",
+                                                style = MaterialTheme.typography.labelSmall.copy(
+                                                    fontSize = 8.sp,
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = Color.White
+                                                ),
+                                                modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                                        modifier = Modifier.clickable {
+                                            permissionState.launchMultiplePermissionRequest()
+                                        }
+                                    ) {
+                                        Text("👨‍⚕️", fontSize = 36.sp)
+                                        Text(
+                                            text = stringResource(R.string.tapToEnableCam),
+                                            style = MaterialTheme.typography.labelSmall.copy(
+                                                fontSize = 8.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = VS_PrimaryContainer
+                                            )
+                                        )
+                                    }
+                                }
+                            } else {
+                                // Doctor is remote -> Simulated Doctor Video Feed in PiP!
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(
+                                            Brush.verticalGradient(
+                                                listOf(Color(0xFF24283D), Color(0xFF161928))
+                                            )
+                                        )
+                                        .padding(6.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        // Live green dot
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(3.dp),
+                                            modifier = Modifier.padding(bottom = 2.dp)
+                                        ) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(6.dp)
+                                                    .clip(CircleShape)
+                                                    .background(VS_Success)
+                                            )
+                                            Text(
+                                                text = "Doctor Live",
+                                                style = MaterialTheme.typography.labelSmall.copy(
+                                                    fontSize = 8.sp,
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = VS_Success
+                                                )
+                                            )
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .size(48.dp)
+                                                .clip(CircleShape)
+                                                .background(Color(0xFF313652)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text("👨‍⚕️", fontSize = 28.sp)
+                                        }
+
+                                        Spacer(modifier = Modifier.height(4.dp))
+
+                                        Text(
+                                            text = doctorName,
+                                            style = MaterialTheme.typography.labelSmall.copy(
+                                                fontSize = 9.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.White
+                                            ),
+                                            maxLines = 1
+                                        )
+                                        Text(
+                                            text = specialty,
+                                            style = MaterialTheme.typography.labelSmall.copy(
+                                                fontSize = 7.5.sp,
+                                                color = VS_OnSurfaceVariant
+                                            ),
+                                            maxLines = 1
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                            // PATIENT IS IN SMALL PIP (Only if user tapped to swap)
+                            if (!isDoctor) {
+                                if (!isCameraOff && cameraGranted) {
+                                    CameraPreview(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp)))
+                                } else {
+                                    Text("👩🏽‍🌾", fontSize = 32.sp)
+                                }
+                            } else {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text("👩🏽‍🌾", fontSize = 32.sp)
+                                    Text(patientName, style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp, color = Color.White), maxLines = 1)
                                 }
                             }
                         }
 
-                        if (isMuted) {
+                        // Mute indicator on PiP if local user is in PiP
+                        val localUserInPiP = (showPatientInBigArea && isDoctor) || (!showPatientInBigArea && !isDoctor)
+                        if (isMuted && localUserInPiP) {
                             Surface(
                                 shape = CircleShape,
                                 color = VS_Error,
@@ -717,4 +1026,3 @@ fun CameraPreview(modifier: Modifier = Modifier) {
         }
     )
 }
-

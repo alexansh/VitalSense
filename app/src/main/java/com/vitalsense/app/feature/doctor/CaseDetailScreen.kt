@@ -749,6 +749,7 @@ fun CaseDetailScreen(
             specialty = currentDoctor.specialty.displayName,
             villageName = record.villageName,
             patientAge = patient?.age ?: 32,
+            isDoctorViewer = true,
             onDismiss = { showTeleConsultModal = false },
             onEndCall = { notes ->
                 showTeleConsultModal = false

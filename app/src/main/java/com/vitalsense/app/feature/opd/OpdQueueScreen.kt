@@ -318,6 +318,7 @@ fun ActiveTokenCard(
             specialty = token.department,
             villageName = patient.villageName,
             patientAge = patient.age,
+            isDoctorViewer = false,
             onDismiss = { showTeleconsultation = false },
             onEndCall = { showTeleconsultation = false }
         )
