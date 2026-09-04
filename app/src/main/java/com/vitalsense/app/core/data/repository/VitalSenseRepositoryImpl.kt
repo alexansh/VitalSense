@@ -1609,19 +1609,19 @@ class VitalSenseRepositoryImpl @Inject constructor(
 
     // --- Doctor-to-Doctor Specialist Referrals ---
     override fun getAllReferrals(): Flow<List<Referral>> {
-        return dao.getAllReferrals().map { list -> list.map { it.toModel() } }
+        return dao.getAllReferrals().map { list -> list.map { it.toDomainModel() } }
     }
 
     override fun getReferralsForPatient(patientId: String): Flow<List<Referral>> {
-        return dao.getReferralsForPatient(patientId).map { list -> list.map { it.toModel() } }
+        return dao.getReferralsForPatient(patientId).map { list -> list.map { it.toDomainModel() } }
     }
 
     override fun getReferralsByReferringDoctor(doctorId: String): Flow<List<Referral>> {
-        return dao.getReferralsByReferringDoctor(doctorId).map { list -> list.map { it.toModel() } }
+        return dao.getReferralsByReferringDoctor(doctorId).map { list -> list.map { it.toDomainModel() } }
     }
 
     override fun getReferralsForDoctorOrSpecialty(doctorId: String, specialty: String): Flow<List<Referral>> {
-        return dao.getReferralsForDoctorOrSpecialty(doctorId, specialty).map { list -> list.map { it.toModel() } }
+        return dao.getReferralsForDoctorOrSpecialty(doctorId, specialty).map { list -> list.map { it.toDomainModel() } }
     }
 
     override suspend fun createReferral(referral: Referral) {

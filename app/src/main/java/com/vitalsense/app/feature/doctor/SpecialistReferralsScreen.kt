@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -43,9 +44,9 @@ fun SpecialistReferralsScreen(
     // Filter referrals
     val filteredReferrals = remember(referrals, selectedFilter) {
         val list = when (selectedFilter) {
-            "PENDING" -> referrals.filter { it.status == ReferralStatus.SENT }
-            "ACTIVE" -> referrals.filter { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
-            "COMPLETED" -> referrals.filter { it.status in listOf(ReferralStatus.COMPLETED, ReferralStatus.DECLINED) }
+            "PENDING" -> referrals.filter { it.status == ReferralStatus.CREATED || it.status == ReferralStatus.SENT }
+            "ACTIVE" -> referrals.filter { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.APPOINTMENT_SCHEDULED, ReferralStatus.PATIENT_REACHED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
+            "COMPLETED" -> referrals.filter { it.status in listOf(ReferralStatus.CONSULTATION_COMPLETED, ReferralStatus.FOLLOW_UP, ReferralStatus.COMPLETED, ReferralStatus.DECLINED) }
             else -> referrals
         }
         // Sort: EMERGENCY top, then URGENT, then ROUTINE; within each tier, newest first
@@ -60,8 +61,8 @@ fun SpecialistReferralsScreen(
         )
     }
 
-    val pendingCount = referrals.count { it.status == ReferralStatus.SENT }
-    val activeCount = referrals.count { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
+    val pendingCount = referrals.count { it.status == ReferralStatus.CREATED || it.status == ReferralStatus.SENT }
+    val activeCount = referrals.count { it.status in listOf(ReferralStatus.ACCEPTED, ReferralStatus.APPOINTMENT_SCHEDULED, ReferralStatus.PATIENT_REACHED, ReferralStatus.IN_PROGRESS, ReferralStatus.INFO_REQUESTED) }
 
     Column(
         modifier = modifier
@@ -199,7 +200,7 @@ fun SpecialistReferralsScreen(
                                         color = VS_OnBackground
                                     )
                                     Text(
-                                        text = "Referred by Dr. ${ref.referringDoctorName} (${ref.referringDoctorSpecialty})",
+                                        text = "Referred by ${ref.referringUserName} (${ref.referringUserSpecialty})",
                                         style = MaterialTheme.typography.bodySmall,
                                         color = VS_OnSurfaceVariant
                                     )
@@ -290,16 +291,18 @@ fun SpecialistReferralsScreen(
                             if (ref.attachedRecordIds.isNotEmpty()) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    modifier = Modifier.fillMaxWidth().horizontalScroll(androidx.compose.foundation.rememberScrollState())
                                 ) {
                                     Text(stringResource(R.string.attachedRecordsLabel), style = MaterialTheme.typography.labelSmall, color = VS_OnSurfaceVariant)
                                     ref.attachedRecordIds.forEach { recId ->
                                         Surface(shape = PillShape, color = VS_SurfaceVariant) {
                                             Text(
-                                                text = recId,
-                                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                                                text = "📄 ${recId.take(6)}...",
+                                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                                                 color = VS_OnSurfaceVariant,
-                                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                                maxLines = 1
                                             )
                                         }
                                     }
@@ -356,7 +359,7 @@ fun SpecialistReferralsScreen(
 
                             // Interactive Buttons based on State
                             when (ref.status) {
-                                ReferralStatus.SENT -> {
+                                ReferralStatus.CREATED, ReferralStatus.SENT -> {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -390,7 +393,7 @@ fun SpecialistReferralsScreen(
                                     }
                                 }
 
-                                ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> {
+                                ReferralStatus.ACCEPTED, ReferralStatus.APPOINTMENT_SCHEDULED, ReferralStatus.PATIENT_REACHED, ReferralStatus.IN_PROGRESS -> {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.spacedBy(6.dp)

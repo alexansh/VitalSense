@@ -69,7 +69,7 @@ fun SpecialistFindingsDialog(
                             )
                         }
                         Text(
-                            text = "Handoff to Dr. ${referral.referringDoctorName} · Patient: ${referral.patientName}",
+                            text = "Handoff to Dr. ${referral.referringUserName} · Patient: ${referral.patientName}",
                             style = MaterialTheme.typography.bodySmall,
                             color = VS_OnSurfaceVariant
                         )

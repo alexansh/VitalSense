@@ -39,7 +39,7 @@ fun ReferralStatusCard(
     }
 
     val (titleText, subtitleText, speakText) = when (referral.status) {
-        ReferralStatus.SENT -> {
+        ReferralStatus.CREATED, ReferralStatus.SENT -> {
             when (language) {
                 AppLanguage.HINDI -> Triple(
                     "विशेषज्ञ डॉक्टर को रेफ़रल भेजा गया",
@@ -63,7 +63,7 @@ fun ReferralStatusCard(
                 )
             }
         }
-        ReferralStatus.ACCEPTED, ReferralStatus.IN_PROGRESS -> {
+        ReferralStatus.ACCEPTED, ReferralStatus.APPOINTMENT_SCHEDULED, ReferralStatus.PATIENT_REACHED, ReferralStatus.IN_PROGRESS -> {
             when (language) {
                 AppLanguage.HINDI -> Triple(
                     "विशेषज्ञ ने आपका रेफ़रल स्वीकार किया",
@@ -87,7 +87,7 @@ fun ReferralStatusCard(
                 )
             }
         }
-        ReferralStatus.COMPLETED -> {
+        ReferralStatus.CONSULTATION_COMPLETED, ReferralStatus.FOLLOW_UP, ReferralStatus.COMPLETED -> {
             when (language) {
                 AppLanguage.HINDI -> Triple(
                     "विशेषज्ञ डॉक्टर की सलाह प्राप्त हुई",
@@ -208,7 +208,7 @@ fun ReferralStatusCard(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "${referral.targetSpecialty} • Dr. ${referral.referringDoctorName}",
+                            text = "${referral.targetSpecialty} • Dr. ${referral.referringUserName}",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

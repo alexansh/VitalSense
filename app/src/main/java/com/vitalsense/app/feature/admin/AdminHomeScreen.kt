@@ -22,6 +22,7 @@ import com.vitalsense.app.core.data.model.*
 import com.vitalsense.app.core.ui.components.*
 import com.vitalsense.app.core.ui.theme.*
 import com.vitalsense.app.feature.admin.components.DistrictOutbreakMapView
+import com.vitalsense.app.feature.doctor.components.DashboardAccordionItem
 import com.vitalsense.app.core.util.DismissedNoticeHelper
 import com.vitalsense.app.core.util.AudioGuidanceHelper
 import java.text.SimpleDateFormat
@@ -53,6 +54,7 @@ fun AdminHomeScreen(
     var selectedVillageName by remember { mutableStateOf("All Villages") }
     var selectedMapVillage by remember { mutableStateOf<Village?>(villages.firstOrNull()) }
     var isFormError by remember { mutableStateOf(false) }
+    var expandedDepartments by remember { mutableStateOf(false) }
 
     val context = androidx.compose.ui.platform.LocalContext.current
     var dismissedDirectiveIds by remember {
@@ -102,6 +104,8 @@ fun AdminHomeScreen(
                 )
             }
         }
+
+
 
         // 1.1 Doctor Restock Reminders Alert (High-Priority Action Required)
         if (doctorRestockReminders.isNotEmpty()) {
@@ -602,6 +606,19 @@ fun AdminHomeScreen(
             }
         }
 
+        // 4.5 Hospital Departments Categorization (Admin View)
+        item {
+            DashboardAccordionItem(
+                icon = "🏥",
+                iconBackgroundColor = VS_Primary,
+                title = "Hospital Departments",
+                subtitle = "Manage and view department doctors.",
+                expanded = expandedDepartments,
+                onToggle = { expandedDepartments = !expandedDepartments }
+            ) {
+                com.vitalsense.app.core.ui.components.DepartmentsSection(isAdmin = true)
+            }
+        }
 
         // 5. Broadcast Action Button (Single Full-Width Purple CTA)
         item {

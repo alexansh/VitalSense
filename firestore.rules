@@ -47,6 +47,17 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // Referrals rules
+    match /referrals/{referralId} {
+      allow read: if isAuthenticated() && (
+        resource.data.patientId == request.auth.uid || 
+        resource.data.referredToDoctorId == request.auth.uid ||
+        resource.data.referringUserId == request.auth.uid
+      );
+      // In production, enforce similar constraints for writes using custom claims
+      allow write: if isAuthenticated();
+    }
+
     // Default catch-all for clinical database collections
     match /{document=**} {
       allow read, write: if isAuthenticated();

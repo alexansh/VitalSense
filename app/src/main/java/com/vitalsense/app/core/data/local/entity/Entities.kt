@@ -399,7 +399,7 @@ data class CallLogEntity(
     tableName = "referrals",
     indices = [
         Index("patientId"),
-        Index("referringDoctorId"),
+        Index("referringUserId"),
         Index("targetDoctorId"),
         Index("targetSpecialty")
     ]
@@ -408,9 +408,9 @@ data class ReferralEntity(
     @PrimaryKey val id: String,
     val patientId: String,
     val patientName: String,
-    val referringDoctorId: String,
-    val referringDoctorName: String,
-    val referringDoctorSpecialty: String,
+    val referringUserId: String,
+    val referringUserName: String,
+    val referringUserSpecialty: String,
     val targetDoctorId: String?,
     val targetDoctorName: String?,
     val targetSpecialty: String,
@@ -419,6 +419,7 @@ data class ReferralEntity(
     val urgency: ReferralUrgency,
     val attachedRecordIds: List<String>,
     val status: ReferralStatus,
+    val statusHistory: List<ReferralStatusHistory>,
     val declineReason: String?,
     val suggestedSpecialtyOrDoctor: String?,
     val infoRequestNote: String?,
@@ -426,16 +427,17 @@ data class ReferralEntity(
     val specialistRecommendations: String?,
     val specialistFollowUpNeeded: Boolean,
     val createdAt: Long,
+    val updatedAt: Long,
     val respondedAt: Long?,
     val completedAt: Long?
 ) {
-    fun toModel(): Referral = Referral(
+    fun toDomainModel(): Referral = Referral(
         id = id,
         patientId = patientId,
         patientName = patientName,
-        referringDoctorId = referringDoctorId,
-        referringDoctorName = referringDoctorName,
-        referringDoctorSpecialty = referringDoctorSpecialty,
+        referringUserId = referringUserId,
+        referringUserName = referringUserName,
+        referringUserSpecialty = referringUserSpecialty,
         targetDoctorId = targetDoctorId,
         targetDoctorName = targetDoctorName,
         targetSpecialty = targetSpecialty,
@@ -444,6 +446,7 @@ data class ReferralEntity(
         urgency = urgency,
         attachedRecordIds = attachedRecordIds,
         status = status,
+        statusHistory = statusHistory,
         declineReason = declineReason,
         suggestedSpecialtyOrDoctor = suggestedSpecialtyOrDoctor,
         infoRequestNote = infoRequestNote,
@@ -451,18 +454,20 @@ data class ReferralEntity(
         specialistRecommendations = specialistRecommendations,
         specialistFollowUpNeeded = specialistFollowUpNeeded,
         createdAt = createdAt,
+        updatedAt = updatedAt,
         respondedAt = respondedAt,
         completedAt = completedAt
     )
+    fun toModel(): Referral = toDomainModel()
 }
 
 fun Referral.toEntity(): ReferralEntity = ReferralEntity(
     id = id,
     patientId = patientId,
     patientName = patientName,
-    referringDoctorId = referringDoctorId,
-    referringDoctorName = referringDoctorName,
-    referringDoctorSpecialty = referringDoctorSpecialty,
+    referringUserId = referringUserId,
+    referringUserName = referringUserName,
+    referringUserSpecialty = referringUserSpecialty,
     targetDoctorId = targetDoctorId,
     targetDoctorName = targetDoctorName,
     targetSpecialty = targetSpecialty,
@@ -471,6 +476,7 @@ fun Referral.toEntity(): ReferralEntity = ReferralEntity(
     urgency = urgency,
     attachedRecordIds = attachedRecordIds,
     status = status,
+    statusHistory = statusHistory,
     declineReason = declineReason,
     suggestedSpecialtyOrDoctor = suggestedSpecialtyOrDoctor,
     infoRequestNote = infoRequestNote,
@@ -478,6 +484,7 @@ fun Referral.toEntity(): ReferralEntity = ReferralEntity(
     specialistRecommendations = specialistRecommendations,
     specialistFollowUpNeeded = specialistFollowUpNeeded,
     createdAt = createdAt,
+    updatedAt = updatedAt,
     respondedAt = respondedAt,
     completedAt = completedAt
 )

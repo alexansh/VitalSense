@@ -98,6 +98,8 @@ fun PatientHomeScreen(
     val cardBorderColor = if (isSunlightMode) VS_Outline else VS_Outline
     val textPrimaryColor = if (isSunlightMode) VS_OnBackground else VS_OnBackground
     val textSecondaryColor = if (isSunlightMode) VS_OnSurfaceVariant else VS_OnSurfaceVariant
+    
+    var expandedReferrals by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -585,19 +587,23 @@ fun PatientHomeScreen(
         // 3.9 Doctor-to-Doctor Specialist Consultations (Plain Language Patient View)
         if (referrals.isNotEmpty()) {
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                    Text(
-                        text = "${stringResource(R.string.doctorReferralsTitle)} (${referrals.size})",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = textPrimaryColor
-                    )
-
-                    referrals.forEach { ref ->
-                        com.vitalsense.app.feature.patient.components.ReferralStatusCard(
-                            referral = ref,
-                            language = language,
-                            onScheduleCall = onNavigateToAppointments
-                        )
+                com.vitalsense.app.feature.doctor.components.DashboardAccordionItem(
+                    icon = "🏥",
+                    iconBackgroundColor = VS_PrimaryContainer,
+                    title = "${stringResource(R.string.doctorReferralsTitle)} (${referrals.size})",
+                    subtitle = "Specialist review progress",
+                    expanded = expandedReferrals,
+                    onToggle = { expandedReferrals = !expandedReferrals }
+                ) {
+                    Spacer(modifier = Modifier.height(Spacing.xs))
+                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
+                        referrals.forEach { ref ->
+                            com.vitalsense.app.feature.patient.components.ReferralStatusCard(
+                                referral = ref,
+                                language = language,
+                                onScheduleCall = onNavigateToAppointments
+                            )
+                        }
                     }
                 }
             }

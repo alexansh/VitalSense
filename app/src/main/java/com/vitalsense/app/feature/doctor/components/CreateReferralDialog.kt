@@ -52,7 +52,7 @@ fun CreateReferralDialog(
             DoctorSpecialty.PSYCHOLOGIST,
             DoctorSpecialty.NEUROLOGIST,
             DoctorSpecialty.GENERAL_PHYSICIAN
-        ).filter { it != currentDoctor.specialty }
+        )
     }
 
     var selectedSpecialty by remember {
@@ -567,9 +567,9 @@ fun CreateReferralDialog(
                                 id = "ref_${System.currentTimeMillis()}",
                                 patientId = patientId,
                                 patientName = patientName,
-                                referringDoctorId = currentDoctor.id,
-                                referringDoctorName = currentDoctor.name,
-                                referringDoctorSpecialty = currentDoctor.specialty.displayName,
+                                referringUserId = currentDoctor.id,
+                                referringUserName = currentDoctor.name,
+                                referringUserSpecialty = currentDoctor.specialty.displayName,
                                 targetDoctorId = if (routeToNamedDoctor) selectedSpecialistDoctor?.id else null,
                                 targetDoctorName = if (routeToNamedDoctor) selectedSpecialistDoctor?.name else null,
                                 targetSpecialty = selectedSpecialty.displayName,
@@ -577,8 +577,16 @@ fun CreateReferralDialog(
                                 clinicalQuestion = clinicalQuestion.trim(),
                                 urgency = selectedUrgency,
                                 attachedRecordIds = selectedRecordIds.toList(),
-                                status = ReferralStatus.SENT,
-                                createdAt = System.currentTimeMillis()
+                                status = ReferralStatus.CREATED,
+                                statusHistory = listOf(
+                                    ReferralStatusHistory(
+                                        status = ReferralStatus.CREATED,
+                                        changedByUserId = currentDoctor.id,
+                                        note = "Referral created"
+                                    )
+                                ),
+                                createdAt = System.currentTimeMillis(),
+                                updatedAt = System.currentTimeMillis()
                             )
                             onSendReferral(referral)
                             onDismiss()

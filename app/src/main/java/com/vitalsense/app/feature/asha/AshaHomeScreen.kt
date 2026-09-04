@@ -44,6 +44,7 @@ fun AshaHomeScreen(
     onDailyRoundsClick: () -> Unit = {},
     onMedicineRestockClick: () -> Unit = {},
     referrals: List<com.vitalsense.app.core.data.model.Referral> = emptyList(),
+    onCompleteReferral: (com.vitalsense.app.core.data.model.Referral) -> Unit = {},
     scrollState: LazyListState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() },
     modifier: Modifier = Modifier
 ) {
@@ -369,10 +370,10 @@ fun AshaHomeScreen(
         }
 
         // 5.9 Today's Worklist (Follow-ups & Pending Referrals)
-        val pendingReferrals = referrals.filter { ref -> patients.any { it.id == ref.patientId } && ref.status != com.vitalsense.app.core.data.model.ReferralStatus.COMPLETED }
+        val followUpReferrals = referrals.filter { ref -> patients.any { it.id == ref.patientId } && ref.status == com.vitalsense.app.core.data.model.ReferralStatus.FOLLOW_UP }
         val followUps = patients.filter { it.currentRiskLevel == SeverityLevel.MODERATE }.take(2)
         
-        if (pendingReferrals.isNotEmpty() || followUps.isNotEmpty()) {
+        if (followUpReferrals.isNotEmpty() || followUps.isNotEmpty()) {
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                     Text(
@@ -383,7 +384,7 @@ fun AshaHomeScreen(
 
                     if (followUps.isNotEmpty()) {
                         Text(
-                            text = "Follow-ups Due (${followUps.size})",
+                            text = "Routine Follow-ups Due (${followUps.size})",
                             style = MaterialTheme.typography.titleSmall,
                             color = VS_OnSurfaceVariant,
                             modifier = Modifier.padding(top = Spacing.xxs)
@@ -421,14 +422,14 @@ fun AshaHomeScreen(
                         }
                     }
 
-                    if (pendingReferrals.isNotEmpty()) {
+                    if (followUpReferrals.isNotEmpty()) {
                         Text(
-                            text = "Pending Referrals (${pendingReferrals.size})",
+                            text = "Referrals Need Follow-up (${followUpReferrals.size})",
                             style = MaterialTheme.typography.titleSmall,
                             color = VS_OnSurfaceVariant,
                             modifier = Modifier.padding(top = Spacing.xxs)
                         )
-                        pendingReferrals.forEach { ref ->
+                        followUpReferrals.forEach { ref ->
                             VitalSenseCard(
                                 backgroundColor = VS_Surface,
                                 border = BorderStroke(1.dp, VS_Primary.copy(alpha = 0.5f))
@@ -461,9 +462,16 @@ fun AshaHomeScreen(
                                     }
 
                                     Text(
-                                        text = "Referred by Dr. ${ref.referringDoctorName} · Status: ${ref.status.displayName}",
+                                        text = "Referred by ${ref.referringUserName}",
                                         style = MaterialTheme.typography.bodySmall,
                                         color = VS_OnSurfaceVariant
+                                    )
+                                    
+                                    VitalSenseButton(
+                                        text = "Mark Follow-up Done",
+                                        onClick = { onCompleteReferral(ref) },
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xxs),
+                                        style = ButtonStyle.PRIMARY
                                     )
                                 }
                             }

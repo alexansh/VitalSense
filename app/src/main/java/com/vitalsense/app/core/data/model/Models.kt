@@ -476,23 +476,36 @@ enum class ReferralUrgency(val displayName: String) {
 }
 
 enum class ReferralStatus(val displayName: String) {
+    CREATED("Created"),
+    ACCEPTED("Accepted"),
+    APPOINTMENT_SCHEDULED("Appointment Scheduled"),
+    PATIENT_REACHED("Patient Reached"),
+    CONSULTATION_COMPLETED("Consultation Completed"),
+    FOLLOW_UP("Follow Up Required"),
+    COMPLETED("Completed"),
+    // Keeping these to not break other parts completely if they exist, but making them deprecated/legacy if possible.
     DRAFT("Draft"),
     SENT("Sent / Pending Review"),
-    ACCEPTED("Accepted"),
     DECLINED("Declined"),
     INFO_REQUESTED("Info Requested"),
     IN_PROGRESS("In Progress"),
-    COMPLETED("Completed"),
     CANCELLED("Cancelled")
 }
+
+data class ReferralStatusHistory(
+    val status: ReferralStatus,
+    val timestamp: Long = System.currentTimeMillis(),
+    val changedByUserId: String,
+    val note: String? = null
+)
 
 data class Referral(
     val id: String,
     val patientId: String,
     val patientName: String,
-    val referringDoctorId: String,
-    val referringDoctorName: String,
-    val referringDoctorSpecialty: String,
+    val referringUserId: String, // Formerly referringDoctorId
+    val referringUserName: String, // Formerly referringDoctorName
+    val referringUserSpecialty: String, // Formerly referringDoctorSpecialty
     val targetDoctorId: String? = null,
     val targetDoctorName: String? = null,
     val targetSpecialty: String,
@@ -500,7 +513,8 @@ data class Referral(
     val clinicalQuestion: String,
     val urgency: ReferralUrgency = ReferralUrgency.ROUTINE,
     val attachedRecordIds: List<String> = emptyList(),
-    val status: ReferralStatus = ReferralStatus.SENT,
+    val status: ReferralStatus = ReferralStatus.CREATED,
+    val statusHistory: List<ReferralStatusHistory> = emptyList(),
     val declineReason: String? = null,
     val suggestedSpecialtyOrDoctor: String? = null,
     val infoRequestNote: String? = null,
@@ -508,6 +522,7 @@ data class Referral(
     val specialistRecommendations: String? = null,
     val specialistFollowUpNeeded: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
+    val updatedAt: Long = System.currentTimeMillis(),
     val respondedAt: Long? = null,
     val completedAt: Long? = null
 )
