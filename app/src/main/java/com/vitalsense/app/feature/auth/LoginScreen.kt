@@ -134,16 +134,20 @@ fun LoginScreen(
                                     phone = firebaseUser?.phoneNumber?.ifBlank { "9810012345" } ?: "9810012345",
                                     profilePhotoUrl = firebaseUser?.photoUrl?.toString()
                                 )
+                            Toast.makeText(context, "Firebase Sign-In Verified: ${firebaseUser?.email ?: displayName}", Toast.LENGTH_LONG).show()
                             AudioGuidanceHelper.provideHapticFeedback(context, isSuccess = true)
                             DismissedNoticeHelper.clearDismissedAdvisories(context)
                             onPatientLogin(matchedPatient)
                         } else {
-                            Log.e("LoginScreen", "FirebaseAuth Google Sign In failed", authTask.exception)
-                            Toast.makeText(context, "Google Auth failed: ${authTask.exception?.localizedMessage ?: "Using demo patient"}", Toast.LENGTH_SHORT).show()
+                            val err = authTask.exception?.localizedMessage ?: "Check Firebase Console sign-in providers"
+                            Log.e("LoginScreen", "FirebaseAuth Google Sign In failed: $err", authTask.exception)
+                            Toast.makeText(context, "Firebase Auth Failed: $err\nEnable Google in Firebase Console -> Auth -> Sign-in method", Toast.LENGTH_LONG).show()
                             onPatientLogin(samplePatients.first())
                         }
                     }
             } else {
+                Log.w("LoginScreen", "Google Sign In returned null idToken. Check SHA-1/OAuth in Firebase Console.")
+                Toast.makeText(context, "Google ID token null. Add SHA-1 in Firebase Console. Using demo patient.", Toast.LENGTH_LONG).show()
                 val displayName = account?.displayName ?: "Google User"
                 val matchedPatient = samplePatients.find { it.name.equals(displayName, ignoreCase = true) }
                     ?: samplePatients.first().copy(
@@ -708,7 +712,9 @@ fun LoginScreen(
                                                     },
                                                     onGoogleSignIn = {
                                                         try {
-                                                            googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                                                            googleSignInClient.signOut().addOnCompleteListener {
+                                                                googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                                                            }
                                                         } catch (e: Exception) {
                                                             Log.e("LoginScreen", "Failed to launch Google Sign In Intent", e)
                                                             Toast.makeText(context, "Could not open Google Sign In: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
